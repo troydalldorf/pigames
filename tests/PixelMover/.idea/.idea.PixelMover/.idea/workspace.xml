@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fbea725d-575f-48e1-82a1-4db712a80abb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../Arcade64.sln" beforeDir="false" afterPath="$PROJECT_DIR$/../../Arcade64.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Arcade64/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/../../Arcade64/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../core/LedMatrix/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/../../core/LedMatrix/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CheckBasics/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/../CheckBasics/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CheckGpio/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../CheckGpio/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CheckGpio/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/../CheckGpio/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CheckMatrix/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/../CheckMatrix/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CheckSnake/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../CheckSnake/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
