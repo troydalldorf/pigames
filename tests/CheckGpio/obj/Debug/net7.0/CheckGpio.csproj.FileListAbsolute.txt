@@ -1,0 +1,17 @@
+/Users/troydalldorf/projects/pigames/tests/CheckGpio/bin/Debug/net7.0/CheckGpio
+/Users/troydalldorf/projects/pigames/tests/CheckGpio/bin/Debug/net7.0/CheckGpio.deps.json
+/Users/troydalldorf/projects/pigames/tests/CheckGpio/bin/Debug/net7.0/CheckGpio.runtimeconfig.json
+/Users/troydalldorf/projects/pigames/tests/CheckGpio/bin/Debug/net7.0/CheckGpio.dll
+/Users/troydalldorf/projects/pigames/tests/CheckGpio/bin/Debug/net7.0/CheckGpio.pdb
+/Users/troydalldorf/projects/pigames/tests/CheckGpio/bin/Debug/net7.0/System.Device.Gpio.dll
+/Users/troydalldorf/projects/pigames/tests/CheckGpio/obj/Debug/net7.0/CheckGpio.csproj.AssemblyReference.cache
+/Users/troydalldorf/projects/pigames/tests/CheckGpio/obj/Debug/net7.0/CheckGpio.GeneratedMSBuildEditorConfig.editorconfig
+/Users/troydalldorf/projects/pigames/tests/CheckGpio/obj/Debug/net7.0/CheckGpio.AssemblyInfoInputs.cache
+/Users/troydalldorf/projects/pigames/tests/CheckGpio/obj/Debug/net7.0/CheckGpio.AssemblyInfo.cs
+/Users/troydalldorf/projects/pigames/tests/CheckGpio/obj/Debug/net7.0/CheckGpio.csproj.CoreCompileInputs.cache
+/Users/troydalldorf/projects/pigames/tests/CheckGpio/obj/Debug/net7.0/CheckGpio.csproj.CopyComplete
+/Users/troydalldorf/projects/pigames/tests/CheckGpio/obj/Debug/net7.0/CheckGpio.dll
+/Users/troydalldorf/projects/pigames/tests/CheckGpio/obj/Debug/net7.0/refint/CheckGpio.dll
+/Users/troydalldorf/projects/pigames/tests/CheckGpio/obj/Debug/net7.0/CheckGpio.pdb
+/Users/troydalldorf/projects/pigames/tests/CheckGpio/obj/Debug/net7.0/CheckGpio.genruntimeconfig.cache
+/Users/troydalldorf/projects/pigames/tests/CheckGpio/obj/Debug/net7.0/ref/CheckGpio.dll

@@ -1,0 +1,17 @@
+/Users/troydalldorf/projects/pigames/tests/CheckBasics/bin/Debug/net7.0/CheckBasics
+/Users/troydalldorf/projects/pigames/tests/CheckBasics/bin/Debug/net7.0/CheckBasics.deps.json
+/Users/troydalldorf/projects/pigames/tests/CheckBasics/bin/Debug/net7.0/CheckBasics.runtimeconfig.json
+/Users/troydalldorf/projects/pigames/tests/CheckBasics/bin/Debug/net7.0/CheckBasics.dll
+/Users/troydalldorf/projects/pigames/tests/CheckBasics/bin/Debug/net7.0/CheckBasics.pdb
+/Users/troydalldorf/projects/pigames/tests/CheckBasics/bin/Debug/net7.0/System.Device.Gpio.dll
+/Users/troydalldorf/projects/pigames/tests/CheckBasics/obj/Debug/net7.0/CheckBasics.csproj.AssemblyReference.cache
+/Users/troydalldorf/projects/pigames/tests/CheckBasics/obj/Debug/net7.0/CheckBasics.GeneratedMSBuildEditorConfig.editorconfig
+/Users/troydalldorf/projects/pigames/tests/CheckBasics/obj/Debug/net7.0/CheckBasics.AssemblyInfoInputs.cache
+/Users/troydalldorf/projects/pigames/tests/CheckBasics/obj/Debug/net7.0/CheckBasics.AssemblyInfo.cs
+/Users/troydalldorf/projects/pigames/tests/CheckBasics/obj/Debug/net7.0/CheckBasics.csproj.CoreCompileInputs.cache
+/Users/troydalldorf/projects/pigames/tests/CheckBasics/obj/Debug/net7.0/CheckBasics.csproj.CopyComplete
+/Users/troydalldorf/projects/pigames/tests/CheckBasics/obj/Debug/net7.0/CheckBasics.dll
+/Users/troydalldorf/projects/pigames/tests/CheckBasics/obj/Debug/net7.0/refint/CheckBasics.dll
+/Users/troydalldorf/projects/pigames/tests/CheckBasics/obj/Debug/net7.0/CheckBasics.pdb
+/Users/troydalldorf/projects/pigames/tests/CheckBasics/obj/Debug/net7.0/CheckBasics.genruntimeconfig.cache
+/Users/troydalldorf/projects/pigames/tests/CheckBasics/obj/Debug/net7.0/ref/CheckBasics.dll

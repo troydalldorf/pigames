@@ -9,12 +9,5 @@ controller.OpenPin(buttonPin, PinMode.InputPullUp);
 
 while (true)
 {
-    if (controller.Read(buttonPin) == PinValue.Low)
-    {
-        Console.WriteLine("Down");
-    }
-    else
-    {
-        Console.WriteLine("None");
-    }
+    Console.WriteLine(controller.Read(buttonPin) == PinValue.Low ? "Down" : "None");
 } 
