@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arcade64", "Arcade64\Arcade64.csproj", "{405723BD-2A99-4AB6-8B17-25954DF423FF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "checks", "checks", "{4CF79911-C0E7-4EB0-AC65-B9A0317F458D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckBasics", "CheckBasics\CheckBasics.csproj", "{9E445355-F921-40DB-B12A-BB5F6DC54C90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,12 @@ Global
 		{405723BD-2A99-4AB6-8B17-25954DF423FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{405723BD-2A99-4AB6-8B17-25954DF423FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{405723BD-2A99-4AB6-8B17-25954DF423FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E445355-F921-40DB-B12A-BB5F6DC54C90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E445355-F921-40DB-B12A-BB5F6DC54C90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E445355-F921-40DB-B12A-BB5F6DC54C90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E445355-F921-40DB-B12A-BB5F6DC54C90}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9E445355-F921-40DB-B12A-BB5F6DC54C90} = {4CF79911-C0E7-4EB0-AC65-B9A0317F458D}
 	EndGlobalSection
 EndGlobal

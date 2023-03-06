@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/troydalldorf/projects/pigames/tests/PixelMover/Arcade64/Arcade64.csproj",
-      "projectName": "Arcade64",
-      "projectPath": "/Users/troydalldorf/projects/pigames/tests/PixelMover/Arcade64/Arcade64.csproj",
+      "projectUniqueName": "/Users/troydalldorf/projects/pigames/CheckBasics/CheckBasics.csproj",
+      "projectName": "CheckBasics",
+      "projectPath": "/Users/troydalldorf/projects/pigames/CheckBasics/CheckBasics.csproj",
       "packagesPath": "/Users/troydalldorf/.nuget/packages/",
-      "outputPath": "/Users/troydalldorf/projects/pigames/tests/PixelMover/Arcade64/obj/",
+      "outputPath": "/Users/troydalldorf/projects/pigames/CheckBasics/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"

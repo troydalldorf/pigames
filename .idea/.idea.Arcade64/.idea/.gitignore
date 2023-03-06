@@ -2,8 +2,8 @@
 /shelf/
 /workspace.xml
 # Rider ignored files
+/.idea.Arcade64.iml
 /modules.xml
-/.idea.PixelMover.iml
 /contentModel.xml
 /projectSettingsUpdater.xml
 # Editor-based HTTP Client requests
