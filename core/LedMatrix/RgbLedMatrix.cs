@@ -5,31 +5,31 @@ namespace LedMatrix
     public class RgbLedMatrix : IDisposable
     {
         #region DLLImports
-        [DllImport("librgbmatrix.so")]
+        [DllImport("librgbmatrix")]
         internal static extern IntPtr led_matrix_create(int rows, int chained, int parallel);
 
-        [DllImport("librgbmatrix.so", CallingConvention= CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("librgbmatrix", CallingConvention= CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         internal static extern IntPtr led_matrix_create_from_options_const_argv(
             ref InternalRGBLedMatrixOptions options,
             int argc,
             string[] argv);
 
-        [DllImport("librgbmatrix.so")]
+        [DllImport("librgbmatrix")]
         internal static extern void led_matrix_delete(IntPtr matrix);
 
-        [DllImport("librgbmatrix.so")]
+        [DllImport("librgbmatrix")]
         internal static extern IntPtr led_matrix_create_offscreen_canvas(IntPtr matrix);
 
-        [DllImport("librgbmatrix.so")]
+        [DllImport("librgbmatrix")]
         internal static extern IntPtr led_matrix_swap_on_vsync(IntPtr matrix, IntPtr canvas);
 
-        [DllImport("librgbmatrix.so")]
+        [DllImport("librgbmatrix")]
         internal static extern IntPtr led_matrix_get_canvas(IntPtr matrix);
 
-        [DllImport("librgbmatrix.so")]
+        [DllImport("librgbmatrix")]
         internal static extern byte led_matrix_get_brightness(IntPtr matrix);
 
-        [DllImport("librgbmatrix.so")]
+        [DllImport("librgbmatrix")]
         internal static extern void led_matrix_set_brightness(IntPtr matrix, byte brightness);
         #endregion
 
