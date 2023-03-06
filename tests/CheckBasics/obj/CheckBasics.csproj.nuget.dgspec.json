@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/troydalldorf/projects/pigames/CheckBasics/CheckBasics.csproj": {}
+    "/Users/troydalldorf/projects/pigames/tests/CheckBasics/CheckBasics.csproj": {}
   },
   "projects": {
-    "/Users/troydalldorf/projects/pigames/CheckBasics/CheckBasics.csproj": {
+    "/Users/troydalldorf/projects/pigames/tests/CheckBasics/CheckBasics.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/troydalldorf/projects/pigames/CheckBasics/CheckBasics.csproj",
+        "projectUniqueName": "/Users/troydalldorf/projects/pigames/tests/CheckBasics/CheckBasics.csproj",
         "projectName": "CheckBasics",
-        "projectPath": "/Users/troydalldorf/projects/pigames/CheckBasics/CheckBasics.csproj",
+        "projectPath": "/Users/troydalldorf/projects/pigames/tests/CheckBasics/CheckBasics.csproj",
         "packagesPath": "/Users/troydalldorf/.nuget/packages/",
-        "outputPath": "/Users/troydalldorf/projects/pigames/CheckBasics/obj/",
+        "outputPath": "/Users/troydalldorf/projects/pigames/tests/CheckBasics/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
@@ -42,6 +42,12 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "System.Device.Gpio": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
