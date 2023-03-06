@@ -16,3 +16,4 @@
 /Users/troydalldorf/projects/pigames/tests/CheckMatrix/bin/Debug/net7.0/LedMatrix.dll
 /Users/troydalldorf/projects/pigames/tests/CheckMatrix/bin/Debug/net7.0/LedMatrix.pdb
 /Users/troydalldorf/projects/pigames/tests/CheckMatrix/obj/Debug/net7.0/CheckMatrix.csproj.CopyComplete
+/Users/troydalldorf/projects/pigames/tests/CheckMatrix/bin/Debug/net7.0/librgbmatrix.so

@@ -10,3 +10,4 @@
 /Users/troydalldorf/projects/pigames/core/LedMatrix/obj/Debug/net7.0/refint/LedMatrix.dll
 /Users/troydalldorf/projects/pigames/core/LedMatrix/obj/Debug/net7.0/LedMatrix.pdb
 /Users/troydalldorf/projects/pigames/core/LedMatrix/obj/Debug/net7.0/ref/LedMatrix.dll
+/Users/troydalldorf/projects/pigames/core/LedMatrix/bin/Debug/net7.0/librgbmatrix.so

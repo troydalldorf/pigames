@@ -4,7 +4,10 @@
     <projectFile>PixelMover/PixelMover.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbea725d-575f-48e1-82a1-4db712a80abb" name="Changes" comment="" />
+    <list default="true" id="fbea725d-575f-48e1-82a1-4db712a80abb" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../core/LedMatrix/LedMatrix.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../../core/LedMatrix/LedMatrix.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.PixelMover/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PixelMover/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
