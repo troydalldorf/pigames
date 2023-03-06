@@ -1,6 +1,7 @@
 # Guide
 https://learn.adafruit.com/adafruit-rgb-matrix-bonnet-for-raspberry-pi/driving-matrices
 
+
 # Install .Net
 The secure shell will prompt you for the password for the user pi. Once you are connected to the Raspberry Pi, issue the following command to download and install the .NET 5 dotnet SDK and runtime.
 
