@@ -22,7 +22,7 @@ var canvas = matrix.CreateOffscreenCanvas();
 while (true)
 {
     canvas.Clear();
-    canvas.SetPixel(x, y, color);
+    canvas.DrawCircle(x, y, 3, color);
     canvas = matrix.SwapOnVsync(canvas);
     var down = controller.Read(buttonPin);
     if (down == PinValue.Low)
