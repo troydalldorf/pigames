@@ -3,6 +3,7 @@
 using System.Device.Gpio;
 
 Console.WriteLine("Hello, World!");
+
 var buttonPin = 27;
 using GpioController controller = new();
 controller.OpenPin(buttonPin, PinMode.InputPullUp);
