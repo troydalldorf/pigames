@@ -27,6 +27,6 @@ while (true)
     if (down == PinValue.Low)
     {
         y = y + 1;
+        Thread.Sleep(TimeSpan.FromMilliseconds(50));
     }
-    Thread.Sleep(TimeSpan.FromMilliseconds(50));
 } 
