@@ -1,4 +1,6 @@
-﻿using System.Device.Gpio;
+﻿using System;
+using System.Device.Gpio;
+using System.Threading;
 using LedMatrix;
 
 var buttonPin = 27;
