@@ -33,3 +33,11 @@ Console.ReadLine();
 # LED RGB Matrix C#
 https://github.com/hzeller/rpi-rgb-led-matrix/tree/master/bindings/c%23
 
+# GPIO
+
+# I2C
+install Iot.Device.Bindings
+
+# Hardware
+- https://www.adafruit.com/product/5296
+- 
