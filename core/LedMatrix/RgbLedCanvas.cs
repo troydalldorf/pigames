@@ -26,16 +26,14 @@ namespace LedMatrix
 
         // This is a wrapper for canvas no need to implement IDisposable here 
         // because RGBLedMatrix has ownership and takes care of disposing canvases
-        internal IntPtr _canvas;
+        internal nint _canvas;
 
         // this is not called directly by the consumer code,
         // consumer uses factory methods in RGBLedMatrix
         internal RgbLedCanvas(IntPtr canvas)
         {
             _canvas = canvas;
-            int width;
-            int height;
-            led_canvas_get_size(_canvas, out width, out height);
+            led_canvas_get_size(_canvas, out var width, out var height);
             Width = width;
             Height = height;
         }

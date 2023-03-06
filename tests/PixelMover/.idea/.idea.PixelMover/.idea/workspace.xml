@@ -4,15 +4,7 @@
     <projectFile>PixelMover/PixelMover.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbea725d-575f-48e1-82a1-4db712a80abb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../../core/LedMatrix/Color.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../core/LedMatrix/RgbLedCanvas.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../core/LedMatrix/RgbLedFont.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../core/LedMatrix/RgbLedMatrix.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../core/LedMatrix/RgbLedMatrixOptions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Arcade64.sln" beforeDir="false" afterPath="$PROJECT_DIR$/../../Arcade64.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CheckGpio/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../CheckGpio/Program.cs" afterDir="false" />
-    </list>
+    <list default="true" id="fbea725d-575f-48e1-82a1-4db712a80abb" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

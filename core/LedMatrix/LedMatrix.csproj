@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <None Remove="librgbmatrix.so.1" />
+    </ItemGroup>
+
 </Project>
