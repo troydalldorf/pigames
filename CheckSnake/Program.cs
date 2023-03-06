@@ -21,12 +21,17 @@ var canvas = matrix.CreateOffscreenCanvas();
 
 while (true)
 {
+    canvas.Clear();
     canvas.SetPixel(x, y, color);
     canvas = matrix.SwapOnVsync(canvas);
     var down = controller.Read(buttonPin);
     if (down == PinValue.Low)
     {
         y = y + 1;
+        if (y > 63)
+        {
+            y = 0;
+        }
         Thread.Sleep(TimeSpan.FromMilliseconds(50));
     }
 } 
