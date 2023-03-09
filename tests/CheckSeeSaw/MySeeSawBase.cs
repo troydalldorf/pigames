@@ -58,19 +58,19 @@ namespace CheckSeeSaw
 
         /// <summary>
         /// Initializes the Seesaw device.
-        /// <param name="i2cDevice">The I2cDevice to initialize the Seesaw device with.</param>
+        /// <param name="i2CDevice">The I2cDevice to initialize the Seesaw device with.</param>
         /// </summary>
-        protected void Initialize(I2cDevice i2cDevice)
+        protected void Initialize(I2cDevice i2CDevice)
         {
             SoftwareReset();
-            MyDelayHelper.DelayMilliseconds(20, false);
+            MyDelayHelper.DelayMilliseconds(10, true);
 
             var hwid = ReadByte(MySeesawModule.Status, MySeesawFunction.StatusHwId);
-            // if (hwid != SessawHardwareId)
-            // {
-            //     throw new NotSupportedException($"The hardware on I2C Bus {I2cDevice.ConnectionSettings.BusId}, Address 0x{I2cDevice.ConnectionSettings.DeviceAddress:X2} does not appear to be an Adafruit SeeSaw module.\n" +
-            //                                     $"Expected {SessawHardwareId}, but found {hwid}");
-            // }
+            if (hwid != SessawHardwareId)
+            {
+                throw new NotSupportedException($"The hardware on I2C Bus {I2cDevice.ConnectionSettings.BusId}, Address 0x{I2cDevice.ConnectionSettings.DeviceAddress:X2} does not appear to be an Adafruit SeeSaw module.\n" +
+                                                $"Expected {SessawHardwareId}, but found {hwid}");
+            }
 
             _options = GetOptions();
             Version = GetVersion();
