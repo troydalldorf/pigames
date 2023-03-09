@@ -68,8 +68,7 @@ namespace CheckSeeSaw
             var hwid = ReadByte(MySeesawModule.Status, MySeesawFunction.StatusHwId);
             if (hwid != SessawHardwareId)
             {
-                throw new NotSupportedException($"The hardware on I2C Bus {I2cDevice.ConnectionSettings.BusId}, Address 0x{I2cDevice.ConnectionSettings.DeviceAddress:X2} does not appear to be an Adafruit SeeSaw module.\n" +
-                                                $"Expected {SessawHardwareId}, but found {hwid}");
+                //throw new NotSupportedException($"The hardware on I2C Bus {I2cDevice.ConnectionSettings.BusId}, Address 0x{I2cDevice.ConnectionSettings.DeviceAddress:X2} does not appear to be an Adafruit SeeSaw module.\nExpected {SessawHardwareId}, but found {hwid}");
             }
 
             _options = GetOptions();
@@ -107,13 +106,13 @@ namespace CheckSeeSaw
         /// <param name="data">The Span containg data to be send as a parameter or parameters to the Seesaw device.</param>
         protected void Write(MySeesawModule moduleAddress, MySeesawFunction functionAddress, ReadOnlySpan<byte> data)
         {
-            const int StackThreshold = 512;
+            const int stackThreshold = 512;
 
-            Span<byte> buffer = data.Length < StackThreshold ? stackalloc byte[data.Length + 2] : new byte[data.Length + 2];
+            var buffer = data.Length < stackThreshold ? stackalloc byte[data.Length + 2] : new byte[data.Length + 2];
 
             buffer[0] = (byte)moduleAddress;
             buffer[1] = (byte)functionAddress;
-            data.CopyTo(buffer.Slice(2));
+            data.CopyTo(buffer[2..]);
 
             I2cDevice.Write(buffer);
         }
