@@ -34,7 +34,7 @@ namespace CheckSeeSaw
 
             if (!HasModule(MySeesawModule.Gpio))
             {
-                throw new InvalidOperationException($"The hardware on I2C Bus {I2cDevice.ConnectionSettings.BusId}, Address 0x{I2cDevice.ConnectionSettings.DeviceAddress:X2} does not support Adafruit SeeSaw GPIO functionality");
+                throw new InvalidOperationException($"The hardware on I2C Bus {I2CDevice.ConnectionSettings.BusId}, Address 0x{I2CDevice.ConnectionSettings.DeviceAddress:X2} does not support Adafruit SeeSaw GPIO functionality");
             }
 
             pinArray = PinsToPinArray(pins);
@@ -87,7 +87,7 @@ namespace CheckSeeSaw
         {
             if (!HasModule(MySeesawModule.Gpio))
             {
-                throw new InvalidOperationException($"The hardware on I2C Bus {I2cDevice.ConnectionSettings.BusId}, Address 0x{I2cDevice.ConnectionSettings.DeviceAddress:X2} does not support Adafruit SeeSaw GPIO functionality");
+                throw new InvalidOperationException($"The hardware on I2C Bus {I2CDevice.ConnectionSettings.BusId}, Address 0x{I2CDevice.ConnectionSettings.DeviceAddress:X2} does not support Adafruit SeeSaw GPIO functionality");
             }
 
             Write(MySeesawModule.Gpio, value ? MySeesawFunction.GpioBulkSet : MySeesawFunction.GpioBulkClr, PinsToPinArray(pins));
@@ -117,7 +117,7 @@ namespace CheckSeeSaw
         {
             if (!HasModule(MySeesawModule.Gpio))
             {
-                throw new InvalidOperationException($"The hardware on I2C Bus {I2cDevice.ConnectionSettings.BusId}, Address 0x{I2cDevice.ConnectionSettings.DeviceAddress:X2} does not support Adafruit SeeSaw GPIO functionality");
+                throw new InvalidOperationException($"The hardware on I2C Bus {I2CDevice.ConnectionSettings.BusId}, Address 0x{I2CDevice.ConnectionSettings.DeviceAddress:X2} does not support Adafruit SeeSaw GPIO functionality");
             }
 
             return PinArrayToPins(Read(MySeesawModule.Gpio, MySeesawFunction.GpioBulk, 8)) & pins;
@@ -132,7 +132,7 @@ namespace CheckSeeSaw
         {
             if (!HasModule(MySeesawModule.Gpio))
             {
-                throw new InvalidOperationException($"The hardware on I2C Bus {I2cDevice.ConnectionSettings.BusId}, Address 0x{I2cDevice.ConnectionSettings.DeviceAddress:X2} does not support Adafruit SeeSaw GPIO functionality");
+                throw new InvalidOperationException($"The hardware on I2C Bus {I2CDevice.ConnectionSettings.BusId}, Address 0x{I2CDevice.ConnectionSettings.DeviceAddress:X2} does not support Adafruit SeeSaw GPIO functionality");
             }
 
             Span<byte> buffer = stackalloc byte[4];
@@ -152,7 +152,7 @@ namespace CheckSeeSaw
         {
             if (!HasModule(MySeesawModule.Gpio))
             {
-                throw new InvalidOperationException($"The hardware on I2C Bus {I2cDevice.ConnectionSettings.BusId}, Address 0x{I2cDevice.ConnectionSettings.DeviceAddress:X2} does not support Adafruit SeeSaw GPIO functionality");
+                throw new InvalidOperationException($"The hardware on I2C Bus {I2CDevice.ConnectionSettings.BusId}, Address 0x{I2CDevice.ConnectionSettings.DeviceAddress:X2} does not support Adafruit SeeSaw GPIO functionality");
             }
 
             return BinaryPrimitives.ReadUInt32BigEndian(Read(MySeesawModule.Gpio, MySeesawFunction.GpioIntflag, 4));

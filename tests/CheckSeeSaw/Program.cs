@@ -6,7 +6,7 @@ using CheckSeeSaw;
 Console.WriteLine("Hello, World!");
 
 using var i2CDevice = I2cDevice.Create(new I2cConnectionSettings(1,0x3a));
-using var seeSaw = new MySeesaw(i2CDevice);
+using var seeSaw = new MySeesaw(i2CDevice, 10);
 Console.WriteLine($"version: {seeSaw.Version}");
 while (true)
 {
