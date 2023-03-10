@@ -19,8 +19,6 @@ namespace CheckSeeSaw
         /// <value></value>
         public I2cDevice I2CDevice { get; private set; }
 
-        public short DefaultReadDelayMicroseconds { get; }
-
         private uint options;
 
         /// <summary>
@@ -28,11 +26,9 @@ namespace CheckSeeSaw
         /// </summary>
         /// <param name="i2CDevice">The I2cDevice to be used to communicate with the SeeSaw module. Note that the I2cDevice
         /// will be disposed when the along with the SeeSaw device</param>
-        /// <param name="defaultReadDelayMicroseconds"></param>
-        public MySeesaw(I2cDevice i2CDevice, short defaultReadDelayMicroseconds = 0)
+        public MySeesaw(I2cDevice i2CDevice)
         {
             I2CDevice = i2CDevice ?? throw new ArgumentNullException(nameof(i2CDevice));
-            DefaultReadDelayMicroseconds = defaultReadDelayMicroseconds;
             Initialize(i2CDevice);
         }
         
@@ -73,7 +69,7 @@ namespace CheckSeeSaw
             {
                 throw new NotSupportedException(
                     $"The hardware on I2C Bus {this.I2CDevice.ConnectionSettings.BusId}, Address 0x{this.I2CDevice.ConnectionSettings.DeviceAddress:X2} does not appear to be an Adafruit SeeSaw module.\n" +
-                            $"Expected {ATTINY8X7_HW_ID_CODE} for AdaFruit ATTINY8X7 processo, but found {hwid} which is neither.");
+                            $"Expected {ATTINY8X7_HW_ID_CODE} for AdaFruit ATTINY8X7 processor, but found {hwid} which is neither.");
             }
 
             options = GetOptions();
@@ -139,9 +135,8 @@ namespace CheckSeeSaw
         /// <param name="length">The number of bytes that are expected to be returned from the Seesaw device.</param>
         /// <param name="readDelayMicroSeconds">The delay between sending the function and reading the data in microseconds.</param>
         /// <returns>Returns the byte array representing values from the Seesaw device.</returns>
-        private byte[] Read(MySeesawModule moduleAddress, MySeesawFunction functionAddress, int length, short? readDelayMicroSeconds = 0)
+        private byte[] Read(MySeesawModule moduleAddress, MySeesawFunction functionAddress, int length, short readDelayMicroSeconds = 0)
         {
-            var delay = readDelayMicroSeconds ?? DefaultReadDelayMicroseconds;
             var retval = new byte[length];
 
             Span<byte> bytesToWrite = stackalloc byte[2]
@@ -151,9 +146,9 @@ namespace CheckSeeSaw
 
             I2CDevice.Write(bytesToWrite);
 
-            if (delay > 0)
+            if (readDelayMicroSeconds > 0)
             {
-                MyDelayHelper.DelayMicroseconds(delay, true);
+                MyDelayHelper.DelayMicroseconds(readDelayMicroSeconds, true);
             }
 
             I2CDevice.Read(retval);
