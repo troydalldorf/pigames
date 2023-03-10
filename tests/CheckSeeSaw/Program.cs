@@ -13,10 +13,10 @@ seeSaw.SetGpioPinMode(18, PinMode.Input);
 seeSaw.SetGpioPinMode(19, PinMode.Input);
 seeSaw.SetGpioPinMode(20, PinMode.Input);
 seeSaw.SetGpioPinMode(2, PinMode.Input);
-ulong pin18 = 1 << 18;
-ulong pin19 = 1 << 19;
-ulong pin20 = 1 << 20;
-ulong pin2 = 1 << 2;
+ulong pin18 = 1 << 0;
+ulong pin19 = 1 << 1;
+ulong pin20 = 1 << 2;
+ulong pin2 = 1 << 3;
 ulong pins = pin18 | pin19 | pin20 | pin2;
 Console.WriteLine($"version: {seeSaw.Version}");
 while (true)

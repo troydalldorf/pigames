@@ -11,8 +11,6 @@ namespace CheckSeeSaw
         //private byte[] analogPins = { 0, 1, 2, 3, 6, 7, 18, 19, 20 };
         //private byte pwmWidth = 16;
         //private byte[] pwmPins = { 0, 1, 9, 12, 13 };
-        private byte GPIO_BASE = 0x01;
-        private byte GPIO_BULK = 0x04;
         
         public bool TestDigitalRead(byte pin)
         {
