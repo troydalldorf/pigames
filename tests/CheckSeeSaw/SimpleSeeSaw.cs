@@ -1,7 +1,3 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-
-using System.Buffers.Binary;
 using System.Device.Gpio;
 
 namespace CheckSeeSaw
@@ -14,7 +10,7 @@ namespace CheckSeeSaw
             return (uint)BitConverter.ToInt32(buf, 0);
         }
         
-        public void TestPinModeBulk(int capacity, int offset, uint pins, PinMode mode)
+        public void TestPinModeBulk(int capacity, int offset, ulong pins, PinMode mode)
         {
             byte[] cmd = new byte[capacity];
             BitConverter.GetBytes(pins).CopyTo(cmd, offset);
