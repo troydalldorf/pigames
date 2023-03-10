@@ -10,8 +10,13 @@ namespace CheckSeeSaw
     {
         public ulong TestDigitalReadBulk(short delay = 8)
         {
+            if (!HasModule(MySeesawModule.Gpio))
+            {
+                throw new InvalidOperationException($"The hardware on I2C Bus {this.I2CDevice.ConnectionSettings.BusId}, Address 0x{this.I2CDevice.ConnectionSettings.DeviceAddress:X2} does not support Adafruit SeeSaw GPIO functionality");
+            }
+            
             var buf = Read(MySeesawModule.Gpio, MySeesawFunction.GpioBulk, 8, delay);
-            return (uint)BitConverter.ToInt32(buf.Reverse().ToArray(), 0);
+            return (uint)BitConverter.ToInt32(buf, 0);
         }
         
         public void TestPinModeBulk(int capacity, int offset, uint pins, PinMode mode)
