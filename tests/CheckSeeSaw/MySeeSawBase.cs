@@ -69,6 +69,7 @@ namespace CheckSeeSaw
             MyDelayHelper.DelayMilliseconds(10, true);
 
             var hwid = ReadByte(MySeesawModule.Status, MySeesawFunction.StatusHwId);
+            Console.WriteLine($"Hardware ID:{hwid}");
             if (hwid != SeesawHardwareId)
             {
                 //throw new NotSupportedException($"The hardware on I2C Bus {I2cDevice.ConnectionSettings.BusId}, Address 0x{I2cDevice.ConnectionSettings.DeviceAddress:X2} does not appear to be an Adafruit SeeSaw module.\nExpected {SessawHardwareId}, but found {hwid}");
