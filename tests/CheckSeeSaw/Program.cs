@@ -17,6 +17,9 @@ seesaw.TestPinModeBulk(4, 0, pins, PinMode.InputPullDown);
 Console.WriteLine($"version: {seesaw.Version}");
 while (true)
 {
-    Console.WriteLine($"{seesaw.ReadGpioDigitalBulk(0):X16} | simple: {seesaw.TestDigitalReadBulk(25):X16}");
+    var data = seesaw.ReadGpioDigitalBulk(0);
+    var bitStrM = Convert.ToString((long)data, 2).PadLeft(64, '0');
+    var bitStrS = Convert.ToString((long)data, 2).PadLeft(64, '0');
+    Console.WriteLine($"my: {bitStrM} | simple: {bitStrS}");
     System.Threading.Thread.Sleep(50);
 }
