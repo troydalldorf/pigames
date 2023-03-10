@@ -36,13 +36,7 @@ namespace CheckSeeSaw
         /// Version of the SeeSaw module.
         /// </summary>
         public uint Version { get; private set; }
-
-        /// <summary>
-        /// Reads the temperature of the SeeSaw device.
-        /// </summary>
-        /// <returns>A float that represents the temperature in degrees celcius.</returns>
-        public float GetTemperature() => (1.0F / (1UL << 16)) * BinaryPrimitives.ReadUInt32BigEndian(Read(MySeesawModule.Status, MySeesawFunction.StatusTemp, 4, 1000));
-
+        
         /// <summary>
         /// Tests to see if a module has been compiled into the SeeSaw firmware.
         /// </summary>

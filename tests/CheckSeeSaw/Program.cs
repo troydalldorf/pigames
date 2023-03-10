@@ -3,7 +3,6 @@
 using System.Device.Gpio;
 using System.Device.I2c;
 using CheckSeeSaw;
-using Iot.Device.Seesaw;
 
 Console.WriteLine("Hello, World!");
 
@@ -13,5 +12,5 @@ seeSaw.SetGpioPinMode(18, PinMode.Input);
 Console.WriteLine($"version: {seeSaw.Version}");
 while (true)
 {
-    Console.WriteLine($"{seeSaw.ReadGpioInterruptFlags()}");
+    Console.WriteLine($"{seeSaw.TestDigitalReadBulk():X16}");
 }
