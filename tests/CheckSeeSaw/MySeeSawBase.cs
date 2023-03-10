@@ -11,7 +11,7 @@ namespace CheckSeeSaw
     /// </summary>
     public partial class MySeesaw : IDisposable
     {
-        private const byte SeesawHardwareId = 0x55;
+        private const byte ATTINY8X7_HW_ID_CODE = 0x87;
 
         /// <summary>
         /// I2C device used for communication
@@ -35,7 +35,7 @@ namespace CheckSeeSaw
             DefaultReadDelayMicroseconds = defaultReadDelayMicroseconds;
             Initialize(i2CDevice);
         }
-
+        
         /// <summary>
         /// Version of the SeeSaw module.
         /// </summary>
@@ -69,10 +69,11 @@ namespace CheckSeeSaw
             MyDelayHelper.DelayMilliseconds(10, true);
 
             var hwid = ReadByte(MySeesawModule.Status, MySeesawFunction.StatusHwId);
-            Console.WriteLine($"Hardware ID:{hwid}");
-            if (hwid != SeesawHardwareId)
+            if (hwid != ATTINY8X7_HW_ID_CODE)
             {
-                //throw new NotSupportedException($"The hardware on I2C Bus {I2cDevice.ConnectionSettings.BusId}, Address 0x{I2cDevice.ConnectionSettings.DeviceAddress:X2} does not appear to be an Adafruit SeeSaw module.\nExpected {SessawHardwareId}, but found {hwid}");
+                throw new NotSupportedException(
+                    $"The hardware on I2C Bus {this.I2CDevice.ConnectionSettings.BusId}, Address 0x{this.I2CDevice.ConnectionSettings.DeviceAddress:X2} does not appear to be an Adafruit SeeSaw module.\n" +
+                            $"Expected {ATTINY8X7_HW_ID_CODE} for AdaFruit ATTINY8X7 processo, but found {hwid} which is neither.");
             }
 
             options = GetOptions();

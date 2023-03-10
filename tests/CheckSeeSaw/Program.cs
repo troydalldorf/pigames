@@ -2,6 +2,7 @@
 
 using System.Device.I2c;
 using CheckSeeSaw;
+using Iot.Device.Seesaw;
 
 Console.WriteLine("Hello, World!");
 

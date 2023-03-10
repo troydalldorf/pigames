@@ -51,3 +51,7 @@ install Iot.Device.Bindings
 
 ### Hardware
 - https://www.adafruit.com/product/5296
+
+# Other
+- https://learn.adafruit.com/adafruit-seesaw-atsamd09-breakout/
+- 
