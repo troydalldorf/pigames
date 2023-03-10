@@ -25,10 +25,10 @@ public class Player : IDisposable
     {
         var data = seesaw.ReadGpioDigitalBulk(AllJoystickPins);
         var result = JoystickDirection.None;
-        if ((data & Pin18Right) == 0) result &= JoystickDirection.Right;
-        if ((data & Pin19Left) == 0) result &= JoystickDirection.Left;
-        if ((data & Pin20down) == 0) result &= JoystickDirection.Down;
-        if ((data & Pin2Up) == 0) result &= JoystickDirection.Up;
+        if ((data & Pin18Right) == 0) result |= JoystickDirection.Right;
+        if ((data & Pin19Left) == 0) result |= JoystickDirection.Left;
+        if ((data & Pin20down) == 0) result |= JoystickDirection.Down;
+        if ((data & Pin2Up) == 0) result |= JoystickDirection.Up;
         return result;
     }
 
