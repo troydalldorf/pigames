@@ -20,19 +20,7 @@ namespace CheckSeeSaw
         public ulong TestDigitalReadBulk(ulong pins, short delay = 8)
         {
             var buf = Read(MySeesawModule.Gpio, MySeesawFunction.GpioBulk, 8, delay);
-            uint ret;
-            
-            try
-            {
-                ret = (uint)BitConverter.ToInt32(buf.Reverse().ToArray(), 0);
-            }
-            catch (OverflowException)
-            {
-                buf[0] = (byte)(buf[0] & 0x3F);
-                ret = (uint)BitConverter.ToInt32(buf.Reverse().ToArray(), 0);
-            }
-            
-            return ret & pins;
+            return (uint)BitConverter.ToInt32(buf.Reverse().ToArray(), 0);
         }
 
         /// <summary>
