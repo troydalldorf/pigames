@@ -8,7 +8,7 @@ namespace CheckSeeSaw
 {
     public partial class MySeesaw : IDisposable
     {
-        public ulong TestDigitalReadBulkshort(short delay = 8)
+        public ulong TestDigitalReadBulk(short delay = 8)
         {
             var buf = Read(MySeesawModule.Gpio, MySeesawFunction.GpioBulk, 8, delay);
             return (uint)BitConverter.ToInt32(buf.Reverse().ToArray(), 0);
