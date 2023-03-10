@@ -13,7 +13,7 @@ ulong pin19 = 1 << 19;
 ulong pin20 = 1 << 20;
 ulong pin2 = 1 << 2;
 var pins = pin18 | pin19 | pin20 | pin2;
-seesaw.TestPinModeBulk(4, 0, pins, PinMode.InputPullDown);
+seesaw.SetGpioPinModeBulk(pins, PinMode.InputPullDown);
 Console.WriteLine($"version: {seesaw.Version}");
 while (true)
 {
