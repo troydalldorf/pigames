@@ -17,9 +17,9 @@ seesaw.SetGpioPinModeBulk(pins, PinMode.InputPullUp);
 while (true)
 {
     var data = seesaw.ReadGpioDigitalBulk(0);
-    var up = (data & pin18) > 0;
-    var down = (data & pin19) > 0;
-    var left = (data & pin20) > 0;
-    var right = (data & pin2) > 0;
+    var right = (data & pin18) == 0;
+    var left = (data & pin19) == 0;
+    var down = (data & pin20) == 0;
+    var up = (data & pin2) == 0;
     Console.WriteLine($"up: {up}, dn: {down}, lt: {left}, rt: {right}");
 }
