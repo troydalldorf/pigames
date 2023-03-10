@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\core\LedMatrix\LedMatrix.csproj" />
+      <ProjectReference Include="..\core\Core.Display\Core.Display.csproj" />
     </ItemGroup>
 
 </Project>

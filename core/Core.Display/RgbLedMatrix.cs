@@ -1,7 +1,6 @@
-using System;
 using System.Runtime.InteropServices;
 
-namespace LedMatrix
+namespace Core.Display
 {
     public class RgbLedMatrix : IDisposable
     {
