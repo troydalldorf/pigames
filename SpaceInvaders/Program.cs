@@ -25,8 +25,8 @@ while (true)
     if (stick.IsLeft()) p1x--;
     if (stick.IsRight()) p1x++;
     var buttons = player.ReadButtons();
-    if ((buttons & Buttons.A) != 0) phasers.Add(p1x+7, 57);
-    p1x = Math.Max(0, Math.Min(52, p1x));
+    if (buttons > 0) phasers.Add(p1x+7, 57, frame);
+    p1x = Math.Max(0, Math.Min(48, p1x));
     phasers.Move(-1);
     
     // draw
@@ -76,6 +76,7 @@ public class Phasers
 {
     private readonly SpriteAnimation sprite;
     private List<Phaser> phasers = new();
+    private int lastFrame = 0;
     
     public Phasers(SpriteAnimation sprite)
     {
@@ -91,9 +92,10 @@ public class Phasers
         }
     }
 
-    public void Add(int x, int y)
+    public void Add(int x, int y, int frame)
     {
-        phasers.Add(new Phaser(x, y));
+        if (frame - lastFrame > 10)
+            phasers.Add(new Phaser(x, y));
     }
 
     public void Draw(LedDisplay display)
