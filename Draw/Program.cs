@@ -26,6 +26,14 @@ while (true)
     {
         x = x + 1;
     }
+    if( x>63)
+    {
+        x = 0;
+    }
+    if( y>63)
+    {
+        y = 0;
+    }
     display.SetPixel(x,y, new Color(155, 75, 155));
     display.Update();
 }
