@@ -11,4 +11,8 @@
       <Content Include="LedMatrix\librgbmatrix.so" CopyToOutputDirectory="Always" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="System.Drawing.Common" Version="5.0.3" />
+    </ItemGroup>
+
 </Project>

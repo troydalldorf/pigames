@@ -1,4 +1,5 @@
-﻿using Core.Display;
+﻿using System.Drawing;
+using Core.Display;
 using Core.Inputs;
 
 Console.WriteLine("Starting...");
@@ -52,5 +53,5 @@ while (true)
 
 Color RandomColor()
 {
-    return new Color(rnd.Next(1, 255), rnd.Next(1, 255), rnd.Next(1, 255));
+    return Color.FromArgb(rnd.Next(1, 255), rnd.Next(1, 255), rnd.Next(1, 255));
 }

@@ -3,10 +3,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Threading;
-using CheckMatrix;
 using Core.Display;
 using Core.Display.LedMatrix;
+using Point = CheckMatrix.Point;
 
 Console.WriteLine("Hello, World!");
 
@@ -62,7 +63,7 @@ while (!Console.KeyAvailable)
 
             for (var i = 0; i < maxHeight; i++)
             {
-                canvas.SetPixel(point.x, point.y - i, new Color(0, 255 - i * colorStep, 0));
+                canvas.SetPixel(point.x, point.y - i, Color.FromArgb(0, 255 - i * colorStep, 0));
             }
         }
     }

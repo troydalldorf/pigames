@@ -43,13 +43,13 @@ public class Player : IDisposable
         return result;
     }
     
-    public Button ReadButtons()
+    public Buttons ReadButtons()
     {
         var data = buttonsSeesaw.ReadGpioDigitalBulk(AllButtonPins);
-        var result = Button.None;
-        if ((data & Pin18A) == 0) result |= Button.A;
-        if ((data & Pin19B) == 0) result |= Button.B;
-        if ((data & Pin20X) == 0) result |= Button.X;
+        var result = Buttons.None;
+        if ((data & Pin18A) == 0) result |= Buttons.A;
+        if ((data & Pin19B) == 0) result |= Buttons.B;
+        if ((data & Pin20X) == 0) result |= Buttons.X;
         return result;
     }
 

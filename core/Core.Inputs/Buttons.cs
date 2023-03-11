@@ -1,7 +1,7 @@
 namespace Core.Inputs;
 
 [Flags]
-public enum Button
+public enum Buttons
 {
     None = 0x0,
     A = 0x1,

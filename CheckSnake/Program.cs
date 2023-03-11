@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Device.Gpio;
+using System.Drawing;
 using System.Threading;
 using Core.Display;
 using Core.Display.LedMatrix;
@@ -7,7 +8,7 @@ using Core.Display.LedMatrix;
 var buttonPin = 27;
 var x = 32;
 var y = 32;
-var color = new Color(155,50,200);
+var color = Color.FromArgb(155,50,200);
 
 // INPUT SETUP
 using GpioController controller = new();

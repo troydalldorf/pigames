@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pong", "Pong\Pong.csproj", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "basics", "basics", "{C9B74B3B-A493-41CC-B5D8-2E9D3C6720FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceInvaders", "SpaceInvaders\SpaceInvaders.csproj", "{5434E63C-6A6C-4D31-83FA-75354AA9F9E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,10 @@ Global
 		{91886E76-D146-4A29-AB29-A058EDCEC8AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91886E76-D146-4A29-AB29-A058EDCEC8AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91886E76-D146-4A29-AB29-A058EDCEC8AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5434E63C-6A6C-4D31-83FA-75354AA9F9E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5434E63C-6A6C-4D31-83FA-75354AA9F9E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5434E63C-6A6C-4D31-83FA-75354AA9F9E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5434E63C-6A6C-4D31-83FA-75354AA9F9E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AABB21BF-4A48-44D2-AE86-1E5262683C4C} = {4CF79911-C0E7-4EB0-AC65-B9A0317F458D}

@@ -1,4 +1,5 @@
-﻿using Bouncy;
+﻿using System.Drawing;
+using Bouncy;
 using Core.Display;
 
 Console.WriteLine("Starting...");
@@ -25,6 +26,6 @@ while (true)
         ball.VelocityX = +1;
         ball.X = 0;
     }
-    display.DrawCircle((int)ball.X, (int)ball.Y, 1, new Color(155, 75, 155));
+    display.DrawCircle((int)ball.X, (int)ball.Y, 1,  Color.FromArgb(155, 75, 155));
     display.Update();
 }

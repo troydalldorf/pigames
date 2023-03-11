@@ -1,5 +1,7 @@
 using System.Diagnostics;
+using System.Drawing;
 using Core.Display.LedMatrix;
+using Core.Display.Sprites;
 
 namespace Core.Display;
 
@@ -51,5 +53,16 @@ public class LedDisplay
     public void DrawLine(int x0, int y0, int x1, int y1, Color color)
     {
         canvas.DrawLine(x0, y0, x1, y1, color);
+    }
+
+    public void DrawSprite(int x, int y, Sprite sprite)
+    {
+        for (var sy = 0; sy < sprite.Height; sy++)
+        {
+            for (var sx = 0; sx < sprite.Width - 1; sx++)
+            {
+                canvas.SetPixel(x+sx, y+sy, sprite.GetColor(sx, sy));
+            }
+        }
     }
 }
