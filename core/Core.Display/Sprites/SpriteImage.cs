@@ -1,14 +1,20 @@
 using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace Core.Display.Sprites;
 
 public class SpriteImage
 {
     private readonly Bitmap image;
+    private Color? transparent;
     
-    public SpriteImage(string filePath)
+    public SpriteImage(string filePath, Point? transparentRef)
     {
         image = new Bitmap(filePath);
+        if (transparentRef != null)
+        {
+            transparent = image.GetPixel(transparentRef.Value.X, transparentRef.Value.Y);
+        }
     }
 
     public Sprite GetSprite(int x, int y, int width, int height)
@@ -21,10 +27,13 @@ public class SpriteImage
         var spriteBitmap = new Bitmap(from.Width, from.Height);
         using (var g = Graphics.FromImage(spriteBitmap))
             g.DrawImage(image, 0, 0, from, GraphicsUnit.Pixel);
-        var colors = new Color[spriteBitmap.Width, spriteBitmap.Height];
+        var colors = new Color?[spriteBitmap.Width, spriteBitmap.Height];
         for (var x = 0; x < spriteBitmap.Width; x++)
-            for (var y = 0; y < spriteBitmap.Height; y++)
-                colors[x, y] = spriteBitmap.GetPixel(x, y);
+        for (var y = 0; y < spriteBitmap.Height; y++)
+        {
+            var color = spriteBitmap.GetPixel(x, y);
+            colors[x, y] = transparent == null | color != transparent  ? color : null;
+        }
         return new Sprite(colors, spriteBitmap.Width, spriteBitmap.Height);
     }
 

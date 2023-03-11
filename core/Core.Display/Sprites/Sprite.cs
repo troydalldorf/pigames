@@ -4,8 +4,8 @@ namespace Core.Display.Sprites;
 
 public class Sprite : ISprite
 {
-    private Color[,] map;
-    public Sprite(Color[,] map, int width, int height)
+    private Color?[,] map;
+    public Sprite(Color?[,] map, int width, int height)
     {
         this.map = map;
         Width = width;
@@ -15,5 +15,5 @@ public class Sprite : ISprite
     public int Width { get; }
     public int Height { get; }
 
-    public Color GetColor(int x, int y) => map[x, y];
+    public Color? GetColor(int x, int y) => map[x, y];
 }

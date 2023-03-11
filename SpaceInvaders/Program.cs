@@ -1,8 +1,9 @@
-﻿using Core.Display;
+﻿using System.Drawing;
+using Core.Display;
 using Core.Display.Sprites;
 using Core.Inputs;
 
-var image = new SpriteImage("graphics.png");
+var image = new SpriteImage("graphics.png", new Point(0, 0));
 var alient1Sprite = image.GetSpriteAnimation(0, 0, 8, 8, 3, 1);
 var alient2Sprite = image.GetSpriteAnimation(0, 117, 8, 8, 3, 1);
 var alient3Sprite = image.GetSpriteAnimation(0, 36, 8, 8, 3, 1);
@@ -33,7 +34,6 @@ while (true)
     display.Clear();
     army.Draw(display);
     phasers.Draw(display);
-    display.DrawSprite(20, 30, phaserSprite);
     display.DrawSprite(p1x, 57, p1);
     display.Update();
     frame++;

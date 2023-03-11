@@ -14,7 +14,7 @@ public class SpriteAnimation : ISprite
         Height = height;
     }
 
-    public Color GetColor(int x, int y)
+    public Color? GetColor(int x, int y)
     {
         return sprites[Frame].GetColor(x, y);
     }
