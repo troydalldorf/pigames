@@ -29,7 +29,8 @@ public class Thing
         return otherThings
             .Select(t => GetCollision(t))
             .Where(c => c != null)
-            .Select(c => c ?? throw new InvalidCastException());
+            .Select(c => c ?? throw new InvalidCastException())
+            .ToArray();
     }
 
     public Collision? GetCollision(Thing otherThing)
