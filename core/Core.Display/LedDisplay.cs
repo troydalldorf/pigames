@@ -59,7 +59,7 @@ public class LedDisplay
     {
         for (var sy = 0; sy < sprite.Height; sy++)
         {
-            for (var sx = 0; sx < sprite.Width - 1; sx++)
+            for (var sx = 0; sx < sprite.Width; sx++)
             {
                 canvas.SetPixel(x+sx, y+sy, sprite.GetColor(sx, sy));
             }
