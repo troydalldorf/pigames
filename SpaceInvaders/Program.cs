@@ -29,7 +29,7 @@ while (true)
     if (buttons > 0) phasers.Add(p1x+7, 57, frame);
     p1x = Math.Max(0, Math.Min(48, p1x));
     phasers.Move(-1);
-    army.Move();
+    if (frame / 10 == 0) army.Move();
     
     // collision
     
@@ -88,7 +88,7 @@ public class AlienArmy
     public void Move()
     {
         armyX += deltaX;
-        if (armyX + 6 * 10 > 63) deltaX = 1;
+        if (armyX + 6 * 10 > 63) deltaX *= -1;
     }
 
     public void Draw(LedDisplay display)
