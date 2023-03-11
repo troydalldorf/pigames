@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Inputs", "core\Core.In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Draw", "Draw\Draw.csproj", "{3FD98698-0862-41DE-A01B-6337A40272F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouncy", "Bouncy\Bouncy.csproj", "{6F156BFE-E485-45FB-805F-952D3696E43D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +66,10 @@ Global
 		{3FD98698-0862-41DE-A01B-6337A40272F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FD98698-0862-41DE-A01B-6337A40272F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FD98698-0862-41DE-A01B-6337A40272F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F156BFE-E485-45FB-805F-952D3696E43D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F156BFE-E485-45FB-805F-952D3696E43D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F156BFE-E485-45FB-805F-952D3696E43D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F156BFE-E485-45FB-805F-952D3696E43D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AABB21BF-4A48-44D2-AE86-1E5262683C4C} = {4CF79911-C0E7-4EB0-AC65-B9A0317F458D}
