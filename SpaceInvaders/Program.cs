@@ -43,7 +43,8 @@ while (true)
     if (stick.IsRight()) player1.X++;
     var buttons = p1Console.ReadButtons();
     if (buttons > 0) phasers.Add(new Thing("phaser", phaserSprite, player1.X+7, 57));
-    phasers.MoveAll(0, -1);
+    if (frame/4 % 4 == 0) phasers.MoveAll(0, -1);
+    if (frame/10 % 5 == 0) aliens.MoveAll(alientVelocityX, 0);
     if (frame / 10 == 0) aliens.MoveAll(1, 0);
     
     // boundaries
