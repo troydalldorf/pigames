@@ -13,11 +13,11 @@ var alient2Sprite = image.GetSpriteAnimation(0, 117, 8, 8, 3, 1);
 var alient3Sprite = image.GetSpriteAnimation(0, 36, 8, 8, 3, 1);
 var alientVelocityX = 1;
 var aliens = new Things();
-for (var y = 0; y < 3; y++)
+for (var y = 0; y < 4; y++)
 {
-    for (var x = 0; x < 6; x++)
+    for (var x = 0; x < 5; x++)
     {
-        var alien = new Thing("alien", y switch { 0 => alient1Sprite, 1 => alient2Sprite, _ => alient3Sprite }, x * 10, y * 10);
+        var alien = new Thing("alien", y switch { 0 => alient1Sprite, 1 => alient2Sprite, _ => alient3Sprite }, x * 9, y * 9);
         aliens.Add(alien);
     }
 }
