@@ -5,7 +5,7 @@ using Core.Inputs;
 Console.WriteLine("Starting...");
 var player1 = new Player(0x3a);
 var display = new LedDisplay();
-var ball = new Physics { X = 32, Y = 1, VelocityY = 0, VelocityX = 1, Gravity = 1, Elasticity = 2, Friction = 1 };
+var ball = new Physics { X = 32, Y = 1, VelocityY = 0, VelocityX = 1, Gravity = 1, Elasticity = 1, Friction = 1 };
 while (true)
 {
     display.Clear();
