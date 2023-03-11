@@ -2,8 +2,8 @@
 using Core.Display;
 
 var display = new LedDisplay();
-int x = 15;
-int y = 30;
+int x = 32;
+int y = 15;
 int dx = 1;
 int dy = 1;
 while (true)
