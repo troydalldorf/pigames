@@ -8,6 +8,7 @@ var display = new LedDisplay();
 while (true)
 {
     display.Clear();
-    display.SetPixel(32, 32, new Color(155, 0, 0));
     var js = player1.ReadJoystick();
+    display.SetPixel(32, 32, new Color(155, 0, 0));
+    display.Update();
 }

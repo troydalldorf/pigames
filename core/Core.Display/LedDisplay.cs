@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Core.Display.LedMatrix;
 
 namespace Core.Display;
@@ -6,6 +7,7 @@ public class LedDisplay
 {
     private RgbLedMatrix matrix;
     private RgbLedCanvas canvas;
+    private Stopwatch stopwatch;
     
     public LedDisplay()
     {
@@ -16,6 +18,7 @@ public class LedDisplay
             Cols = 64,
         });
         canvas = matrix.CreateOffscreenCanvas();
+        stopwatch = new Stopwatch();
     }
 
     public void Clear()
@@ -25,7 +28,14 @@ public class LedDisplay
 
     public void Update()
     {
+        // force 30 FPS
+        var elapsed= stopwatch.ElapsedMilliseconds;
+        if (elapsed < 33)
+        {
+            Thread.Sleep(33 - (int)elapsed);
+        }
         canvas = matrix.SwapOnVsync(canvas);
+        stopwatch.Restart();
     }
 
     public void SetPixel(int x, int y, Color color)
