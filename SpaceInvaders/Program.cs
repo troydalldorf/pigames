@@ -8,6 +8,7 @@ var alien2 = image.GetSpriteAnimation(0, 9, 8, 8, 3, 1);
 var alien3 = image.GetSpriteAnimation(0, 36, 8, 8, 3, 1);
 var army = new AlienArmy(alien1, alien2, alien3);
 var p1 = image.GetSpriteAnimation(27, 27, 16, 8, 1, 1);
+var phaser = image.GetSpriteAnimation(27, 0, 8, 8, 4, 1);
 var display = new LedDisplay();
 var player = new Player(0x3a, 0x42);
 var p1x = 20;
@@ -41,7 +42,7 @@ public class AlienArmy
         this.row1 = row1;
         this.row2 = row2;
         this.row3 = row3;
-        aliens = new bool[3, 5];
+        aliens = new bool[3, 6];
         for (var y = 0; y < 3; y++)
         {
             for (var x = 0; x < 6; x++)
@@ -57,7 +58,7 @@ public class AlienArmy
         {
             for (var x = 0; x < 6; x++)
             {
-                display.DrawSprite(x*10, y*10, y switch { 0 => row1, 1 => row2, 2 => row3 });
+                display.DrawSprite(x*10, y*10, y switch { 0 => row1, 1 => row2, _ => row3 });
             }
         }
     }
