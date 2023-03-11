@@ -10,10 +10,4 @@
       <None Remove="librgbmatrix.so" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Content Update="LedMatrix\librgbmatrix.so">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-    </ItemGroup>
-
 </Project>
