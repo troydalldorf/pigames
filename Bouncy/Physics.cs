@@ -2,11 +2,11 @@ namespace Bouncy;
 
 public class Physics
 {
-    public int X { get; set; }
-    public int Y { get; set; }
-    public int VelocityY { get; set; }
-    public int VelocityX { get; set; }
-    public int Gravity { get; set; }
-    public int Elasticity { get; set; }
-    public int Friction { get; set; }
+    public double X { get; set; }
+    public double Y { get; set; }
+    public double VelocityY { get; set; }
+    public double VelocityX { get; set; }
+    public double Gravity { get; set; }
+    public double Elasticity { get; set; }
+    public double Friction { get; set; }
 }
