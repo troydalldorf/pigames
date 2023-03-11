@@ -96,7 +96,10 @@ public class Phasers
     public void Add(int x, int y, int frame)
     {
         if (frame - lastFrame > 10)
+        {
             phasers.Add(new Phaser(x, y));
+            lastFrame = frame;
+        }
     }
 
     public void Draw(LedDisplay display)
@@ -121,7 +124,7 @@ public class Phaser
 
     public void Move(int deltaY)
     {
-        Y -= deltaY;
+        Y += deltaY;
     }
 
     public bool IsComplete()
