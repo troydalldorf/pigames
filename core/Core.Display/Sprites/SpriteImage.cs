@@ -27,4 +27,16 @@ public class SpriteImage
                 colors[x, y] = spriteBitmap.GetPixel(x, y);
         return new Sprite(colors, spriteBitmap.Width, spriteBitmap.Height);
     }
+
+    public SpriteAnimation GetSpriteAnimation(int x, int y, int width, int height, int count, int xspace)
+    {
+        var sprites = new List<Sprite>();
+        for (var i = 0; i < count; i++)
+        {
+            sprites.Add(this.GetSprite(x, y, width, height));
+            x += width + xspace;
+        }
+
+        return new SpriteAnimation(width, height, sprites.ToArray());
+    }
 }
