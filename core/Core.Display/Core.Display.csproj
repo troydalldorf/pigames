@@ -7,7 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="librgbmatrix.so" CopyToOutputDirectory="Always" />
+      <None Remove="LedMatrix\librgbmatrix.so" />
+      <Content Include="LedMatrix\librgbmatrix.so" CopyToOutputDirectory="Always" />
     </ItemGroup>
 
 </Project>
