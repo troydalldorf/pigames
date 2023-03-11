@@ -3,29 +3,36 @@ using Core.Display.Sprites;
 using Core.Inputs;
 
 var image = new SpriteImage("graphics.png");
-var alien1 = image.GetSpriteAnimation(0, 0, 8, 8, 3, 1);
-var alien2 = image.GetSpriteAnimation(0, 9, 8, 8, 3, 1);
-var alien3 = image.GetSpriteAnimation(0, 36, 8, 8, 3, 1);
-var army = new AlienArmy(alien1, alien2, alien3);
+var alient1Sprite = image.GetSpriteAnimation(0, 0, 8, 8, 3, 1);
+var alient2Sprite = image.GetSpriteAnimation(0, 117, 8, 8, 3, 1);
+var alient3Sprite = image.GetSpriteAnimation(0, 36, 8, 8, 3, 1);
+var army = new AlienArmy(alient1Sprite, alient2Sprite, alient3Sprite);
 var p1 = image.GetSpriteAnimation(27, 27, 16, 8, 1, 1);
-var phaser = image.GetSpriteAnimation(27, 0, 8, 8, 4, 1);
+var phaserSprite = image.GetSpriteAnimation(27, 0, 8, 8, 4, 1);
 var display = new LedDisplay();
 var player = new Player(0x3a, 0x42);
+var phasers = new Phasers(phaserSprite);
 var p1x = 20;
 var frame = 0;
 while (true)
 {
-    alien1.Frame = alien2.Frame = alien3.Frame = (frame/10) % 2;
+    // animation
+    alient1Sprite.Frame = alient2Sprite.Frame = alient3Sprite.Frame = (frame/10) % 2;
+    phaserSprite.Frame = (frame / 3) % 2;
+    
+    // motion
     var stick = player.ReadJoystick();
-    p1x += stick switch
-    {
-        JoystickDirection.Left => -1,
-        JoystickDirection.Right => +1,
-        _ => 0,
-    };
-    p1x = Math.Max(0, Math.Min(56, p1x));
+    if (stick.IsLeft()) p1x--;
+    if (stick.IsRight()) p1x++;
+    var buttons = player.ReadButtons();
+    if ((buttons & Buttons.A) != 0) phasers.Add(p1x+7, 57);
+    p1x = Math.Max(0, Math.Min(52, p1x));
+    phasers.Move(-1);
+    
+    // draw
     display.Clear();
     army.Draw(display);
+    phasers.Draw(display);
     display.DrawSprite(p1x, 57, p1);
     display.Update();
     frame++;
@@ -37,6 +44,7 @@ public class AlienArmy
     private SpriteAnimation row1;
     private SpriteAnimation row2;
     private SpriteAnimation row3;
+    
     public AlienArmy(SpriteAnimation row1, SpriteAnimation row2, SpriteAnimation row3)
     {
         this.row1 = row1;
@@ -61,5 +69,60 @@ public class AlienArmy
                 display.DrawSprite(x*10, y*10, y switch { 0 => row1, 1 => row2, _ => row3 });
             }
         }
+    }
+}
+
+public class Phasers
+{
+    private readonly SpriteAnimation sprite;
+    private List<Phaser> phasers = new();
+    
+    public Phasers(SpriteAnimation sprite)
+    {
+        this.sprite = sprite;
+    }
+
+    public void Move(int deltaY)
+    {
+        foreach (var phaser in phasers.ToArray())
+        {
+            phaser.Move(deltaY);
+            if (phaser.IsComplete()) phasers.Remove(phaser);
+        }
+    }
+
+    public void Add(int x, int y)
+    {
+        phasers.Add(new Phaser(x, y));
+    }
+
+    public void Draw(LedDisplay display)
+    {
+        foreach (var phaser in phasers)
+        {
+            display.DrawSprite(phaser.X, phaser.Y, sprite);
+        }
+    }
+}
+
+public class Phaser
+{
+    public int X { get; private set; }
+    public int Y { get; private set; }
+
+    public Phaser(int x, int y)
+    {
+        X = x;
+        Y = y;
+    }
+
+    public void Move(int deltaY)
+    {
+        Y -= deltaY;
+    }
+
+    public bool IsComplete()
+    {
+        return Y < -6;
     }
 }
