@@ -27,7 +27,7 @@ public class Player : IDisposable
         joystickSeesaw = new Attiny8X7SeeSaw(joystickDevice);
         joystickSeesaw.SetGpioPinModeBulk(AllJoystickPins, PinMode.InputPullUp);
         
-        buttonsDevice = I2cDevice.Create(new I2cConnectionSettings(BusId, joystickAddress));
+        buttonsDevice = I2cDevice.Create(new I2cConnectionSettings(BusId, buttonsAddress));
         buttonsSeesaw = new Attiny8X7SeeSaw(buttonsDevice);
         buttonsSeesaw.SetGpioPinModeBulk(AllButtonPins, PinMode.InputPullUp);
     }
