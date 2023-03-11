@@ -4,7 +4,7 @@ using Core.Inputs.Seesaw;
 
 namespace Core.Inputs;
 
-public class Player : IDisposable
+public class PlayerConsole : IDisposable
 {
     private const int BusId = 1;
     private I2cDevice joystickDevice;
@@ -21,7 +21,7 @@ public class Player : IDisposable
     private const ulong Pin20X = 1 << 20;
     public const ulong AllButtonPins = Pin18A | Pin19B | Pin20X;
 
-    public Player(int joystickAddress, int buttonsAddress)
+    public PlayerConsole(int joystickAddress, int buttonsAddress)
     {
         joystickDevice = I2cDevice.Create(new I2cConnectionSettings(BusId, joystickAddress));
         joystickSeesaw = new Attiny8X7SeeSaw(joystickDevice);

@@ -3,7 +3,7 @@ using Core.Display;
 using Core.Inputs;
 
 Console.WriteLine("Starting...");
-var player1 = new Player(0x3a, 0x42);
+var player1 = new PlayerConsole(0x3a, 0x42);
 var display = new LedDisplay();
 var x = 32;
 var y = 32;

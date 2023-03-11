@@ -9,14 +9,13 @@ public class SpriteAnimation : ISprite
     public SpriteAnimation(int width, int height, params Sprite[] sprites)
     {
         this.sprites = sprites;
-        FrameNo = 0;
         Width = width;
         Height = height;
     }
 
-    public Color? GetColor(int x, int y)
+    public Color? GetColor(int frameNo, int x, int y)
     {
-        return sprites[FrameNo].GetColor(x, y);
+        return sprites[frameNo].GetColor(0, x, y);
     }
 
     public ISprite GetFrame(int frameNo)
@@ -24,7 +23,12 @@ public class SpriteAnimation : ISprite
         return sprites[frameNo];
     }
     
-    public int FrameNo { get; set; }
     public int Width { get; }
+    
     public int Height { get; }
+    
+    public void Draw(LedDisplay display, int x, int y, int frameNo = 0)
+    {
+        GetFrame(frameNo).Draw(display, x, y, frameNo);
+    }
 }

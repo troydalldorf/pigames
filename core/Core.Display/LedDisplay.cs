@@ -54,16 +54,14 @@ public class LedDisplay
     {
         canvas.DrawLine(x0, y0, x1, y1, color);
     }
-
-    public void DrawSprite(int x, int y, ISprite sprite)
+    
+    public void DrawRectangle(int x, int y, int width, int height, Color color)
     {
-        for (var sy = 0; sy < sprite.Height; sy++)
-        {
-            for (var sx = 0; sx < sprite.Width; sx++)
-            {
-                var color = sprite.GetColor(sx, sy);
-                if (color != null) canvas.SetPixel(x+sx, y+sy, color.Value);
-            }
-        }
+        var x2 = x + width - 1;
+        var y2 = y + height - 1;
+        canvas.DrawLine(x, y, x2, y, color);
+        canvas.DrawLine(x2, y, x2, y2, color);
+        canvas.DrawLine(x2, y2, x, y2, color);
+        canvas.DrawLine(x, y2, x, y, color);
     }
 }

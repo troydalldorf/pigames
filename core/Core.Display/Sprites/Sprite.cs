@@ -15,5 +15,17 @@ public class Sprite : ISprite
     public int Width { get; }
     public int Height { get; }
 
-    public Color? GetColor(int x, int y) => map[x, y];
+    public Color? GetColor(int frameNo, int x, int y) => map[x, y];
+    
+    public void Draw(LedDisplay display, int x, int y, int frameNo = 0)
+    {
+        for (var sy = 0; sy < this.Height; sy++)
+        {
+            for (var sx = 0; sx < this.Width; sx++)
+            {
+                var color = this.GetColor(frameNo, sx, sy);
+                if (color != null) display.SetPixel(x+sx, y+sy, color.Value);
+            }
+        }
+    }
 }
