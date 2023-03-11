@@ -1,11 +1,9 @@
 ﻿using Bouncy;
 using Core.Display;
-using Core.Inputs;
 
 Console.WriteLine("Starting...");
-var player1 = new Player(0x3a);
 var display = new LedDisplay();
-var ball = new Physics { X = 32, Y = 1, VelocityY = 0, VelocityX = 1, Gravity = 1, Elasticity = 0.7, Friction = 1 };
+var ball = new Physics { X = 32, Y = 1, VelocityY = 0, VelocityX = 1, Gravity = 1, Elasticity = 0.7, Friction = 0.1 };
 while (true)
 {
     display.Clear();
@@ -15,7 +13,7 @@ while (true)
     if (ball.Y > 63)
     {
         ball.Y = 63;
-        ball.VelocityY = -ball.VelocityY * ball.Elasticity - ball.Friction;
+        ball.VelocityY = -ball.VelocityY * ball.Elasticity * (1 - ball.Friction);
     }
     if (ball.X > 63)
     {
