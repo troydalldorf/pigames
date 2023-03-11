@@ -27,10 +27,9 @@ public class Thing
     public IEnumerable<Collision> GetCollisions(IEnumerable<Thing> otherThings)
     {
         return otherThings
-            .Select(t => GetCollision(t))
+            .Select(GetCollision)
             .Where(c => c != null)
-            .Select(c => c ?? throw new InvalidCastException())
-            .ToArray();
+            .Select(c => c ?? throw new InvalidCastException());
     }
 
     public Collision? GetCollision(Thing otherThing)

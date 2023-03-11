@@ -61,7 +61,7 @@ public class Things<T>: IEnumerable<T>
     
     public IEnumerable<Collision> GetCollisions(IEnumerable<Thing> otherThings)
     {
-        return list.SelectMany(t => t.GetCollisions(otherThings)).ToArray();
+        return list.SelectMany(t => t.GetCollisions(otherThings));
     }
 
     public void DrawAll(LedDisplay display)

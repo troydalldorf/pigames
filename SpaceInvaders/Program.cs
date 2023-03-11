@@ -58,7 +58,7 @@ while (true)
     if (aliens.AreAnyAfter(63) || aliens.AreAnyBefore(0)) alientVelocityX *= -1;
     
     // collisions
-    var collisions = phasers.GetCollisions(aliens);
+    var collisions = phasers.GetCollisions(aliens).ToArray();
     foreach (var collision in collisions)
     {
         phasers.Remove(collision.A);
