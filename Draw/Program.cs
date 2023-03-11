@@ -8,7 +8,7 @@ var x = 32;
 var y = 32;
 while (true)
 {
-    display.Clear();
+   // display.Clear();
     var js = player1.ReadJoystick();
     if (js.IsUp())
     {
