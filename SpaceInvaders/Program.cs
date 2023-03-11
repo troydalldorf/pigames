@@ -18,8 +18,8 @@ var frame = 0;
 while (true)
 {
     // animation
-    alient1Sprite.Frame = alient2Sprite.Frame = alient3Sprite.Frame = (frame/10) % 2;
-    phaserSprite.Frame = (frame / 4) % 4;
+    alient1Sprite.FrameNo = alient2Sprite.FrameNo = alient3Sprite.FrameNo = (frame/10) % 2;
+    phaserSprite.FrameNo = (frame / 4) % 4;
     
     // motion
     var stick = player.ReadJoystick();
@@ -29,6 +29,9 @@ while (true)
     if (buttons > 0) phasers.Add(p1x+7, 57, frame);
     p1x = Math.Max(0, Math.Min(48, p1x));
     phasers.Move(-1);
+    army.Move();
+    
+    // collision
     
     // draw
     display.Clear();
@@ -41,6 +44,9 @@ while (true)
 
 public class AlienArmy
 {
+    private int armyX;
+    private int armyY;
+    private int deltaX;
     private bool[,] aliens;
     private SpriteAnimation row1;
     private SpriteAnimation row2;
@@ -48,6 +54,9 @@ public class AlienArmy
     
     public AlienArmy(SpriteAnimation row1, SpriteAnimation row2, SpriteAnimation row3)
     {
+        this.armyX = 0;
+        this.armyY = 0;
+        this.deltaX = 1;
         this.row1 = row1;
         this.row2 = row2;
         this.row3 = row3;
@@ -61,13 +70,34 @@ public class AlienArmy
         }
     }
 
+    // public void Hits(Phasers phasers)
+    // {
+    //     foreach (var phaser in phasers)
+    //     {
+    //         
+    //     }
+    //     for (var y = 0; y < 3; y++)
+    //     {
+    //         for (var x = 0; x < 6; x++)
+    //         {
+    //             
+    //         }
+    //     }   
+    // }
+
+    public void Move()
+    {
+        armyX += deltaX;
+        if (armyX + 6 * 10 > 63) deltaX = 1;
+    }
+
     public void Draw(LedDisplay display)
     {
         for (var y = 0; y < 3; y++)
         {
             for (var x = 0; x < 6; x++)
             {
-                display.DrawSprite(x*10, y*10, y switch { 0 => row1, 1 => row2, _ => row3 });
+                display.DrawSprite(armyX + x * 10, armyY + y * 10, y switch { 0 => row1, 1 => row2, _ => row3 });
             }
         }
     }
@@ -95,11 +125,9 @@ public class Phasers
 
     public void Add(int x, int y, int frame)
     {
-        if (frame - lastFrame > 10)
-        {
-            phasers.Add(new Phaser(x, y));
-            lastFrame = frame;
-        }
+        if (frame - lastFrame <= 10) return;
+        phasers.Add(new Phaser(x, y));
+        lastFrame = frame;
     }
 
     public void Draw(LedDisplay display)

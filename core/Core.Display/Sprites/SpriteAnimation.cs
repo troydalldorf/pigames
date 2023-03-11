@@ -9,17 +9,22 @@ public class SpriteAnimation : ISprite
     public SpriteAnimation(int width, int height, params Sprite[] sprites)
     {
         this.sprites = sprites;
-        Frame = 0;
+        FrameNo = 0;
         Width = width;
         Height = height;
     }
 
     public Color? GetColor(int x, int y)
     {
-        return sprites[Frame].GetColor(x, y);
+        return sprites[FrameNo].GetColor(x, y);
+    }
+
+    public ISprite GetFrame(int frameNo)
+    {
+        return sprites[frameNo];
     }
     
-    public int Frame { get; set; }
+    public int FrameNo { get; set; }
     public int Width { get; }
     public int Height { get; }
 }
