@@ -88,7 +88,8 @@ public class AlienArmy
     public void Move()
     {
         armyX += deltaX;
-        if (armyX + 6 * 10 > 63) deltaX *= -1;
+        if (armyX + 5 * 10 > 63) deltaX = -1;
+        if (armyX < 0) deltaX = 1;
     }
 
     public void Draw(LedDisplay display)
