@@ -18,7 +18,7 @@ while (true)
 {
     // animation
     alient1Sprite.Frame = alient2Sprite.Frame = alient3Sprite.Frame = (frame/10) % 2;
-    phaserSprite.Frame = (frame / 3) % 2;
+    phaserSprite.Frame = (frame / 4) % 4;
     
     // motion
     var stick = player.ReadJoystick();
@@ -33,6 +33,7 @@ while (true)
     display.Clear();
     army.Draw(display);
     phasers.Draw(display);
+    display.DrawSprite(20, 30, phaserSprite);
     display.DrawSprite(p1x, 57, p1);
     display.Update();
     frame++;
