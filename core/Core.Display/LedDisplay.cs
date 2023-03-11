@@ -55,7 +55,7 @@ public class LedDisplay
         canvas.DrawLine(x0, y0, x1, y1, color);
     }
 
-    public void DrawSprite(int x, int y, Sprite sprite)
+    public void DrawSprite(int x, int y, ISprite sprite)
     {
         for (var sy = 0; sy < sprite.Height; sy++)
         {

@@ -22,8 +22,8 @@ public class SpriteImage
         using (var g = Graphics.FromImage(spriteBitmap))
             g.DrawImage(image, 0, 0, from, GraphicsUnit.Pixel);
         var colors = new Color[spriteBitmap.Width, spriteBitmap.Height];
-        for (var x = 0; x < spriteBitmap.Width; x++)
-            for (var y = 0; y < spriteBitmap.Height; y++)
+        for (var x = 0; x <= spriteBitmap.Width; x++)
+            for (var y = 0; y <= spriteBitmap.Height; y++)
                 colors[x, y] = spriteBitmap.GetPixel(x, y);
         return new Sprite(colors, spriteBitmap.Width, spriteBitmap.Height);
     }

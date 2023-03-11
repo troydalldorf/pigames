@@ -2,7 +2,7 @@ using System.Drawing;
 
 namespace Core.Display.Sprites;
 
-public class Sprite
+public class Sprite : ISprite
 {
     private Color[,] map;
     public Sprite(Color[,] map, int width, int height)
