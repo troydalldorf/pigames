@@ -31,6 +31,7 @@ var phaserSprite = image.GetSpriteAnimation(27, 0, 8, 8, 4, 1);
 var p1Console = new PlayerConsole(0x3a, 0x42);
 var phasers = new Things();
 var frame = 0;
+var lastPhaser = frame;
 while (true)
 {
     // animation
@@ -42,8 +43,13 @@ while (true)
     if (stick.IsLeft()) player1.X--;
     if (stick.IsRight()) player1.X++;
     var buttons = p1Console.ReadButtons();
-    if (buttons > 0) phasers.Add(new Thing("phaser", phaserSprite, player1.X+7, 57));
-    if (frame/4 % 4 == 0) phasers.MoveAll(0, -1);
+    if (buttons > 0)
+    {
+        if (frame - lastPhaser < 10) continue;
+        phasers.Add(new Thing("phaser", phaserSprite, player1.X+7, 57));
+        lastPhaser = frame;
+    }
+    if (frame/4 % 1 == 0) phasers.MoveAll(0, -1);
     if (frame/10 % 5 == 0) aliens.MoveAll(alientVelocityX, 0);
     if (frame / 10 == 0) aliens.MoveAll(1, 0);
     
