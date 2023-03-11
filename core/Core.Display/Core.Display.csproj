@@ -8,7 +8,12 @@
 
     <ItemGroup>
       <None Remove="librgbmatrix.so" />
-      <Content Include="librgbmatrix.so" CopyToOutputDirectory="Always" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="LedMatrix\librgbmatrix.so">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

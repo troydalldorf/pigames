@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace Core.Display
+namespace Core.Display.LedMatrix
 {
     public class RgbLedCanvas
     {

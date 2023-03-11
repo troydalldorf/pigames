@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Threading;
 using CheckMatrix;
 using Core.Display;
+using Core.Display.LedMatrix;
 
 Console.WriteLine("Hello, World!");
 

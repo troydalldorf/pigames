@@ -2,6 +2,7 @@
 using System.Device.Gpio;
 using System.Threading;
 using Core.Display;
+using Core.Display.LedMatrix;
 
 var buttonPin = 27;
 var x = 32;

@@ -1,4 +1,4 @@
-namespace Core.Display;
+namespace Core.Display.LedMatrix;
 
     public struct RgbLedMatrixOptions
     {
