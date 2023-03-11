@@ -26,6 +26,6 @@ while (true)
     {
         x = x + 1;
     }
-    display.SetPixel(32, 32, new Color(155, 75, 155));
+    display.SetPixel(x,y, new Color(155, 75, 155));
     display.Update();
 }
