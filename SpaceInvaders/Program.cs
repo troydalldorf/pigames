@@ -51,7 +51,6 @@ while (true)
     }
     if (frame/4 % 1 == 0) phasers.MoveAll(0, -1);
     if (frame/10 % 5 == 0) aliens.MoveAll(alientVelocityX, 0);
-    if (frame / 10 == 0) aliens.MoveAll(1, 0);
     
     // boundaries
     if (player1.IsBefore(0)) player1.X = 0;
