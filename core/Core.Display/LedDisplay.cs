@@ -42,4 +42,14 @@ public class LedDisplay
     {
         canvas.SetPixel(x, y, color);
     }
+    
+    public void DrawCircle(int x, int y, int radius, Color color)
+    {
+        canvas.DrawCircle(x, y, radius, color);
+    }
+
+    public void DrawLine(int x0, int y0, int x1, int y1, Color color)
+    {
+        canvas.DrawLine(x0, y0, x1, y1, color);
+    }
 }

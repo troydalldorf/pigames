@@ -12,11 +12,11 @@ while (true)
     var js = player1.ReadJoystick();
     if (js.IsUp())
     {
-        y = y + 1;
+        y = y - 1;
     }
     if (js.IsDown())
     {
-        y = y - 1;
+        y = y + 1;
     }
     if (js.IsLeft())
     {
