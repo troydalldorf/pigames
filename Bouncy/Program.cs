@@ -3,13 +3,13 @@ using Core.Display;
 
 Console.WriteLine("Starting...");
 var display = new LedDisplay();
-var ball = new Physics { X = 32, Y = 1, VelocityY = 0, VelocityX = 1, Gravity = 1, Elasticity = 0.7, Friction = 0.1 };
+var ball = new Physics { X = 32, Y = 1, VelocityY = 0, VelocityX = 1, Gravity = 1.3, Elasticity = 0.7, Friction = 0.1 };
 while (true)
 {
     display.Clear();
     ball.Y += ball.VelocityY;
     ball.X += ball.VelocityX;
-    ball.VelocityY += ball.Gravity;
+    ball.VelocityY *= ball.Gravity;
     if (ball.Y > 63)
     {
         ball.Y = 63;
