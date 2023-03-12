@@ -49,7 +49,7 @@ while (true)
         phasers.Add(new Thing("phaser", phaserSprite, player1.X+7, 57));
         lastPhaser = frame;
     }
-    if (frame/4 % 1 == 0) phasers.MoveAll(0, -1);
+    if (frame/4 % 2 == 0) phasers.MoveAll(0, -1);
     if (frame/10 % 5 == 0) aliens.MoveAll(alientVelocityX, 0);
     
     // boundaries

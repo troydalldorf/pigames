@@ -29,4 +29,6 @@ while (true)
     {
          dy = -1;
     }
+    display.DrawRectangle( 16, 60, 20, 4, Color.FromArgb(155, 155, 155));
 }
+      
