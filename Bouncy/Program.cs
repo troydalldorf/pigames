@@ -3,7 +3,7 @@ using Core.Display;
 
 var display = new LedDisplay();
 int x = 32;
-int y = 15;
+int y = 5;
 int dx = 1;
 int dy = 1;
 while (true)
