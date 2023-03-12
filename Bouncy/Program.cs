@@ -8,7 +8,7 @@ int y = 5;
 int dx = 1;
 int dy = 1;
 int px = 16;
-int py=60
+int py = 60;
 var p1Console = new PlayerConsole(0x3a, 0x42);
 
 while (true)
