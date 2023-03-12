@@ -36,7 +36,7 @@ while (true)
     
     display.Clear();
     display.DrawRectangle(x, y, 2, 2, Color.FromArgb(0, 255, 0));
-    display.DrawRectangle(16, 60, 20, 4, Color.FromArgb(255, 255, 255));
+    display.DrawRectangle(px, 60, 20, 4, Color.FromArgb(255, 255, 255));
     display.Update();
     
     
