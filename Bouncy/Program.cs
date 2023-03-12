@@ -2,7 +2,7 @@
 using Core.Display;
 
 var display = new LedDisplay();
-int x = 32;
+int x = 45;
 int y = 5;
 int dx = 1;
 int dy = 1;
@@ -29,7 +29,7 @@ while (true)
     
     display.Clear();
     display.DrawCircle(x, x, 1, Color.FromArgb(0, 255, 0));
-    display.DrawRectangle( 16, 60, 20, 4, Color.FromArgb(155, 155, 155));
+    display.DrawRectangle(16, 60, 20, 4, Color.FromArgb(155, 155, 155));
     display.Update();
 }
       
