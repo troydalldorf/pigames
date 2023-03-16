@@ -1,3 +1,4 @@
+using System.Drawing;
 using Core.Display;
 using Core.Inputs;
 
@@ -63,7 +64,21 @@ public class PacManGame
     private void Draw()
     {
         display.Clear();
-        // Draw Pac-Man, ghosts, and game board elements.
+
+        // Draw game board (simplified example with a basic border)
+        display.DrawRectangle(0, 0, 64, 64, Color.White);
+
+        // Draw Pac-Man (yellow circle)
+        display.DrawCircle(pacMan.X, pacMan.Y, 2, Color.Yellow);
+
+        // Draw ghosts (different colors)
+        Color[] ghostColors = { Color.Red, Color.Magenta, Color.Cyan, Color.Orange };
+        for (int i = 0; i < ghosts.Count; i++)
+        {
+            Ghost ghost = ghosts[i];
+            display.DrawCircle(ghost.X, ghost.Y, 2, ghostColors[i]);
+        }
+
         display.Update();
     }
 }
