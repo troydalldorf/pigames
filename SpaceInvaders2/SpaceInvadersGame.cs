@@ -91,9 +91,9 @@ class SpaceInvadersGame
             for (var j = invaders.Count - 1; j >= 0; j--)
             {
                 if (!bullets[i].IntersectsWith(invaders[j])) continue;
+                pixelBombs.Add(new PixelBomb(invaders[i].X+2, invaders[i].Y+2, 10, 30, 500));
                 bullets.RemoveAt(i);
                 invaders.RemoveAt(j);
-                pixelBombs.Add(new PixelBomb(invaders[i].X+2, invaders[i].Y+2, 10, 30, 500));
                 break;
             }
         }
@@ -102,7 +102,7 @@ class SpaceInvadersGame
         var moveX = moveInvadersRight ? 1 : -1;
         var changeDirection = false;
 
-        for (int i = 0; i < invaders.Count; i++)
+        for (var i = 0; i < invaders.Count; i++)
         {
             invaders[i] = new Rectangle(invaders[i].X + moveX, invaders[i].Y, invaders[i].Width, invaders[i].Height);
 
@@ -120,12 +120,10 @@ class SpaceInvadersGame
             {
                 invaders[i] = new Rectangle(invaders[i].X, invaders[i].Y + InvaderHeight, invaders[i].Width, invaders[i].Height);
 
-                if (invaders[i].Bottom >= Height - PlayerHeight)
-                {
-                    // Game over
-                    Initialize();
-                    return;
-                }
+                if (invaders[i].Bottom < Height - PlayerHeight) continue;
+                // Game over
+                Initialize();
+                return;
             }
         }
         foreach (var bomb in pixelBombs.ToArray())
