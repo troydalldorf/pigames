@@ -65,8 +65,8 @@ class BreakoutGame
     {
         // Update paddle
         var stick = playerConsole.ReadJoystick();
-        if (stick.IsLeft()) paddleX--;
-        if (stick.IsRight()) paddleX++;
+        if (stick.IsLeft()) paddleX -= 2;
+        if (stick.IsRight()) paddleX += 2;
         paddleX = Math.Clamp(paddleX, 0, Width - PaddleWidth);
 
         // Update ball
