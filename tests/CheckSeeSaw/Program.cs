@@ -14,6 +14,7 @@ ulong pin20 = 1 << 20;
 ulong pin2 = 1 << 2;
 var pins = pin18 | pin19 | pin20 | pin2;
 seesaw.SetGpioPinModeBulk(pins, PinMode.InputPullUp);
+seesaw.SetGpioPinMode(12, PinMode.Output);
 while (true)
 {
     var data = seesaw.ReadGpioDigitalBulk(0);
@@ -21,5 +22,6 @@ while (true)
     var left = (data & pin19) == 0;
     var down = (data & pin20) == 0;
     var up = (data & pin2) == 0;
+    seesaw.WriteGpioDigital(12, left | right | down | up);
     Console.WriteLine($"up: {up}, dn: {down}, lt: {left}, rt: {right}");
 }
