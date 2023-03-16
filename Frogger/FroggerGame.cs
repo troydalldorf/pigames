@@ -86,8 +86,8 @@ class FroggerGame
         // Update vehicles
         for (var i = 0; i < vehicles.Count; i++)
         {
-            vehicles[i] = new Rectangle(vehicles[i].X + laneSpeeds[i / 2], vehicles[i].Y, vehicles[i].Width, vehicles[i].Height);
-
+            vehicles[i] = new Rectangle(vehicles[i].X + laneSpeeds[i % laneSpeeds.Length], vehicles[i].Y, vehicles[i].Width, vehicles[i].Height);
+            
             // Wrap around
             if (vehicles[i].Right < 0)
             {
