@@ -19,6 +19,9 @@ class MinesweeperGame
     private int[,] board;
     private bool[,] revealed;
     private bool[,] flagged;
+    private int cursorX = 4;
+    private int cursorY = 4;
+    private bool gameOver = false;
 
     public MinesweeperGame(LedDisplay display, PlayerConsole playerConsole)
     {
@@ -48,33 +51,61 @@ class MinesweeperGame
         CalculateNumbers();
     }
 
-    private void Update()
+    public void Update()
     {
         var stick = playerConsole.ReadJoystick();
-        int x = stick.X / TileSize;
-        int y = stick.Y / TileSize;
+        if (stick.IsUp())
+        {
+            cursorY -= TileSize;
+            if (cursorY < 0)
+                cursorY = 0;
+        }
+        else if (stick.IsDown())
+        {
+            cursorY += TileSize;
+            if (cursorY >= Height)
+                cursorY = Height - TileSize;
+        }
+        else if (stick.IsLeft())
+        {
+            cursorX -= TileSize;
+            if (cursorX < 0)
+                cursorX = 0;
+        }
+        else if (stick.IsRight())
+        {
+            cursorX += TileSize;
+            if (cursorX >= Width)
+                cursorX = Width - TileSize;
+        }
+
+        int tileX = cursorX / TileSize;
+        int tileY = cursorY / TileSize;
 
         var buttons = playerConsole.ReadButtons();
         if (buttons > 0)
         {
-            if (!flagged[x, y])
+            if (!revealed[tileX, tileY])
             {
-                revealed[x, y] = true;
-                if (board[x, y] == -1)
+                if ((buttons & Buttons.A) != 0) // Assuming button 1 is for revealing
                 {
-                    Initialize();
+                    if (board[tileX, tileY] == -1)
+                    {
+                        gameOver = true;
+                    }
+                    else
+                    {
+                        RevealEmpty(tileX, tileY);
+                    }
                 }
-                else if (board[x, y] == 0)
+                else if ((buttons & Buttons.B) != 0) // Assuming button 2 is for flagging
                 {
-                    RevealEmpty(x, y);
+                    flagged[tileX, tileY] = !flagged[tileX, tileY];
                 }
             }
         }
-        else if (buttons < 0)
-        {
-            flagged[x, y] = !flagged[x, y];
-        }
     }
+
 
     private void Draw()
     {
