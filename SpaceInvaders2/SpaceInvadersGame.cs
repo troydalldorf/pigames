@@ -1,4 +1,5 @@
 using Core.Display;
+using Core.Effects;
 using Core.Inputs;
 
 namespace SpaceInvaders2;
@@ -26,6 +27,7 @@ class SpaceInvadersGame
     private int playerX;
     private List<Rectangle> invaders;
     private List<Rectangle> bullets;
+    private List<PixelBomb> pixelBombs;
     private bool moveInvadersRight = true;
 
     public SpaceInvadersGame(LedDisplay display, PlayerConsole playerConsole)
@@ -52,9 +54,9 @@ class SpaceInvadersGame
         invaders = new List<Rectangle>();
         bullets = new List<Rectangle>();
 
-        for (int y = 0; y < 5; y++)
+        for (var y = 0; y < 5; y++)
         {
-            for (int x = 0; x < 10; x++)
+            for (var x = 0; x < 10; x++)
             {
                 invaders.Add(new Rectangle(x * 6, y * 4, InvaderWidth, InvaderHeight));
             }
@@ -76,7 +78,7 @@ class SpaceInvadersGame
         }
 
         // Update bullets
-        for (int i = bullets.Count - 1; i >= 0; i--)
+        for (var i = bullets.Count - 1; i >= 0; i--)
         {
             bullets[i] = new Rectangle(bullets[i].X, bullets[i].Y - 3, bullets[i].Width, bullets[i].Height);
 
@@ -86,20 +88,19 @@ class SpaceInvadersGame
                 continue;
             }
 
-            for (int j = invaders.Count - 1; j >= 0; j--)
+            for (var j = invaders.Count - 1; j >= 0; j--)
             {
-                if (bullets[i].IntersectsWith(invaders[j]))
-                {
-                    bullets.RemoveAt(i);
-                    invaders.RemoveAt(j);
-                    break;
-                }
+                if (!bullets[i].IntersectsWith(invaders[j])) continue;
+                bullets.RemoveAt(i);
+                invaders.RemoveAt(j);
+                pixelBombs.Add(new PixelBomb(invaders[i].X+2, invaders[i].Y+2, 10, 30, 500));
+                break;
             }
         }
 
         // Update invaders
-        int moveX = moveInvadersRight ? 1 : -1;
-        bool changeDirection = false;
+        var moveX = moveInvadersRight ? 1 : -1;
+        var changeDirection = false;
 
         for (int i = 0; i < invaders.Count; i++)
         {
@@ -111,11 +112,11 @@ class SpaceInvadersGame
             }
         }
 
-        if (changeDirection)
+        if (!changeDirection) return;
         {
             moveInvadersRight = !moveInvadersRight;
 
-            for (int i = 0; i < invaders.Count; i++)
+            for (var i = 0; i < invaders.Count; i++)
             {
                 invaders[i] = new Rectangle(invaders[i].X, invaders[i].Y + InvaderHeight, invaders[i].Width, invaders[i].Height);
 
@@ -126,6 +127,10 @@ class SpaceInvadersGame
                     return;
                 }
             }
+        }
+        foreach (var bomb in pixelBombs)
+        {
+            bomb.Update();
         }
     }
 
@@ -148,6 +153,10 @@ class SpaceInvadersGame
             display.DrawRectangle(bullet.X, bullet.Y, bullet.Width, bullet.Height, Color.Red);
         }
 
+        foreach (var bomb in pixelBombs)
+        {
+            bomb.Draw(display);
+        }
         display.Update();
     }
 }
