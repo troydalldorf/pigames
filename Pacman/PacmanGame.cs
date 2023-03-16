@@ -1,8 +1,7 @@
 using System.Drawing;
 using Core.Display;
 using Core.Inputs;
-
-namespace Pacman;
+using Pacman;
 
 public class PacManGame
 {
@@ -10,7 +9,7 @@ public class PacManGame
     private readonly PlayerConsole playerConsole;
     private PacMan pacMan;
     private List<Ghost> ghosts;
-    // Add the game board, collision detection, and other logic as needed.
+    private Maze maze;
 
     public PacManGame(LedDisplay display, PlayerConsole playerConsole)
     {
@@ -24,6 +23,7 @@ public class PacManGame
             new Ghost(16, 48, 1),
             new Ghost(48, 48, 1)
         };
+        maze = new Maze();
     }
 
     public void Run()
@@ -38,25 +38,25 @@ public class PacManGame
     private void Update()
     {
         var stick = playerConsole.ReadJoystick();
-        if (stick.IsUp())
+        if (stick.IsUp() && !maze.IsWall(pacMan.X, pacMan.Y - pacMan.Speed))
         {
             pacMan.Direction = Direction.Up;
         }
-        else if (stick.IsDown())
+        else if (stick.IsDown() && !maze.IsWall(pacMan.X, pacMan.Y + pacMan.Speed))
         {
             pacMan.Direction = Direction.Down;
         }
-        else if (stick.IsLeft())
+        else if (stick.IsLeft() && !maze.IsWall(pacMan.X - pacMan.Speed, pacMan.Y))
         {
             pacMan.Direction = Direction.Left;
         }
-        else if (stick.IsRight())
+        else if (stick.IsRight() && !maze.IsWall(pacMan.X + pacMan.Speed, pacMan.Y))
         {
             pacMan.Direction = Direction.Right;
         }
 
         pacMan.Move();
-        // Update ghost positions and game logic as needed.
+        // Update ghost positions, game logic, and collision detection as needed.
 
         Draw();
     }
@@ -64,10 +64,7 @@ public class PacManGame
     private void Draw()
     {
         display.Clear();
-
-        // Draw game board (simplified example with a basic border)
-        display.DrawRectangle(0, 0, 64, 64, Color.White);
-
+        maze.Draw(display);
         // Draw Pac-Man (yellow circle)
         display.DrawCircle(pacMan.X, pacMan.Y, 2, Color.Yellow);
 
