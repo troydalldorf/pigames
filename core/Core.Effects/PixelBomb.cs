@@ -12,14 +12,14 @@ public class PixelBomb
     private readonly List<Spark> sparks = new();
     public bool Complete { get; private set; }
 
-    public PixelBomb(int x, int y, int size, int numPixels, int duration)
+    public PixelBomb(int x, int y, int size, int numPixels, int durationFrames)
     {
 
         var speed = random.NextDouble() * size;
         for (var i = 0; i < numPixels; i++)
         {
             var angle = random.NextDouble() * 2 * Math.PI;
-            var lifetime = random.Next(10, duration);
+            var lifetime = random.Next(durationFrames/2, durationFrames);
             sparks.Add(new Spark(x, y, angle, speed, lifetime));
         }
     }
