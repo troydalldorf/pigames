@@ -1,3 +1,5 @@
+using System.Drawing;
+
 namespace Core.Effects;
 
 public class Spark
@@ -7,6 +9,7 @@ public class Spark
     public double Angle { get; set; }
     public double Speed { get; set; }
     public int Lifetime { get; set; }
+    public Color Color { get; set; }
 
     public Spark(int x, int y, double angle, double speed, int lifetime)
     {
@@ -15,5 +18,6 @@ public class Spark
         Angle = angle;
         Speed = speed;
         Lifetime = lifetime;
+        Color = Color.White;
     }
 }
