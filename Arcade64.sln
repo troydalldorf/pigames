@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Breakout", "Breakout\Breako
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frogger", "Frogger\Frogger.csproj", "{06FCC70E-0507-47E6-A937-84C1EDD71C76}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlappyBird", "FlappyBird\FlappyBird.csproj", "{F3E5A0A9-0ABC-49A6-BA57-A03661807A47}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,6 +110,10 @@ Global
 		{06FCC70E-0507-47E6-A937-84C1EDD71C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06FCC70E-0507-47E6-A937-84C1EDD71C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06FCC70E-0507-47E6-A937-84C1EDD71C76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3E5A0A9-0ABC-49A6-BA57-A03661807A47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3E5A0A9-0ABC-49A6-BA57-A03661807A47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3E5A0A9-0ABC-49A6-BA57-A03661807A47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3E5A0A9-0ABC-49A6-BA57-A03661807A47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AABB21BF-4A48-44D2-AE86-1E5262683C4C} = {4CF79911-C0E7-4EB0-AC65-B9A0317F458D}
