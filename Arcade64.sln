@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tetris", "Tetris\Tetris.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceInvaders2", "SpaceInvaders2\SpaceInvaders2.csproj", "{13693A3A-95B6-4514-9DB1-EB19F5158E24}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Breakout", "Breakout\Breakout.csproj", "{BA3C48A0-2768-4473-B947-5A0CA4E955A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,6 +98,10 @@ Global
 		{13693A3A-95B6-4514-9DB1-EB19F5158E24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13693A3A-95B6-4514-9DB1-EB19F5158E24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13693A3A-95B6-4514-9DB1-EB19F5158E24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA3C48A0-2768-4473-B947-5A0CA4E955A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA3C48A0-2768-4473-B947-5A0CA4E955A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA3C48A0-2768-4473-B947-5A0CA4E955A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA3C48A0-2768-4473-B947-5A0CA4E955A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AABB21BF-4A48-44D2-AE86-1E5262683C4C} = {4CF79911-C0E7-4EB0-AC65-B9A0317F458D}
