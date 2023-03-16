@@ -27,7 +27,7 @@ class SpaceInvadersGame
     private int playerX;
     private List<Rectangle> invaders;
     private List<Rectangle> bullets;
-    private List<PixelBomb> pixelBombs;
+    private List<PixelBomb> pixelBombs = new();
     private bool moveInvadersRight = true;
 
     public SpaceInvadersGame(LedDisplay display, PlayerConsole playerConsole)
@@ -128,9 +128,10 @@ class SpaceInvadersGame
                 }
             }
         }
-        foreach (var bomb in pixelBombs)
+        foreach (var bomb in pixelBombs.ToArray())
         {
             bomb.Update();
+            if (bomb.Complete) pixelBombs.Remove(bomb);
         }
     }
 
