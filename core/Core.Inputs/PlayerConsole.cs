@@ -33,7 +33,7 @@ public class PlayerConsole : IDisposable
         buttonsSeesaw.SetGpioPinModeBulk(AllButtonPins, PinMode.InputPullUp);
     }
 
-    public JoystickDirection ReadJoystick()
+    public virtual JoystickDirection ReadJoystick()
     {
         var data = joystickSeesaw.ReadGpioDigitalBulk(AllJoystickPins);
         var result = JoystickDirection.None;
@@ -44,7 +44,7 @@ public class PlayerConsole : IDisposable
         return result;
     }
     
-    public Buttons ReadButtons()
+    public virtual Buttons ReadButtons()
     {
         var data = buttonsSeesaw.ReadGpioDigitalBulk(AllButtonPins);
         var result = Buttons.None;
