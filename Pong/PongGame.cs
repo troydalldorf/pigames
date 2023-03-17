@@ -1,3 +1,4 @@
+using Core.Display.Fonts;
 using Core.Inputs;
 
 namespace Pong;
@@ -16,8 +17,11 @@ internal class PongGame
     private const int BallSize = 2;
 
     private LedDisplay display;
+    private LedFont font;
     private PlayerConsole player1Console;
     private PlayerConsole player2Console;
+    private int p1Score = 0;
+    private int p2Score = 0;
 
     private Rectangle player1Paddle;
     private Rectangle player2Paddle;
@@ -28,6 +32,7 @@ internal class PongGame
     public PongGame(LedDisplay display, PlayerConsole player1Console, PlayerConsole player2Console)
     {
         this.display = display;
+        this.font = new LedFont(LedFontType.Font4x6);
         this.player1Console = player1Console;
         this.player2Console = player2Console;
 
@@ -89,8 +94,14 @@ internal class PongGame
         }
 
         // Ball out of bounds (scoring)
-        if (ballPosition.Y < 0 || ballPosition.Y + BallSize > Height)
+        if (ballPosition.Y < 0)
         {
+            p2Score++;
+            ResetBall();
+        }
+        else if (ballPosition.Y + BallSize > Height)
+        {
+            p1Score++;
             ResetBall();
         }
     }
@@ -110,6 +121,10 @@ internal class PongGame
     private void Draw()
     {
         display.Clear();
+        
+        // Draw Score
+        font.DrawText(display, 0, 20, Color.DimGray, p1Score.ToString(), 0, true);
+        font.DrawText(display, 0, 32, Color.DimGray, p2Score.ToString(), 0, true);
 
         // Draw paddles
         display.DrawRectangle(player1Paddle.X, player1Paddle.Y, PaddleWidth, PaddleHeight, Color.White);

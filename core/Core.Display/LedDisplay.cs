@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Drawing;
 using Core.Display.LedMatrix;
-using Core.Display.Sprites;
 
 namespace Core.Display;
 
@@ -67,4 +66,6 @@ public class LedDisplay
         canvas.DrawLine(x2, y2, x, y2, color);
         canvas.DrawLine(x, y2, x, y, color);
     }
+
+    internal RgbLedCanvas GetCanvas() => canvas;
 }

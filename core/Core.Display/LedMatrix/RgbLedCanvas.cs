@@ -6,22 +6,22 @@ namespace Core.Display.LedMatrix
     public class RgbLedCanvas
     {
         #region DLLImports
-        [DllImport("librgbmatrix")]
+        [DllImport("LedMatrix/librgbmatrix")]
         internal static extern void led_canvas_get_size(IntPtr canvas, out int width, out int height);
 
-        [DllImport("librgbmatrix")]
+        [DllImport("LedMatrix/librgbmatrix")]
         internal static extern void led_canvas_set_pixel(IntPtr canvas, int x, int y, byte r, byte g, byte b);
 
-        [DllImport("librgbmatrix")]
+        [DllImport("LedMatrix/librgbmatrix")]
         internal static extern void led_canvas_clear(IntPtr canvas);
 
-        [DllImport("librgbmatrix")]
+        [DllImport("LedMatrix/librgbmatrix")]
         internal static extern void led_canvas_fill(IntPtr canvas, byte r, byte g, byte b);
 
-        [DllImport("librgbmatrix")]
+        [DllImport("LedMatrix/librgbmatrix")]
         internal static extern void draw_circle(IntPtr canvas, int xx, int y, int radius, byte r, byte g, byte b);
 
-        [DllImport("librgbmatrix")]
+        [DllImport("LedMatrix/librgbmatrix")]
         internal static extern void draw_line(IntPtr canvas, int x0, int y0, int x1, int y1, byte r, byte g, byte b);
         #endregion
 
