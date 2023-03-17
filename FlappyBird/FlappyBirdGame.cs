@@ -114,8 +114,3 @@ class FlappyBirdGame
         display.Update();
     }
 }
-
-// Usage:
-// var display = new LedDisplay();
-// var playerConsole = new PlayerConsole(0x3a, 0x42);
-// var flappyBirdGame = new FlappyBirdGame(display, playerConsole);

@@ -12,4 +12,9 @@
       <ProjectReference Include="..\core\Core.Inputs\Core.Inputs.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="frogger.png" />
+      <Content Include="frogger.png" CopyToOutputDirectory="Always" />
+    </ItemGroup>
+
 </Project>

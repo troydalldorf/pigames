@@ -1,4 +1,5 @@
 using Core.Display;
+using Core.Display.Sprites;
 using Core.Inputs;
 
 namespace Frogger;
@@ -25,11 +26,14 @@ class FroggerGame
     private List<Rectangle> vehicles;
     private int[] laneSpeeds;
     private Random random;
+    private Sprite frogSprite;
 
     public FroggerGame(LedDisplay display, PlayerConsole playerConsole)
     {
         this.display = display;
         this.playerConsole = playerConsole;
+        var image = new SpriteImage("frogger.png", new Point(0, 1));
+        frogSprite = image.GetSprite(0, 0, 4, 4);
         random = new Random();
     }
 
@@ -112,7 +116,8 @@ class FroggerGame
         display.Clear();
 
         // Draw frog
-        display.DrawRectangle(frog.X, frog.Y, FrogSize, FrogSize, Color.Green);
+        //display.DrawRectangle(frog.X, frog.Y, FrogSize, FrogSize, Color.Green);
+        frogSprite.Draw(display, frog.X, frog.Y);
 
         // Draw
         foreach (var vehicle in vehicles)
