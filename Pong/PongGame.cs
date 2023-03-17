@@ -31,8 +31,8 @@ internal class PongGame
         this.player1Console = player1Console;
         this.player2Console = player2Console;
 
-        player1Paddle = new Rectangle(1, Height / 2 - PaddleHeight / 2, PaddleWidth, PaddleHeight);
-        player2Paddle = new Rectangle(Width - 1 - PaddleWidth, Height / 2 - PaddleHeight / 2, PaddleWidth, PaddleHeight);
+        player1Paddle = new Rectangle(1, Height - PaddleHeight, PaddleWidth, PaddleHeight);
+        player2Paddle = new Rectangle(Width - 1 - PaddleWidth, 0, PaddleWidth, PaddleHeight);
         ballPosition = new Point(Width / 2, Height / 2);
         random = new Random();
         ResetBall();
@@ -54,15 +54,15 @@ internal class PongGame
         var stick1 = player1Console.ReadJoystick();
         var stick2 = player2Console.ReadJoystick();
 
-        if (stick1.IsUp() && player1Paddle.Top > 0)
-            player1Paddle.Y -= 2;
-        if (stick1.IsDown() && player1Paddle.Bottom < Height)
+        if (stick1.IsUp() && player1Paddle.Bottom < Height)
             player1Paddle.Y += 2;
+        if (stick1.IsDown() && player1Paddle.Top > 0)
+            player1Paddle.Y -= 2;
 
-        if (stick2.IsUp() && player2Paddle.Top > 0)
-            player2Paddle.Y -= 2;
-        if (stick2.IsDown() && player2Paddle.Bottom < Height)
+        if (stick2.IsUp() && player2Paddle.Bottom < Height)
             player2Paddle.Y += 2;
+        if (stick2.IsDown() && player2Paddle.Top > 0)
+            player2Paddle.Y -= 2;
     }
 
     private void Update()
@@ -101,7 +101,6 @@ internal class PongGame
         var angle = random.Next(30, 150);
         var radians = angle * Math.PI / 180;
         var speed = 2;
-
         ballVelocity = new Point(
             (int)Math.Round(speed * Math.Cos(radians)) * (random.Next(2) == 0 ? 1 : -1),
             (int)Math.Round(speed * Math.Sin(radians)) * (random.Next(2) == 0 ? 1 : -1)
