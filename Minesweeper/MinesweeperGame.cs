@@ -82,29 +82,27 @@ class MinesweeperGame
                 cursorX = Width - TileSize;
         }
 
-        int tileX = cursorX / TileSize;
-        int tileY = cursorY / TileSize;
+        var tileX = cursorX / TileSize;
+        var tileY = cursorY / TileSize;
 
         var buttons = playerConsole.ReadButtons();
-        if (buttons > 0)
+        if (buttons <= 0) return;
+        if (!revealed[tileX, tileY])
         {
-            if (!revealed[tileX, tileY])
+            if ((buttons & Buttons.Red) != 0) // Assuming button 1 is for revealing
             {
-                if ((buttons & Buttons.Red) != 0) // Assuming button 1 is for revealing
+                if (board[tileX, tileY] == -1)
                 {
-                    if (board[tileX, tileY] == -1)
-                    {
-                        gameOver = true;
-                    }
-                    else
-                    {
-                        RevealEmpty(tileX, tileY);
-                    }
+                    gameOver = true;
                 }
-                else if ((buttons & Buttons.Yellow) != 0) // Assuming button 2 is for flagging
+                else
                 {
-                    flagged[tileX, tileY] = !flagged[tileX, tileY];
+                    RevealEmpty(tileX, tileY);
                 }
+            }
+            else if ((buttons & Buttons.Green) != 0) // Assuming button 2 is for flagging
+            {
+                flagged[tileX, tileY] = !flagged[tileX, tileY];
             }
         }
     }
