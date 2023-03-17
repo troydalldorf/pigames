@@ -24,7 +24,7 @@ public class LedFont : IDisposable
     {
         var fontPath = fontType switch
         {
-            _ => $"./Fonts/Bdf/{fontType.ToString().Replace("Font", "")}.bdf"
+            _ => $"./Fonts/{fontType.ToString().Replace("Font", "")}.bdf"
         };
         if (!File.Exists(fontPath))
             throw new FileNotFoundException($"File, '{fontPath}' for font type '{fontType}' does not exist.");
