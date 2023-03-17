@@ -87,7 +87,7 @@ class MinesweeperGame
         {
             if (!revealed[tileX, tileY])
             {
-                if ((buttons & Buttons.A) != 0) // Assuming button 1 is for revealing
+                if ((buttons & Buttons.Red) != 0) // Assuming button 1 is for revealing
                 {
                     if (board[tileX, tileY] == -1)
                     {
@@ -98,7 +98,7 @@ class MinesweeperGame
                         RevealEmpty(tileX, tileY);
                     }
                 }
-                else if ((buttons & Buttons.B) != 0) // Assuming button 2 is for flagging
+                else if ((buttons & Buttons.Blue) != 0) // Assuming button 2 is for flagging
                 {
                     flagged[tileX, tileY] = !flagged[tileX, tileY];
                 }

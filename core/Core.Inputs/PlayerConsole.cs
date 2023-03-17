@@ -16,10 +16,11 @@ public class PlayerConsole : IDisposable
     private const ulong Pin20down = 1 << 20;
     private const ulong Pin2Up = 1 << 2;
     public const ulong AllJoystickPins = Pin18Right | Pin19Left | Pin20down | Pin2Up;
-    private const ulong Pin18A = 1 << 18;
-    private const ulong Pin19B = 1 << 19;
-    private const ulong Pin20X = 1 << 20;
-    public const ulong AllButtonPins = Pin18A | Pin19B | Pin20X;
+    private const ulong Pin18Red = 1 << 18;
+    private const ulong Pin19Blue = 1 << 19;
+    private const ulong Pin20Green = 1 << 20;
+    private const ulong Pin2Yellow = 1 << 2;
+    public const ulong AllButtonPins = Pin18Red | Pin19Blue | Pin20Green;
 
     public PlayerConsole(int joystickAddress, int buttonsAddress)
     {
@@ -47,9 +48,10 @@ public class PlayerConsole : IDisposable
     {
         var data = buttonsSeesaw.ReadGpioDigitalBulk(AllButtonPins);
         var result = Buttons.None;
-        if ((data & Pin18A) == 0) result |= Buttons.A;
-        if ((data & Pin19B) == 0) result |= Buttons.B;
-        if ((data & Pin20X) == 0) result |= Buttons.X;
+        if ((data & Pin18Red) == 0) result |= Buttons.Red;
+        if ((data & Pin19Blue) == 0) result |= Buttons.Blue;
+        if ((data & Pin20Green) == 0) result |= Buttons.Green;
+        if ((data & Pin2Yellow) == 0) result |= Buttons.Yellow;
         return result;
     }
 

@@ -4,7 +4,8 @@ namespace Core.Inputs;
 public enum Buttons
 {
     None = 0x0,
-    A = 0x1,
-    B = 0x2,
-    X = 0x4,
+    Red = 0x1,
+    Blue = 0x2,
+    Green = 0x4,
+    Yellow = 0x8,
 }
