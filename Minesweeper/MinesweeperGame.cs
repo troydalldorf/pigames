@@ -143,25 +143,25 @@ class MinesweeperGame
                 }
             }
         }
+        
+        display.DrawRectangle(cursorX, cursorY, TileSize, TileSize, Color.Lime);
 
         display.Update();
     }
 
     private void PlaceMines()
     {
-        int minesPlaced = 0;
-        Random random = new Random();
+        var minesPlaced = 0;
+        var random = new Random();
 
         while (minesPlaced < NumMines)
         {
-            int x = random.Next(0, Width / TileSize);
-            int y = random.Next(0, Height / TileSize);
+            var x = random.Next(0, Width / TileSize);
+            var y = random.Next(0, Height / TileSize);
 
-            if (board[x, y] != -1)
-            {
-                board[x, y] = -1;
-                minesPlaced++;
-            }
+            if (board[x, y] == -1) continue;
+            board[x, y] = -1;
+            minesPlaced++;
         }
     }
 
@@ -198,26 +198,22 @@ class MinesweeperGame
 
     private void RevealEmpty(int x, int y)
     {
-        if (x >= 0 && x < Width / TileSize && y >= 0 && y < Height / TileSize && !revealed[x, y] && board[x, y] != -1)
-        {
-            revealed[x, y] = true;
+        if (x < 0 || x >= Width / TileSize || y < 0 || y >= Height / TileSize || revealed[x, y] || board[x, y] == -1) return;
+        revealed[x, y] = true;
 
-            if (board[x, y] == 0)
+        if (board[x, y] != 0) return;
+        for (int xOffset = -1; xOffset <= 1; xOffset++)
+        {
+            for (int yOffset = -1; yOffset <= 1; yOffset++)
             {
-                for (int xOffset = -1; xOffset <= 1; xOffset++)
-                {
-                    for (int yOffset = -1; yOffset <= 1; yOffset++)
-                    {
-                        RevealEmpty(x + xOffset, y + yOffset);
-                    }
-                }
+                RevealEmpty(x + xOffset, y + yOffset);
             }
         }
     }
 
     private void DrawNumber(int x, int y, int number)
     {
-        font.DrawText(display, x, y, Color.Blue, number.ToString());
+        font.DrawText(display, x+3, y-1, Color.Blue, number.ToString());
     }
 
     private void DrawFlag(int x, int y)
