@@ -10,7 +10,7 @@ public class LedFont : IDisposable
     {
     }
 
-    public LedFont(string bdfFilePath)
+    private LedFont(string bdfFilePath)
     {
         font = new RgbLedFont(bdfFilePath);
     }
@@ -24,7 +24,7 @@ public class LedFont : IDisposable
     {
         return fontType switch
         {
-            _ => $"{fontType.ToString().Replace("Font", "")}.bdf"
+            _ => $"./Fonts/Bdf/{fontType.ToString().Replace("Font", "")}.bdf"
         };
     }
 
