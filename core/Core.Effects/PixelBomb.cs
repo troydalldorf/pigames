@@ -1,71 +1,83 @@
-﻿using Core.Display;
-
-namespace Core.Effects;
-
-using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
+using Core.Display;
 
 public class PixelBomb
 {
-    private Random random = new();
-    private readonly List<Spark> sparks = new();
-    private readonly int fadeFrames;
-    private readonly int fallSpeed;
-    private int elapsedFrames = 0;
-
-    public bool Complete => elapsedFrames > fadeFrames;
-
-    public PixelBomb(int x, int y, int size, int numPixels, int durationFrames, int fadeFrames, int fallSpeed)
+    private class Pixel
     {
-        this.fadeFrames = fadeFrames;
-        this.fallSpeed = fallSpeed;
+        public Point Position { get; set; }
+        public Color Color { get; set; }
+        public int VelocityX { get; set; }
+        public int VelocityY { get; set; }
+        public int Life { get; set; }
+    }
 
-        var speed = random.NextDouble() * size;
-        for (var i = 0; i < numPixels; i++)
-        {
-            var angle = random.NextDouble() * 2 * Math.PI;
-            var lifetime = random.Next(durationFrames / 2, durationFrames);
-            var spark = new Spark(x, y, angle, speed, lifetime);
-            spark.Color = Color.FromArgb(255, random.Next(256), random.Next(256), random.Next(256));
-            sparks.Add(spark);
-        }
+    private const int DefaultNumPixels = 30;
+    private const int DefaultLifespan = 30;
+    private const int DefaultRadius = 10;
+    private const int DefaultGravity = 1;
+
+    private readonly List<Pixel> pixels = new List<Pixel>();
+    private readonly Random random = new Random();
+
+    private int numPixels;
+    private int lifespan;
+    private int radius;
+    private int gravity;
+
+    public PixelBomb(int x, int y, int numPixels = DefaultNumPixels, int lifespan = DefaultLifespan, int radius = DefaultRadius, int gravity = DefaultGravity)
+    {
+        this.numPixels = numPixels;
+        this.lifespan = lifespan;
+        this.radius = radius;
+        this.gravity = gravity;
+        SpawnPixels(x, y);
     }
 
     public void Update()
     {
-        if (Complete) return;
-
-        foreach (var spark in sparks)
+        for (var i = pixels.Count - 1; i >= 0; i--)
         {
-            spark.Lifetime--;
+            var pixel = pixels[i];
+            pixel.Position = new Point(pixel.Position.X + pixel.VelocityX, pixel.Position.Y + pixel.VelocityY + gravity);
+            pixel.Life--;
 
-            if (elapsedFrames < fadeFrames)
+            if (pixel.Life <= 0)
             {
-                // Fade out the pixel by reducing its brightness
-                var brightness = 255 * (1 - (float)elapsedFrames / fadeFrames);
-                spark.Color = Color.FromArgb(255, (int)brightness, (int)brightness, (int)brightness);
-            }
-
-            if (spark.Lifetime <= 0 && elapsedFrames >= fadeFrames)
-            {
-                spark.Y += fallSpeed;
+                pixels.RemoveAt(i);
             }
         }
-
-        elapsedFrames++;
     }
 
     public void Draw(LedDisplay display)
     {
-        for (var i = 0; i < sparks.Count; i++)
+        foreach (var pixel in pixels)
         {
-            var spark = sparks[i];
-            if (spark.Lifetime <= 0 && elapsedFrames >= fadeFrames) continue;
+            display.DrawCircle(pixel.Position.X, pixel.Position.Y, radius, pixel.Color);
+        }
+    }
 
-            var newX = (int)(spark.X + Math.Cos(spark.Angle) * spark.Speed);
-            var newY = (int)(spark.Y + Math.Sin(spark.Angle) * spark.Speed);
-            display.SetPixel(newX, newY, spark.Color);
+    public bool IsExtinguished => pixels.Count == 0;
+
+    private void SpawnPixels(int centerX, int centerY)
+    {
+        for (var i = 0; i < numPixels; i++)
+        {
+            var angle = random.Next(360);
+            var radians = angle * Math.PI / 180;
+            var velocity = random.Next(3, 8);
+            var color = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
+            var x = (int)Math.Round(centerX + radius * Math.Cos(radians));
+            var y = (int)Math.Round(centerY + radius * Math.Sin(radians));
+
+            pixels.Add(new Pixel
+            {
+                Position = new Point(x, y),
+                Color = color,
+                VelocityX = (int)Math.Round(velocity * Math.Cos(radians)),
+                VelocityY = (int)Math.Round(velocity * Math.Sin(radians)),
+                Life = lifespan
+            });
         }
     }
 }

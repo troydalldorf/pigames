@@ -23,6 +23,9 @@ public class LedDisplay
         stopwatch = new Stopwatch();
     }
 
+    public int Width => 64;
+    public int Height => 64;
+
     public void Clear()
     {
         canvas.Clear();
