@@ -53,7 +53,7 @@ public class PixelBomb
     {
         foreach (var pixel in pixels)
         {
-            display.DrawCircle(pixel.Position.X, pixel.Position.Y, radius, pixel.Color);
+            display.SetPixel(pixel.Position.X, pixel.Position.Y,  pixel.Color);
         }
     }
 
