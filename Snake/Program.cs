@@ -5,6 +5,7 @@ using Snake;
 Console.WriteLine("Snake game starting...");
 
 var display = new LedDisplay();
-var playerConsole = new PlayerConsole(0x3a, 0x42);
-var snakeGame = new SnakeGame(display, playerConsole);
+var player1Console = new Player1Console();
+var player2Console = new Player2Console();
+var snakeGame = new SnakeGame2P(display, player1Console, player2Console);
 snakeGame.Run();

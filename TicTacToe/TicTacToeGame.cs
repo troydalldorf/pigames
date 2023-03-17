@@ -8,7 +8,7 @@ using System.Threading;
 internal class TicTacToeGame
 {
     private const int BoardSize = 3;
-    private const int CellSize = 20;
+    private const int CellSize = 16;
     private const int CellPadding = 2;
     private const int BoardPadding = 10;
     private const int TurnDelay = 100;
