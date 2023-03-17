@@ -65,6 +65,7 @@ namespace GeometryDash
             // Move player
             player.Y += Gravity;
             if (player.Bottom >= Height) player.Y = Height - player.Height - 1;
+            if (player.Top <= 0) player.Y = 0;
 
             // Spawn new obstacles
             obstacleOffset++;
@@ -93,12 +94,6 @@ namespace GeometryDash
                     score++;
                     i--;
                 }
-            }
-
-            // Check for game over
-            if (player.Top < 0)
-            {
-                gameRunning = false;
             }
         }
 
