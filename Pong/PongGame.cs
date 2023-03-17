@@ -123,8 +123,8 @@ public class PongGame
         display.Clear();
         
         // Draw Score
-        font.DrawText(display, 0, 27, Color.DimGray, p1Score.ToString(), 0, false);
-        font.DrawText(display, 0, 33, Color.DimGray, p2Score.ToString(), 0, false);
+        font.DrawText(display, 1, 28, Color.DimGray, p1Score.ToString(), 0, false);
+        font.DrawText(display, 1, 35, Color.DimGray, p2Score.ToString(), 0, false);
 
         // Draw paddles
         display.DrawRectangle(player1Paddle.X, player1Paddle.Y, PaddleWidth, PaddleHeight, Color.White);

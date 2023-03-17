@@ -1,4 +1,5 @@
 using Core.Display;
+using Core.Display.Fonts;
 using Core.Inputs;
 
 namespace Minesweeper;
@@ -15,6 +16,7 @@ class MinesweeperGame
     private const int NumMines = 10;
 
     private LedDisplay display;
+    private LedFont font;
     private PlayerConsole playerConsole;
     private int[,] board;
     private bool[,] revealed;
@@ -26,6 +28,7 @@ class MinesweeperGame
     public MinesweeperGame(LedDisplay display, PlayerConsole playerConsole)
     {
         this.display = display;
+        this.font = new LedFont(LedFontType.FontTomThumb);
         this.playerConsole = playerConsole;
     }
 
@@ -214,49 +217,17 @@ class MinesweeperGame
 
     private void DrawNumber(int x, int y, int number)
     {
-        Color color = Color.Black;
-
-        switch (number)
-        {
-            case 1:
-                color = Color.Blue;
-                break;
-            case 2:
-                color = Color.Green;
-                break;
-            case 3:
-                color = Color.Red;
-                break;
-            case 4:
-                color = Color.DarkBlue;
-                break;
-            case 5:
-                color = Color.DarkRed;
-                break;
-            case 6:
-                color = Color.DarkCyan;
-                break;
-            case 7:
-                color = Color.Black;
-                break;
-            case 8:
-                color = Color.Gray;
-                break;
-        }
-
-        int centerX = x + (TileSize / 2);
-        int centerY = y + (TileSize / 2);
-        display.SetPixel(centerX, centerY, color);
+        font.DrawText(display, x, y, Color.Blue, number.ToString());
     }
 
     private void DrawFlag(int x, int y)
     {
-        int centerX = x + (TileSize / 2);
-        int centerY = y + (TileSize / 2);
+        var centerX = x + (TileSize / 2);
+        var centerY = y + (TileSize / 2);
 
-        Color color = Color.Red;
-        int flagWidth = TileSize / 4;
-        int flagHeight = TileSize / 4;
+        var color = Color.Red;
+        var flagWidth = TileSize / 4;
+        var flagHeight = TileSize / 4;
 
         // Draw flagpole
         display.DrawLine(centerX - (flagWidth / 2), centerY - (flagHeight / 2), centerX - (flagWidth / 2), centerY + (flagHeight / 2), Color.Black);
