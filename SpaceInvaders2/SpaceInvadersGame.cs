@@ -1,5 +1,4 @@
 using Core.Display;
-using Core.Effects;
 using Core.Inputs;
 
 namespace SpaceInvaders2;
