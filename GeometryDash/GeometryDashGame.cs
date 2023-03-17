@@ -10,8 +10,8 @@ namespace GeometryDash
         private const int Height = 64;
         private const int PlayerWidth = 2;
         private const int PlayerHeight = 8;
-        private const int ObstacleWidth = 2;
-        private const int ObstacleHeight = 8;
+        private const int ObstacleWidth = 5;
+        private const int ObstacleHeight = 5;
         private const int ObstacleSpacing = 20;
         private const int JumpHeight = 16;
         private const int Gravity = 2;
@@ -70,7 +70,7 @@ namespace GeometryDash
             obstacleOffset++;
             if (obstacleOffset % ObstacleSpacing == 0)
             {
-                var obstacle = new Rectangle(Width, Height - ObstacleHeight, ObstacleWidth, ObstacleHeight);
+                var obstacle = new Rectangle(Width-1, Height - 1 - ObstacleHeight, ObstacleWidth, ObstacleHeight);
                 obstacles.Add(obstacle);
             }
 
