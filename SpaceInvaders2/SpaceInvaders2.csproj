@@ -13,4 +13,9 @@
       <ProjectReference Include="..\core\Core.Inputs\Core.Inputs.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="space-invaders.png" />
+      <Content Include="space-invaders.png" CopyToOutputDirectory="Always" />
+    </ItemGroup>
+
 </Project>

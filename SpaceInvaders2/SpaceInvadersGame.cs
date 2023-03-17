@@ -1,4 +1,5 @@
 using Core.Display;
+using Core.Display.Sprites;
 using Core.Inputs;
 
 namespace SpaceInvaders2;
@@ -21,8 +22,8 @@ class SpaceInvadersGame
 
     private LedDisplay display;
     private PlayerConsole playerConsole;
-    private Random random = new Random();
-
+    private SpriteAnimation alien1;
+    private int alienFrame = 0;
     private int playerX;
     private List<Rectangle> invaders;
     private List<Rectangle> bullets;
@@ -33,6 +34,8 @@ class SpaceInvadersGame
     {
         this.display = display;
         this.playerConsole = playerConsole;
+        var image = new SpriteImage("space-invaders.png", new Point(0, 60));
+        alien1 = image.GetSpriteAnimation(0, 0, 3, 3, 3, 1);
     }
 
     public void Run()
@@ -100,6 +103,8 @@ class SpaceInvadersGame
         // Update invaders
         var moveX = moveInvadersRight ? 1 : -1;
         var changeDirection = false;
+        alienFrame += 1;
+        if (alienFrame > 2) alienFrame = 0;
 
         for (var i = 0; i < invaders.Count; i++)
         {
@@ -142,7 +147,7 @@ class SpaceInvadersGame
         // Draw invaders
         foreach (var invader in invaders)
         {
-            display.DrawRectangle(invader.X, invader.Y, invader.Width, invader.Height, Color.Green);
+            alien1.Draw(display, invader.X, invader.Y, alienFrame);
         }
 
         // Draw bullets
