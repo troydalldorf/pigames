@@ -20,7 +20,7 @@ public class PlayerConsole : IDisposable
     private const ulong Pin19Blue = 1 << 19;
     private const ulong Pin20Green = 1 << 20;
     private const ulong Pin2Yellow = 1 << 2;
-    public const ulong AllButtonPins = Pin18Red | Pin19Blue | Pin20Green;
+    public const ulong AllButtonPins = Pin18Red | Pin19Blue | Pin20Green | Pin2Yellow;
 
     public PlayerConsole(int joystickAddress, int buttonsAddress)
     {
