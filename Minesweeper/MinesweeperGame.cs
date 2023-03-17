@@ -86,24 +86,21 @@ class MinesweeperGame
         var tileY = cursorY / TileSize;
 
         var buttons = playerConsole.ReadButtons();
-        if (buttons <= 0) return;
-        if (!revealed[tileX, tileY])
+        if (revealed[tileX, tileY]) return;
+        if (buttons.IsRedPushed()) // Assuming button 1 is for revealing
         {
-            if ((buttons & Buttons.Red) != 0) // Assuming button 1 is for revealing
+            if (board[tileX, tileY] == -1)
             {
-                if (board[tileX, tileY] == -1)
-                {
-                    gameOver = true;
-                }
-                else
-                {
-                    RevealEmpty(tileX, tileY);
-                }
+                gameOver = true;
             }
-            else if ((buttons & Buttons.Green) != 0) // Assuming button 2 is for flagging
+            else
             {
-                flagged[tileX, tileY] = !flagged[tileX, tileY];
+                RevealEmpty(tileX, tileY);
             }
+        }
+        else if (buttons.IsGreenPushed()) // Assuming button 2 is for flagging
+        {
+            flagged[tileX, tileY] = !flagged[tileX, tileY];
         }
     }
 
@@ -112,16 +109,16 @@ class MinesweeperGame
     {
         display.Clear();
 
-        for (int x = 0; x < Width / TileSize; x++)
+        for (var x = 0; x < Width / TileSize; x++)
         {
-            for (int y = 0; y < Height / TileSize; y++)
+            for (var y = 0; y < Height / TileSize; y++)
             {
-                int xPos = x * TileSize;
-                int yPos = y * TileSize;
+                var xPos = x * TileSize;
+                var yPos = y * TileSize;
 
                 if (revealed[x, y])
                 {
-                    display.DrawRectangle(xPos, yPos, TileSize, TileSize, Color.LightGray);
+                    display.DrawRectangle(xPos, yPos, TileSize, TileSize, Color.Green);
 
                     if (board[x, y] > 0)
                     {
