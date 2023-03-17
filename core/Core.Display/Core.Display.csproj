@@ -10,7 +10,7 @@
       <None Remove="LedMatrix\librgbmatrix.so" />
       <Content Include="LedMatrix\librgbmatrix.so" >
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <CopyToPublishDirectory>Always</CopyToPublishDirectory>
         <RelativePath>LedMatrix\librgbmatrix.bdf</RelativePath>
       </Content>
       <None Remove="Fonts\4x6.bdf" />
@@ -40,135 +40,109 @@
       <None Remove="Fonts\helvR12.bdf" />
       <None Remove="Fonts\texgyre-27.bdf" />
       <None Remove="Fonts\tom-thumb.bdf" />
-      <Content Update="Fonts\Bdf\4x6.bdf">
+      <Content Include="Fonts\Bdf\4x6.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\6x12.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\5x7.bdf">
+      <Content Include="Fonts\Bdf\5x7.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\5x7.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\5x8.bdf">
+      <Content Include="Fonts\Bdf\5x8.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\5x8.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\6x9.bdf">
+      <Content Include="Fonts\Bdf\6x9.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\6x9.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\6x10.bdf">
+      <Content Include="Fonts\Bdf\6x10.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\6x10.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\6x12.bdf">
+      <Content Include="Fonts\Bdf\6x12.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\6x12.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\6x13.bdf">
+      <Content Include="Fonts\Bdf\6x13.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\6x13.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\6x13B.bdf">
+      <Content Include="Fonts\Bdf\6x13B.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\6x13B.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\6x13O.bdf">
+      <Content Include="Fonts\Bdf\6x13O.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\6x13O.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\7x13.bdf">
+      <Content Include="Fonts\Bdf\7x13.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\7x13.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\7x13B.bdf">
+      <Content Include="Fonts\Bdf\7x13B.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\7x13B.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\7x13O.bdf">
+      <Content Include="Fonts\Bdf\7x13O.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\7x13O.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\7x14.bdf">
+      <Content Include="Fonts\Bdf\7x14.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\7x14.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\7x14B.bdf">
+      <Content Include="Fonts\Bdf\7x14B.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\7x14B.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\8x13.bdf">
+      <Content Include="Fonts\Bdf\8x13.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\8x13.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\8x13B.bdf">
+      <Content Include="Fonts\Bdf\8x13B.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\8x13B.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\8x13O.bdf">
+      <Content Include="Fonts\Bdf\8x13O.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\8x13O.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\9x15.bdf">
+      <Content Include="Fonts\Bdf\9x15.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\9x15.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\9x15B.bdf">
+      <Content Include="Fonts\Bdf\9x15B.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\9x15B.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\9x18.bdf">
+      <Content Include="Fonts\Bdf\9x18.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\9x18.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\9x18B.bdf">
+      <Content Include="Fonts\Bdf\9x18B.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\9x18B.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\10x20.bdf">
+      <Content Include="Fonts\Bdf\10x20.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\10x20.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\clR6x12.bdf">
+      <Content Include="Fonts\Bdf\clR6x12.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\clR6x12.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\helvR12.bdf">
+      <Content Include="Fonts\Bdf\helvR12.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\helvR12.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\texgyre-27.bdf">
+      <Content Include="Fonts\Bdf\texgyre-27.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\texgyre-27.bdf</RelativePath>
       </Content>
-      <Content Update="Fonts\Bdf\tom-thumb.bdf">
+      <Content Include="Fonts\Bdf\tom-thumb.bdf">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <RelativePath>Fonts\tom-thumb.bdf</RelativePath>
       </Content>
     </ItemGroup>
 

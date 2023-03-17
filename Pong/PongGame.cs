@@ -8,7 +8,7 @@ using System.Drawing;
 using System.Threading;
 using Core.Display;
 
-internal class PongGame
+public class PongGame
 {
     private const int Width = 64;
     private const int Height = 64;
