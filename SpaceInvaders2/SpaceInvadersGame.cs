@@ -35,7 +35,7 @@ class SpaceInvadersGame
         this.display = display;
         this.playerConsole = playerConsole;
         var image = new SpriteImage("space-invaders.png", new Point(0, 60));
-        alien1 = image.GetSpriteAnimation(0, 0, 3, 3, 3, 1);
+        alien1 = image.GetSpriteAnimation(0, 0, 3, 2, 3, 1);
     }
 
     public void Run()
