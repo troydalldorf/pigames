@@ -50,6 +50,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe", "TicTacToe\TicT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bob1945", "Bob1945\Bob1945.csproj", "{F898B5FF-B2E1-4A3A-B3BF-A15A14326AC3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeometryDash", "GeometryDash\GeometryDash.csproj", "{9A2B6787-1E4C-40CA-8575-371D78966BC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -144,6 +146,10 @@ Global
 		{F898B5FF-B2E1-4A3A-B3BF-A15A14326AC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F898B5FF-B2E1-4A3A-B3BF-A15A14326AC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F898B5FF-B2E1-4A3A-B3BF-A15A14326AC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A2B6787-1E4C-40CA-8575-371D78966BC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A2B6787-1E4C-40CA-8575-371D78966BC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A2B6787-1E4C-40CA-8575-371D78966BC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A2B6787-1E4C-40CA-8575-371D78966BC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AABB21BF-4A48-44D2-AE86-1E5262683C4C} = {4CF79911-C0E7-4EB0-AC65-B9A0317F458D}

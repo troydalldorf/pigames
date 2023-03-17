@@ -27,9 +27,9 @@ internal class TicTacToeGame
 
         board = new Cell[BoardSize, BoardSize];
 
-        for (int row = 0; row < BoardSize; row++)
+        for (var row = 0; row < BoardSize; row++)
         {
-            for (int col = 0; col < BoardSize; col++)
+            for (var col = 0; col < BoardSize; col++)
             {
                 board[row, col] = new Cell();
             }
@@ -51,12 +51,12 @@ internal class TicTacToeGame
     {
         display.Clear();
 
-        for (int row = 0; row < BoardSize; row++)
+        for (var row = 0; row < BoardSize; row++)
         {
-            for (int col = 0; col < BoardSize; col++)
+            for (var col = 0; col < BoardSize; col++)
             {
-                int x = col * (CellSize + CellPadding) + BoardPadding;
-                int y = row * (CellSize + CellPadding) + BoardPadding;
+                var x = col * (CellSize + CellPadding) + BoardPadding;
+                var y = row * (CellSize + CellPadding) + BoardPadding;
 
                 if (board[row, col].Value == CellValue.Player1)
                 {
@@ -75,6 +75,7 @@ internal class TicTacToeGame
                 }
             }
         }
+        
 
         display.Update();
     }
@@ -117,14 +118,12 @@ internal class TicTacToeGame
 
     private void MoveCursor(int deltaRow, int deltaCol)
     {
-        int newRow = selectedRow + deltaRow;
-        int newCol = selectedCol + deltaCol;
+        var newRow = selectedRow + deltaRow;
+        var newCol = selectedCol + deltaCol;
 
-        if (newRow >= 0 && newRow < BoardSize && newCol >= 0 && newCol < BoardSize)
-        {
-            selectedRow = newRow;
-            selectedCol = newCol;
-        }
+        if (newRow is < 0 or >= BoardSize || newCol is < 0 or >= BoardSize) return;
+        selectedRow = newRow;
+        selectedCol = newCol;
     }
 
     private bool CheckForWinner()
