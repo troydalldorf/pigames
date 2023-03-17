@@ -64,13 +64,13 @@ namespace GeometryDash
         {
             // Move player
             player.Y += Gravity;
-            if (player.Y >= Height) player.Y = Height - 1;
+            if (player.Bottom >= Height) player.Y = Height - player.Height - 1;
 
             // Spawn new obstacles
             obstacleOffset++;
             if (obstacleOffset % ObstacleSpacing == 0)
             {
-                var obstacle = new Rectangle(Width, Height / 2 - ObstacleHeight / 2, ObstacleWidth, ObstacleHeight);
+                var obstacle = new Rectangle(Width, Height - ObstacleHeight, ObstacleWidth, ObstacleHeight);
                 obstacles.Add(obstacle);
             }
 
