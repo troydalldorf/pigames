@@ -11,8 +11,8 @@ internal class PongGame
 {
     private const int Width = 64;
     private const int Height = 64;
-    private const int PaddleWidth = 2;
-    private const int PaddleHeight = 8;
+    private const int PaddleWidth = 8;
+    private const int PaddleHeight = 2;
     private const int BallSize = 2;
 
     private LedDisplay display;
@@ -31,8 +31,8 @@ internal class PongGame
         this.player1Console = player1Console;
         this.player2Console = player2Console;
 
-        player1Paddle = new Rectangle(1, Height - PaddleHeight, PaddleWidth, PaddleHeight);
-        player2Paddle = new Rectangle(Width - 1 - PaddleWidth, 0, PaddleWidth, PaddleHeight);
+        player1Paddle = new Rectangle(Width / 2 - PaddleWidth / 2, Height - 1 - PaddleHeight, PaddleWidth, PaddleHeight);
+        player2Paddle = new Rectangle(Width / 2 - PaddleWidth / 2, 0, PaddleWidth, PaddleHeight);
         ballPosition = new Point(Width / 2, Height / 2);
         random = new Random();
         ResetBall();
@@ -54,15 +54,15 @@ internal class PongGame
         var stick1 = player1Console.ReadJoystick();
         var stick2 = player2Console.ReadJoystick();
 
-        if (stick1.IsUp() && player1Paddle.Bottom < Height)
-            player1Paddle.Y += 2;
-        if (stick1.IsDown() && player1Paddle.Top > 0)
-            player1Paddle.Y -= 2;
+        if (stick1.IsLeft() && player1Paddle.Left > 0)
+            player1Paddle.X -= 2;
+        if (stick1.IsRight() && player1Paddle.Right < Width)
+            player1Paddle.X += 2;
 
-        if (stick2.IsUp() && player2Paddle.Bottom < Height)
-            player2Paddle.Y += 2;
-        if (stick2.IsDown() && player2Paddle.Top > 0)
-            player2Paddle.Y -= 2;
+        if (stick2.IsLeft() && player2Paddle.Left > 0)
+            player2Paddle.X -= 2;
+        if (stick2.IsRight() && player2Paddle.Right < Width)
+            player2Paddle.X += 2;
     }
 
     private void Update()
@@ -70,26 +70,26 @@ internal class PongGame
         ballPosition.X += ballVelocity.X;
         ballPosition.Y += ballVelocity.Y;
 
-        // Ball collision with top and bottom walls
-        if (ballPosition.Y <= 0 || ballPosition.Y + BallSize >= Height)
+        // Ball collision with side walls
+        if (ballPosition.X <= 0 || ballPosition.X + BallSize >= Width)
         {
-            ballVelocity.Y = -ballVelocity.Y;
+            ballVelocity.X = -ballVelocity.X;
         }
 
         // Ball collision with paddles
-        if (ballPosition.X <= player1Paddle.Right && ballPosition.Y + BallSize >= player1Paddle.Top && ballPosition.Y <= player1Paddle.Bottom)
+        if (ballPosition.Y + BallSize >= player1Paddle.Top && ballPosition.X + BallSize >= player1Paddle.Left && ballPosition.X <= player1Paddle.Right)
         {
-            ballVelocity.X = -ballVelocity.X;
-            ballPosition.X = player1Paddle.Right;
+            ballVelocity.Y = -ballVelocity.Y;
+            ballPosition.Y = player1Paddle.Top - BallSize;
         }
-        else if (ballPosition.X + BallSize >= player2Paddle.Left && ballPosition.Y + BallSize >= player2Paddle.Top && ballPosition.Y <= player2Paddle.Bottom)
+        else if (ballPosition.Y <= player2Paddle.Bottom && ballPosition.X + BallSize >= player2Paddle.Left && ballPosition.X <= player2Paddle.Right)
         {
-            ballVelocity.X = -ballVelocity.X;
-            ballPosition.X = player2Paddle.Left - BallSize;
+            ballVelocity.Y = -ballVelocity.Y;
+            ballPosition.Y = player2Paddle.Bottom;
         }
 
         // Ball out of bounds (scoring)
-        if (ballPosition.X < 0 || ballPosition.X + BallSize > Width)
+        if (ballPosition.Y < 0 || ballPosition.Y + BallSize > Height)
         {
             ResetBall();
         }
