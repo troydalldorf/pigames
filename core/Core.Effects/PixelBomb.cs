@@ -41,7 +41,6 @@ public class PixelBomb
             var pixel = pixels[i];
             pixel.Position = new Point(pixel.Position.X + pixel.VelocityX, pixel.Position.Y + pixel.VelocityY + gravity);
             pixel.Life--;
-
             if (pixel.Life <= 0)
             {
                 pixels.RemoveAt(i);
