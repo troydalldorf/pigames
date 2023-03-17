@@ -32,7 +32,7 @@ public class PongGame
     public PongGame(LedDisplay display, PlayerConsole player1Console, PlayerConsole player2Console)
     {
         this.display = display;
-        this.font = new LedFont(LedFontType.Font4x6);
+        this.font = new LedFont(LedFontType.FontTomThumb);
         this.player1Console = player1Console;
         this.player2Console = player2Console;
 
@@ -123,8 +123,8 @@ public class PongGame
         display.Clear();
         
         // Draw Score
-        font.DrawText(display, 0, 20, Color.DimGray, p1Score.ToString(), 0, false);
-        font.DrawText(display, 0, 32, Color.DimGray, p2Score.ToString(), 0, false);
+        font.DrawText(display, 0, 27, Color.DimGray, p1Score.ToString(), 0, false);
+        font.DrawText(display, 0, 33, Color.DimGray, p2Score.ToString(), 0, false);
 
         // Draw paddles
         display.DrawRectangle(player1Paddle.X, player1Paddle.Y, PaddleWidth, PaddleHeight, Color.White);

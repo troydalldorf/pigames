@@ -2,5 +2,30 @@ namespace Core.Display.Fonts;
 
 public enum LedFontType
 {
-    Font4x6
+    Font4x6,
+    Font5x7,
+    Font5x8,
+    Font6x9,
+    Font6x10,
+    Font6x12,
+    Font6x13,
+    Font6x13B,
+    Font6x13O,
+    Font7x13,
+    Font7x13B,
+    Font7x13O,
+    Font7x14,
+    Font7x14B,
+    Font8x13,
+    Font8x13B,
+    Font8x13O,
+    Font9x15,
+    Font9x15B,
+    Font9x18,
+    Font9x18B,
+    Font10x20,
+    FontClr6x12,
+    FontHelveticaR12,
+    FontTexGyre27,
+    FontTomThumb,
 }

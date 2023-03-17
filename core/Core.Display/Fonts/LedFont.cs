@@ -24,6 +24,10 @@ public class LedFont : IDisposable
     {
         var filename = fontType switch
         {
+            LedFontType.FontClr6x12 => "clR6x12.bdf",
+            LedFontType.FontHelveticaR12 => "helvR12.bdf",
+            LedFontType.FontTexGyre27 => "texgyre-27.bdf",
+            LedFontType.FontTomThumb => "tom-thumb.bdf",
             _ => $"{fontType.ToString().Replace("Font", "")}.bdf"
         };
         var basePath = AppContext.BaseDirectory;
