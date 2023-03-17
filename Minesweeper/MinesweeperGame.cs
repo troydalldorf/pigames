@@ -98,7 +98,7 @@ class MinesweeperGame
                         RevealEmpty(tileX, tileY);
                     }
                 }
-                else if ((buttons & Buttons.Blue) != 0) // Assuming button 2 is for flagging
+                else if ((buttons & Buttons.Yellow) != 0) // Assuming button 2 is for flagging
                 {
                     flagged[tileX, tileY] = !flagged[tileX, tileY];
                 }

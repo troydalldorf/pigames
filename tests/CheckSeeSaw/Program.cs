@@ -5,7 +5,7 @@ using Core.Inputs;
 Console.WriteLine("Hello, World!");
 
 using var p1Console = new PlayerConsole(0x3a, 0x42);
-using var p2Console = new PlayerConsole(0x3a, 0x42);
+using var p2Console = new PlayerConsole(0x43, 0x44);
 while (true)
 {
     var p1Stick = p1Console.ReadJoystick();
