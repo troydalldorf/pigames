@@ -22,10 +22,13 @@ public class LedFont : IDisposable
 
     private static string GetBdfFilePath(LedFontType fontType)
     {
-        return fontType switch
+        var fontPath = fontType switch
         {
             _ => $"./Fonts/Bdf/{fontType.ToString().Replace("Font", "")}.bdf"
         };
+        if (!File.Exists(fontPath))
+            throw new FileNotFoundException($"File, '{fontPath}' for font type '{fontType}' does not exist.");
+        return fontPath;
     }
 
     private void Dispose(bool disposing)
