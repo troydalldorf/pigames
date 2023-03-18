@@ -8,7 +8,7 @@
 
     <ItemGroup>
       <None Remove="LedMatrix\librgbmatrix.so" />
-      <Content Include="LedMatrix\librgbmatrix.so" >
+      <Content Include="LedMatrix\librgbmatrix.so">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <CopyToPublishDirectory>Always</CopyToPublishDirectory>
         <RelativePath>LedMatrix\librgbmatrix.bdf</RelativePath>

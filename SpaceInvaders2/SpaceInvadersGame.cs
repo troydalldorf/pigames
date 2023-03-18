@@ -1,5 +1,6 @@
 using Core.Display;
 using Core.Display.Sprites;
+using Core.Effects;
 using Core.Inputs;
 
 namespace SpaceInvaders2;
@@ -24,6 +25,8 @@ class SpaceInvadersGame
     private PlayerConsole playerConsole;
     private SpriteAnimation alienSprite;
     private SpriteAnimation playerSprite;
+    private GameOver gameOver;
+    private bool isGameOver = false;
     private int alienFrame = 0;
     private int playerX;
     private List<Rectangle> invaders;
@@ -35,6 +38,7 @@ class SpaceInvadersGame
     {
         this.display = display;
         this.playerConsole = playerConsole;
+        var gameOver = new GameOver();
         var image = new SpriteImage("space-invaders.png", new Point(0, 60));
         alienSprite = image.GetSpriteAnimation(0, 0, 4, 3, 2, 1);
         playerSprite = image.GetSpriteAnimation(0, 4, 6, 3, 1, 1);
@@ -43,7 +47,6 @@ class SpaceInvadersGame
     public void Run()
     {
         Initialize();
-
         while (true)
         {
             Update();
@@ -69,6 +72,13 @@ class SpaceInvadersGame
 
     private void Update()
     {
+        if (isGameOver)
+        {
+            gameOver.Update(playerConsole);
+            if (gameOver.State == GameOverState.PlayAgain)
+                Initialize();
+            return;
+        }
         // Update player
         var stick = playerConsole.ReadJoystick();
         if (stick.IsLeft()) playerX--;
@@ -127,7 +137,7 @@ class SpaceInvadersGame
 
                 if (invaders[i].Bottom < Height - PlayerHeight) continue;
                 // Game over
-                Initialize();
+                isGameOver = true;
                 return;
             }
         }
@@ -154,6 +164,8 @@ class SpaceInvadersGame
         {
             bomb.Draw(display);
         }
+        if (isGameOver)
+            gameOver.Draw(display);
         display.Update();
     }
 }
