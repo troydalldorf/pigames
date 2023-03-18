@@ -24,7 +24,7 @@ class TetrisGame
 
     private Random random;
     private Stopwatch stopwatch;
-    private int lastActionAt;
+    private long lastActionAt;
 
     public TetrisGame(LedDisplay display, PlayerConsole playerConsole)
     {
@@ -63,6 +63,7 @@ class TetrisGame
             if (IsValidMove(currentX - 1, currentY, currentTetromino))
             {
                 currentX--;
+                lastActionAt = stopwatch.ElapsedMilliseconds;
             }
         }
         if (stick.IsRight())
@@ -70,6 +71,7 @@ class TetrisGame
             if (IsValidMove(currentX + 1, currentY, currentTetromino))
             {
                 currentX++;
+                lastActionAt = stopwatch.ElapsedMilliseconds;
             }
         }
         if (stick.IsDown())
@@ -81,11 +83,10 @@ class TetrisGame
         }
         if (stick.IsUp())
         {
-            Tetromino rotated = currentTetromino.RotateRight();
-            if (IsValidMove(currentX, currentY, rotated))
-            {
-                currentTetromino = rotated;
-            }
+            var rotated = currentTetromino.RotateRight();
+            if (!IsValidMove(currentX, currentY, rotated)) return;
+            currentTetromino = rotated;
+            lastActionAt = stopwatch.ElapsedMilliseconds;
         }
     }
 
@@ -93,23 +94,21 @@ class TetrisGame
     {
         frame++;
 
-        if (frame % speed == 0)
+        if (frame % speed != 0) return;
+        if (IsValidMove(currentX, currentY + 1, currentTetromino))
         {
-            if (IsValidMove(currentX, currentY + 1, currentTetromino))
-            {
-                currentY++;
-            }
-            else
-            {
-                MergeTetromino();
-                ClearLines();
-                NewTetromino();
+            currentY++;
+        }
+        else
+        {
+            MergeTetromino();
+            ClearLines();
+            NewTetromino();
 
-                if (!IsValidMove(currentX, currentY, currentTetromino))
-                {
-                    // Game over
-                    grid = new int[Width, Height];
-                }
+            if (!IsValidMove(currentX, currentY, currentTetromino))
+            {
+                // Game over
+                grid = new int[Width, Height];
             }
         }
     }
