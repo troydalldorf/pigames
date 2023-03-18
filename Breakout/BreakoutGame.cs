@@ -148,10 +148,7 @@ class BreakoutGame
     private void Draw()
     {
         display.Clear();
-        
-        if (gameOver.State == GameState.GameOver)
-            gameOver.Draw(display);
-        
+
         // Draw paddle
         display.DrawRectangle(paddleX, Height - PaddleHeight, PaddleWidth, PaddleHeight, Color.White);
 
@@ -173,6 +170,9 @@ class BreakoutGame
         {
             bomb.Draw(display);
         }
+        
+        if (gameOver.State == GameState.GameOver)
+            gameOver.Draw(display);
 
         display.Update();
     }
