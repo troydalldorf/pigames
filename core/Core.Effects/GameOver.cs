@@ -17,7 +17,7 @@ public class GameOver : IGameElement, IDisposable
         State = GameOverState.WaitingForUser;
     }
     
-    public GameOverState State { get; private set; }
+    public GameOverState State { get;  set; }
 
     public void Update(PlayerConsole console)
     {
@@ -30,8 +30,9 @@ public class GameOver : IGameElement, IDisposable
 
     public void Draw(LedDisplay display)
     {
-        largeFont.DrawText(display, 4, 18, Color.Crimson, "GAME", 3);
-        largeFont.DrawText(display, 5, 28, Color.Crimson, "OVER", 3);
+        largeFont.DrawText(display, 7, 14, Color.Crimson, "GAME", 3);
+        largeFont.DrawText(display, 7, 29, Color.Crimson, "OVER", 3);
+        display.DrawRectangle(0, 38, 64, 8, Color.Black, Color.Black);
         smallFont.DrawText(display, 2, 38, Color.Blue, "PLAY AGAIN?", 0);
     }
     

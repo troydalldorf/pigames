@@ -57,10 +57,15 @@ public class LedDisplay
         canvas.DrawLine(x0, y0, x1, y1, color);
     }
     
-    public void DrawRectangle(int x, int y, int width, int height, Color color)
+    public void DrawRectangle(int x, int y, int width, int height, Color color, Color? fillColor)
     {
         var x2 = x + width - 1;
         var y2 = y + height - 1;
+        if (fillColor != null)
+        {
+            for (var row = y + 1; row< y2; row++)
+                canvas.DrawLine(x+1, row, x2-1, row, fillColor.Value);
+        }
         canvas.DrawLine(x, y, x2, y, color);
         canvas.DrawLine(x2, y, x2, y2, color);
         canvas.DrawLine(x2, y2, x, y2, color);
