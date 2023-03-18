@@ -112,7 +112,8 @@ class BreakoutGame
             {
                 pixelBombs.Add(new PixelBomb(brick.X+2, brick.Y+2, BrickWidth*BrickHeight, brick.Color));
             }
-            Initialize();
+
+            gameOver.State = GameState.GameOver;
             return;
         }
 
