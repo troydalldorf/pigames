@@ -17,8 +17,8 @@ public class PixelBomb
     private const int DefaultRadius = 10;
     private const int DefaultGravity = 1;
 
-    private readonly List<Pixel> pixels = new List<Pixel>();
-    private readonly Random random = new Random();
+    private readonly List<Pixel> pixels = new();
+    private readonly Random random = new();
 
     private int numPixels;
     private int lifespan;
@@ -64,7 +64,7 @@ public class PixelBomb
         {
             var angle = random.Next(360);
             var radians = angle * Math.PI / 180;
-            var velocity = random.Next(3, 8);
+            var velocity = random.Next(1, 3);
             var color = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
             var x = (int)Math.Round(centerX + radius * Math.Cos(radians));
             var y = (int)Math.Round(centerY + radius * Math.Sin(radians));

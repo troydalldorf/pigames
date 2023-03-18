@@ -22,7 +22,8 @@ class SpaceInvadersGame
 
     private LedDisplay display;
     private PlayerConsole playerConsole;
-    private SpriteAnimation alien1;
+    private SpriteAnimation alienSprite;
+    private SpriteAnimation playerSprite;
     private int alienFrame = 0;
     private int playerX;
     private List<Rectangle> invaders;
@@ -35,7 +36,8 @@ class SpaceInvadersGame
         this.display = display;
         this.playerConsole = playerConsole;
         var image = new SpriteImage("space-invaders.png", new Point(0, 60));
-        alien1 = image.GetSpriteAnimation(0, 0, 3, 2, 3, 1);
+        alienSprite = image.GetSpriteAnimation(0, 0, 4, 3, 2, 1);
+        playerSprite = image.GetSpriteAnimation(0, 4, 6, 3, 2, 1);
     }
 
     public void Run()
@@ -93,7 +95,7 @@ class SpaceInvadersGame
             for (var j = invaders.Count - 1; j >= 0; j--)
             {
                 if (!bullets[i].IntersectsWith(invaders[j])) continue;
-                pixelBombs.Add(new PixelBomb(invaders[i].X+2, invaders[i].Y+2, 40, 5, 5, 3));
+                pixelBombs.Add(new PixelBomb(invaders[i].X+2, invaders[i].Y+2, 40, 3, 5, 3));
                 bullets.RemoveAt(i);
                 invaders.RemoveAt(j);
                 break;
@@ -103,8 +105,7 @@ class SpaceInvadersGame
         // Update invaders
         var moveX = moveInvadersRight ? 1 : -1;
         var changeDirection = false;
-        alienFrame += 1;
-        if (alienFrame > 2) alienFrame = 0;
+        alienFrame = alienFrame == 0 ? 1 : 0;
 
         for (var i = 0; i < invaders.Count; i++)
         {
@@ -140,22 +141,15 @@ class SpaceInvadersGame
     private void Draw()
     {
         display.Clear();
-
-        // Draw player
-        display.DrawRectangle(playerX, Height - PlayerHeight, PlayerWidth, PlayerHeight, Color.White);
-
-        // Draw invaders
+        playerSprite.Draw(display,  Height - PlayerHeight, PlayerWidth);
         foreach (var invader in invaders)
         {
-            alien1.Draw(display, invader.X, invader.Y, alienFrame);
+            alienSprite.Draw(display, invader.X, invader.Y, alienFrame);
         }
-
-        // Draw bullets
         foreach (var bullet in bullets)
         {
             display.DrawRectangle(bullet.X, bullet.Y, bullet.Width, bullet.Height, Color.Red);
         }
-
         foreach (var bomb in pixelBombs)
         {
             bomb.Draw(display);
