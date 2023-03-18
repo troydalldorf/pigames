@@ -113,6 +113,9 @@ class BreakoutGame
             {
                 pixelBombs.Add(new PixelBomb(brick.X+2, brick.Y+2, BrickWidth*BrickHeight, brick.Color));
             }
+            pixelBombs.Add(new PixelBomb(paddleX + PaddleWidth/2, Height - PaddleHeight/2, PaddleWidth*PaddleHeight, Color.White));
+            display.DrawRectangle(paddleX, Height - PaddleHeight, PaddleWidth, PaddleHeight, Color.White);
+
 
             bricks.Clear();
 
