@@ -116,7 +116,7 @@ class TetrisGame
 
     private void Draw()
     {
-        display.DrawRectangle(0, 0, Width*PixelSize+2, y*PixelSize+2, Color.Orange);
+        display.DrawRectangle(0, 0, Width*PixelSize+2, Height*PixelSize+2, Color.Orange);
         display.Clear();
 
         // Draw grid
