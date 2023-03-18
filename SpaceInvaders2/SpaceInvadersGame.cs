@@ -141,7 +141,7 @@ class SpaceInvadersGame
     private void Draw()
     {
         display.Clear();
-        playerSprite.Draw(display,  Height - PlayerHeight, PlayerWidth);
+        playerSprite.Draw(display, playerX, Height - PlayerHeight);
         foreach (var invader in invaders)
         {
             alienSprite.Draw(display, invader.X, invader.Y, alienFrame);
