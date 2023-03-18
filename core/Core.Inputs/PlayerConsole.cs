@@ -64,8 +64,8 @@ public class PlayerConsole : IDisposable
     public void LightButtons(bool red, bool green, bool blue, bool yellow)
     {
         buttonsSeesaw.WriteGpioDigital(12, red);
-        buttonsSeesaw.WriteGpioDigital(13, green);
-        buttonsSeesaw.WriteGpioDigital(0, blue);
+        buttonsSeesaw.WriteGpioDigital(1, blue);
+        buttonsSeesaw.WriteGpioDigital(0, green);
     }
 
     public void Dispose()
