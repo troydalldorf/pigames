@@ -13,10 +13,10 @@ class SpaceInvadersGame
 {
     private const int Width = 64;
     private const int Height = 64;
-    private const int InvaderWidth = 3;
-    private const int InvaderHeight = 2;
+    private const int InvaderWidth = 4;
+    private const int InvaderHeight = 3;
     private const int PlayerWidth = 5;
-    private const int PlayerHeight = 2;
+    private const int PlayerHeight = 3;
     private const int BulletWidth = 1;
     private const int BulletHeight = 3;
 
@@ -37,7 +37,7 @@ class SpaceInvadersGame
         this.playerConsole = playerConsole;
         var image = new SpriteImage("space-invaders.png", new Point(0, 60));
         alienSprite = image.GetSpriteAnimation(0, 0, 4, 3, 2, 1);
-        playerSprite = image.GetSpriteAnimation(0, 4, 6, 3, 2, 1);
+        playerSprite = image.GetSpriteAnimation(0, 4, 6, 3, 1, 1);
     }
 
     public void Run()
