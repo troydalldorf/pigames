@@ -62,7 +62,7 @@ public class PongGame
             player1Paddle.X += 2;
         if (stick1.IsUp() && player1Paddle.Top > 0)
             player1Paddle.Y -= 2;
-        if (stick1.IsDown() && player1Paddle.Bottom < 0)
+        if (stick1.IsDown() && player1Paddle.Bottom > 0)
             player1Paddle.Y += 2;
         if (stick2.IsLeft() && player2Paddle.Left > 0)
             player2Paddle.X -= 2;
