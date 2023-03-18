@@ -16,7 +16,7 @@ class TetrisGame
     private LedDisplay display;
     private PlayerConsole playerConsole;
 
-    private int[,] grid;
+    private int?[,] grid;
     private Tetromino currentTetromino;
     private int currentX, currentY;
     private int speed;
@@ -33,7 +33,7 @@ class TetrisGame
         this.stopwatch = new Stopwatch();
         this.stopwatch.Start();
 
-        grid = new int[Width, Height];
+        grid = new int?[Width, Height];
         random = new Random();
         speed = 10;
         frame = 0;
@@ -108,7 +108,7 @@ class TetrisGame
             if (!IsValidMove(currentX, currentY, currentTetromino))
             {
                 // Game over
-                grid = new int[Width, Height];
+                grid = new int?[Width, Height];
             }
         }
     }
@@ -118,21 +118,21 @@ class TetrisGame
         display.Clear();
 
         // Draw grid
-        for (int x = 0; x < Width; x++)
+        for (var x = 0; x < Width; x++)
         {
-            for (int y = 0; y < Height; y++)
+            for (var y = 0; y < Height; y++)
             {
-                if (grid[x, y] > 0)
+                if (grid[x, y] != null)
                 {
-                    display.DrawRectangle(x * PixelSize, y * PixelSize, PixelSize, PixelSize, Tetromino.GetColor(grid[x, y]));
+                    display.DrawRectangle(x * PixelSize, y * PixelSize, PixelSize, PixelSize, Tetromino.GetColor(grid[x, y]!.Value));
                 }
             }
         }
 
         // Draw current tetromino
-        for (int x = 0; x < currentTetromino.Width; x++)
+        for (var x = 0; x < currentTetromino.Width; x++)
         {
-            for (int y = 0; y < currentTetromino.Height; y++)
+            for (var y = 0; y < currentTetromino.Height; y++)
             {
                 if (currentTetromino[x, y])
                 {
@@ -146,19 +146,17 @@ class TetrisGame
 
     private bool IsValidMove(int newX, int newY, Tetromino tetromino)
     {
-        for (int x = 0; x < tetromino.Width; x++)
+        for (var x = 0; x < tetromino.Width; x++)
         {
-            for (int y = 0; y < tetromino.Height; y++)
+            for (var y = 0; y < tetromino.Height; y++)
             {
-                if (tetromino[x, y])
-                {
-                    int boardX = newX + x;
-                    int boardY = newY + y;
+                if (!tetromino[x, y]) continue;
+                var boardX = newX + x;
+                var boardY = newY + y;
 
-                    if (boardX < 0 || boardX >= Width || boardY < 0 || boardY >= Height || grid[boardX, boardY] > 0)
-                    {
-                        return false;
-                    }
+                if (boardX < 0 || boardX >= Width || boardY < 0 || boardY >= Height || grid[boardX, boardY] > 0)
+                {
+                    return false;
                 }
             }
         }
@@ -167,9 +165,9 @@ class TetrisGame
 
     private void MergeTetromino()
     {
-        for (int x = 0; x < currentTetromino.Width; x++)
+        for (var x = 0; x < currentTetromino.Width; x++)
         {
-            for (int y = 0; y < currentTetromino.Height; y++)
+            for (var y = 0; y < currentTetromino.Height; y++)
             {
                 if (currentTetromino[x, y])
                 {
@@ -181,24 +179,22 @@ class TetrisGame
 
     private void ClearLines()
     {
-        for (int y = Height - 1; y >= 0; y--)
+        for (var y = Height - 1; y >= 0; y--)
         {
-            bool fullLine = true;
+            var fullLine = true;
 
-            for (int x = 0; x < Width; x++)
+            for (var x = 0; x < Width; x++)
             {
-                if (grid[x, y] == 0)
-                {
-                    fullLine = false;
-                    break;
-                }
+                if (grid[x, y] != 0) continue;
+                fullLine = false;
+                break;
             }
 
             if (fullLine)
             {
-                for (int yy = y; yy > 0; yy--)
+                for (var yy = y; yy > 0; yy--)
                 {
-                    for (int x = 0; x < Width; x++)
+                    for (var x = 0; x < Width; x++)
                     {
                         grid[x, yy] = grid[x, yy - 1];
                     }

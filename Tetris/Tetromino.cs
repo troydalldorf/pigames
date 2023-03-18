@@ -5,7 +5,7 @@ using System.Drawing;
 
 class Tetromino
 {
-    private static readonly int[][] TetrominoShapes = new int[][]
+    private static readonly int[][] TetrominoShapes = new[]
     {
         new int[] { 0x0F00, 0x2222, 0x00F0, 0x4444 }, // I
         new int[] { 0x8E00, 0x6440, 0x0E20, 0x44C0 }, // L
@@ -55,7 +55,7 @@ class Tetromino
 
     public Tetromino RotateRight()
     {
-        Tetromino rotated = new Tetromino(Type)
+        var rotated = new Tetromino(Type)
         {
             shape = shape,
             rotation = (rotation + 1) % 4
