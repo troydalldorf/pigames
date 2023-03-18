@@ -13,7 +13,7 @@ public class GameOver : IGameElement, IDisposable
     public GameOver()
     {
         largeFont = new LedFont(LedFontType.Font10x20);
-        smallFont = new LedFont(LedFontType.Font10x20);
+        smallFont = new LedFont(LedFontType.Font5x8);
         State = GameOverState.WaitingForUser;
     }
     
@@ -30,8 +30,8 @@ public class GameOver : IGameElement, IDisposable
 
     public void Draw(LedDisplay display)
     {
-        largeFont.DrawText(display, 0, 12, Color.Crimson, "GAME", 0);
-        //largeFont.DrawText(display, 5, 32, Color.Crimson, "OVER", 3);
+        largeFont.DrawText(display, 4, 12, Color.Crimson, "GAME", 3);
+        largeFont.DrawText(display, 5, 32, Color.Crimson, "OVER", 3);
         smallFont.DrawText(display, 0, 48, Color.Blue, "PLAY AGAIN?", 0);
     }
     
