@@ -57,7 +57,8 @@ class BreakoutGame
         ball = new Rectangle(Width / 2 - BallSize / 2, Height / 2 - BallSize / 2, BallSize, BallSize);
 
         bricks = new List<Brick>();
-
+        pixelBombs.Clear();
+        
         for (var y = 0; y < 5; y++)
         {
             for (var x = 0; x < 10; x++)
@@ -105,12 +106,15 @@ class BreakoutGame
             ballDY = -ballDY;
         }
 
+        // Game over
         if (ball.Bottom > Height)
         {
             foreach (var brick in bricks)
             {
                 pixelBombs.Add(new PixelBomb(brick.X+2, brick.Y+2, BrickWidth*BrickHeight, brick.Color));
             }
+
+            bricks.Clear();
 
             gameOver.State = GameState.GameOver;
             return;
