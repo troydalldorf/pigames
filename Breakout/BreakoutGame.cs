@@ -1,4 +1,5 @@
 using Core.Display;
+using Core.Effects;
 using Core.Inputs;
 
 namespace Breakout;
@@ -20,12 +21,14 @@ class BreakoutGame
 
     private LedDisplay display;
     private PlayerConsole playerConsole;
+    Color[] brickColors = { Color.Magenta, Color.Blue, Color.Green, Color.Yellow, Color.Orange };
 
     private int paddleX;
     private Rectangle ball;
     private int ballDX = 1;
     private int ballDY = -1;
     private List<Rectangle> bricks;
+    private List<PixelBomb> pixelBombs = new();
 
     public BreakoutGame(LedDisplay display, PlayerConsole playerConsole)
     {
@@ -51,10 +54,11 @@ class BreakoutGame
         ball = new Rectangle(Width / 2 - BallSize / 2, Height / 2 - BallSize / 2, BallSize, BallSize);
 
         bricks = new List<Rectangle>();
+        pixelBombs.Clear();
 
-        for (int y = 0; y < 5; y++)
+        for (var y = 0; y < 5; y++)
         {
-            for (int x = 0; x < 10; x++)
+            for (var x = 0; x < 10; x++)
             {
                 bricks.Add(new Rectangle(x * (BrickWidth + 1), y * (BrickHeight + 1), BrickWidth, BrickHeight));
             }
@@ -90,23 +94,33 @@ class BreakoutGame
             Initialize();
             return;
         }
+        
+        foreach (var bomb in pixelBombs.ToArray())
+        {
+            bomb.Update();
+            if (bomb.IsExtinguished()) pixelBombs.Remove(bomb);
+        }
 
         // Collision with paddle
-        Rectangle paddle = new Rectangle(paddleX, Height - PaddleHeight, PaddleWidth, PaddleHeight);
+        var paddle = new Rectangle(paddleX, Height - PaddleHeight, PaddleWidth, PaddleHeight);
         if (ball.IntersectsWith(paddle))
         {
             ballDY = -ballDY;
         }
 
         // Collision with bricks
-        for (int i = bricks.Count - 1; i >= 0; i--)
+        var row = 0;
+        for (var i = bricks.Count - 1; i >= 0; i--)
         {
-            if (ball.IntersectsWith(bricks[i]))
+            if (i % 10 == 0 && i > 0)
             {
-                bricks.RemoveAt(i);
-                ballDY = -ballDY;
-                break;
+                row++;
             }
+            if (!ball.IntersectsWith(bricks[i])) continue;
+            pixelBombs.Add(new PixelBomb(bricks[j].X+2, bricks[j].Y+2, bricks[i].Width*bricks[i].Height,  brickColors[row % brickColors.Length]));
+            bricks.RemoveAt(i);
+            ballDY = -ballDY;
+            break;
         }
 
         // Check for victory
@@ -129,15 +143,19 @@ class BreakoutGame
         display.DrawRectangle(ball.X, ball.Y, BallSize, BallSize, Color.Red);
 
         // Draw bricks
-        Color[] brickColors = { Color.Magenta, Color.Blue, Color.Green, Color.Yellow, Color.Orange };
-        int row = 0;
-        for (int i = 0; i < bricks.Count; i++)
+        var row = 0;
+        for (var i = 0; i < bricks.Count; i++)
         {
             if (i % 10 == 0 && i > 0)
             {
                 row++;
             }
             display.DrawRectangle(bricks[i].X, bricks[i].Y, bricks[i].Width, bricks[i].Height, brickColors[row % brickColors.Length]);
+        }
+        
+        foreach (var bomb in pixelBombs)
+        {
+            bomb.Draw(display);
         }
 
         display.Update();
