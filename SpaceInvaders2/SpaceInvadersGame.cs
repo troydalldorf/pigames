@@ -57,6 +57,7 @@ class SpaceInvadersGame
 
     private void Initialize()
     {
+        isGameOver = false;
         playerX = Width / 2 - PlayerWidth / 2;
         invaders = new List<Rectangle>();
         bullets = new List<Rectangle>();
