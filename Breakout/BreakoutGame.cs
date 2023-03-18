@@ -21,6 +21,7 @@ class BreakoutGame
 
     private LedDisplay display;
     private PlayerConsole playerConsole;
+    private GameOver gameOver;
     Color[] brickColors = { Color.Magenta, Color.Blue, Color.Green, Color.Yellow, Color.Orange };
 
     private int paddleX;
@@ -34,6 +35,7 @@ class BreakoutGame
     {
         this.display = display;
         this.playerConsole = playerConsole;
+        this.gameOver = new GameOver();
     }
 
     public void Run()
@@ -50,6 +52,7 @@ class BreakoutGame
 
     private void Initialize()
     {
+        gameOver.State = GameState.Playing;
         paddleX = Width / 2 - PaddleWidth / 2;
         ball = new Rectangle(Width / 2 - BallSize / 2, Height / 2 - BallSize / 2, BallSize, BallSize);
 
@@ -66,6 +69,22 @@ class BreakoutGame
 
     private void Update()
     {
+        if (gameOver.State != GameState.Playing)
+        {
+            gameOver.Update(playerConsole);
+            if (gameOver.State == GameState.PlayAgain)
+                Initialize();
+            return;
+        }
+        foreach (var bomb in pixelBombs.ToArray())
+        {
+            bomb.Update();
+            if (bomb.IsExtinguished()) pixelBombs.Remove(bomb);
+        }
+
+        if (gameOver.State != GameState.Playing)
+            return;
+        
         // Update paddle
         var stick = playerConsole.ReadJoystick();
         if (stick.IsLeft()) paddleX -= 2;
@@ -95,12 +114,6 @@ class BreakoutGame
             }
             Initialize();
             return;
-        }
-        
-        foreach (var bomb in pixelBombs.ToArray())
-        {
-            bomb.Update();
-            if (bomb.IsExtinguished()) pixelBombs.Remove(bomb);
         }
 
         // Collision with paddle
@@ -135,7 +148,10 @@ class BreakoutGame
     private void Draw()
     {
         display.Clear();
-
+        
+        if (gameOver.State == GameState.GameOver)
+            gameOver.Draw(display);
+        
         // Draw paddle
         display.DrawRectangle(paddleX, Height - PaddleHeight, PaddleWidth, PaddleHeight, Color.White);
 

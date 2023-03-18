@@ -78,7 +78,7 @@ class SpaceInvadersGame
 
     private void Update()
     {
-        if (gameOver.State == GameState.GameOver)
+        if (gameOver.State != GameState.Playing)
         {
             gameOver.Update(playerConsole);
             if (gameOver.State == GameState.PlayAgain)
