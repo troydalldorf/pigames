@@ -15,8 +15,7 @@ class Tetromino
         new[] { 0x4E00, 0x4640, 0x0E40, 0x4C40 }, // T
     };
 
-    private static readonly Color[] TetrominoColors = new Color[]
-    {
+    private static readonly Color[] TetrominoColors = {
         Color.Cyan,    // I
         Color.Orange,  // L
         Color.Blue,    // J
@@ -49,7 +48,7 @@ class Tetromino
 
     public static Color GetColor(int type)
     {
-        return TetrominoColors[type];
+        return TetrominoColors[type-1];
     }
 
     public Tetromino RotateRight()
