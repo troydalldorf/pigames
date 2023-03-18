@@ -26,7 +26,6 @@ class SpaceInvadersGame
     private SpriteAnimation alienSprite;
     private SpriteAnimation playerSprite;
     private GameOver gameOver;
-    private bool isGameOver = false;
     private int alienFrame = 0;
     private int playerX;
     private List<Rectangle> invaders;
@@ -57,7 +56,7 @@ class SpaceInvadersGame
 
     private void Initialize()
     {
-        isGameOver = false;
+        gameOver.State = GameOverState.Playing;
         playerX = Width / 2 - PlayerWidth / 2;
         invaders = new List<Rectangle>();
         bullets = new List<Rectangle>();
@@ -73,7 +72,7 @@ class SpaceInvadersGame
 
     private void Update()
     {
-        if (isGameOver)
+        if (gameOver.State == GameOverState.GameOver)
         {
             gameOver.Update(playerConsole);
             if (gameOver.State == GameOverState.PlayAgain)
@@ -138,7 +137,7 @@ class SpaceInvadersGame
 
                 if (invaders[i].Bottom < Height - PlayerHeight) continue;
                 // Game over
-                isGameOver = true;
+                gameOver.State = GameOverState.GameOver;
                 return;
             }
         }
@@ -165,7 +164,7 @@ class SpaceInvadersGame
         {
             bomb.Draw(display);
         }
-        if (isGameOver)
+        if (gameOver.State == GameOverState.GameOver)
             gameOver.Draw(display);
         display.Update();
     }

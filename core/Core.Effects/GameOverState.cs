@@ -3,7 +3,7 @@ namespace Core.Effects;
 public enum GameOverState
 {
     Playing,
-    WaitingForUser,
+    GameOver,
     PlayAgain,
     Done,
 }
