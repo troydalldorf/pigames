@@ -1,5 +1,6 @@
 using Core.Display;
 using Core.Display.Fonts;
+using Core.Display.Sprites;
 using Core.Inputs;
 
 namespace Minesweeper;
@@ -21,15 +22,22 @@ class MinesweeperGame
     private int[,] board;
     private bool[,] revealed;
     private bool[,] flagged;
-    private int cursorX = 4;
-    private int cursorY = 4;
+    private int cursorX = 4*TileSize;
+    private int cursorY = 4*TileSize;
     private bool gameOver = false;
+    private SpriteAnimation soilSprite;
+    private SpriteAnimation idSprite;
+    private SpriteAnimation cursorSprite;
 
     public MinesweeperGame(LedDisplay display, PlayerConsole playerConsole)
     {
         this.display = display;
         this.font = new LedFont(LedFontType.FontTomThumb);
         this.playerConsole = playerConsole;
+        var image = new SpriteImage("ms.png", new Point(0, 46));
+        soilSprite = image.GetSpriteAnimation(1, 1, 8, 8, 2, 1);
+        idSprite = image.GetSpriteAnimation(1, 10, 8, 8, 2, 1);
+        cursorSprite = image.GetSpriteAnimation(1, 19, 8, 8, 1, 1);
     }
 
     public void Run()
@@ -118,28 +126,23 @@ class MinesweeperGame
 
                 if (revealed[x, y])
                 {
-                    display.DrawRectangle(xPos, yPos, TileSize, TileSize, Color.Green);
-
+                    soilSprite.Draw(display, xPos, yPos, 1);
                     if (board[x, y] > 0)
                     {
-                        // You can use a custom DrawNumber method to draw the numbers on the board
                         DrawNumber(xPos, yPos, board[x, y]);
                     }
                 }
                 else
                 {
-                    display.DrawRectangle(xPos, yPos, TileSize, TileSize, Color.Gray);
-
+                    soilSprite.Draw(display, xPos, yPos, 0);
                     if (flagged[x, y])
                     {
-                        // You can use a custom DrawFlag method to draw a flag symbol on the board
-                        DrawFlag(xPos, yPos);
+                        idSprite.Draw(display, xPos, yPos, 0);
                     }
                 }
             }
         }
-        
-        display.DrawRectangle(cursorX, cursorY, TileSize, TileSize, Color.Lime);
+        cursorSprite.Draw(display, cursorX, cursorY, 0);
 
         display.Update();
     }
@@ -197,9 +200,9 @@ class MinesweeperGame
         revealed[x, y] = true;
 
         if (board[x, y] != 0) return;
-        for (int xOffset = -1; xOffset <= 1; xOffset++)
+        for (var xOffset = -1; xOffset <= 1; xOffset++)
         {
-            for (int yOffset = -1; yOffset <= 1; yOffset++)
+            for (var yOffset = -1; yOffset <= 1; yOffset++)
             {
                 RevealEmpty(x + xOffset, y + yOffset);
             }
@@ -208,24 +211,6 @@ class MinesweeperGame
 
     private void DrawNumber(int x, int y, int number)
     {
-        font.DrawText(display, x+3, y-1, Color.Blue, number.ToString());
-    }
-
-    private void DrawFlag(int x, int y)
-    {
-        var centerX = x + (TileSize / 2);
-        var centerY = y + (TileSize / 2);
-
-        var color = Color.Red;
-        var flagWidth = TileSize / 4;
-        var flagHeight = TileSize / 4;
-
-        // Draw flagpole
-        display.DrawLine(centerX - (flagWidth / 2), centerY - (flagHeight / 2), centerX - (flagWidth / 2), centerY + (flagHeight / 2), Color.Black);
-
-        // Draw flag
-        display.DrawLine(centerX - (flagWidth / 2), centerY - (flagHeight / 2), centerX + (flagWidth / 2), centerY - (flagHeight / 2), color);
-        display.DrawLine(centerX + (flagWidth / 2), centerY - (flagHeight / 2), centerX - (flagWidth / 2), centerY, color);
-        display.DrawLine(centerX - (flagWidth / 2), centerY, centerX - (flagWidth / 2), centerY - (flagHeight / 2), color);
+        font.DrawText(display, x+3, y-1, Color.DarkGreen, number.ToString());
     }
 }
