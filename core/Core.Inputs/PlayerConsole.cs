@@ -7,6 +7,7 @@ namespace Core.Inputs;
 public class PlayerConsole : IDisposable
 {
     private const int BusId = 1;
+    private ConsoleOptions options;
     private I2cDevice joystickDevice;
     private Attiny8X7SeeSaw joystickSeesaw;
     private I2cDevice buttonsDevice;
@@ -27,8 +28,10 @@ public class PlayerConsole : IDisposable
     private const ulong Pin1BlueLed = 1 << 1;
     private const ulong AllLeds = Pin12RedLed | Pin13YellowLed | Pin0GreenLed | Pin1BlueLed;
 
-    public PlayerConsole(int joystickAddress, int buttonsAddress)
+    public PlayerConsole(int joystickAddress, int buttonsAddress, ConsoleOptions? options = null)
     {
+        this.options = options ?? new ConsoleOptions(true);
+        
         joystickDevice = I2cDevice.Create(new I2cConnectionSettings(BusId, joystickAddress));
         joystickSeesaw = new Attiny8X7SeeSaw(joystickDevice);
         joystickSeesaw.SetGpioPinModeBulk(AllJoystickPins, PinMode.InputPullUp);
@@ -58,6 +61,12 @@ public class PlayerConsole : IDisposable
         if ((data & Pin19Yellow) == 0) result |= Buttons.Yellow;
         if ((data & Pin20Green) == 0) result |= Buttons.Green;
         if ((data & Pin2Blue) == 0) result |= Buttons.Blue;
+
+        if (this.options.LightButtonOnPress)
+        {
+            LightButtons(result.IsRedPushed(), result.IsGreenPushed(), result.IsBluePushed(), result.IsYellowPushed());
+        }
+        
         return result;
     }
 

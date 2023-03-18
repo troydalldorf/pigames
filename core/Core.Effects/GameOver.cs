@@ -9,6 +9,7 @@ public class GameOver : IGameElement, IDisposable
 {
     private LedFont largeFont;
     private LedFont smallFont;
+    private int frameCount;
     
     public GameOver()
     {
@@ -21,11 +22,14 @@ public class GameOver : IGameElement, IDisposable
 
     public void Update(PlayerConsole console)
     {
+        frameCount++;
         var buttons = console.ReadButtons();
         if (buttons.IsGreenPushed())
             State = GameState.PlayAgain;
         else if (buttons.IsRedPushed())
             State = GameState.Done;
+        var button = frameCount % 6 < 3;
+        console.LightButtons(button, !button, false, false);
     }
 
     public void Draw(LedDisplay display)
