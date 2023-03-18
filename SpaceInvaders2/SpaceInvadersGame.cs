@@ -124,6 +124,12 @@ class SpaceInvadersGame
             return;
         }
         
+        foreach (var bomb in pixelBombs.ToArray())
+        {
+            bomb.Update();
+            if (bomb.IsExtinguished()) pixelBombs.Remove(bomb);
+        }
+        
         // Update invaders
         var moveX = moveInvadersRight ? 1 : -1;
         var changeDirection = false;
@@ -152,11 +158,6 @@ class SpaceInvadersGame
                 gameOver.State = GameState.GameOver;
                 return;
             }
-        }
-        foreach (var bomb in pixelBombs.ToArray())
-        {
-            bomb.Update();
-            if (bomb.IsExtinguished()) pixelBombs.Remove(bomb);
         }
     }
 
