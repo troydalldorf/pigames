@@ -60,6 +60,7 @@ class SpaceInvadersGame
         playerX = Width / 2 - PlayerWidth / 2;
         invaders = new List<Rectangle>();
         bullets = new List<Rectangle>();
+        pixelBombs = new List<PixelBomb>();
 
         for (var y = 0; y < 5; y++)
         {
@@ -68,6 +69,11 @@ class SpaceInvadersGame
                 invaders.Add(new Rectangle(x * 6, y * 4, InvaderWidth, InvaderHeight));
             }
         }
+    }
+
+    private void NextWave()
+    {
+        Initialize();
     }
 
     private void Update()
@@ -112,6 +118,12 @@ class SpaceInvadersGame
             }
         }
 
+        if (!invaders.Any())
+        {
+            NextWave();
+            return;
+        }
+        
         // Update invaders
         var moveX = moveInvadersRight ? 1 : -1;
         var changeDirection = false;
