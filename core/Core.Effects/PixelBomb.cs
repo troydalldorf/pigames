@@ -7,24 +7,12 @@ public class PixelBomb
 {
     private List<Spark> sparks;
 
-    public PixelBomb(double centerX, double centerY, int numPixels, Color color)
+    public PixelBomb(int centerX, int centerY, int numPixels, Color color)
     {
         sparks = new List<Spark>();
-
-        var rand = new Random();
         for (var i = 0; i < numPixels; i++)
         {
-            var angle = rand.NextDouble() * 2 * Math.PI;
-            var velocity = rand.NextDouble() * 5 + 5;
-
-            var spark = new Spark();
-            spark.X = centerX;
-            spark.Y = centerY;
-            spark.Color = color;
-            spark.VelocityX = velocity * Math.Cos(angle);
-            spark.VelocityY = velocity * Math.Sin(angle);
-
-            sparks.Add(spark);
+            sparks.Add(new Spark(centerX, centerY, color));
         }
     }
 
