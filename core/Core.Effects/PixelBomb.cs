@@ -6,6 +6,7 @@ namespace Core.Effects;
 public class PixelBomb
 {
     private List<Spark> sparks;
+    private int updateCount;
 
     public PixelBomb(int centerX, int centerY, int numPixels, Color color)
     {
@@ -21,10 +22,11 @@ public class PixelBomb
         sparks = new List<Spark>(initialSparks);
     }
 
-    public bool IsExtinguished() => sparks.Count == 0;
+    public bool IsExtinguished() => sparks.Count == 0 || updateCount > 15;
 
     public void Update()
     {
+        updateCount++;
         foreach (var spark in sparks.ToArray())
         {
             spark.X += spark.VelocityX;
