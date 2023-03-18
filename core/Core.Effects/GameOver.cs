@@ -14,26 +14,26 @@ public class GameOver : IGameElement, IDisposable
     {
         largeFont = new LedFont(LedFontType.Font10x20);
         smallFont = new LedFont(LedFontType.Font5x8);
-        State = GameOverState.GameOver;
+        State = GameState.GameOver;
     }
     
-    public GameOverState State { get;  set; }
+    public GameState State { get;  set; }
 
     public void Update(PlayerConsole console)
     {
         var buttons = console.ReadButtons();
         if (buttons.IsGreenPushed())
-            State = GameOverState.PlayAgain;
+            State = GameState.PlayAgain;
         else if (buttons.IsRedPushed())
-            State = GameOverState.Done;
+            State = GameState.Done;
     }
 
     public void Draw(LedDisplay display)
     {
-        largeFont.DrawText(display, 7, 14, Color.Crimson, "GAME", 3);
-        largeFont.DrawText(display, 7, 29, Color.Crimson, "OVER", 3);
+        largeFont.DrawText(display, 7, 15, Color.Crimson, "GAME", 3);
+        largeFont.DrawText(display, 7, 30, Color.Crimson, "OVER", 3);
         display.DrawRectangle(0, 38, 64, 8, Color.Black, Color.Black);
-        smallFont.DrawText(display, 2, 38, Color.Blue, "PLAY AGAIN?", 0);
+        smallFont.DrawText(display, 4, 38, Color.Blue, "PLAY AGAIN?", 0);
     }
     
     public void Dispose()

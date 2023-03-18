@@ -20,6 +20,7 @@ class SpaceInvadersGame
     private const int PlayerHeight = 3;
     private const int BulletWidth = 1;
     private const int BulletHeight = 3;
+    private const int MaxBullets = 10;
 
     private LedDisplay display;
     private PlayerConsole playerConsole;
@@ -56,7 +57,7 @@ class SpaceInvadersGame
 
     private void Initialize()
     {
-        gameOver.State = GameOverState.Playing;
+        gameOver.State = GameState.Playing;
         playerX = Width / 2 - PlayerWidth / 2;
         invaders = new List<Rectangle>();
         bullets = new List<Rectangle>();
@@ -72,10 +73,10 @@ class SpaceInvadersGame
 
     private void Update()
     {
-        if (gameOver.State == GameOverState.GameOver)
+        if (gameOver.State == GameState.GameOver)
         {
             gameOver.Update(playerConsole);
-            if (gameOver.State == GameOverState.PlayAgain)
+            if (gameOver.State == GameState.PlayAgain)
                 Initialize();
             return;
         }
@@ -86,7 +87,7 @@ class SpaceInvadersGame
         playerX = Math.Clamp(playerX, 0, Width - PlayerWidth);
 
         // Fire bullet
-        if (playerConsole.ReadButtons() > 0 && bullets.Count == 0)
+        if (playerConsole.ReadButtons() > 0 && bullets.Count < MaxBullets)
         {
             bullets.Add(new Rectangle(playerX + PlayerWidth / 2 - BulletWidth / 2, Height - PlayerHeight - BulletHeight, BulletWidth, BulletHeight));
         }
@@ -137,7 +138,7 @@ class SpaceInvadersGame
 
                 if (invaders[i].Bottom < Height - PlayerHeight) continue;
                 // Game over
-                gameOver.State = GameOverState.GameOver;
+                gameOver.State = GameState.GameOver;
                 return;
             }
         }
@@ -164,7 +165,7 @@ class SpaceInvadersGame
         {
             bomb.Draw(display);
         }
-        if (gameOver.State == GameOverState.GameOver)
+        if (gameOver.State == GameState.GameOver)
             gameOver.Draw(display);
         display.Update();
     }

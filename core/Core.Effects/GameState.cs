@@ -1,6 +1,6 @@
 namespace Core.Effects;
 
-public enum GameOverState
+public enum GameState
 {
     Playing,
     GameOver,
