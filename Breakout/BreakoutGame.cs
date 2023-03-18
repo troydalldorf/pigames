@@ -35,7 +35,7 @@ class BreakoutGame
     {
         this.display = display;
         this.playerConsole = playerConsole;
-        this.gameOver = new GameOver();
+        this.gameOver = new GameOver(16);
     }
 
     public void Run()
