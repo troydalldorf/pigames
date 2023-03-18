@@ -117,7 +117,7 @@ class BreakoutGame
                 row++;
             }
             if (!ball.IntersectsWith(bricks[i])) continue;
-            pixelBombs.Add(new PixelBomb(bricks[j].X+2, bricks[j].Y+2, bricks[i].Width*bricks[i].Height,  brickColors[row % brickColors.Length]));
+            pixelBombs.Add(new PixelBomb(bricks[i].X+2, bricks[i].Y+2, bricks[i].Width*bricks[i].Height,  brickColors[row % brickColors.Length]));
             bricks.RemoveAt(i);
             ballDY = -ballDY;
             break;
