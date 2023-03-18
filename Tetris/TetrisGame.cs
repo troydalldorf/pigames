@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Drawing;
 using Core.Inputs;
 
 namespace Tetris;
@@ -115,6 +116,7 @@ class TetrisGame
 
     private void Draw()
     {
+        display.DrawRectangle(0, 0, Width*PixelSize+2, y*PixelSize+2, Color.Orange);
         display.Clear();
 
         // Draw grid
@@ -124,7 +126,7 @@ class TetrisGame
             {
                 if (grid[x, y] > 0)
                 {
-                    display.DrawRectangle(x * PixelSize, y * PixelSize, PixelSize, PixelSize, Tetromino.GetColor(grid[x, y]));
+                    display.DrawRectangle(1+ x * PixelSize, 1 + y * PixelSize, PixelSize, PixelSize, Tetromino.GetColor(grid[x, y]));
                 }
             }
         }
