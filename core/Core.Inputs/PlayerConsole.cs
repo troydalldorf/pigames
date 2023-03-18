@@ -15,12 +15,17 @@ public class PlayerConsole : IDisposable
     private const ulong Pin19Left = 1 << 19;
     private const ulong Pin20down = 1 << 20;
     private const ulong Pin2Up = 1 << 2;
-    public const ulong AllJoystickPins = Pin18Right | Pin19Left | Pin20down | Pin2Up;
+    private const ulong AllJoystickPins = Pin18Right | Pin19Left | Pin20down | Pin2Up;
     private const ulong Pin18Red = 1 << 18;
     private const ulong Pin19Yellow = 1 << 19;
     private const ulong Pin20Green = 1 << 20;
     private const ulong Pin2Blue = 1 << 2;
-    public const ulong AllButtonPins = Pin18Red | Pin19Yellow | Pin20Green | Pin2Blue;
+    private const ulong AllButtonPins = Pin18Red | Pin19Yellow | Pin20Green | Pin2Blue;
+    private const ulong Pin12RedLed = 1 << 12;
+    private const ulong Pin13YellowLed = 1 << 13;
+    private const ulong Pin0GreenLed = 1 << 0;
+    private const ulong Pin1BlueLed = 1 << 1;
+    private const ulong AllLeds = Pin12RedLed | Pin13YellowLed | Pin0GreenLed | Pin1BlueLed;
 
     public PlayerConsole(int joystickAddress, int buttonsAddress)
     {
@@ -31,6 +36,7 @@ public class PlayerConsole : IDisposable
         buttonsDevice = I2cDevice.Create(new I2cConnectionSettings(BusId, buttonsAddress));
         buttonsSeesaw = new Attiny8X7SeeSaw(buttonsDevice);
         buttonsSeesaw.SetGpioPinModeBulk(AllButtonPins, PinMode.InputPullUp);
+        buttonsSeesaw.SetGpioPinModeBulk(AllLeds, PinMode.Output);
     }
 
     public virtual JoystickDirection ReadJoystick()
@@ -44,7 +50,7 @@ public class PlayerConsole : IDisposable
         return result;
     }
     
-    public virtual Buttons ReadButtons()
+    public Buttons ReadButtons()
     {
         var data = buttonsSeesaw.ReadGpioDigitalBulk(AllButtonPins);
         var result = Buttons.None;
@@ -55,11 +61,16 @@ public class PlayerConsole : IDisposable
         return result;
     }
 
+    public void LightButtons(bool red, bool green, bool blue, bool yellow)
+    {
+        buttonsSeesaw.WriteGpioDigital(12, red);
+    }
+
     public void Dispose()
     {
-        joystickSeesaw?.Dispose();
+        joystickSeesaw.Dispose();
         joystickSeesaw = null!;
-        joystickDevice?.Dispose();
+        joystickDevice.Dispose();
         joystickDevice = null!;
     }
 }

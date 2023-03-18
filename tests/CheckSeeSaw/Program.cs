@@ -13,4 +13,5 @@ while (true)
     var p2Stick = p2Console.ReadJoystick();
     var p2Buttons = p2Console.ReadButtons();
     Console.WriteLine($"P1 => stick: {p1Stick.ToString()} | buttons: {p1Buttons.ToString()} || P2 => stick: {p2Stick.ToString()} | buttons: {p2Buttons.ToString()}");
+    p1Console.LightButtons(true, true, true, true);
 }
