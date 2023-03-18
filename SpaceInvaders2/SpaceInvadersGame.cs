@@ -106,7 +106,7 @@ class SpaceInvadersGame
             for (var j = invaders.Count - 1; j >= 0; j--)
             {
                 if (!bullets[i].IntersectsWith(invaders[j])) continue;
-                pixelBombs.Add(new PixelBomb(invaders[i].X+2, invaders[i].Y+2, 40, 3, 5, 3));
+                pixelBombs.Add(new PixelBomb(invaders[i].X+2, invaders[i].Y+2, 40, Color.GreenYellow));
                 bullets.RemoveAt(i);
                 invaders.RemoveAt(j);
                 break;
@@ -145,7 +145,7 @@ class SpaceInvadersGame
         foreach (var bomb in pixelBombs.ToArray())
         {
             bomb.Update();
-            if (bomb.IsExtinguished) pixelBombs.Remove(bomb);
+            if (bomb.IsExtinguished()) pixelBombs.Remove(bomb);
         }
     }
 

@@ -1,82 +1,60 @@
 ﻿using System.Drawing;
 using Core.Display;
 
+namespace Core.Effects;
+
 public class PixelBomb
 {
-    private class Pixel
+    private List<Spark> sparks;
+
+    public PixelBomb(double centerX, double centerY, int numPixels, Color color)
     {
-        public Point Position { get; set; }
-        public Color Color { get; set; }
-        public int VelocityX { get; set; }
-        public int VelocityY { get; set; }
-        public int Life { get; set; }
+        sparks = new List<Spark>();
+
+        var rand = new Random();
+        for (var i = 0; i < numPixels; i++)
+        {
+            var angle = rand.NextDouble() * 2 * Math.PI;
+            var velocity = rand.NextDouble() * 5 + 5;
+
+            var spark = new Spark();
+            spark.X = centerX;
+            spark.Y = centerY;
+            spark.Color = color;
+            spark.VelocityX = velocity * Math.Cos(angle);
+            spark.VelocityY = velocity * Math.Sin(angle);
+
+            sparks.Add(spark);
+        }
     }
 
-    private const int DefaultNumPixels = 30;
-    private const int DefaultLifespan = 30;
-    private const int DefaultRadius = 10;
-    private const int DefaultGravity = 1;
-
-    private readonly List<Pixel> pixels = new();
-    private readonly Random random = new();
-
-    private int numPixels;
-    private int lifespan;
-    private int radius;
-    private int gravity;
-
-    public PixelBomb(int x, int y, int numPixels = DefaultNumPixels, int lifespan = DefaultLifespan, int radius = DefaultRadius, int gravity = DefaultGravity)
+    public PixelBomb(Spark[] initialSparks)
     {
-        this.numPixels = numPixels;
-        this.lifespan = lifespan;
-        this.radius = radius;
-        this.gravity = gravity;
-        SpawnPixels(x, y);
+        sparks = new List<Spark>(initialSparks);
     }
+
+    public bool IsExtinguished() => sparks.Count == 0;
 
     public void Update()
     {
-        for (var i = pixels.Count - 1; i >= 0; i--)
+        foreach (var spark in sparks.ToArray())
         {
-            var pixel = pixels[i];
-            pixel.Position = new Point(pixel.Position.X + pixel.VelocityX, pixel.Position.Y + pixel.VelocityY + gravity);
-            pixel.Life--;
-            if (pixel.Life <= 0)
-            {
-                pixels.RemoveAt(i);
-            }
+            spark.X += spark.VelocityX;
+            spark.Y += spark.VelocityY;
+            spark.VelocityX *= 0.98;
+            spark.VelocityY *= 0.98;
+            if (spark.X < 0 | spark.X > 63 | spark.Y < 0 | spark.Y > 63)
+                sparks.Remove(spark);
         }
     }
 
     public void Draw(LedDisplay display)
     {
-        foreach (var pixel in pixels)
+        foreach (var spark in sparks)
         {
-            display.SetPixel(pixel.Position.X, pixel.Position.Y,  pixel.Color);
-        }
-    }
-
-    public bool IsExtinguished => pixels.Count == 0;
-
-    private void SpawnPixels(int centerX, int centerY)
-    {
-        for (var i = 0; i < numPixels; i++)
-        {
-            var angle = random.Next(360);
-            var radians = angle * Math.PI / 180;
-            var velocity = random.Next(1, 3);
-            var color = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
-            var x = (int)Math.Round(centerX + radius * Math.Cos(radians));
-            var y = (int)Math.Round(centerY + radius * Math.Sin(radians));
-
-            pixels.Add(new Pixel
-            {
-                Position = new Point(x, y),
-                Color = color,
-                VelocityX = (int)Math.Round(velocity * Math.Cos(radians)),
-                VelocityY = (int)Math.Round(velocity * Math.Sin(radians)),
-                Life = lifespan
-            });
+            var x = (int)Math.Round(spark.X);
+            var y = (int)Math.Round(spark.Y);
+            display.SetPixel(x, y, spark.Color);
         }
     }
 }
