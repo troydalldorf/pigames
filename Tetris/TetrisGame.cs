@@ -54,10 +54,10 @@ class TetrisGame
 
     private void HandleInput()
     {
-        var stick = playerConsole.ReadJoystick();
-        if (stopwatch.ElapsedMilliseconds - lastActionAt < 60)
+        if (stopwatch.ElapsedMilliseconds - lastActionAt < 120)
             return;
-        
+        var stick = playerConsole.ReadJoystick();
+
         if (stick.IsLeft())
         {
             if (IsValidMove(currentX - 1, currentY, currentTetromino))
