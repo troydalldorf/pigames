@@ -16,7 +16,7 @@ class TetrisGame
     private LedDisplay display;
     private PlayerConsole playerConsole;
 
-    private int?[,] grid;
+    private int[,] grid;
     private Tetromino currentTetromino;
     private int currentX, currentY;
     private int speed;
@@ -33,7 +33,7 @@ class TetrisGame
         this.stopwatch = new Stopwatch();
         this.stopwatch.Start();
 
-        grid = new int?[Width, Height];
+        grid = new int[Width, Height];
         random = new Random();
         speed = 10;
         frame = 0;
@@ -108,7 +108,7 @@ class TetrisGame
             if (!IsValidMove(currentX, currentY, currentTetromino))
             {
                 // Game over
-                grid = new int?[Width, Height];
+                grid = new int[Width, Height];
             }
         }
     }
@@ -122,9 +122,9 @@ class TetrisGame
         {
             for (var y = 0; y < Height; y++)
             {
-                if (grid[x, y] != null)
+                if (grid[x, y] > 0)
                 {
-                    display.DrawRectangle(x * PixelSize, y * PixelSize, PixelSize, PixelSize, Tetromino.GetColor(grid[x, y]!.Value));
+                    display.DrawRectangle(x * PixelSize, y * PixelSize, PixelSize, PixelSize, Tetromino.GetColor(grid[x, y]));
                 }
             }
         }
