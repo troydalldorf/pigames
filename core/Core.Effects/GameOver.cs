@@ -30,9 +30,9 @@ public class GameOver : IGameElement, IDisposable
 
     public void Draw(LedDisplay display)
     {
-        largeFont.DrawText(display, 4, 12, Color.Crimson, "GAME", 3);
-        largeFont.DrawText(display, 5, 32, Color.Crimson, "OVER", 3);
-        smallFont.DrawText(display, 0, 48, Color.Blue, "PLAY AGAIN?", 0);
+        largeFont.DrawText(display, 4, 18, Color.Crimson, "GAME", 3);
+        largeFont.DrawText(display, 5, 28, Color.Crimson, "OVER", 3);
+        smallFont.DrawText(display, 2, 38, Color.Blue, "PLAY AGAIN?", 0);
     }
     
     public void Dispose()
