@@ -12,6 +12,7 @@ public class GameOver : IGameElement, IDisposable
     
     public GameOver()
     {
+        largeFont = new LedFont(LedFontType.Font10x20);
         smallFont = new LedFont(LedFontType.Font10x20);
         State = GameOverState.WaitingForUser;
     }
