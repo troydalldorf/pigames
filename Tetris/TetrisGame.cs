@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Core.Inputs;
 
 namespace Tetris;
@@ -22,11 +23,15 @@ class TetrisGame
     private int frame;
 
     private Random random;
+    private Stopwatch stopwatch;
+    private int lastActionAt;
 
     public TetrisGame(LedDisplay display, PlayerConsole playerConsole)
     {
         this.display = display;
         this.playerConsole = playerConsole;
+        this.stopwatch = new Stopwatch();
+        this.stopwatch.Start();
 
         grid = new int[Width, Height];
         random = new Random();
@@ -50,7 +55,9 @@ class TetrisGame
     private void HandleInput()
     {
         var stick = playerConsole.ReadJoystick();
-
+        if (stopwatch.ElapsedMilliseconds - lastActionAt < 60)
+            return;
+        
         if (stick.IsLeft())
         {
             if (IsValidMove(currentX - 1, currentY, currentTetromino))
