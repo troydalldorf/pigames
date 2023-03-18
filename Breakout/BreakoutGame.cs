@@ -74,7 +74,6 @@ class BreakoutGame
             gameOver.Update(playerConsole);
             if (gameOver.State == GameState.PlayAgain)
                 Initialize();
-            return;
         }
         foreach (var bomb in pixelBombs.ToArray())
         {
