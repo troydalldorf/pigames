@@ -105,7 +105,7 @@ class SpaceInvadersGame
             for (var j = invaders.Count - 1; j >= 0; j--)
             {
                 if (!bullets[i].IntersectsWith(invaders[j])) continue;
-                pixelBombs.Add(new PixelBomb(invaders[j].X+2, invaders[j].Y+2, 40, Color.GreenYellow));
+                pixelBombs.Add(new SpriteBomb(invaders[j].X+2, invaders[j].Y+2, alienSprite));
                 bullets.RemoveAt(i);
                 invaders.RemoveAt(j);
                 break;

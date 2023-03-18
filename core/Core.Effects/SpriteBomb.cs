@@ -4,11 +4,11 @@ namespace Core.Effects;
 
 public class SpriteBomb : PixelBomb
 {
-    public SpriteBomb(int x, int y, Sprite sprite, int frameNo = 0) : base(SparksFromSprite(x, y, sprite))
+    public SpriteBomb(int x, int y, SpriteAnimation sprite, int frameNo = 0) : base(SparksFromSprite(x, y, sprite, frameNo))
     {
     }
 
-    private static Spark[] SparksFromSprite(int x, int y, Sprite sprite, int frameNo = 0)
+    private static Spark[] SparksFromSprite(int x, int y, SpriteAnimation sprite, int frameNo = 0)
     {
         var sparks = new List<Spark>();
         for (var sy = 0; sy < sprite.Height; sy++)
