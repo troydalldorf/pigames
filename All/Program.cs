@@ -2,7 +2,7 @@
 using Core.Display;
 using Core.Inputs;
 
-Console.WriteLine("Pong game starting...");
+Console.WriteLine("Game menu starting...");
 
 var display = new LedDisplay();
 var player1Console = new Player1Console();

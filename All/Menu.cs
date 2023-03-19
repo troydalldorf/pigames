@@ -10,9 +10,6 @@ namespace All;
 
 public class Menu : IGameElement
 {
-    private readonly LedDisplay display;
-    private readonly PlayerConsole player1Console;
-    private readonly PlayerConsole player2Console;
     private readonly LedFont font = new(LedFontType.FontTomThumb);
     private readonly int cursor = 0;
 
@@ -25,14 +22,7 @@ public class Menu : IGameElement
         new("Tetris", () => new SoloTetrisGame(), null)
     };
 
-    public Menu(LedDisplay display, PlayerConsole player1Console, PlayerConsole player2Console)
-    {
-        this.display = display;
-        this.player1Console = player1Console;
-        this.player2Console = player2Console;
-    }
-
-    public void Run()
+    public void Run(LedDisplay display, PlayerConsole player1Console, PlayerConsole player2Console)
     {
         while (true)
         {
@@ -53,7 +43,7 @@ public class Menu : IGameElement
     public void Draw(IDisplay display)
     {
         var y = 10;
-        for (var i=0; i< items.Length; i++)
+        for (var i=0; i < items.Length; i++)
         {
             var item = items[i];
             display.DrawCircle(3 + ItemHeight/2, Offset + ItemHeight/2, ItemHeight/2-1, i==cursor ?  Color.Red : Color.LightSkyBlue);
