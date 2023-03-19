@@ -5,7 +5,8 @@ using Tetris;
 Console.WriteLine("Tetris game starting...");
 
 var display = new LedDisplay();
-var playerConsole = new PlayerConsole(0x3a, 0x42);
+var p1Console = new Player1Console();
+var p2Console = new Player2Console();
 
-var tetrisGame = new SoloTetrisGame();
-tetrisGame.Run(display, playerConsole);
+var tetrisGame = new DuoTetrisGame();
+tetrisGame.Run(display, p1Console, p2Console);

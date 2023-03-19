@@ -107,7 +107,6 @@ class TetrisGame : IGameElement
 
     public void Draw(IDisplay display)
     {
-        display.Clear();
         display.DrawRectangle(0, 0, Width*PixelSize+2, Height*PixelSize+2, Color.DarkGray);
         font.DrawText(display, 2, 6, Color.DarkGray, score.Score.ToString());
         
@@ -139,8 +138,6 @@ class TetrisGame : IGameElement
                 }
             }
         }
-
-        display.Update();
     }
 
     public bool IsDone()
