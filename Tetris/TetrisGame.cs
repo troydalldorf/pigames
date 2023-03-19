@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using Core;
+using Core.Display.Fonts;
 using Core.Effects;
 
 namespace Tetris;
@@ -16,7 +17,9 @@ class TetrisGame : IGameElement
     private int currentX, currentY;
     private int speed;
     private int frame;
+    private TetrisScore score = new();
     private List<PixelBomb> pixelBombs = new();
+    private LedFont font = new(LedFontType.FontTomThumb);
 
     private Random random;
     private Stopwatch stopwatch;
@@ -106,6 +109,7 @@ class TetrisGame : IGameElement
     {
         display.Clear();
         display.DrawRectangle(0, 0, Width*PixelSize+2, Height*PixelSize+2, Color.DarkGray);
+        font.DrawText(display, 20, 1, Color.DarkGray, score.Score.ToString());
         
         foreach (var bomb in pixelBombs)
         {
@@ -160,6 +164,7 @@ class TetrisGame : IGameElement
 
     private void MergeTetromino()
     {
+        score.ScoreDrop();
         for (var x = 0; x < currentTetromino.Width; x++)
         {
             for (var y = 0; y < currentTetromino.Height; y++)
@@ -174,6 +179,7 @@ class TetrisGame : IGameElement
 
     private void ClearLines()
     {
+        var clearedLines = 0;
         for (var y = Height - 1; y >= 0; y--)
         {
             var fullLine = true;
@@ -187,6 +193,7 @@ class TetrisGame : IGameElement
 
             if (fullLine)
             {
+                clearedLines++;
                 for (var x = 0; x < Width; x++)
                 {
                     pixelBombs.Add(new PixelBomb(1+ x*PixelSize, y*PixelSize, PixelSize*PixelSize, Tetromino.GetColor(grid[x,y])));
@@ -201,6 +208,7 @@ class TetrisGame : IGameElement
                 y++;
             }
         }
+        score.ScoreLinesCleared(clearedLines);
     }
 
     private void NewTetromino()
