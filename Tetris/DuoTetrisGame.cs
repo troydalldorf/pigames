@@ -21,9 +21,7 @@ public class DuoTetrisGame : I2PGameElement
             this.HandleInput(p1Console);
             this.HandleInput(p2Console);
             this.Update();
-            display.Clear();
             this.Draw(display);
-            display.Update();
             Thread.Sleep(50);
         }
     }
