@@ -44,7 +44,7 @@ public class DuoTetrisGame : I2PGameElement
 
     public void Draw(IDisplay display)
     {
-        var p2Display = new TxDisplay(display, (x, _) => 62 - x, (_, y) => 61 - y);
+        var p2Display = new TxDisplay(display, (x, _) => 61 - x, (_, y) => 60 - y);
         display.Clear();
         p1TetrisGame.Draw(display);
         p2TetrisGame.Draw(p2Display);
