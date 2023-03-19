@@ -13,7 +13,7 @@ public class Menu : IGameElement
     private readonly LedDisplay display;
     private readonly PlayerConsole player1Console;
     private readonly PlayerConsole player2Console;
-    private readonly LedFont font = new(LedFontType.Font4x6);
+    private readonly LedFont font = new(LedFontType.FontTomThumb);
     private readonly int cursor = 0;
 
     private const int Offset = 5;
@@ -57,7 +57,7 @@ public class Menu : IGameElement
         {
             var item = items[i];
             display.DrawCircle(3 + ItemHeight/2, Offset + ItemHeight/2, ItemHeight/2-1, i==cursor ?  Color.Red : Color.LightSkyBlue);
-            font.DrawText(display, 5, Offset + i*ItemHeight, Color.LightSkyBlue, item.Name);
+            font.DrawText(display, 3 + ItemHeight + 1, Offset + i*ItemHeight, Color.LightSkyBlue, item.Name);
             y += 7;
         }
     }
