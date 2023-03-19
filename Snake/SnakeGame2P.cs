@@ -1,3 +1,5 @@
+using Core;
+
 namespace Snake;
 
 using Core.Inputs;

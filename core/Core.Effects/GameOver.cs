@@ -1,7 +1,5 @@
 using System.Drawing;
-using Core.Display;
 using Core.Display.Fonts;
-using Core.Inputs;
 
 namespace Core.Effects;
 
@@ -22,19 +20,25 @@ public class GameOver : IGameElement, IDisposable
     
     public GameState State { get;  set; }
 
-    public void Update(PlayerConsole console)
+    public void HandleInput(IPlayerConsole console)
     {
-        frameCount++;
         var buttons = console.ReadButtons();
         if (buttons.IsGreenPushed())
             State = GameState.PlayAgain;
         else if (buttons.IsRedPushed())
             State = GameState.Done;
+        
+        // LED Buttons
+        frameCount++;
         var button = frameCount % 6 < 3;
         console.LightButtons(button, !button, false, false);
     }
 
-    public void Draw(LedDisplay display)
+    public void Update()
+    {
+    }
+
+    public void Draw(IDisplay display)
     {
         largeFont.DrawText(display, 7, top+13, Color.Crimson, "GAME", 3);
         largeFont.DrawText(display, 7, top+28, Color.Crimson, "OVER", 3);

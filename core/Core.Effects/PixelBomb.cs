@@ -38,7 +38,7 @@ public class PixelBomb
         }
     }
 
-    public void Draw(LedDisplay display)
+    public void Draw(IDisplay display)
     {
         foreach (var spark in sparks)
         {

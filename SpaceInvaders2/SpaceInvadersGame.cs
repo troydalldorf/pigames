@@ -1,3 +1,4 @@
+using Core;
 using Core.Display;
 using Core.Display.Sprites;
 using Core.Effects;
@@ -80,7 +81,8 @@ class SpaceInvadersGame
     {
         if (gameOver.State != GameState.Playing)
         {
-            gameOver.Update(playerConsole);
+            gameOver.HandleInput(playerConsole);
+            gameOver.Update();
             if (gameOver.State == GameState.PlayAgain)
                 Initialize();
             return;

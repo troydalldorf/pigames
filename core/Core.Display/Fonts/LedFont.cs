@@ -15,9 +15,10 @@ public class LedFont : IDisposable
         font = new RgbLedFont(bdfFilePath);
     }
 
-    public void DrawText(LedDisplay display, int x, int y, Color color, string text, int spacing = 0, bool vertical = false)
+    public void DrawText(IDisplay display, int x, int y, Color color, string text, int spacing = 0, bool vertical = false)
     {
-        font.DrawText(display.GetCanvas()._canvas, x, y, color, text, spacing, vertical);
+        var rgbCanvas = ((LedDisplay)display).GetCanvas()._canvas;
+        font.DrawText(rgbCanvas, x, y, color, text, spacing, vertical);
     }
 
     private static string GetBdfFilePath(LedFontType fontType)

@@ -4,7 +4,7 @@ using Core.Inputs.Seesaw;
 
 namespace Core.Inputs;
 
-public class PlayerConsole : IDisposable
+public class PlayerConsole : IDisposable, IPlayerConsole
 {
     private const int BusId = 1;
     private ConsoleOptions options;

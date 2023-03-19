@@ -1,6 +1,7 @@
 using Core.Display;
 using Core.Inputs;
 using System.Drawing;
+using Core;
 
 namespace GeometryDash
 {

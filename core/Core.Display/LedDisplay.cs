@@ -4,7 +4,7 @@ using Core.Display.LedMatrix;
 
 namespace Core.Display;
 
-public class LedDisplay
+public class LedDisplay : IDisplay
 {
     private RgbLedMatrix matrix;
     private RgbLedCanvas canvas;

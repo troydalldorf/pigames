@@ -150,4 +150,8 @@
       <PackageReference Include="System.Drawing.Common" Version="5.0.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Core\Core.csproj" />
+    </ItemGroup>
+
 </Project>

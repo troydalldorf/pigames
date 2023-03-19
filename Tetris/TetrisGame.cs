@@ -1,22 +1,15 @@
 using System.Diagnostics;
 using System.Drawing;
+using Core;
 using Core.Effects;
-using Core.Inputs;
 
 namespace Tetris;
 
-using System;
-using System.Threading;
-using Core.Display;
-
-class TetrisGame
+class TetrisGame : IGameElement
 {
     private const int Width = 10;
     private const int Height = 20;
     private const int PixelSize = 3;
-
-    private LedDisplay display;
-    private PlayerConsole playerConsole;
 
     private int[,] grid;
     private Tetromino currentTetromino;
@@ -29,10 +22,8 @@ class TetrisGame
     private Stopwatch stopwatch;
     private long lastActionAt;
 
-    public TetrisGame(LedDisplay display, PlayerConsole playerConsole)
+    public TetrisGame()
     {
-        this.display = display;
-        this.playerConsole = playerConsole;
         this.stopwatch = new Stopwatch();
         this.stopwatch.Start();
 
@@ -44,18 +35,7 @@ class TetrisGame
         NewTetromino();
     }
 
-    public void Run()
-    {
-        while (true)
-        {
-            HandleInput();
-            Update();
-            Draw();
-            Thread.Sleep(50);
-        }
-    }
-
-    private void HandleInput()
+    public void HandleInput(IPlayerConsole playerConsole)
     {
         if (stopwatch.ElapsedMilliseconds - lastActionAt < 120)
             return;
@@ -93,7 +73,7 @@ class TetrisGame
         }
     }
 
-    private void Update()
+    public void Update()
     {
         frame++;
 
@@ -122,7 +102,7 @@ class TetrisGame
         }
     }
 
-    private void Draw()
+    public void Draw(IDisplay display)
     {
         display.Clear();
         display.DrawRectangle(0, 0, Width*PixelSize+2, Height*PixelSize+2, Color.DarkGray);

@@ -9,5 +9,5 @@ Console.WriteLine("Tetris game starting...");
 var display = new LedDisplay();
 var playerConsole = new PlayerConsole(0x3a, 0x42);
 
-var tetrisGame = new TetrisGame(display, playerConsole);
+var tetrisGame = new SoloTetrisGame(display, playerConsole);
 tetrisGame.Run();

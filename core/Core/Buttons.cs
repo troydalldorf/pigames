@@ -1,4 +1,4 @@
-namespace Core.Inputs;
+namespace Core;
 
 [Flags]
 public enum Buttons

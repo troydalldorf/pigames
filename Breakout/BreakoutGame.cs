@@ -1,3 +1,4 @@
+using Core;
 using Core.Display;
 using Core.Effects;
 using Core.Inputs;
@@ -72,7 +73,8 @@ class BreakoutGame
     {
         if (gameOver.State != GameState.Playing)
         {
-            gameOver.Update(playerConsole);
+            gameOver.HandleInput(playerConsole);
+            gameOver.Update();
             if (gameOver.State == GameState.PlayAgain)
                 Initialize();
         }
