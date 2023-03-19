@@ -64,9 +64,9 @@ public class PongGame : I2PGameElement
     {
         var stick2 = player2Console.ReadJoystick();
         if (stick2.IsLeft() && player2Paddle.Left > 0)
-            player2Paddle.X -= 2;
-        if (stick2.IsRight() && player2Paddle.Right < Width)
             player2Paddle.X += 2;
+        if (stick2.IsRight() && player2Paddle.Right < Width)
+            player2Paddle.X -= 2;
     }
 
     public void Update()
