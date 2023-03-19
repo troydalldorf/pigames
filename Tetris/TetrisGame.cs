@@ -140,7 +140,7 @@ class TetrisGame
             {
                 if (currentTetromino[x, y])
                 {
-                    display.DrawRectangle((currentX + x) * PixelSize, (currentY + y) * PixelSize, PixelSize, PixelSize, Tetromino.GetColor(currentTetromino.Type));
+                    display.DrawRectangle(1+ (currentX + x) * PixelSize, 1+ (currentY + y) * PixelSize, PixelSize, PixelSize, Tetromino.GetColor(currentTetromino.Type));
                 }
             }
         }
