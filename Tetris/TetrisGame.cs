@@ -24,6 +24,7 @@ class TetrisGame : IGameElement
     private Random random;
     private Stopwatch stopwatch;
     private long lastActionAt;
+    private bool gameOver = false;
 
     public TetrisGame()
     {
@@ -99,8 +100,7 @@ class TetrisGame : IGameElement
 
             if (!IsValidMove(currentX, currentY, currentTetromino))
             {
-                // Game over
-                grid = new int[Width, Height];
+                gameOver = true;
             }
         }
     }
@@ -145,7 +145,7 @@ class TetrisGame : IGameElement
 
     public bool IsDone()
     {
-        return false;
+        return gameOver;
     }
 
     private bool IsValidMove(int newX, int newY, Tetromino tetromino)

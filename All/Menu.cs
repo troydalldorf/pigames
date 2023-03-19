@@ -2,6 +2,7 @@ using System.Drawing;
 using Core;
 using Core.Display;
 using Core.Display.Fonts;
+using Core.Effects;
 using Core.Inputs;
 using Pong;
 using Tetris;
@@ -16,6 +17,7 @@ public class Menu : IGameElement
     private const int Offset = 6;
     private const int ItemHeight = 7;
     private IGameElement? current = null;
+    private GameOver gameOver = new(7);
 
     private GameItem[] items =
     {
@@ -30,14 +32,27 @@ public class Menu : IGameElement
         {
             if (current != null)
             {
-                current.HandleInput(player1Console);
-                if (current is I2PGameElement current2P) current2P.Handle2PInput(player2Console);
-                current.Update();
-                current.Draw(display);
-                if (current.IsDone())
+                if (gameOver.State == GameState.Playing)
+                {
+                    current.HandleInput(player1Console);
+                    if (current is I2PGameElement current2P) current2P.Handle2PInput(player2Console);
+                    current.Update();
+                    current.Draw(display);
+                    if (current.IsDone())
+                    {
+                        gameOver.State = GameState.GameOver;
+                    }
+                }
+                else if (gameOver.State == GameState.Done)
                 {
                     if (current is IDisposable disposable) disposable.Dispose();
-                    current = null;
+                    current = null;       
+                }
+                else if (gameOver.State == GameState.PlayAgain)
+                {
+                    gameOver.State = GameState.Playing;
+                    var item = items[cursor];
+                    current = item.OnePlayer != null ? item.OnePlayer() : item.TwoPlayer();
                 }
             }
             else
@@ -60,6 +75,7 @@ public class Menu : IGameElement
 
         if (!buttons.IsGreenPushed()) return;
         var item = items[cursor];
+        gameOver.State = GameState.Playing;
         current = item.OnePlayer != null ? item.OnePlayer() : item.TwoPlayer();
     }
 
