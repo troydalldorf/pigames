@@ -43,7 +43,7 @@ public class Menu : IGameElement
 
     public void Draw(IDisplay display)
     {
-        Console.WriteLine("Draw...");
+        display.Clear();
         display.DrawRectangle(0, 0, 64, 64, Color.Chartreuse);
         for (var i=0; i < items.Length; i++)
         {
@@ -51,5 +51,6 @@ public class Menu : IGameElement
             display.DrawCircle(3 + ItemHeight/2, Offset + i*ItemHeight + ItemHeight/2, ItemHeight/2-1, i==cursor ?  Color.Red : Color.LightSkyBlue);
             font.DrawText(display, 3 + ItemHeight + 1, Offset + i*ItemHeight, Color.LightSkyBlue, item.Name);
         }
+        display.Update();
     }
 }
