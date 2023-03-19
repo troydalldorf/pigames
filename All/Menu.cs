@@ -24,6 +24,7 @@ public class Menu : IGameElement
 
     public void Run(LedDisplay display, PlayerConsole player1Console, PlayerConsole player2Console)
     {
+        Console.WriteLine("Starting menu...");
         while (true)
         {
             this.HandleInput(player1Console);
@@ -42,6 +43,7 @@ public class Menu : IGameElement
 
     public void Draw(IDisplay display)
     {
+        Console.WriteLine("Draw...");
         display.DrawRectangle(0, 0, 64, 64, Color.Chartreuse);
         for (var i=0; i < items.Length; i++)
         {
