@@ -38,11 +38,11 @@ class TetrisGame : IGameElement
         NewTetromino();
     }
 
-    public void HandleInput(IPlayerConsole playerConsole)
+    public void HandleInput(IPlayerConsole player1Console)
     {
         if (stopwatch.ElapsedMilliseconds - lastActionAt < 120)
             return;
-        var stick = playerConsole.ReadJoystick();
+        var stick = player1Console.ReadJoystick();
 
         if (stick.IsLeft())
         {
@@ -109,7 +109,7 @@ class TetrisGame : IGameElement
     {
         display.Clear();
         display.DrawRectangle(0, 0, Width*PixelSize+2, Height*PixelSize+2, Color.DarkGray);
-        font.DrawText(display, 1, 5, Color.DarkGray, score.Score.ToString());
+        font.DrawText(display, 2, 6, Color.DarkGray, score.Score.ToString());
         
         foreach (var bomb in pixelBombs)
         {

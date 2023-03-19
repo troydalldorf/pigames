@@ -41,3 +41,5 @@ Yellow = 0x2,
 Green = 0x4,
 Blue = 0x8,
 }
+
+There is also a class for drawing fonts. IFont.DrawText(int x, int y, string text, Color color); Your game class can accept IDisplay, IPlayerConsole, and IFont as input parameters.

@@ -1,22 +1,21 @@
+using Core;
 using Core.Display;
 using Core.Inputs;
 
 namespace Tetris;
 
-public class SoloTetrisGame
+public class SoloTetrisGame : IGameElement
 {
     private readonly LedDisplay display;
     private readonly PlayerConsole playerConsole;
     private readonly TetrisGame tetrisGame;
 
-    public SoloTetrisGame(LedDisplay display, PlayerConsole playerConsole)
+    public SoloTetrisGame()
     {
-        this.display = display;
-        this.playerConsole = playerConsole;
         this.tetrisGame = new TetrisGame();
     }
 
-    public void Run()
+    public void Run(LedDisplay display, PlayerConsole playerConsole)
     {
         while (true)
         {
@@ -25,5 +24,20 @@ public class SoloTetrisGame
             tetrisGame.Draw(display);
             Thread.Sleep(50);
         }
+    }
+
+    public void HandleInput(IPlayerConsole player1Console)
+    {
+        tetrisGame.HandleInput(player1Console);
+    }
+
+    public void Update()
+    {
+        tetrisGame.Update();
+    }
+
+    public void Draw(IDisplay display)
+    {
+        tetrisGame.Draw(display);
     }
 }

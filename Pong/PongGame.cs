@@ -9,7 +9,7 @@ using System.Drawing;
 using System.Threading;
 using Core.Display;
 
-public class PongGame
+public class PongGame : I2PGameElement
 {
     private const int Width = 64;
     private const int Height = 64;
@@ -17,10 +17,7 @@ public class PongGame
     private const int PaddleHeight = 2;
     private const int BallSize = 2;
 
-    private LedDisplay display;
     private LedFont font;
-    private PlayerConsole player1Console;
-    private PlayerConsole player2Console;
     private int p1Score = 0;
     private int p2Score = 0;
 
@@ -30,12 +27,9 @@ public class PongGame
     private Point ballVelocity;
     private Random random;
 
-    public PongGame(LedDisplay display, PlayerConsole player1Console, PlayerConsole player2Console)
+    public PongGame()
     {
-        this.display = display;
         this.font = new LedFont(LedFontType.FontTomThumb);
-        this.player1Console = player1Console;
-        this.player2Console = player2Console;
 
         player1Paddle = new Rectangle(Width / 2 - PaddleWidth / 2, Height - 1 - PaddleHeight, PaddleWidth, PaddleHeight);
         player2Paddle = new Rectangle(Width / 2 - PaddleWidth / 2, 0, PaddleWidth, PaddleHeight);
@@ -44,34 +38,38 @@ public class PongGame
         ResetBall();
     }
 
-    public void Run()
+    public void Run(IDisplay display, IPlayerConsole player1Console, IPlayerConsole player2Console)
     {
         while (true)
         {
-            HandleInput();
+            HandleInput(player1Console);
+            Handle2PInput(player2Console);
             Update();
-            Draw();
+            Draw(display);
             Thread.Sleep(50);
         }
     }
 
-    private void HandleInput()
+    public void HandleInput(IPlayerConsole player1Console)
     {
         var stick1 = player1Console.ReadJoystick();
-        var stick2 = player2Console.ReadJoystick();
 
         if (stick1.IsLeft() && player1Paddle.Left > 0)
             player1Paddle.X -= 2;
         if (stick1.IsRight() && player1Paddle.Right < Width)
             player1Paddle.X += 2;
-
+    }
+    
+    public void Handle2PInput(IPlayerConsole player2Console)
+    {
+        var stick2 = player2Console.ReadJoystick();
         if (stick2.IsLeft() && player2Paddle.Left > 0)
             player2Paddle.X -= 2;
         if (stick2.IsRight() && player2Paddle.Right < Width)
             player2Paddle.X += 2;
     }
 
-    private void Update()
+    public void Update()
     {
         ballPosition.X += ballVelocity.X;
         ballPosition.Y += ballVelocity.Y;
@@ -119,7 +117,7 @@ public class PongGame
         );
     }
 
-    private void Draw()
+    public void Draw(IDisplay display)
     {
         display.Clear();
         

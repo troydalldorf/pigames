@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Pong\Pong.csproj" />
+      <ProjectReference Include="..\Tetris\Tetris.csproj" />
     </ItemGroup>
 
 </Project>
