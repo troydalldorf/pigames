@@ -12,8 +12,8 @@ public class PlayerConsoleInverted : PlayerConsole
         var invertedStick = JoystickDirection.None;
         if (stick.IsLeft()) invertedStick |= JoystickDirection.Right;
         if (stick.IsRight()) invertedStick |= JoystickDirection.Left;
-        if (stick.IsUp()) invertedStick |= JoystickDirection.Down;
-        if (stick.IsDown()) invertedStick |= JoystickDirection.Up;
+        if (stick.IsUp()) invertedStick |= JoystickDirection.Up;
+        if (stick.IsDown()) invertedStick |= JoystickDirection.Down;
         return invertedStick;
     }
 }
