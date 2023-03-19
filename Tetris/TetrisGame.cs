@@ -97,6 +97,12 @@ class TetrisGame
     {
         frame++;
 
+        foreach (var bomb in pixelBombs.ToArray())
+        {
+            bomb.Update();
+            if (bomb.IsExtinguished()) pixelBombs.Remove(bomb);
+        }
+        
         if (frame % speed != 0) return;
         if (IsValidMove(currentX, currentY + 1, currentTetromino))
         {
@@ -118,8 +124,13 @@ class TetrisGame
 
     private void Draw()
     {
-        display.DrawRectangle(0, 0, Width*PixelSize+2, Height*PixelSize+2, Color.Orange);
         display.Clear();
+        display.DrawRectangle(0, 0, Width*PixelSize+2, Height*PixelSize+2, Color.Orange);
+        
+        foreach (var bomb in pixelBombs)
+        {
+            bomb.Draw(display);
+        }
 
         // Draw grid
         for (var x = 0; x < Width; x++)
@@ -143,12 +154,6 @@ class TetrisGame
                     display.DrawRectangle(1+ (currentX + x) * PixelSize, 1+ (currentY + y) * PixelSize, PixelSize, PixelSize, Tetromino.GetColor(currentTetromino.Type));
                 }
             }
-        }
-        
-        foreach (var bomb in pixelBombs.ToArray())
-        {
-            bomb.Update();
-            if (bomb.IsExtinguished()) pixelBombs.Remove(bomb);
         }
 
         display.Update();
