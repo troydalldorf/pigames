@@ -11,9 +11,9 @@ namespace All;
 public class Menu : IGameElement
 {
     private readonly LedFont font = new(LedFontType.FontTomThumb);
-    private readonly int cursor = 0;
+    private int cursor = 0;
 
-    private const int Offset = 5;
+    private const int Offset = 6;
     private const int ItemHeight = 7;
 
     private GameItem[] items =
@@ -35,6 +35,12 @@ public class Menu : IGameElement
 
     public void HandleInput(IPlayerConsole console)
     {
+        var stick = console.ReadJoystick();
+        var buttons = console.ReadButtons();
+        if (stick.IsDown()) cursor++;
+        if (stick.IsUp()) cursor--;
+        if (cursor < 0) cursor = items.Length - 1;
+        if (cursor >= items.Length) cursor = 0;
     }
 
     public void Update()
@@ -48,8 +54,15 @@ public class Menu : IGameElement
         for (var i=0; i < items.Length; i++)
         {
             var item = items[i];
-            display.DrawCircle(3 + ItemHeight/2, Offset + i*ItemHeight + ItemHeight/2, ItemHeight/2-1, i==cursor ?  Color.Red : Color.LightSkyBlue);
-            font.DrawText(display, 3 + ItemHeight + 1, Offset + i*ItemHeight, Color.LightSkyBlue, item.Name);
+            if (cursor == i)
+            {
+                display.DrawRectangle(1, 1 + i * ItemHeight, 30, ItemHeight, Color.LightSkyBlue, Color.LightSkyBlue);
+                font.DrawText(display, 1, Offset + i * ItemHeight, Color.Black, item.Name);
+            }
+            else
+            {
+                font.DrawText(display, 1, Offset + i * ItemHeight, Color.LightSkyBlue, item.Name);
+            }
         }
         display.Update();
     }
