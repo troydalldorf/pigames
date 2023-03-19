@@ -40,4 +40,9 @@ public class SoloTetrisGame : IGameElement
     {
         tetrisGame.Draw(display);
     }
+
+    public bool IsDone()
+    {
+        return false;
+    }
 }

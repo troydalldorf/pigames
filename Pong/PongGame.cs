@@ -134,4 +134,9 @@ public class PongGame : I2PGameElement
 
         display.Update();
     }
+
+    public bool IsDone()
+    {
+        return false;
+    }
 }

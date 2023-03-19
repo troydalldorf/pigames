@@ -45,7 +45,12 @@ public class GameOver : IGameElement, IDisposable
         display.DrawRectangle(0, top+36, 64, 8, Color.Black, Color.Black);
         smallFont.DrawText(display, 4, top+36, Color.Blue, "PLAY AGAIN?", 0);
     }
-    
+
+    public bool IsDone()
+    {
+        return State == GameState.Done;
+    }
+
     public void Dispose()
     {
         smallFont.Dispose();

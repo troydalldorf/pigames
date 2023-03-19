@@ -143,6 +143,11 @@ class TetrisGame : IGameElement
         display.Update();
     }
 
+    public bool IsDone()
+    {
+        return false;
+    }
+
     private bool IsValidMove(int newX, int newY, Tetromino tetromino)
     {
         for (var x = 0; x < tetromino.Width; x++)

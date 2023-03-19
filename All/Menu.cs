@@ -15,6 +15,7 @@ public class Menu : IGameElement
 
     private const int Offset = 6;
     private const int ItemHeight = 7;
+    private IGameElement? current = null;
 
     private GameItem[] items =
     {
@@ -25,11 +26,26 @@ public class Menu : IGameElement
     public void Run(LedDisplay display, PlayerConsole player1Console, PlayerConsole player2Console)
     {
         Console.WriteLine("Starting menu...");
-        while (true)
+        while (!IsDone())
         {
-            this.HandleInput(player1Console);
-            this.Update();
-            this.Draw(display);
+            if (current != null)
+            {
+                current.HandleInput(player1Console);
+                if (current is I2PGameElement current2P) current2P.Handle2PInput(player2Console);
+                current.Update();
+                current.Draw(display);
+                if (current.IsDone())
+                {
+                    if (current is IDisposable disposable) disposable.Dispose();
+                    current = null;
+                }
+            }
+            else
+            {
+                this.HandleInput(player1Console);
+                this.Update();
+                this.Draw(display);
+            }
         }
     }
 
@@ -41,6 +57,10 @@ public class Menu : IGameElement
         if (stick.IsUp()) cursor--;
         if (cursor < 0) cursor = items.Length - 1;
         if (cursor >= items.Length) cursor = 0;
+
+        if (!buttons.IsGreenPushed()) return;
+        var item = items[cursor];
+        current = item.OnePlayer != null ? item.OnePlayer() : item.TwoPlayer();
     }
 
     public void Update()
@@ -56,7 +76,7 @@ public class Menu : IGameElement
             var item = items[i];
             if (cursor == i)
             {
-                display.DrawRectangle(1, 1 + i * ItemHeight, 30, ItemHeight, Color.LightSkyBlue, Color.LightSkyBlue);
+                display.DrawRectangle(1, 1 + i * ItemHeight-1, 30, ItemHeight, Color.LightSkyBlue, Color.LightSkyBlue);
                 font.DrawText(display, 1, Offset + i * ItemHeight, Color.Black, item.Name);
             }
             else
@@ -65,5 +85,10 @@ public class Menu : IGameElement
             }
         }
         display.Update();
+    }
+
+    public bool IsDone()
+    {
+        return false;
     }
 }
