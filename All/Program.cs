@@ -8,5 +8,5 @@ var display = new LedDisplay();
 var player1Console = new Player1Console();
 var player2Console = new Player2Console();
 
-var menu = new Menu(display, player1Console, player2Console);
-menu.Run();
+var menu = new Menu();
+menu.Run(display, player1Console, player2Console);
