@@ -42,13 +42,12 @@ public class Menu : IGameElement
 
     public void Draw(IDisplay display)
     {
-        var y = 10;
+        display.DrawRectangle(0, 0, 64, 64, Color.Chartreuse);
         for (var i=0; i < items.Length; i++)
         {
             var item = items[i];
-            display.DrawCircle(3 + ItemHeight/2, Offset + ItemHeight/2, ItemHeight/2-1, i==cursor ?  Color.Red : Color.LightSkyBlue);
+            display.DrawCircle(3 + ItemHeight/2, Offset + i*ItemHeight + ItemHeight/2, ItemHeight/2-1, i==cursor ?  Color.Red : Color.LightSkyBlue);
             font.DrawText(display, 3 + ItemHeight + 1, Offset + i*ItemHeight, Color.LightSkyBlue, item.Name);
-            y += 7;
         }
     }
 }
