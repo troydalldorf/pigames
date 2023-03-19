@@ -17,7 +17,7 @@ public class LedFont : IDisposable
 
     public void DrawText(IDisplay display, int x, int y, Color color, string text, int spacing = 0, bool vertical = false)
     {
-        var rgbCanvas = ((LedDisplay)display).GetCanvas()._canvas;
+        var rgbCanvas = ((IDirectCanvasAccess)display).GetCanvas()._canvas;
         font.DrawText(rgbCanvas, x, y, color, text, spacing, vertical);
     }
 

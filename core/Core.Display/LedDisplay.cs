@@ -4,7 +4,7 @@ using Core.Display.LedMatrix;
 
 namespace Core.Display;
 
-public class LedDisplay : IDisplay
+public class LedDisplay : IDisplay, IDirectCanvasAccess
 {
     private RgbLedMatrix matrix;
     private RgbLedCanvas canvas;
@@ -72,5 +72,5 @@ public class LedDisplay : IDisplay
         canvas.DrawLine(x, y2, x, y, color);
     }
 
-    internal RgbLedCanvas GetCanvas() => canvas;
+    RgbLedCanvas IDirectCanvasAccess.GetCanvas() => canvas;
 }
