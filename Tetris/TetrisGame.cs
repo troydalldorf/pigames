@@ -109,7 +109,7 @@ class TetrisGame : IGameElement
     {
         display.Clear();
         display.DrawRectangle(0, 0, Width*PixelSize+2, Height*PixelSize+2, Color.DarkGray);
-        font.DrawText(display, 20, 1, Color.DarkGray, score.Score.ToString());
+        font.DrawText(display, 1, 5, Color.DarkGray, score.Score.ToString());
         
         foreach (var bomb in pixelBombs)
         {
