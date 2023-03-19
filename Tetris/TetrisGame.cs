@@ -205,7 +205,7 @@ class TetrisGame
                 for (var x = 0; x < Width; x++)
                 {
                     if (grid[x, y] != 0) continue;
-                    pixelBombs.Add(new PixelBomb(1+ x*PixelSize, y*PixelSize, 1PixelSize*PixelSize, brick.Color));
+                    pixelBombs.Add(new PixelBomb(1+ x*PixelSize, y*PixelSize, PixelSize*PixelSize, Color.Orange));
                 }
                 for (var yy = y; yy > 0; yy--)
                 {
