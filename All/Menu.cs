@@ -14,8 +14,12 @@ public class Menu : IGameElement
     private readonly PlayerConsole player1Console;
     private readonly PlayerConsole player2Console;
     private readonly LedFont font = new(LedFontType.Font4x6);
+    private readonly int cursor = 0;
 
-    public GameItem[] items =
+    private const int Offset = 5;
+    private const int ItemHeight = 7;
+
+    private GameItem[] items =
     {
         new("Pong", null, () => new PongGame()),
         new("Tetris", () => new SoloTetrisGame(), null)
@@ -49,9 +53,11 @@ public class Menu : IGameElement
     public void Draw(IDisplay display)
     {
         var y = 10;
-        foreach (var item in items)
+        for (var i=0; i< items.Length; i++)
         {
-            font.DrawText(display, 5, y, Color.LightSkyBlue, item.Name);
+            var item = items[i];
+            display.DrawCircle(3 + ItemHeight/2, Offset + ItemHeight/2, ItemHeight/2-1, i==cursor ?  Color.Red : Color.LightSkyBlue);
+            font.DrawText(display, 5, Offset + i*ItemHeight, Color.LightSkyBlue, item.Name);
             y += 7;
         }
     }
