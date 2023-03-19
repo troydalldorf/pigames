@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Drawing;
+using Core.Effects;
 using Core.Inputs;
 
 namespace Tetris;
@@ -22,6 +23,7 @@ class TetrisGame
     private int currentX, currentY;
     private int speed;
     private int frame;
+    private List<PixelBomb> pixelBombs = new();
 
     private Random random;
     private Stopwatch stopwatch;
@@ -142,6 +144,12 @@ class TetrisGame
                 }
             }
         }
+        
+        foreach (var bomb in pixelBombs.ToArray())
+        {
+            bomb.Update();
+            if (bomb.IsExtinguished()) pixelBombs.Remove(bomb);
+        }
 
         display.Update();
     }
@@ -156,7 +164,7 @@ class TetrisGame
                 var boardX = newX + x;
                 var boardY = newY + y;
 
-                if (boardX < 0 || boardX >= Width || boardY < 0 || boardY >= Height || grid[boardX, boardY] > 0)
+                if (boardX is < 0 or >= Width || boardY is < 0 or >= Height || grid[boardX, boardY] > 0)
                 {
                     return false;
                 }
@@ -194,6 +202,11 @@ class TetrisGame
 
             if (fullLine)
             {
+                for (var x = 0; x < Width; x++)
+                {
+                    if (grid[x, y] != 0) continue;
+                    pixelBombs.Add(new PixelBomb(1+ x*PixelSize, y*PixelSize, 1PixelSize*PixelSize, brick.Color));
+                }
                 for (var yy = y; yy > 0; yy--)
                 {
                     for (var x = 0; x < Width; x++)
