@@ -125,7 +125,7 @@ class TetrisGame
     private void Draw()
     {
         display.Clear();
-        display.DrawRectangle(0, 0, Width*PixelSize+2, Height*PixelSize+2, Color.Orange);
+        display.DrawRectangle(0, 0, Width*PixelSize+2, Height*PixelSize+2, Color.DarkGray);
         
         foreach (var bomb in pixelBombs)
         {
@@ -209,8 +209,7 @@ class TetrisGame
             {
                 for (var x = 0; x < Width; x++)
                 {
-                    if (grid[x, y] != 0) continue;
-                    pixelBombs.Add(new PixelBomb(1+ x*PixelSize, y*PixelSize, PixelSize*PixelSize, Color.Orange));
+                    pixelBombs.Add(new PixelBomb(1+ x*PixelSize, y*PixelSize, PixelSize*PixelSize, Tetromino.GetColor(grid[x,y])));
                 }
                 for (var yy = y; yy > 0; yy--)
                 {
