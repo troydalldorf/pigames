@@ -1,9 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Threading;
 using Core;
 using Core.Display.Fonts;
+using Iot.Device.Max7219;
 
 public class TowersOfHanoiGame
 {
@@ -94,6 +92,9 @@ public class TowersOfHanoiGame
             int pegX = pegWidth * pegIndex + pegWidth / 2;
             int pegY = _display.Height - diskHeight;
 
+            // Draw peg/post
+            _display.DrawRectangle(pegX - 2, pegY - ((_numDisks - 1) * diskHeight), 4, _display.Height - pegY + diskHeight, Color.Black, Color.Black);
+
             for (int diskIndex = 0; diskIndex < peg.Count; diskIndex++)
             {
                 int disk = peg.ToArray()[diskIndex];
@@ -102,9 +103,6 @@ public class TowersOfHanoiGame
                 int diskY = pegY - diskIndex * diskHeight;
                 _display.DrawRectangle(diskX, diskY, diskWidth, diskHeight, Color.Black, disk == _numDisks ? Color.Blue : Color.Red);
             }
-
-            // Draw peg
-            _display.DrawLine(pegX, _display.Height, pegX, pegY - diskHeight, Color.Black);
 
             // Draw selection indicator
             if (_selectedPeg == pegIndex)
