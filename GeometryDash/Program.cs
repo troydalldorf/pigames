@@ -1,6 +1,5 @@
 ﻿using Core.Display;
 using Core.Inputs;
-using GeometryDash;
 
 Console.WriteLine("Pong game starting...");
 

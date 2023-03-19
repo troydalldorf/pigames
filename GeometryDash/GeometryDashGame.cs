@@ -1,120 +1,157 @@
-using Core.Display;
-using Core.Inputs;
 using System.Drawing;
 using Core;
+using Core.Display.Fonts;
 
-namespace GeometryDash
+public class GeometryDashGame
 {
-    public class GeometryDashGame
+    private IDisplay _display;
+    private IPlayerConsole _playerConsole;
+    private LedFont _font;
+
+    private int _playerX;
+    private int _playerY;
+    private int _playerSize;
+    private bool _isJumping;
+
+    private List<Obstacle> _obstacles;
+    private int _obstacleSpawnInterval;
+    private int _obstacleSpeed;
+
+    private bool _isGameOver;
+    private int _score;
+
+    public GeometryDashGame(IDisplay display, IPlayerConsole playerConsole)
     {
-        private const int Width = 64;
-        private const int Height = 64;
-        private const int PlayerWidth = 2;
-        private const int PlayerHeight = 8;
-        private const int ObstacleWidth = 5;
-        private const int ObstacleHeight = 5;
-        private const int ObstacleSpacing = 20;
-        private const int JumpHeight = 16;
-        private const int Gravity = 2;
+        _display = display;
+        _playerConsole = playerConsole;
+        _font = new LedFont(LedFontType.FontTomThumb);
 
-        private LedDisplay display;
-        private PlayerConsole playerConsole;
+        _playerX = _display.Width / 3;
+        _playerY = _display.Height / 2;
+        _playerSize = 4;
 
-        private Rectangle player;
-        private List<Rectangle> obstacles;
-        private int obstacleOffset;
-        private int score;
-        private bool gameRunning;
+        _obstacles = new List<Obstacle>();
+        _obstacleSpawnInterval = 20;
+        _obstacleSpeed = 3;
 
-        public GeometryDashGame(LedDisplay display, PlayerConsole playerConsole)
+        _isGameOver = false;
+        _score = 0;
+    }
+
+    public void Run()
+    {
+        var frameCounter = 0;
+
+        while (!_isGameOver)
         {
-            this.display = display;
-            this.playerConsole = playerConsole;
+            _display.Clear();
 
-            player = new Rectangle(10, Height / 2 - PlayerHeight / 2, PlayerWidth, PlayerHeight);
-            obstacles = new List<Rectangle>();
-            obstacleOffset = 0;
-            score = 0;
-            gameRunning = false;
+            UpdatePlayer();
+            UpdateObstacles();
+
+            if (frameCounter % _obstacleSpawnInterval == 0)
+            {
+                SpawnObstacle();
+            }
+
+            CheckCollisions();
+
+            DrawElements();
+            _display.Update();
+
+            Thread.Sleep(16); // Approximate 60 frames per second
+            frameCounter++;
+            _score++;
         }
 
-        public void Run()
-        {
-            gameRunning = true;
+        _display.Clear();
+        //_font.DrawText(_display.Width / 2 - 30, _display.Height / 2 - 10, "Game Over", Color.Red);
+        _display.Update();
+    }
 
-            while (gameRunning)
-            {
-                HandleInput();
-                Update();
-                Draw();
-                Thread.Sleep(50);
-            }
+    private void UpdatePlayer()
+    {
+        var buttons = _playerConsole.ReadButtons();
+        if (buttons.HasFlag(Buttons.Green) && !_isJumping)
+        {
+            _isJumping = true;
         }
 
-        private void HandleInput()
+        if (_isJumping)
         {
-            var stick = playerConsole.ReadJoystick();
-
-            if (stick.IsUp())
-            {
-                player.Y -= JumpHeight;
-            }
-        }
-
-        private void Update()
-        {
-            // Move player
-            player.Y += Gravity;
-            if (player.Bottom >= Height) player.Y = Height - player.Height - 1;
-            if (player.Top <= 0) player.Y = 0;
-
-            // Spawn new obstacles
-            obstacleOffset++;
-            if (obstacleOffset % ObstacleSpacing == 0)
-            {
-                var obstacle = new Rectangle(Width-1, Height - 1 - ObstacleHeight, ObstacleWidth, ObstacleHeight);
-                obstacles.Add(obstacle);
-            }
-
-            // Move obstacles
-            for (var i = 0; i < obstacles.Count; i++)
-            {
-                var obstacle = obstacles[i];
-                obstacle.X -= 2;
-
-                // Check for collision
-                if (obstacle.IntersectsWith(player))
-                {
-                    gameRunning = false;
-                }
-
-                // Remove obstacle if it's offscreen
-                if (obstacle.Right < 0)
-                {
-                    obstacles.RemoveAt(i);
-                    score++;
-                    i--;
-                }
-            }
-        }
-
-        private void Draw()
-        {
-            display.Clear();
-
-            // Draw player
-            display.DrawRectangle(player.X, player.Y, PlayerWidth, PlayerHeight, Color.White);
-
-            // Draw obstacles
-            foreach (var obstacle in obstacles)
-            {
-                display.DrawRectangle(obstacle.X, obstacle.Y, obstacle.Width, obstacle.Height, Color.Red);
-            }
-
-            // Draw score
-           // display.DrawText($"Score: {score}", 0, 0, Color.White);
-
-            display.Update();
+            // Implement jumping logic here
         }
     }
+
+    private void UpdateObstacles()
+    {
+        for (int i = _obstacles.Count - 1; i >= 0; i--)
+        {
+            _obstacles[i].X -= _obstacleSpeed;
+            if (_obstacles[i].X < -_obstacles[i].Size)
+            {
+                _obstacles.RemoveAt(i);
+            }
+        }
+    }
+
+    private void SpawnObstacle()
+    {
+        int size = 4;
+        int y = _display.Height / 2 - size;
+        _obstacles.Add(new Obstacle(_display.Width, y, size));
+    }
+
+    private void CheckCollisions()
+    {
+        foreach (var obstacle in _obstacles)
+        {
+            if (Math.Abs(_playerX - obstacle.X) < _playerSize && Math.Abs(_playerY - obstacle.Y) < _playerSize)
+            {
+                _isGameOver = true;
+            }
+        }
+    }
+
+    private void DrawElements()
+    {
+        _display.DrawRectangle(_playerX, _playerY, _playerSize, _playerSize, Color.Blue);
+        foreach (var obstacle in _obstacles)
+        {
+            if (obstacle.Shape == ObstacleShape.Square)
+            {
+                _display.DrawRectangle(obstacle.X, obstacle.Y, obstacle.Size, obstacle.Size, Color.Red, Color.Red);
+            }
+            else if (obstacle.Shape == ObstacleShape.Triangle)
+            {
+                int halfSize = obstacle.Size / 2;
+                _display.DrawLine(obstacle.X, obstacle.Y + obstacle.Size, obstacle.X + halfSize, obstacle.Y, Color.Red);
+                _display.DrawLine(obstacle.X + halfSize, obstacle.Y, obstacle.X + obstacle.Size, obstacle.Y + obstacle.Size, Color.Red);
+                _display.DrawLine(obstacle.X + obstacle.Size, obstacle.Y + obstacle.Size, obstacle.X, obstacle.Y + obstacle.Size, Color.Red);
+            }
+        }
+
+        _font.DrawText(_display, 5, 0, Color.White, $"Score: {_score}");
+    }
+}
+
+public class Obstacle
+{
+    public int X { get; set; }
+    public int Y { get; set; }
+    public int Size { get; set; }
+    public ObstacleShape Shape { get; set; }
+    public Obstacle(int x, int y, int size)
+    {
+        X = x;
+        Y = y;
+        Size = size;
+        Shape = (ObstacleShape)new Random().Next(0, 2);
+    }
+}
+
+public enum ObstacleShape
+{
+    Square,
+    Triangle
 }
