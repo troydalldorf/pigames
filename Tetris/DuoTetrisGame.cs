@@ -19,12 +19,10 @@ public class DuoTetrisGame : I2PGameElement
         while (true)
         {
             this.HandleInput(p1Console);
-            p2TetrisGame.HandleInput(p2Console);
-            p1TetrisGame.Update();
-            p2TetrisGame.Update();
+            this.HandleInput(p2Console);
+            this.Update();
             display.Clear();
-            p1TetrisGame.Draw(display);
-            p2TetrisGame.Draw(display);
+            this.Draw(display);
             display.Update();
             Thread.Sleep(50);
         }
@@ -48,7 +46,7 @@ public class DuoTetrisGame : I2PGameElement
 
     public void Draw(IDisplay display)
     {
-        var p2Display = new TxDisplay(display, (x, y) => 63 - x, (x, y) => 63 - y);
+        var p2Display = new TxDisplay(display, (x, _) => 63 - x, (_, y) => 63 - y);
         display.Clear();
         p1TetrisGame.Draw(display);
         p2TetrisGame.Draw(p2Display);
