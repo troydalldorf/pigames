@@ -46,6 +46,7 @@ public class GameRunner : IDisposable
                     break;
             }
             game.Update();
+            if (state == GameState.Running && game.IsDone()) state = GameState.GameOver;
             display.Clear();
             game.Draw(display);
             switch (state)
