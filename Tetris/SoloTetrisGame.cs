@@ -6,8 +6,6 @@ namespace Tetris;
 
 public class SoloTetrisGame : IGameElement
 {
-    private readonly LedDisplay display;
-    private readonly PlayerConsole playerConsole;
     private readonly TetrisGame tetrisGame;
 
     public SoloTetrisGame()
@@ -43,6 +41,6 @@ public class SoloTetrisGame : IGameElement
 
     public bool IsDone()
     {
-        return false;
+        return tetrisGame.IsDone();
     }
 }
