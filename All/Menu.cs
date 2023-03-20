@@ -32,27 +32,36 @@ public class Menu : IGameElement
         {
             if (current != null)
             {
-                if (gameOver.State == GameState.Playing)
+                switch (gameOver.State)
                 {
-                    current.HandleInput(player1Console);
-                    if (current is I2PGameElement current2P) current2P.Handle2PInput(player2Console);
-                    current.Update();
-                    current.Draw(display);
-                    if (current.IsDone())
+                    case GameState.Playing:
                     {
-                        gameOver.State = GameState.GameOver;
+                        current.HandleInput(player1Console);
+                        if (current is I2PGameElement current2P) current2P.Handle2PInput(player2Console);
+                        current.Update();
+                        current.Draw(display);
+                        if (current.IsDone())
+                        {
+                            gameOver.State = GameState.GameOver;
+                        }
+
+                        break;
                     }
-                }
-                else if (gameOver.State == GameState.Done)
-                {
-                    if (current is IDisposable disposable) disposable.Dispose();
-                    current = null;       
-                }
-                else if (gameOver.State == GameState.PlayAgain)
-                {
-                    gameOver.State = GameState.Playing;
-                    var item = items[cursor];
-                    current = item.OnePlayer != null ? item.OnePlayer() : item.TwoPlayer();
+                    case GameState.Done:
+                    {
+                        Console.WriteLine("Game done.");
+                        if (current is IDisposable disposable) disposable.Dispose();
+                        current = null;
+                        break;
+                    }
+                    case GameState.PlayAgain:
+                    {
+                        Console.WriteLine("Play gain.");
+                        gameOver.State = GameState.Playing;
+                        var item = items[cursor];
+                        current = item.OnePlayer != null ? item.OnePlayer() : item.TwoPlayer();
+                        break;
+                    }
                 }
             }
             else
