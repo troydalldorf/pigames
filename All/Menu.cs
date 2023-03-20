@@ -25,9 +25,9 @@ public class Menu : IGameElement
         new("E-PONG", null, () => new PongGame()),
         new("PONG", null, () => new PongGame()),
         new("SNAKE", () => new SnakeGame(), null),
-        new("SPACE INV.", () => new SpaceInvadersGame(), null),
-        new("TETRIS 1P", () => new TetrisGame(), null),
-        new("TETRIS 2P", () => new DuoTetrisGame(), null),
+        new("SPACE IN", () => new SpaceInvadersGame(), null),
+        new("TETRIS 1", () => new TetrisGame(), null),
+        new("TETRIS 2", () => new DuoTetrisGame(), null),
     };
 
     public Menu(GameRunner runner)
@@ -48,6 +48,7 @@ public class Menu : IGameElement
         var item = items[cursor];
         var game = item.OnePlayer != null ? item.OnePlayer() : item.TwoPlayer();
         runner.Run(game);
+        if (game is IDisposable disposable) disposable.Dispose();
     }
 
     public void Update()

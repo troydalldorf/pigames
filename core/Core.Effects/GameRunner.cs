@@ -29,6 +29,7 @@ public class GameRunner : IDisposable
     
     public void Run(IGameElement game, int? frameIntervalMs = 33)
     {
+        Console.WriteLine("Running game...");
         state = GameState.Running;
         while (state != GameState.Done)
         {
@@ -55,6 +56,7 @@ public class GameRunner : IDisposable
             }
             display.Update(frameIntervalMs);
         }
+        Console.WriteLine("Exiting game...");
     }
 
     private void HandleGameOverInput(IPlayerConsole console)
