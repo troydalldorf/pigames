@@ -16,7 +16,7 @@ public class Menu : IGameElement
     private readonly GameRunner runner;
     private readonly LedFont font = new(LedFontType.FontTomThumb);
     private int cursor;
-    private Stopwatch stopwatch = new();
+    private readonly Stopwatch stopwatch = new();
     private long lastActionAt;
 
     private const int Offset = 6;

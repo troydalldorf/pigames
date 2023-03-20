@@ -11,7 +11,6 @@ public class GameRunner : IDisposable
     private readonly LedFont largeFont;
     private readonly LedFont smallFont;
     private int frameCount;
-    private GameState state;
     private readonly LedDisplay display;
     private readonly Player1Console p1Console;
     private readonly Player2Console p2Console;
@@ -24,7 +23,6 @@ public class GameRunner : IDisposable
         display = new LedDisplay(); 
         p1Console = new Player1Console();
         p2Console = new Player2Console();
-        state = GameState.WaitingToStart;
     }
     
     public void Run(Func<IGameElement> createGame, int? frameIntervalMs = 33)
@@ -32,7 +30,7 @@ public class GameRunner : IDisposable
         Console.WriteLine("Starting game...");
         var game = createGame();
         Console.WriteLine("Running game...");
-        state = GameState.Running;
+        var state = GameState.Running;
         while (state != GameState.Done)
         {
             switch (state)
@@ -40,14 +38,14 @@ public class GameRunner : IDisposable
                 case GameState.Running:
                 {
                     game.HandleInput(p1Console);
-                    DisposeGame(game);
+                    if (game is I2PGameElement p2GameElement) p2GameElement.Handle2PInput(p2Console); 
                     break;
                 }
                 case GameState.GameOver:
-                    HandleGameOverInput(p1Console);
+                    HandleGameOverInput(p1Console, ref state);
                     break;
                 case GameState.PlayAgain:
-                    if (game is IDisposable disposable) disposable.Dispose();
+                    DisposeGame(game);
                     game = createGame();
                     state = GameState.Running;
                     break;
@@ -68,7 +66,7 @@ public class GameRunner : IDisposable
         DisposeGame(game);
     }
 
-    private void HandleGameOverInput(IPlayerConsole console)
+    private void HandleGameOverInput(IPlayerConsole console, ref GameState state)
     {
         var buttons = console.ReadButtons();
         if (buttons.IsGreenPushed())
@@ -82,7 +80,7 @@ public class GameRunner : IDisposable
         console.LightButtons(button, !button, false, false);
     }
 
-    public void DrawGameOver()
+    private void DrawGameOver()
     {
         largeFont.DrawText(display, 7, top+13, Color.Crimson, "GAME", 3);
         largeFont.DrawText(display, 7, top+28, Color.Crimson, "OVER", 3);
@@ -90,7 +88,7 @@ public class GameRunner : IDisposable
         smallFont.DrawText(display, 4, top+36, Color.Blue, "PLAY AGAIN?", 0);
     }
 
-    private void DisposeGame(IGameElement game)
+    private void DisposeGame(IGameElement? game)
     {
         if (game is IDisposable disposable) disposable.Dispose();
     }
