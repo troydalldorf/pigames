@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Drawing;
 using Breakout;
 using Core;
@@ -15,6 +16,8 @@ public class Menu : IGameElement
     private readonly GameRunner runner;
     private readonly LedFont font = new(LedFontType.FontTomThumb);
     private int cursor;
+    private Stopwatch stopwatch = new();
+    private long lastActionAt;
 
     private const int Offset = 6;
     private const int ItemHeight = 7;
@@ -33,14 +36,24 @@ public class Menu : IGameElement
     public Menu(GameRunner runner)
     {
         this.runner = runner;
+        stopwatch.Start();
     }
 
     public void HandleInput(IPlayerConsole console)
     {
+        if (stopwatch.ElapsedMilliseconds - lastActionAt < 120)
+            return;
         var stick = console.ReadJoystick();
         var buttons = console.ReadButtons();
-        if (stick.IsDown()) cursor++;
-        if (stick.IsUp()) cursor--;
+        if (stick.IsDown()) {
+            cursor++;
+            lastActionAt = stopwatch.ElapsedMilliseconds;
+        }
+        if (stick.IsUp())
+        {
+            cursor--;
+            lastActionAt = stopwatch.ElapsedMilliseconds;
+        }
         if (cursor < 0) cursor = items.Length - 1;
         if (cursor >= items.Length) cursor = 0;
 
