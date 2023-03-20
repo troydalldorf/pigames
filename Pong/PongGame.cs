@@ -45,7 +45,9 @@ public class PongGame : I2PGameElement
             HandleInput(player1Console);
             Handle2PInput(player2Console);
             Update();
+            display.Clear();
             Draw(display);
+            display.Update();
             Thread.Sleep(50);
         }
     }
@@ -119,9 +121,6 @@ public class PongGame : I2PGameElement
 
     public void Draw(IDisplay display)
     {
-        display.Clear();
-        
-        // Draw Score
         font.DrawText(display, 1, 28, Color.DimGray, p1Score.ToString(), 0, false);
         font.DrawText(display, 1, 35, Color.DimGray, p2Score.ToString(), 0, false);
 
@@ -131,8 +130,6 @@ public class PongGame : I2PGameElement
 
         // Draw ball
         display.DrawRectangle(ballPosition.X, ballPosition.Y, BallSize, BallSize, Color.White);
-
-        display.Update();
     }
 
     public bool IsDone()
