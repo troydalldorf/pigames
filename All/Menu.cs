@@ -49,6 +49,15 @@ public class Menu : IGameElement
 
                         break;
                     }
+                    case GameState.GameOver:
+                    {
+                        gameOver.HandleInput(player1Console);
+                        current.Update();
+                        display.Clear();
+                        gameOver.Draw(display);
+                        display.Update();
+                        break;
+                    }
                     case GameState.Done:
                     {
                         Console.WriteLine("Game done.");
