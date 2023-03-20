@@ -14,12 +14,12 @@ public class Menu : IGameElement
 {
     private readonly GameRunner runner;
     private readonly LedFont font = new(LedFontType.FontTomThumb);
-    private int cursor = 0;
+    private int cursor;
 
     private const int Offset = 6;
     private const int ItemHeight = 7;
 
-    private GameItem[] items =
+    private readonly GameItem[] items =
     {
         new("BREAKOUT", () => new BreakoutGame(), null),
         new("E-PONG", null, () => new PongGame()),
@@ -44,11 +44,13 @@ public class Menu : IGameElement
         if (cursor < 0) cursor = items.Length - 1;
         if (cursor >= items.Length) cursor = 0;
 
-        if (!buttons.IsGreenPushed()) return;
-        var item = items[cursor];
-        var game = item.OnePlayer != null ? item.OnePlayer() : item.TwoPlayer();
-        runner.Run(game);
-        if (game is IDisposable disposable) disposable.Dispose();
+        if (buttons.IsGreenPushed())
+        {
+            var item = items[cursor];
+            var game = item.OnePlayer != null ? item.OnePlayer() : item.TwoPlayer();
+            runner.Run(game);
+            if (game is IDisposable disposable) disposable.Dispose();
+        }
     }
 
     public void Update()
