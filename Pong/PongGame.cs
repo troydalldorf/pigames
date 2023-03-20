@@ -1,13 +1,10 @@
 using Core;
 using Core.Display.Fonts;
-using Core.Inputs;
 
 namespace Pong;
 
 using System;
 using System.Drawing;
-using System.Threading;
-using Core.Display;
 
 public class PongGame : I2PGameElement
 {
@@ -17,15 +14,15 @@ public class PongGame : I2PGameElement
     private const int PaddleHeight = 2;
     private const int BallSize = 2;
 
-    private LedFont font;
-    private int p1Score = 0;
-    private int p2Score = 0;
+    private readonly LedFont font;
+    private int p1Score;
+    private int p2Score;
 
     private Rectangle player1Paddle;
     private Rectangle player2Paddle;
     private Point ballPosition;
     private Point ballVelocity;
-    private Random random;
+    private readonly Random random;
 
     public PongGame()
     {
@@ -36,20 +33,6 @@ public class PongGame : I2PGameElement
         ballPosition = new Point(Width / 2, Height / 2);
         random = new Random();
         ResetBall();
-    }
-
-    public void Run(IDisplay display, IPlayerConsole player1Console, IPlayerConsole player2Console)
-    {
-        while (true)
-        {
-            HandleInput(player1Console);
-            Handle2PInput(player2Console);
-            Update();
-            display.Clear();
-            Draw(display);
-            display.Update();
-            Thread.Sleep(50);
-        }
     }
 
     public void HandleInput(IPlayerConsole player1Console)
@@ -121,19 +104,15 @@ public class PongGame : I2PGameElement
 
     public void Draw(IDisplay display)
     {
-        font.DrawText(display, 1, 28, Color.DimGray, p1Score.ToString(), 0, false);
-        font.DrawText(display, 1, 35, Color.DimGray, p2Score.ToString(), 0, false);
-
-        // Draw paddles
+        font.DrawText(display, 1, 28, Color.DimGray, p1Score.ToString());
+        font.DrawText(display, 1, 35, Color.DimGray, p2Score.ToString());
         display.DrawRectangle(player1Paddle.X, player1Paddle.Y, PaddleWidth, PaddleHeight, Color.White);
         display.DrawRectangle(player2Paddle.X, player2Paddle.Y, PaddleWidth, PaddleHeight, Color.White);
-
-        // Draw ball
         display.DrawRectangle(ballPosition.X, ballPosition.Y, BallSize, BallSize, Color.White);
     }
 
     public bool IsDone()
     {
-        return false;
+        return p1Score + p2Score >= 15;
     }
 }

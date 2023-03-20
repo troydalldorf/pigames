@@ -17,7 +17,7 @@ public class Sprite : ISprite
 
     public Color? GetColor(int frameNo, int x, int y) => map[x, y];
     
-    public void Draw(LedDisplay display, int x, int y, int frameNo = 0)
+    public void Draw(IDisplay display, int x, int y, int frameNo = 0)
     {
         for (var sy = 0; sy < this.Height; sy++)
         {

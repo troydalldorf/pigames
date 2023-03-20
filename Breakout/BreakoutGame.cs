@@ -1,16 +1,13 @@
 using Core;
-using Core.Display;
 using Core.Effects;
-using Core.Inputs;
 
 namespace Breakout;
 
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Threading;
 
-class BreakoutGame
+public class BreakoutGame : IGameElement
 {
     private const int Width = 64;
     private const int Height = 64;
@@ -20,44 +17,26 @@ class BreakoutGame
     private const int BrickWidth = 6;
     private const int BrickHeight = 2;
 
-    private LedDisplay display;
-    private PlayerConsole playerConsole;
-    private GameOver gameOver;
-    Color[] brickColors = { Color.Magenta, Color.Blue, Color.Green, Color.Yellow, Color.Orange };
+    readonly Color[] brickColors = { Color.Magenta, Color.Blue, Color.Green, Color.Yellow, Color.Orange };
 
     private int paddleX;
     private Rectangle ball;
-    private int ballDX = 1;
-    private int ballDY = -1;
-    private List<Brick> bricks;
-    private List<PixelBomb> pixelBombs = new();
+    private int ballDx = 1;
+    private int ballDy = -1;
+    private List<Brick> bricks = new();
+    private readonly List<PixelBomb> pixelBombs = new();
+    private bool isDone;
 
-    public BreakoutGame(LedDisplay display, PlayerConsole playerConsole)
-    {
-        this.display = display;
-        this.playerConsole = playerConsole;
-        this.gameOver = new GameOver(16);
-    }
-
-    public void Run()
+    public BreakoutGame()
     {
         Initialize();
-
-        while (true)
-        {
-            Update();
-            Draw();
-            Thread.Sleep(50);
-        }
     }
 
     private void Initialize()
     {
-        gameOver.State = GameState.Playing;
         paddleX = Width / 2 - PaddleWidth / 2;
         ball = new Rectangle(Width / 2 - BallSize / 2, Height / 2 - BallSize / 2, BallSize, BallSize);
 
-        bricks = new List<Brick>();
         pixelBombs.Clear();
         
         for (var y = 0; y < 5; y++)
@@ -69,43 +48,35 @@ class BreakoutGame
         }
     }
 
-    private void Update()
+    public void HandleInput(IPlayerConsole player1Console)
     {
-        if (gameOver.State != GameState.Playing)
-        {
-            gameOver.HandleInput(playerConsole);
-            gameOver.Update();
-            if (gameOver.State == GameState.PlayAgain)
-                Initialize();
-        }
+        var stick = player1Console.ReadJoystick();
+        if (stick.IsLeft()) paddleX -= 2;
+        if (stick.IsRight()) paddleX += 2;
+        paddleX = Math.Clamp(paddleX, 0, Width - PaddleWidth);
+    }
+
+    public void Update()
+    {
         foreach (var bomb in pixelBombs.ToArray())
         {
             bomb.Update();
             if (bomb.IsExtinguished()) pixelBombs.Remove(bomb);
         }
 
-        if (gameOver.State != GameState.Playing)
-            return;
-        
-        // Update paddle
-        var stick = playerConsole.ReadJoystick();
-        if (stick.IsLeft()) paddleX -= 2;
-        if (stick.IsRight()) paddleX += 2;
-        paddleX = Math.Clamp(paddleX, 0, Width - PaddleWidth);
-
         // Update ball
-        ball.X += ballDX;
-        ball.Y += ballDY;
+        ball.X += ballDx;
+        ball.Y += ballDy;
 
         // Collision with walls
         if (ball.Left < 0 || ball.Right > Width)
         {
-            ballDX = -ballDX;
+            ballDx = -ballDx;
         }
 
         if (ball.Top < 0)
         {
-            ballDY = -ballDY;
+            ballDy = -ballDy;
         }
 
         // Game over
@@ -118,7 +89,7 @@ class BreakoutGame
 
             bricks.Clear();
 
-            gameOver.State = GameState.GameOver;
+            isDone = true;
             return;
         }
 
@@ -126,7 +97,7 @@ class BreakoutGame
         var paddle = new Rectangle(paddleX, Height - PaddleHeight, PaddleWidth, PaddleHeight);
         if (ball.IntersectsWith(paddle))
         {
-            ballDY = -ballDY;
+            ballDy = -ballDy;
         }
 
         // Collision with bricks
@@ -140,25 +111,20 @@ class BreakoutGame
             if (!bricks[i].IntersectsWith(ball)) continue;
             pixelBombs.Add(new PixelBomb(bricks[i].X+2, bricks[i].Y+2, BrickWidth*BrickHeight, bricks[i].Color));
             bricks.RemoveAt(i);
-            ballDY = -ballDY;
+            ballDy = -ballDy;
             break;
         }
 
         // Check for victory
         if (bricks.Count == 0)
         {
-            Initialize();
+            isDone = true;
         }
     }
 
-    private void Draw()
+    public void Draw(IDisplay display)
     {
-        display.Clear();
-
-        // Draw paddle
         display.DrawRectangle(paddleX, Height - PaddleHeight, PaddleWidth, PaddleHeight, Color.White);
-
-        // Draw ball
         display.DrawRectangle(ball.X, ball.Y, BallSize, BallSize, Color.Red);
 
         // Draw bricks
@@ -176,12 +142,9 @@ class BreakoutGame
         {
             bomb.Draw(display);
         }
-        
-        if (gameOver.State == GameState.GameOver)
-            gameOver.Draw(display);
-
-        display.Update();
     }
+
+    public bool IsDone() => isDone;
 
     private record Brick(int X, int Y, Color Color)
     {

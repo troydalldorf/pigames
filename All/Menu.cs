@@ -1,87 +1,38 @@
 using System.Drawing;
+using Breakout;
 using Core;
-using Core.Display;
 using Core.Display.Fonts;
 using Core.Effects;
-using Core.Inputs;
 using Pong;
+using Snake;
+using SpaceInvaders2;
 using Tetris;
 
 namespace All;
 
 public class Menu : IGameElement
 {
+    private readonly GameRunner runner;
     private readonly LedFont font = new(LedFontType.FontTomThumb);
     private int cursor = 0;
 
     private const int Offset = 6;
     private const int ItemHeight = 7;
-    private IGameElement? current = null;
-    private GameOver gameOver = new(7);
 
     private GameItem[] items =
     {
-        new("Pong", null, () => new PongGame()),
-        new("Tetris", () => new SoloTetrisGame(), null)
+        new("BREAKOUT", () => new BreakoutGame(), null),
+        new("E-PONG", null, () => new PongGame()),
+        new("PONG", null, () => new PongGame()),
+        new("SNAKE", () => new SnakeGame(), null),
+        new("SPACE INV.", () => new SpaceInvadersGame(), null),
+        new("TETRIS 1P", () => new TetrisGame(), null),
+        new("TETRIS 2P", () => new DuoTetrisGame(), null),
     };
 
-    public void Run(LedDisplay display, PlayerConsole player1Console, PlayerConsole player2Console)
+    public Menu(GameRunner runner)
     {
-        Console.WriteLine("Starting menu...");
-        while (!IsDone())
-        {
-            if (current != null)
-            {
-                switch (gameOver.State)
-                {
-                    case GameState.Playing:
-                    {
-                        current.HandleInput(player1Console);
-                        if (current is I2PGameElement current2P) current2P.Handle2PInput(player2Console);
-                        current.Update();
-                        display.Clear();
-                        current.Draw(display);
-                        display.Update();
-                        if (current.IsDone())
-                        {
-                            gameOver.State = GameState.GameOver;
-                        }
-
-                        break;
-                    }
-                    case GameState.GameOver:
-                    {
-                        gameOver.HandleInput(player1Console);
-                        current.Update();
-                        display.Clear();
-                        gameOver.Draw(display);
-                        display.Update();
-                        break;
-                    }
-                    case GameState.Done:
-                    {
-                        Console.WriteLine("Game done.");
-                        if (current is IDisposable disposable) disposable.Dispose();
-                        current = null;
-                        break;
-                    }
-                    case GameState.PlayAgain:
-                    {
-                        Console.WriteLine("Play gain.");
-                        gameOver.State = GameState.Playing;
-                        var item = items[cursor];
-                        current = item.OnePlayer != null ? item.OnePlayer() : item.TwoPlayer();
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                this.HandleInput(player1Console);
-                this.Update();
-                this.Draw(display);
-            }
-        }
+        this.runner = runner;
     }
 
     public void HandleInput(IPlayerConsole console)
@@ -95,9 +46,8 @@ public class Menu : IGameElement
 
         if (!buttons.IsGreenPushed()) return;
         var item = items[cursor];
-        gameOver.State = GameState.Playing;
-        Console.WriteLine("Starting game...");
-        current = item.OnePlayer != null ? item.OnePlayer() : item.TwoPlayer();
+        var game = item.OnePlayer != null ? item.OnePlayer() : item.TwoPlayer();
+        runner.Run(game);
     }
 
     public void Update()
@@ -106,7 +56,6 @@ public class Menu : IGameElement
 
     public void Draw(IDisplay display)
     {
-        display.Clear();
         display.DrawRectangle(0, 0, 64, 64, Color.Chartreuse);
         for (var i=0; i < items.Length; i++)
         {
@@ -121,7 +70,6 @@ public class Menu : IGameElement
                 font.DrawText(display, 1, Offset + i * ItemHeight, Color.LightSkyBlue, item.Name);
             }
         }
-        display.Update();
     }
 
     public bool IsDone()

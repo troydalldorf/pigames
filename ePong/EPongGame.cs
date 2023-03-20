@@ -1,12 +1,10 @@
 using System.Drawing;
 using Core;
-using Core.Display;
 using Core.Display.Fonts;
-using Core.Inputs;
 
 namespace ePong;
 
-public class PongGame
+public class EPongGame : I2PGameElement
 {
     private const int Width = 64;
     private const int Height = 64;
@@ -14,10 +12,7 @@ public class PongGame
     private const int PaddleHeight = 2;
     private const int BallSize = 2;
     
-    private LedDisplay display;
-    private LedFont font;
-    private PlayerConsole player1Console;
-    private PlayerConsole player2Console;
+    private readonly LedFont font;
     private int p1Score;
     private int p2Score;
 
@@ -27,13 +22,9 @@ public class PongGame
     private Point ballVelocity;
     private Random random;
 
-    public PongGame(LedDisplay display, PlayerConsole player1Console, PlayerConsole player2Console)
+    public EPongGame()
     {
-        this.display = display;
         this.font = new LedFont(LedFontType.FontTomThumb);
-        this.player1Console = player1Console;
-        this.player2Console = player2Console;
-
         player1Paddle = new Rectangle(Width / 2 - PaddleWidth / 2, Height - 1 - PaddleHeight, PaddleWidth, PaddleHeight);
         player2Paddle = new Rectangle(Width / 2 - PaddleWidth / 2, 0, PaddleWidth, PaddleHeight);
         ballPosition = new Point(Width / 2, Height / 2);
@@ -41,21 +32,9 @@ public class PongGame
         ResetBall();
     }
 
-    public void Run()
-    {
-        while (true)
-        {
-            HandleInput();
-            Update();
-            Draw();
-            Thread.Sleep(50);
-        }
-    }
-
-    private void HandleInput()
+    public void HandleInput(IPlayerConsole player1Console)
     {
         var stick1 = player1Console.ReadJoystick();
-        var stick2 = player2Console.ReadJoystick();
 
         if (stick1.IsLeft() && player1Paddle.Left > 0)
             player1Paddle.X -= 2;
@@ -65,17 +44,22 @@ public class PongGame
             player1Paddle.Y -= 2;
         if (stick1.IsDown() && player1Paddle.Bottom > 0)
             player1Paddle.Y += 2;
+    }
+
+    public void Handle2PInput(IPlayerConsole player2Console)
+    {
+        var stick2 = player2Console.ReadJoystick();
         if (stick2.IsLeft() && player2Paddle.Left > 0)
             player2Paddle.X += 2;
         if (stick2.IsRight() && player2Paddle.Right < Width)
             player2Paddle.X -= 2;
         if (stick2.IsUp() && player2Paddle.Top > 0)
-          player2Paddle.Y -= 2;
+            player2Paddle.Y -= 2;
         if (stick2.IsDown() && player2Paddle.Bottom > 0) 
-           player2Paddle.Y += 2;
+            player2Paddle.Y += 2;
     }
 
-    private void Update()
+    public void Update()
     {
         ballPosition.X += ballVelocity.X;
         ballPosition.Y += ballVelocity.Y;
@@ -123,13 +107,11 @@ public class PongGame
         );
     }
 
-    private void Draw()
+    public void Draw(IDisplay display)
     {
-        display.Clear();
-        
         // Draw Score
-        font.DrawText(display, 1, 28, Color.DimGray, p1Score.ToString(), 0, false);
-        font.DrawText(display, 1, 35, Color.DimGray, p2Score.ToString(), 0, false);
+        font.DrawText(display, 1, 28, Color.DimGray, p1Score.ToString());
+        font.DrawText(display, 1, 35, Color.DimGray, p2Score.ToString());
 
         // Draw paddles
         display.DrawRectangle(player1Paddle.X, player1Paddle.Y, PaddleWidth, PaddleHeight, Color.White);
@@ -137,7 +119,7 @@ public class PongGame
 
         // Draw ball
         display.DrawRectangle(ballPosition.X, ballPosition.Y, BallSize, BallSize, Color.White);
-
-        display.Update();
     }
+
+    public bool IsDone() => p1Score + p2Score >= 15;
 }

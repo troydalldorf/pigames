@@ -7,5 +7,5 @@ public interface ISprite
     Color? GetColor(int frameNo, int x, int y);
     int Width { get; }
     int Height { get; }
-    void Draw(LedDisplay display, int x, int y, int frameNo = 0);
+    void Draw(IDisplay display, int x, int y, int frameNo = 0);
 }

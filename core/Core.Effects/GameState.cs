@@ -2,7 +2,8 @@ namespace Core.Effects;
 
 public enum GameState
 {
-    Playing,
+    WaitingToStart,
+    Running,
     GameOver,
     PlayAgain,
     Done,

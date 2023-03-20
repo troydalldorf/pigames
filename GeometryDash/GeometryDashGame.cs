@@ -4,8 +4,6 @@ using Core.Display.Fonts;
 
 public class GeometryDashGame
 {
-    private IDisplay _display;
-    private IPlayerConsole _playerConsole;
     private LedFont _font;
 
     private int _playerX;
@@ -20,10 +18,8 @@ public class GeometryDashGame
     private bool _isGameOver;
     private int _score;
 
-    public GeometryDashGame(IDisplay display, IPlayerConsole playerConsole)
+    public GeometryDashGame()
     {
-        _display = display;
-        _playerConsole = playerConsole;
         _font = new LedFont(LedFontType.FontTomThumb);
 
         _playerX = _display.Width / 3;
@@ -63,7 +59,6 @@ public class GeometryDashGame
             frameCounter++;
             _score++;
         }
-
         _display.Clear();
         //_font.DrawText(_display.Width / 2 - 30, _display.Height / 2 - 10, "Game Over", Color.Red);
         _display.Update();

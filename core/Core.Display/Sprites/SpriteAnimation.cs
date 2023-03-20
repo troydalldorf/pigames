@@ -27,7 +27,7 @@ public class SpriteAnimation : ISprite
     
     public int Height { get; }
     
-    public void Draw(LedDisplay display, int x, int y, int frameNo = 0)
+    public void Draw(IDisplay display, int x, int y, int frameNo = 0)
     {
         GetFrame(frameNo).Draw(display, x, y, frameNo);
     }

@@ -1,15 +1,12 @@
 using Core;
-using Core.Inputs;
 
 namespace Snake;
 
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Threading;
-using Core.Display;
 
-public class SnakeGame
+public class SnakeGame : IGameElement
 {
     private enum Direction { Up, Down, Left, Right }
 
@@ -18,37 +15,16 @@ public class SnakeGame
     private const int SnakeSize = 2;
     private const int InitialSnakeLength = 5;
 
-    private LedDisplay display;
-    private PlayerConsole playerConsole;
-
     private List<Point> snake;
     private Direction snakeDirection;
     private Point food;
-    private bool gameRunning;
+    private bool isDone;
 
-    public SnakeGame(LedDisplay display, PlayerConsole playerConsole)
+    public SnakeGame()
     {
-        this.display = display;
-        this.playerConsole = playerConsole;
         snake = new List<Point>();
-        gameRunning = false;
-    }
-
-    public void Run()
-    {
-        gameRunning = true;
         InitializeSnake();
         SpawnFood();
-
-        while (gameRunning)
-        {
-            HandleInput();
-            UpdateSnake();
-            CheckCollision();
-            Draw();
-
-            Thread.Sleep(100);
-        }
     }
 
     private void InitializeSnake()
@@ -73,7 +49,7 @@ public class SnakeGame
         food = new Point(x, y);
     }
 
-    private void HandleInput()
+    public void HandleInput(IPlayerConsole playerConsole)
     {
         var stick = playerConsole.ReadJoystick();
 
@@ -87,7 +63,7 @@ public class SnakeGame
             snakeDirection = Direction.Down;
     }
 
-    private void UpdateSnake()
+    public void Update()
     {
         var newPosition = new Point(snake[0].X, snake[0].Y);
 
@@ -119,14 +95,11 @@ public class SnakeGame
             snake.RemoveAt(snake.Count - 1);
             snake.Insert(0, newPosition);
         }
-    }
-
-    private void CheckCollision()
-    {
+        
         // Check collision with the wall
         if (snake[0].X < 0 || snake[0].X >= Width || snake[0].Y < 0 || snake[0].Y >= Height)
         {
-            gameRunning = false;
+            isDone = true;
             return;
         }
 
@@ -134,24 +107,19 @@ public class SnakeGame
         for (var i = 1; i < snake.Count; i++)
         {
             if (snake[0] != snake[i]) continue;
-            gameRunning = false;
+            isDone = true;
             return;
         }
     }
 
-    private void Draw()
+    public void Draw(IDisplay display)
     {
-        display.Clear();
-
-        // Draw snake
         foreach (var point in snake)
         {
             display.DrawRectangle(point.X, point.Y, SnakeSize, SnakeSize, Color.Green);
         }
-
-        // Draw food
         display.DrawRectangle(food.X, food.Y, SnakeSize, SnakeSize, Color.Red);
-
-        display.Update();
     }
+
+    public bool IsDone() => isDone;
 }

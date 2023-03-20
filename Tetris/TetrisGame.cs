@@ -6,25 +6,25 @@ using Core.Effects;
 
 namespace Tetris;
 
-class TetrisGame : IGameElement
+public class TetrisGame : IGameElement
 {
     private const int Width = 10;
     private const int Height = 20;
     private const int PixelSize = 3;
 
-    private int[,] grid;
+    private readonly int[,] grid;
     private Tetromino currentTetromino;
     private int currentX, currentY;
-    private int speed;
+    private readonly int speed;
     private int frame;
-    private TetrisScore score = new();
-    private List<PixelBomb> pixelBombs = new();
-    private LedFont font = new(LedFontType.FontTomThumb);
+    private readonly TetrisScore score = new();
+    private readonly List<PixelBomb> pixelBombs = new();
+    private readonly LedFont font = new(LedFontType.FontTomThumb);
 
-    private Random random;
-    private Stopwatch stopwatch;
+    private readonly Random random;
+    private readonly Stopwatch stopwatch;
     private long lastActionAt;
-    private bool gameOver = false;
+    private bool gameOver;
 
     public TetrisGame()
     {

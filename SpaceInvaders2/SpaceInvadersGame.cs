@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 
-class SpaceInvadersGame
+public class SpaceInvadersGame : IGameElement
 {
     private const int Width = 64;
     private const int Height = 64;
@@ -23,41 +23,27 @@ class SpaceInvadersGame
     private const int BulletHeight = 3;
     private const int MaxBullets = 10;
 
-    private LedDisplay display;
-    private PlayerConsole playerConsole;
-    private SpriteAnimation alienSprite;
-    private SpriteAnimation playerSprite;
-    private GameOver gameOver;
+    private readonly SpriteAnimation alienSprite;
+    private readonly SpriteAnimation playerSprite;
     private int alienFrame = 0;
     private int playerX;
     private List<Rectangle> invaders;
     private List<Rectangle> bullets;
     private List<PixelBomb> pixelBombs = new();
     private bool moveInvadersRight = true;
+    private bool isDone;
 
-    public SpaceInvadersGame(LedDisplay display, PlayerConsole playerConsole)
+    public SpaceInvadersGame()
     {
-        this.display = display;
-        this.playerConsole = playerConsole;
-        gameOver = new GameOver();
         var image = new SpriteImage("space-invaders.png", new Point(0, 60));
         alienSprite = image.GetSpriteAnimation(0, 0, 4, 3, 2, 1);
         playerSprite = image.GetSpriteAnimation(0, 4, 6, 3, 1, 1);
     }
 
-    public void Run()
-    {
-        Initialize();
-        while (true)
-        {
-            Update();
-            Draw();
-        }
-    }
+    public bool IsDone() => isDone;
 
     private void Initialize()
     {
-        gameOver.State = GameState.Playing;
         playerX = Width / 2 - PlayerWidth / 2;
         invaders = new List<Rectangle>();
         bullets = new List<Rectangle>();
@@ -77,28 +63,24 @@ class SpaceInvadersGame
         Initialize();
     }
 
-    private void Update()
+    public void HandleInput(IPlayerConsole playerConsole)
     {
-        if (gameOver.State != GameState.Playing)
-        {
-            gameOver.HandleInput(playerConsole);
-            gameOver.Update();
-            if (gameOver.State == GameState.PlayAgain)
-                Initialize();
-            return;
-        }
         // Update player
         var stick = playerConsole.ReadJoystick();
+        var buttons = playerConsole.ReadButtons();
         if (stick.IsLeft()) playerX--;
         if (stick.IsRight()) playerX++;
         playerX = Math.Clamp(playerX, 0, Width - PlayerWidth);
 
         // Fire bullet
-        if (playerConsole.ReadButtons() > 0 && bullets.Count < MaxBullets)
+        if (buttons.IsGreenPushed() && bullets.Count < MaxBullets)
         {
             bullets.Add(new Rectangle(playerX + PlayerWidth / 2 - BulletWidth / 2, Height - PlayerHeight - BulletHeight, BulletWidth, BulletHeight));
         }
+    }
 
+    public void Update()
+    {
         // Update bullets
         for (var i = bullets.Count - 1; i >= 0; i--)
         {
@@ -157,15 +139,14 @@ class SpaceInvadersGame
 
                 if (invaders[i].Bottom < Height - PlayerHeight) continue;
                 // Game over
-                gameOver.State = GameState.GameOver;
+                isDone = true;
                 return;
             }
         }
     }
 
-    private void Draw()
+    public void Draw(IDisplay display)
     {
-        display.Clear();
         playerSprite.Draw(display, playerX, Height - PlayerHeight);
         foreach (var invader in invaders)
         {
@@ -179,8 +160,5 @@ class SpaceInvadersGame
         {
             bomb.Draw(display);
         }
-        if (gameOver.State == GameState.GameOver)
-            gameOver.Draw(display);
-        display.Update();
     }
 }

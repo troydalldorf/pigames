@@ -23,9 +23,9 @@ public class TxDisplay: IDisplay, IDirectCanvasAccess
         concrete.Clear();
     }
 
-    public void Update()
+    public void Update(int? frameIntervalMs = null)
     {
-        concrete.Update();
+        concrete.Update(frameIntervalMs);
     }
 
     public void SetPixel(int x, int y, Color color)

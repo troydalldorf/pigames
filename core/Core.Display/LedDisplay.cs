@@ -6,9 +6,9 @@ namespace Core.Display;
 
 public class LedDisplay : IDisplay, IDirectCanvasAccess
 {
-    private RgbLedMatrix matrix;
+    private readonly RgbLedMatrix matrix;
     private RgbLedCanvas canvas;
-    private Stopwatch stopwatch;
+    private readonly Stopwatch stopwatch;
     
     public LedDisplay()
     {
@@ -30,13 +30,13 @@ public class LedDisplay : IDisplay, IDirectCanvasAccess
         canvas.Clear();
     }
 
-    public void Update()
+    public void Update(int? frameIntervalMs = null)
     {
-        // force 30 FPS
+        frameIntervalMs ??= 33;
         var elapsed= stopwatch.ElapsedMilliseconds;
-        if (elapsed < 33)
+        if (elapsed < frameIntervalMs)
         {
-            Thread.Sleep(33 - (int)elapsed);
+            Thread.Sleep(frameIntervalMs.Value - (int)elapsed);
         }
         canvas = matrix.SwapOnVsync(canvas);
         stopwatch.Restart();
