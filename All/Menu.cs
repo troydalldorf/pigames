@@ -60,9 +60,8 @@ public class Menu : IGameElement
         if (buttons.IsGreenPushed())
         {
             var item = items[cursor];
-            var game = item.OnePlayer != null ? item.OnePlayer() : item.TwoPlayer();
+            var game = item.OnePlayer ?? item.TwoPlayer;
             runner.Run(game);
-            if (game is IDisposable disposable) disposable.Dispose();
         }
     }
 

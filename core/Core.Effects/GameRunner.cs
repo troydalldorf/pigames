@@ -27,8 +27,10 @@ public class GameRunner : IDisposable
         state = GameState.WaitingToStart;
     }
     
-    public void Run(IGameElement game, int? frameIntervalMs = 33)
+    public void Run(Func<IGameElement> createGame, int? frameIntervalMs = 33)
     {
+        Console.WriteLine("Starting game...");
+        var game = createGame();
         Console.WriteLine("Running game...");
         state = GameState.Running;
         while (state != GameState.Done)
@@ -38,11 +40,16 @@ public class GameRunner : IDisposable
                 case GameState.Running:
                 {
                     game.HandleInput(p1Console);
-                    if (game is I2PGameElement p2GameElement) p2GameElement.Handle2PInput(p2Console);
+                    DisposeGame(game);
                     break;
                 }
                 case GameState.GameOver:
                     HandleGameOverInput(p1Console);
+                    break;
+                case GameState.PlayAgain:
+                    if (game is IDisposable disposable) disposable.Dispose();
+                    game = createGame();
+                    state = GameState.Running;
                     break;
             }
             game.Update();
@@ -58,6 +65,7 @@ public class GameRunner : IDisposable
             display.Update(frameIntervalMs);
         }
         Console.WriteLine("Exiting game...");
+        DisposeGame(game);
     }
 
     private void HandleGameOverInput(IPlayerConsole console)
@@ -82,6 +90,11 @@ public class GameRunner : IDisposable
         smallFont.DrawText(display, 4, top+36, Color.Blue, "PLAY AGAIN?", 0);
     }
 
+    private void DisposeGame(IGameElement game)
+    {
+        if (game is IDisposable disposable) disposable.Dispose();
+    }
+    
     public void Dispose()
     {
         smallFont.Dispose();
