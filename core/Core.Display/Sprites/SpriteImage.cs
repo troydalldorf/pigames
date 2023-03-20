@@ -6,7 +6,7 @@ namespace Core.Display.Sprites;
 public class SpriteImage
 {
     private readonly Bitmap image;
-    private Color? transparent;
+    private readonly Color? transparent;
     
     public SpriteImage(string filePath, Point? transparentRef)
     {

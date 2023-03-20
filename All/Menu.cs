@@ -5,6 +5,7 @@ using Core;
 using Core.Display.Fonts;
 using Core.Effects;
 using FlappyBird;
+using Frogger;
 using Pong;
 using Snake;
 using SpaceInvaders2;
@@ -28,6 +29,7 @@ public class Menu : IGameElement
         new("BREAKOUT", () => new BreakoutGame(), null),
         new("E-PONG", null, () => new PongGame()),
         new("FLAPPY B", () => new FlappyBirdGame(), null),
+        new("FROGGER", () => new FroggerGame(), null),
         new("PONG", null, () => new PongGame()),
         new("SNAKE", () => new SnakeGame(), null),
         new("SPACE IN", () => new SpaceInvadersGame(), null),

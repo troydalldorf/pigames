@@ -1,16 +1,9 @@
 using Core;
-using Core.Display;
-using Core.Display.Sprites;
-using Core.Inputs;
+using System.Drawing;
 
 namespace Frogger;
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Threading;
-
-class FroggerGame
+public class FroggerGame : IGameElement
 {
     private const int Width = 64;
     private const int Height = 64;
@@ -21,33 +14,19 @@ class FroggerGame
     private const int LaneHeight = VehicleHeight + 2;
     private const int MaxSpeed = 3;
 
-    private LedDisplay display;
-    private PlayerConsole playerConsole;
     private Rectangle frog;
     private List<Rectangle> vehicles;
     private int[] laneSpeeds;
-    private Random random;
-    private Sprite frogSprite;
+    private readonly Random random;
+    private bool isDone;
+    //private readonly Sprite frogSprite;
 
-    public FroggerGame(LedDisplay display, PlayerConsole playerConsole)
+    public FroggerGame()
     {
-        this.display = display;
-        this.playerConsole = playerConsole;
-        var image = new SpriteImage("frogger.png", new Point(0, 1));
-        frogSprite = image.GetSprite(0, 0, 4, 4);
+        //var image = new SpriteImage("frogger.png", new Point(0, 1));
+        //frogSprite = image.GetSprite(0, 0, 4, 4);
         random = new Random();
-    }
-
-    public void Run()
-    {
         Initialize();
-
-        while (true)
-        {
-            Update();
-            Draw();
-            Thread.Sleep(100);
-        }
     }
 
     private void Initialize()
@@ -57,23 +36,23 @@ class FroggerGame
         vehicles = new List<Rectangle>();
         laneSpeeds = new int[NumLanes];
 
-        for (int i = 0; i < NumLanes; i++)
+        for (var i = 0; i < NumLanes; i++)
         {
             laneSpeeds[i] = random.Next(1, MaxSpeed + 1) * (random.Next(2) == 0 ? 1 : -1);
-            int numVehicles = random.Next(2, 5);
-            for (int j = 0; j < numVehicles; j++)
+            var numVehicles = random.Next(2, 5);
+            for (var j = 0; j < numVehicles; j++)
             {
-                int x = (Width / numVehicles) * j;
-                int y = LaneHeight * i;
+                var x = (Width / numVehicles) * j;
+                var y = LaneHeight * i;
                 vehicles.Add(new Rectangle(x, y, VehicleWidth, VehicleHeight));
             }
         }
     }
 
-    private void Update()
+    public void HandleInput(IPlayerConsole player1Console)
     {
         // Update frog
-        var stick = playerConsole.ReadJoystick();
+        var stick = player1Console.ReadJoystick();
         if (stick.IsUp()) frog.Y--;
         if (stick.IsDown()) frog.Y++;
         if (stick.IsLeft()) frog.X--;
@@ -85,9 +64,11 @@ class FroggerGame
         if (frog.Y == 0)
         {
             Initialize();
-            return;
         }
+    }
 
+    public void Update()
+    {
         // Update vehicles
         for (var i = 0; i < vehicles.Count; i++)
         {
@@ -106,26 +87,21 @@ class FroggerGame
             // Check for collision
             if (frog.IntersectsWith(vehicles[i]))
             {
-                Initialize();
+                isDone = true;
                 return;
             }
         }
     }
 
-    private void Draw()
+    public void Draw(IDisplay display)
     {
-        display.Clear();
-
-        // Draw frog
-        //display.DrawRectangle(frog.X, frog.Y, FrogSize, FrogSize, Color.Green);
-        frogSprite.Draw(display, frog.X, frog.Y);
-
-        // Draw
+        display.DrawRectangle(frog.X, frog.Y, FrogSize, FrogSize, Color.Green);
+        //frogSprite.Draw(display, frog.X, frog.Y);
         foreach (var vehicle in vehicles)
         {
             display.DrawRectangle(vehicle.X, vehicle.Y, VehicleWidth, VehicleHeight, Color.Red);
         }
-
-        display.Update();
     }
+
+    public bool IsDone() => isDone;
 }
