@@ -39,7 +39,9 @@ public class Menu : IGameElement
                         current.HandleInput(player1Console);
                         if (current is I2PGameElement current2P) current2P.Handle2PInput(player2Console);
                         current.Update();
+                        display.Clear();
                         current.Draw(display);
+                        display.Update();
                         if (current.IsDone())
                         {
                             gameOver.State = GameState.GameOver;
@@ -85,6 +87,7 @@ public class Menu : IGameElement
         if (!buttons.IsGreenPushed()) return;
         var item = items[cursor];
         gameOver.State = GameState.Playing;
+        Console.WriteLine("Starting game...");
         current = item.OnePlayer != null ? item.OnePlayer() : item.TwoPlayer();
     }
 
