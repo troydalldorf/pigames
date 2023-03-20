@@ -1,3 +1,4 @@
+using Core;
 using Core.Display;
 using Core.Inputs;
 
@@ -7,7 +8,7 @@ using System;
 using System.Drawing;
 using System.Threading;
 
-class FlappyBirdGame
+public class FlappyBirdGame : IGameElement
 {
     private const int Width = 64;
     private const int Height = 64;
@@ -19,30 +20,15 @@ class FlappyBirdGame
     private const int Gravity = 1;
     private const int FlapPower = 4;
 
-    private LedDisplay display;
-    private PlayerConsole playerConsole;
     private Rectangle bird;
     private int birdVelocity;
     private Rectangle[] pipes;
-    private Random random;
+    private Random random = new();
+    private bool isDone;
 
-    public FlappyBirdGame(LedDisplay display, PlayerConsole playerConsole)
-    {
-        this.display = display;
-        this.playerConsole = playerConsole;
-        random = new Random();
-    }
-
-    public void Run()
+    public FlappyBirdGame()
     {
         Initialize();
-
-        while (true)
-        {
-            Update();
-            Draw();
-            Thread.Sleep(50);
-        }
     }
 
     private void Initialize()
@@ -52,15 +38,15 @@ class FlappyBirdGame
 
         pipes = new Rectangle[NumPipes * 2];
 
-        for (int i = 0; i < NumPipes; i++)
+        for (var i = 0; i < NumPipes; i++)
         {
-            int gapStart = random.Next(Height / 4, 3 * Height / 4);
+            var gapStart = random.Next(Height / 4, 3 * Height / 4);
             pipes[i * 2] = new Rectangle(i * PipeSpacing + Width, 0, PipeWidth, gapStart);
             pipes[i * 2 + 1] = new Rectangle(i * PipeSpacing + Width, gapStart + PipeGap, PipeWidth, Height - gapStart - PipeGap);
         }
     }
 
-    private void Update()
+    public void HandleInput(IPlayerConsole player1Console)
     {
         // Update bird
         birdVelocity += Gravity;
@@ -68,40 +54,38 @@ class FlappyBirdGame
         bird.Y = Math.Clamp(bird.Y, 0, Height - BirdSize);
 
         // Flap
-        var buttons = playerConsole.ReadButtons();
+        var buttons = player1Console.ReadButtons();
         if (buttons > 0)
         {
             birdVelocity = -FlapPower;
         }
+    }
 
+    public void Update()
+    {
         // Check for collision
-        foreach (var pipe in pipes)
+        if (pipes.Any(pipe => bird.IntersectsWith(pipe)))
         {
-            if (bird.IntersectsWith(pipe))
-            {
-                Initialize();
-                return;
-            }
+            isDone = true;
+            return;
         }
 
         // Update pipes
-        for (int i = 0; i < pipes.Length; i++)
+        for (var i = 0; i < pipes.Length; i++)
         {
             pipes[i].X--;
 
             // Reset pipe when off-screen
             if (pipes[i].Right < 0)
             {
-                int gapStart = random.Next(Height / 4, 3 * Height / 4);
+                var gapStart = random.Next(Height / 4, 3 * Height / 4);
                 pipes[i] = new Rectangle((i / 2) * PipeSpacing + Width, pipes[i].Y < Height / 2 ? 0 : gapStart + PipeGap, PipeWidth, pipes[i].Height);
             }
         }
     }
 
-    private void Draw()
+    public void Draw(IDisplay display)
     {
-        display.Clear();
-
         // Draw bird
         display.DrawRectangle(bird.X, bird.Y, BirdSize, BirdSize, Color.Yellow);
 
@@ -110,7 +94,7 @@ class FlappyBirdGame
         {
             display.DrawRectangle(pipe.X, pipe.Y, PipeWidth, pipe.Height, Color.Green);
         }
-
-        display.Update();
     }
+
+    public bool IsDone() => isDone;
 }
