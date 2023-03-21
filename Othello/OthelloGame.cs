@@ -204,11 +204,11 @@ public class Grid
 
                 if (board[x, y] == Player.Black)
                 {
-                    fillColor = Color.Black;
+                    fillColor = Color.DarkBlue;
                 }
                 else if (board[x, y] == Player.White)
                 {
-                    fillColor = Color.White;
+                    fillColor = Color.DarkRed;
                 }
 
                 display.DrawRectangle(x * 8, y * 8, 8, 8, borderColor, fillColor);
