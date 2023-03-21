@@ -194,8 +194,8 @@ public class Grid
         {
             for (int y = 0; y < _height; y++)
             {
-                Color borderColor = Color.Gray;
-                Color fillColor = Color.None;
+                var borderColor = Color.Gray;
+                var fillColor = Color.Pink;
 
                 if (x == CursorX && y == CursorY)
                 {
