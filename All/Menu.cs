@@ -20,9 +20,10 @@ public class Menu : IGameElement
     private int cursor;
     private readonly Stopwatch stopwatch = new();
     private long lastActionAt;
+    private Random random = new();
 
     private const int Offset = 6;
-    private const int ItemHeight = 7;
+    private const int ItemHeight = 6;
 
     private readonly GameItem[] items =
     {
@@ -67,6 +68,9 @@ public class Menu : IGameElement
             var game = item.OnePlayer ?? item.TwoPlayer;
             runner.Run(game);
         }
+
+        var r = random.Next(0, 4);
+        console.LightButtons(r == 0, r == 2, r == 3, r == 4);
     }
 
     public void Update()

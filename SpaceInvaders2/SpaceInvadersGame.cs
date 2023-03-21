@@ -65,7 +65,6 @@ public class SpaceInvadersGame : IGameElement
 
     public void HandleInput(IPlayerConsole playerConsole)
     {
-        // Update player
         var stick = playerConsole.ReadJoystick();
         var buttons = playerConsole.ReadButtons();
         if (stick.IsLeft()) playerX--;
