@@ -82,9 +82,13 @@ public class GameRunner : IDisposable
 
     private void DrawGameOver()
     {
+        largeFont.DrawText(display, 6, top+12, Color.Black, "GAME", 3);
+        largeFont.DrawText(display, 8, top+14, Color.Black, "GAME", 3);
         largeFont.DrawText(display, 7, top+13, Color.Crimson, "GAME", 3);
+        largeFont.DrawText(display, 6, top+27, Color.Black, "OVER", 3);
+        largeFont.DrawText(display, 8, top+29, Color.Black, "OVER", 3);
         largeFont.DrawText(display, 7, top+28, Color.Crimson, "OVER", 3);
-        display.DrawRectangle(0, top+36, 64, 8, Color.Black, Color.Black);
+        display.DrawRectangle(0, top+36-8, 64, 8, Color.Black, Color.Black);
         smallFont.DrawText(display, 4, top+36, Color.Blue, "PLAY AGAIN?", 0);
     }
 

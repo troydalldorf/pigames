@@ -20,7 +20,7 @@ public class Menu : IGameElement
     private int cursor;
     private readonly Stopwatch stopwatch = new();
     private long lastActionAt;
-    private Random random = new();
+    private readonly Random random = new();
 
     private const int Offset = 6;
     private const int ItemHeight = 6;
