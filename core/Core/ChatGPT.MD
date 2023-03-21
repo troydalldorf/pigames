@@ -1,5 +1,8 @@
-I have the following interfaces that interact with my Raspberry PI Custom Arcade Console. The Display is 64x64 LED pixels. The inputs are a digital joystick (boolean for up, down, left right) and three buttons, Red, Green, Blue.
-The console also supports two players who sit on opposite sites of the display.
+I have a Raspberry PI arcade that uses a 64x64 LED matrix display. The arcade is two player, with each player sitting on opposite sides.
+The code/classes used to interact with the custom arcade console are described below. The code below also describes the basic code structure.
+NOTE that the main game loop is outside of this code, and not something you need to provide.
+
+Please create the following game:
 
 ```csharp
 public interface IDisplay

@@ -22,6 +22,7 @@ public class SpriteImage
 
     public static SpriteImage FromFile(string filePath, Point? transparentRef)
     {
+        Console.WriteLine($"Loading spites from file: {filePath}");
         var image = new Bitmap(filePath);
         return new SpriteImage(image, transparentRef);
     }
