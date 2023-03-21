@@ -56,6 +56,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "core\Core\Core.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BomberMan", "BomberMan\BomberMan.csproj", "{4D38CD2A-9D33-40BC-AA35-8BDEB18AEF56}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Othello", "Othello\Othello.csproj", "{30F64A50-0E1B-4FA2-9C0F-74D5BD82CF57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -158,6 +160,10 @@ Global
 		{4D38CD2A-9D33-40BC-AA35-8BDEB18AEF56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D38CD2A-9D33-40BC-AA35-8BDEB18AEF56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D38CD2A-9D33-40BC-AA35-8BDEB18AEF56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30F64A50-0E1B-4FA2-9C0F-74D5BD82CF57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30F64A50-0E1B-4FA2-9C0F-74D5BD82CF57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30F64A50-0E1B-4FA2-9C0F-74D5BD82CF57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30F64A50-0E1B-4FA2-9C0F-74D5BD82CF57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AABB21BF-4A48-44D2-AE86-1E5262683C4C} = {4CF79911-C0E7-4EB0-AC65-B9A0317F458D}

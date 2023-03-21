@@ -19,9 +19,9 @@ public class DuoTetrisGame : I2PGameElement
         p1TetrisGame.HandleInput(p1Console);
     }
 
-    public void Handle2PInput(IPlayerConsole p2Console)
+    public void Handle2PInput(IPlayerConsole player2Console)
     {
-        p2TetrisGame.HandleInput(p2Console);
+        p2TetrisGame.HandleInput(player2Console);
     }
 
     public void Update()
