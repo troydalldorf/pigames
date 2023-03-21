@@ -12,6 +12,7 @@
       <ProjectReference Include="..\Breakout\Breakout.csproj" />
       <ProjectReference Include="..\FlappyBird\FlappyBird.csproj" />
       <ProjectReference Include="..\Frogger\Frogger.csproj" />
+      <ProjectReference Include="..\Othello\Othello.csproj" />
       <ProjectReference Include="..\Pong\Pong.csproj" />
       <ProjectReference Include="..\Snake\Snake.csproj" />
       <ProjectReference Include="..\SpaceInvaders2\SpaceInvaders2.csproj" />

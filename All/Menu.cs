@@ -7,6 +7,7 @@ using Core.Display.Fonts;
 using Core.Effects;
 using FlappyBird;
 using Frogger;
+using Othello;
 using Pong;
 using Snake;
 using SpaceInvaders2;
@@ -33,6 +34,7 @@ public class Menu : IGameElement
         new("E-PONG", null, () => new PongGame()),
         new("FLAPPY B", () => new FlappyBirdGame(), null),
         new("FROGGER", () => new FroggerGame(), null),
+        new("OTHELLO", () => new OthelloGame(), null),
         new("PONG", null, () => new PongGame()),
         new("SNAKE", () => new SnakeGame(), null),
         new("SPACE IN", () => new SpaceInvadersGame(), null),
@@ -81,18 +83,20 @@ public class Menu : IGameElement
 
     public void Draw(IDisplay display)
     {
-        display.DrawRectangle(0, 0, 64, 64, Color.Chartreuse);
+        display.DrawRectangle(0, 0, 64, 64, Color.Blue);
         for (var i=0; i < items.Length; i++)
         {
             var item = items[i];
+            var x = 1 + i / 10 * 32;
+            var y = Offset + i % 10 * ItemHeight;
             if (cursor == i)
             {
-                display.DrawRectangle(1, 1 + i * ItemHeight-1, 30, ItemHeight, Color.LightSkyBlue, Color.LightSkyBlue);
-                font.DrawText(display, 1, Offset + i * ItemHeight, Color.Black, item.Name);
+                display.DrawRectangle(x, y, 30, ItemHeight, Color.LightSkyBlue, Color.LightSkyBlue);
+                font.DrawText(display, x, y, Color.Black, item.Name);
             }
             else
             {
-                font.DrawText(display, 1, Offset + i * ItemHeight, Color.LightSkyBlue, item.Name);
+                font.DrawText(display, x, y, Color.LightSkyBlue, item.Name);
             }
         }
     }

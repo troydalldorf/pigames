@@ -1,46 +1,46 @@
-using System;
 using System.Drawing;
 using Core;
 using Core.Display.Fonts;
+
+namespace Othello;
 
 public class OthelloGame : I2PGameElement
 {
     private const int GridSize = 8;
 
-    private LedFont _font;
+    private readonly LedFont font;
 
-    private Grid _grid;
-    private Player _currentPlayer;
-    private bool _isDone;
+    private Grid grid;
+    private Player currentPlayer;
+    private bool isDone;
 
     public OthelloGame()
     {
-        _font = new LedFont(LedFontType.Font4x6);
-
+        font = new LedFont(LedFontType.Font4x6);
         Initialize();
     }
 
     private void Initialize()
     {
-        _grid = new Grid(GridSize, GridSize);
-        _grid.PlacePiece(3, 3, Player.White);
-        _grid.PlacePiece(4, 4, Player.White);
-        _grid.PlacePiece(3, 4, Player.Black);
-        _grid.PlacePiece(4, 3, Player.Black);
+        grid = new Grid(GridSize, GridSize);
+        grid.PlacePiece(3, 3, Player.White);
+        grid.PlacePiece(4, 4, Player.White);
+        grid.PlacePiece(3, 4, Player.Black);
+        grid.PlacePiece(4, 3, Player.Black);
 
-        _currentPlayer = Player.Black;
-        _isDone = false;
+        currentPlayer = Player.Black;
+        isDone = false;
     }
     
     public void HandleInput(IPlayerConsole player1Console)
     {
-        if (_currentPlayer == Player.White) return;
+        if (currentPlayer == Player.Black) return;
         InternalHandleInput(player1Console);
     }
     
     public void Handle2PInput(IPlayerConsole player2Console)
     {
-        if (_currentPlayer == Player.Black) return;
+        if (currentPlayer == Player.White) return;
         InternalHandleInput(player2Console);
     }
     
@@ -69,20 +69,20 @@ public class OthelloGame : I2PGameElement
                     break;
             }
 
-            _grid.MoveCursor(dx, dy);
+            grid.MoveCursor(dx, dy);
         }
 
-        if (buttons.HasFlag(Buttons.Red))
+        if (buttons.HasFlag(Buttons.Green))
         {
-            if (_grid.PlacePiece(_grid.CursorX, _grid.CursorY, _currentPlayer))
+            if (grid.PlacePiece(grid.CursorX, grid.CursorY, currentPlayer))
             {
-                _currentPlayer = _currentPlayer == Player.Black ? Player.White : Player.Black;
+                currentPlayer = currentPlayer == Player.Black ? Player.White : Player.Black;
             }
         }
 
         if (buttons.HasFlag(Buttons.Yellow))
         {
-            _isDone = true;
+            isDone = true;
         }
     }
 
@@ -92,29 +92,29 @@ public class OthelloGame : I2PGameElement
 
     public void Draw(IDisplay display)
     {
-        _grid.Draw(display, _currentPlayer);
+        grid.Draw(display, currentPlayer);
 
-        if (_isDone)
+        if (isDone)
         {
-            int blackScore = _grid.Score(Player.Black);
-            int whiteScore = _grid.Score(Player.White);
+            var blackScore = grid.Score(Player.Black);
+            var whiteScore = grid.Score(Player.White);
 
             if (blackScore > whiteScore)
             {
-                _font.DrawText(display, 10, 30, Color.White, "Black Wins");
+                font.DrawText(display, 10, 30, Color.White, "Black Wins");
             }
             else if (whiteScore > blackScore)
             {
-                _font.DrawText(display, 10, 30, Color.White, "White Wins");
+                font.DrawText(display, 10, 30, Color.White, "White Wins");
             }
             else
             {
-                _font.DrawText(display, 10, 30, Color.White, "Draw");
+                font.DrawText(display, 10, 30, Color.White, "Draw");
             }
         }
     }
 
-    public bool IsDone() => _isDone;
+    public bool IsDone() => isDone;
 }
 
 public enum Player
@@ -126,31 +126,31 @@ public enum Player
 
 public class Grid
 {
-    private int _width;
-    private int _height;
-    private Player[,] _board;
-    private int _cursorX;
-    private int _cursorY;
+    private readonly int width;
+    private readonly int height;
+    private readonly Player[,] board;
+    private int cursorX;
+    private int cursorY;
     
     public int CursorX
     {
-        get => _cursorX;
-        set => _cursorX = Math.Clamp(value, 0, _width - 1);
+        get => cursorX;
+        set => cursorX = Math.Clamp(value, 0, width - 1);
     }
 
     public int CursorY
     {
-        get => _cursorY;
-        set => _cursorY = Math.Clamp(value, 0, _height - 1);
+        get => cursorY;
+        set => cursorY = Math.Clamp(value, 0, height - 1);
     }
 
     public Grid(int width, int height)
     {
-        _width = width;
-        _height = height;
-        _board = new Player[width, height];
-        _cursorX = 0;
-        _cursorY = 0;
+        this.width = width;
+        this.height = height;
+        board = new Player[width, height];
+        cursorX = 0;
+        cursorY = 0;
     }
 
     public void MoveCursor(int dx, int dy)
@@ -161,9 +161,9 @@ public class Grid
 
     public bool PlacePiece(int x, int y, Player player)
     {
-        if (_board[x, y] == Player.None && IsValidMove(x, y, player))
+        if (board[x, y] == Player.None && IsValidMove(x, y, player))
         {
-            _board[x, y] = player;
+            board[x, y] = player;
             FlipPieces(x, y, player);
             return true;
         }
@@ -174,11 +174,11 @@ public class Grid
     public int Score(Player player)
     {
         int count = 0;
-        for (int x = 0; x < _width; x++)
+        for (int x = 0; x < width; x++)
         {
-            for (int y = 0; y < _height; y++)
+            for (int y = 0; y < height; y++)
             {
-                if (_board[x, y] == player)
+                if (board[x, y] == player)
                 {
                     count++;
                 }
@@ -190,9 +190,9 @@ public class Grid
 
     public void Draw(IDisplay display, Player currentPlayer)
     {
-        for (int x = 0; x < _width; x++)
+        for (var x = 0; x < width; x++)
         {
-            for (int y = 0; y < _height; y++)
+            for (var y = 0; y < height; y++)
             {
                 var borderColor = Color.Gray;
                 var fillColor = Color.Pink;
@@ -202,11 +202,11 @@ public class Grid
                     borderColor = currentPlayer == Player.Black ? Color.Blue : Color.Red;
                 }
 
-                if (_board[x, y] == Player.Black)
+                if (board[x, y] == Player.Black)
                 {
                     fillColor = Color.Black;
                 }
-                else if (_board[x, y] == Player.White)
+                else if (board[x, y] == Player.White)
                 {
                     fillColor = Color.White;
                 }
@@ -245,13 +245,13 @@ public class Grid
         x += dx;
         y += dy;
 
-        while (x >= 0 && x < _width && y >= 0 && y < _height)
+        while (x >= 0 && x < width && y >= 0 && y < height)
         {
-            if (_board[x, y] == opponent)
+            if (board[x, y] == opponent)
             {
                 count++;
             }
-            else if (_board[x, y] == player && count > 0)
+            else if (board[x, y] == player && count > 0)
             {
                 return true;
             }
@@ -288,18 +288,18 @@ public class Grid
 
     private void FlipDirection(int x, int y, int dx, int dy, Player player)
     {
-        Player opponent = player == Player.Black ? Player.White : Player.Black;
+        var opponent = player == Player.Black ? Player.White : Player.Black;
 
         x += dx;
         y += dy;
 
-        while (x >= 0 && x < _width && y >= 0 && y < _height)
+        while (x >= 0 && x < width && y >= 0 && y < height)
         {
-            if (_board[x, y] == opponent)
+            if (board[x, y] == opponent)
             {
-                _board[x, y] = player;
+                board[x, y] = player;
             }
-            else if (_board[x, y] == player)
+            else if (board[x, y] == player)
             {
                 break;
             }
