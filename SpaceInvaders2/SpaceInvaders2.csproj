@@ -15,7 +15,7 @@
 
     <ItemGroup>
       <None Remove="space-invaders.png" />
-      <Content Include="space-invaders.png" CopyToOutputDirectory="Always" />
+      <EmbeddedResource Include="space-invaders.png" />
     </ItemGroup>
 
 </Project>

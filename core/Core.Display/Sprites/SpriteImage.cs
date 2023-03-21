@@ -1,5 +1,6 @@
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Reflection;
 
 namespace Core.Display.Sprites;
 
@@ -7,10 +8,27 @@ public class SpriteImage
 {
     private readonly Bitmap image;
     private readonly Color? transparent;
-    
-    public SpriteImage(string filePath, Point? transparentRef)
+
+    public static SpriteImage FromResource(string resourceName, Point? transparentRef)
     {
-        image = new Bitmap(filePath);
+        var assembly = Assembly.GetExecutingAssembly();
+        using var stream = assembly.GetManifestResourceStream(resourceName);
+        if (stream == null)
+        {
+            throw new ArgumentException($"Resource not found: {resourceName}");
+        }
+        return new SpriteImage(new Bitmap(stream), transparentRef);
+    }
+
+    public static SpriteImage FromFile(string filePath, Point? transparentRef)
+    {
+        var image = new Bitmap(filePath);
+        return new SpriteImage(image, transparentRef);
+    }
+    
+    protected SpriteImage(Bitmap image, Point? transparentRef)
+    {
+        this.image = image;
         if (transparentRef != null)
         {
             transparent = image.GetPixel(transparentRef.Value.X, transparentRef.Value.Y);

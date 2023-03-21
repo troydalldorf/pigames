@@ -35,7 +35,7 @@ class MinesweeperGame
         this.display = display;
         this.font = new LedFont(LedFontType.FontTomThumb);
         this.playerConsole = playerConsole;
-        var image = new SpriteImage("ms.png", new Point(0, 46));
+        var image = SpriteImage.FromFile("ms.png", new Point(0, 46));
         soilSprite = image.GetSpriteAnimation(1, 1, 8, 8, 2, 1);
         idSprite = image.GetSpriteAnimation(1, 10, 8, 8, 2, 1);
         cursorSprite = image.GetSpriteAnimation(1, 19, 8, 8, 1, 1);
