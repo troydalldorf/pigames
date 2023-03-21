@@ -14,10 +14,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="space-invaders.png" />
-        <EmbeddedResource Include="space-invaders.png">
-            <LogicalName>space-invaders.png</LogicalName>
-        </EmbeddedResource>
+        <None Remove="si.png" />
+        <EmbeddedResource Include="si.png" />
     </ItemGroup>
     
 </Project>
