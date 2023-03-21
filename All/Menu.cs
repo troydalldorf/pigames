@@ -91,7 +91,7 @@ public class Menu : IGameElement
             var y = Offset + i % 10 * ItemHeight;
             if (cursor == i)
             {
-                display.DrawRectangle(x, y, 30, ItemHeight, Color.LightSkyBlue, Color.LightSkyBlue);
+                display.DrawRectangle(x, y-5, 30, ItemHeight, Color.LightSkyBlue, Color.LightSkyBlue);
                 font.DrawText(display, x, y, Color.Black, item.Name);
             }
             else
