@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Drawing;
+using BomberMan;
 using Breakout;
 using Core;
 using Core.Display.Fonts;
@@ -27,6 +28,7 @@ public class Menu : IGameElement
 
     private readonly GameItem[] items =
     {
+        new("B MAN", () => new BombermanGame(), null),
         new("BREAKOUT", () => new BreakoutGame(), null),
         new("E-PONG", null, () => new PongGame()),
         new("FLAPPY B", () => new FlappyBirdGame(), null),
