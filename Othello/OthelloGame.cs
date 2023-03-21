@@ -23,10 +23,10 @@ public class OthelloGame : I2PGameElement
     private void Initialize()
     {
         grid = new Grid(GridSize, GridSize);
-        grid.PlacePiece(3, 3, Player.White);
-        grid.PlacePiece(4, 4, Player.White);
-        grid.PlacePiece(3, 4, Player.Black);
-        grid.PlacePiece(4, 3, Player.Black);
+        grid.PlacePiece(3, 3, Player.White, true);
+        grid.PlacePiece(4, 4, Player.White, true);
+        grid.PlacePiece(3, 4, Player.Black, true);
+        grid.PlacePiece(4, 3, Player.Black, true);
 
         currentPlayer = Player.Black;
         isDone = false;
@@ -74,7 +74,7 @@ public class OthelloGame : I2PGameElement
 
         if (buttons.HasFlag(Buttons.Green))
         {
-            if (grid.PlacePiece(grid.CursorX, grid.CursorY, currentPlayer))
+            if (grid.PlacePiece(grid.CursorX, grid.CursorY, currentPlayer, false))
             {
                 currentPlayer = currentPlayer == Player.Black ? Player.White : Player.Black;
             }
@@ -159,9 +159,9 @@ public class Grid
         CursorY += dy;
     }
 
-    public bool PlacePiece(int x, int y, Player player)
+    public bool PlacePiece(int x, int y, Player player, bool skipCheck)
     {
-        if (board[x, y] == Player.None && IsValidMove(x, y, player))
+        if (board[x, y] == Player.None && (skipCheck || IsValidMove(x, y, player)))
         {
             board[x, y] = player;
             FlipPieces(x, y, player);
@@ -194,7 +194,7 @@ public class Grid
         {
             for (var y = 0; y < height; y++)
             {
-                var borderColor = Color.Gray;
+                var borderColor = Color.DarkSlateGray;
                 Color? fillColor = null;
 
                 if (x == CursorX && y == CursorY)
