@@ -17,46 +17,24 @@ var p2Console = new PlayerConsole(0x44, 0x43);
 
 while (true)
 {
-    if (x == px)
+    if (x == px && y == py )
     {
         x = 32;
+        y = 32;
     }
-    if (x == bx)
+    if (x == bx && y == by )
     {
         x = 32;
+        y = 32;
     }
-    if (x == bx-4)
-    {
-        x = 32;
-    }
-    if (x == px+4)
-    {
-        x = 32;
-    }
+   
     
-    if (y == py)
-    {
-        y = 32;
-    }
-    if (y == by)
-    {
-        y = 32;
-    }
-    if (y == by+20)
-    {
-        y = 32;
-    }
-    if (y == py+20)
-    {
-        y = 32;
-    }
-
     //p2 joystick
     var stick2 = p2Console.ReadJoystick();
-    if (stick2.IsLeft()) bx--;
-    if (stick2.IsRight()) bx++;
-    if (stick2.IsUp()) by--;
-    if (stick2.IsDown()) by++;
+    if (stick2.IsLeft()) bx++;
+    if (stick2.IsRight()) bx--;
+    if (stick2.IsUp()) by++;
+    if (stick2.IsDown()) by--;
     //p1 joystick
     var stick1 = p1Console.ReadJoystick();
     if (stick1.IsLeft()) px--;
@@ -88,7 +66,7 @@ while (true)
     display.Clear();
     display.DrawRectangle(x, y, 2, 2, Color.FromArgb(175, 100, 255));
     display.DrawRectangle(px, py, 20, 4, Color.FromArgb(0, 255, 255));
-    display.DrawRectangle(bx, by, 20, -4, Color.FromArgb(255, 255, 0));
+    display.DrawRectangle(bx, by, 20, -3, Color.FromArgb(255, 255, 0));
     display.Update();
     
     
