@@ -5,87 +5,199 @@ using Core.Display.Fonts;
 public class BingoGame : IGameElement
 {
     private LedFont font;
-    private List<int> numbers = new List<int>();
-    private List<int> player1Numbers = new List<int>();
-    private List<int> player2Numbers = new List<int>();
-    private int currentPlayer = 1;
-    private bool isDone = false;
+    private int[,] player1Card;
+    private int[,] player2Card;
+    private List<int> numbers = new();
+    private bool isDone;
+    private Random random = new();
 
-    public BingoGame()
+    public BingoGame(IDisplay display)
     {
         font = new LedFont(LedFontType.Font5x7);
 
-        for (var i = 1; i <= 25; i++)
+        // Generate random numbers for the game
+        for (int i = 1; i <= 25; i++)
         {
             numbers.Add(i);
         }
 
         Shuffle(numbers);
+
+        // Generate bingo cards for each player
+        player1Card = GenerateCard();
+        player2Card = GenerateCard();
     }
 
     public void HandleInput(IPlayerConsole playerConsole)
     {
-        var joystickDirection = playerConsole.ReadJoystick();
-        var buttons = playerConsole.ReadButtons();
+        Buttons buttons = playerConsole.ReadButtons();
 
-        // Switch player
-        if ((buttons & Buttons.Blue) == Buttons.Blue)
-        {
-            currentPlayer = currentPlayer == 1 ? 2 : 1;
-        }
-
-        // Mark number if button is pressed
         if ((buttons & Buttons.Green) == Buttons.Green)
         {
-            List<int> playerNumbers = currentPlayer == 1 ? player1Numbers : player2Numbers;
+            // Draw a number and check if it exists on a player's card
+            int number = numbers[0];
+            numbers.RemoveAt(0);
 
-            if (playerNumbers.Count < 5)
+            if (CheckCard(player1Card, number) || CheckCard(player2Card, number))
             {
-                playerNumbers.Add(numbers[0]);
-                numbers.RemoveAt(0);
+                // If the number is on a player's card, mark it off
+                if (CheckCard(player1Card, number))
+                {
+                    MarkCard(player1Card, number);
+                }
+
+                if (CheckCard(player2Card, number))
+                {
+                    MarkCard(player2Card, number);
+                }
+
+                // Check for a winner
+                if (CheckWinner(player1Card) || CheckWinner(player2Card))
+                {
+                    isDone = true;
+                }
             }
         }
     }
 
     public void Update()
     {
-        if (player1Numbers.Count == 5 || player2Numbers.Count == 5)
-        {
-            isDone = true;
-        }
+        // No additional updates needed
     }
 
     public void Draw(IDisplay display)
     {
-        // Draw numbers on left side for player 1
-        for (int i = 0; i < player1Numbers.Count; i++)
-        {
-            font.DrawText(display, 2, i * 8, Color.Green, player1Numbers[i].ToString(), vertical: true);
-        }
-
-        // Draw numbers on right side for player 2
-        for (int i = 0; i < player2Numbers.Count; i++)
-        {
-            font.DrawText(display, 58, i * 8, Color.Yellow, player2Numbers[i].ToString(), vertical: true);
-        }
-
-        // Draw current player indicator
-        if (currentPlayer == 1)
-        {
-            display.DrawRectangle(0, 32, 64, 32, Color.Black, Color.Green);
-        }
-        else
-        {
-            display.DrawRectangle(0, 32, 64, 32, Color.Black, Color.Yellow);
-        }
+        DrawCard(display, player1Card, 2, 2, currentPlayer: 1);
+        DrawCard(display, player2Card, 34, 2, currentPlayer: 2);
     }
 
     public bool IsDone() => isDone;
 
+    private int[,] GenerateCard()
+    {
+        // Generate a random bingo card for a player
+        var card = new int[5, 5];
+
+        for (var col = 0; col < 5; col++)
+        {
+            var columnNumbers = new List<int>();
+            var minNumber = col * 15 + 1;
+            var maxNumber = minNumber + 14;
+
+            for (var row = 0; row < 5; row++)
+            {
+                int number;
+
+                do
+                {
+                    number = random.Next(minNumber, maxNumber + 1);
+                } while (columnNumbers.Contains(number));
+
+                card[row, col] = number;
+                columnNumbers.Add(number);
+            }
+        }
+
+        // Mark the center square as already checked
+        card[2, 2] = -1;
+
+        return card;
+    }
+
+    private bool CheckCard(int[,] card, int number)
+    {
+        // Check if a number exists on a player's card
+        for (int row = 0; row < 5; row++)
+        {
+            for (int col = 0; col < 5; col++)
+            {
+                if (card[row, col] == number)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private void MarkCard(int[,] card, int number)
+    {
+        {
+            // Mark a number as checked on a player's card
+            for (int row = 0; row < 5; row++)
+            {
+                for (int col = 0; col < 5; col++)
+                {
+                    if (card[row, col] == number)
+                    {
+                        card[row, col] = -1;
+                    }
+                }
+            }
+        }
+    }
+
+    private bool CheckWinner(int[,] card)
+    {
+        // Check if a player has marked all numbers in a row, column, or diagonal
+        for (int i = 0; i < 5; i++)
+        {
+            // Check row
+            if (card[i, 0] == -1 && card[i, 1] == -1 && card[i, 2] == -1 && card[i, 3] == -1 && card[i, 4] == -1)
+            {
+                return true;
+            }
+
+            // Check column
+            if (card[0, i] == -1 && card[1, i] == -1 && card[2, i] == -1 && card[3, i] == -1 && card[4, i] == -1)
+            {
+                return true;
+            }
+        }
+
+        // Check diagonals
+        if (card[0, 0] == -1 && card[1, 1] == -1 && card[2, 2] == -1 && card[3, 3] == -1 && card[4, 4] == -1)
+        {
+            return true;
+        }
+
+        if (card[0, 4] == -1 && card[1, 3] == -1 && card[2, 2] == -1 && card[3, 1] == -1 && card[4, 0] == -1)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private void DrawCard(IDisplay display, int[,] card, int x, int y, int currentPlayer)
+    {
+        // Draw a player's bingo card
+        for (int row = 0; row < 5; row++)
+        {
+            for (int col = 0; col < 5; col++)
+            {
+                int number = card[row, col];
+
+                if (number == -1)
+                {
+                    // Marked off number
+                    display.DrawRectangle(x + col * 12, y + row * 12, 10, 10, currentPlayer == 1 ? Color.Green : Color.Yellow, currentPlayer == 1 ? Color.Black : Color.Black);
+                }
+                else
+                {
+                    // Unmarked number
+                    font.DrawText(display, x + col * 12, y + row * 12, currentPlayer == 1 ? Color.Green : Color.Yellow, number.ToString());
+                }
+            }
+        }
+    }
+
     private void Shuffle<T>(List<T> list)
     {
-        var random = new Random();
-        var n = list.Count;
+        // Shuffle a list of items
+        Random random = new Random();
+        int n = list.Count;
 
         while (n > 1)
         {
