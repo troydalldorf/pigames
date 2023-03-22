@@ -44,6 +44,9 @@ while (true)
     // ball code
     x = x + dx;
     y = y + dy;
+    var rect = new Rectangle(new Point(0, 0), new Size(10, 10));
+   // INTERSECTING WITH RECTANGLE
+   // rect.IntersectsWith()
     if(x>63)
     {
         dx = -1;
@@ -54,7 +57,6 @@ while (true)
     }
     if(y<0)
     {
-        
         dy = 1;
         y = 32;
         x = 32;
