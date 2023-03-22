@@ -11,7 +11,7 @@ public class BingoGame : IGameElement
     private bool isDone;
     private Random random = new();
 
-    public BingoGame(IDisplay display)
+    public BingoGame()
     {
         font = new LedFont(LedFontType.Font5x7);
 
