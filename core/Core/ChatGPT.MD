@@ -73,6 +73,11 @@ public class MyGame : IGameElement
     {
         // read stick and button information to allow player interaction
     }
+    
+    public void Handle2PInput(IPlayerConsole player1Console)
+    {
+        // read stick and button information to allow player interaction
+    }
 
     public void Update()
     {
