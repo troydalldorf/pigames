@@ -54,19 +54,22 @@ while (true)
     }
     if(y<0)
     {
-        // dy was 1
-        dy = 0;
+        
+        dy = 1;
+        y = 32;
+        x = 32;
     }
-    if(y>63)
+    if(y>62)
     {
-        // dy was -1
-        dy = 0;
+        dy = -1;
+        y = 32;
+         x = 32;
     }
     
     display.Clear();
     display.DrawRectangle(x, y, 2, 2, Color.FromArgb(175, 100, 255));
     display.DrawRectangle(px, py, 20, 4, Color.FromArgb(0, 255, 255));
-    display.DrawRectangle(bx, by, 20, -3, Color.FromArgb(255, 255, 0));
+    display.DrawRectangle(bx, by, 20, -2, Color.FromArgb(255, 255, 0));
     display.Update();
     
     
