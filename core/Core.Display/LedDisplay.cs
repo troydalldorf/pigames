@@ -51,9 +51,9 @@ public class LedDisplay : IDisplay, IDirectCanvasAccess
     {
         if (fillColor != null)
         {
-            for (var i = radius - 1; i > 0; i--)
+            for (var r = radius - 1; r > 0; r--)
             {
-                canvas.DrawCircle(x, y, radius, fillColor.Value);
+                canvas.DrawCircle(x, y, r, fillColor.Value);
             }
         }
 

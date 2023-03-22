@@ -162,11 +162,11 @@ public class CheckersGame : IGameElement
                 if (piece != null)
                 {
                     var pieceColor = piece.IsPlayer1 ? Color.DarkRed : Color.DarkBlue;
-                    display.DrawCircle(xPos + CellSize / 2, yPos + CellSize / 2, PieceRadius-1, pieceColor, pieceColor);
+                    display.DrawCircle(xPos + CellSize / 2, yPos + CellSize / 2, PieceRadius, pieceColor, pieceColor);
                     if (piece == selectedPiece)
                     {
                         pieceColor = piece.IsPlayer1 ? Color.Red : Color.Blue;
-                        display.DrawCircle(xPos + CellSize / 2, yPos + CellSize / 2, PieceRadius-1, pieceColor, pieceColor);
+                        display.DrawCircle(xPos + CellSize / 2, yPos + CellSize / 2, PieceRadius, pieceColor, pieceColor);
                     }
                 }
             }
