@@ -80,7 +80,12 @@ public class OthelloGame : I2PGameElement
             }
         }
 
-        if (buttons.HasFlag(Buttons.Yellow))
+        if (buttons.HasFlag(Buttons.Blue))
+        {
+            currentPlayer = currentPlayer == Player.Black ? Player.White : Player.Black;
+        }
+
+        if (buttons.HasFlag(Buttons.Red))
         {
             isDone = true;
         }
