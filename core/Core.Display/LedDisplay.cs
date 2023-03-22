@@ -47,8 +47,16 @@ public class LedDisplay : IDisplay, IDirectCanvasAccess
         canvas.SetPixel(x, y, color);
     }
     
-    public void DrawCircle(int x, int y, int radius, Color color)
+    public void DrawCircle(int x, int y, int radius, Color color, Color? fillColor = null)
     {
+        if (fillColor != null)
+        {
+            for (var i = radius - 1; i > 0; i--)
+            {
+                canvas.DrawCircle(x, y, radius, fillColor.Value);
+            }
+        }
+
         canvas.DrawCircle(x, y, radius, color);
     }
 

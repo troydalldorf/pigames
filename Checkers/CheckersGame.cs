@@ -6,7 +6,7 @@ public class CheckersGame : IGameElement
 {
     private const int BoardSize = 8;
     private const int CellSize = 8;
-    private const int Padding = 2;
+    private const int Padding = 0;
     private const int PieceRadius = 3;
 
     private readonly LedFont font;
@@ -162,7 +162,7 @@ public class CheckersGame : IGameElement
                 if (piece != null)
                 {
                     var pieceColor = piece.IsPlayer1 ? Color.Red : Color.Blue;
-                    display.DrawCircle(xPos + CellSize / 2, yPos + CellSize / 2, PieceRadius, pieceColor);
+                    display.DrawCircle(xPos + CellSize / 2, yPos + CellSize / 2, PieceRadius, pieceColor, pieceColor);
                 }
             }
         }
