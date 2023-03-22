@@ -62,6 +62,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectFour", "ConnectFour\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkers", "Checkers\Checkers.csproj", "{312E5799-D7D1-4109-8497-04C4AC3B43F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bingo", "Bingo\Bingo.csproj", "{59445A63-B03E-421A-9762-A11C5B648996}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -176,6 +178,10 @@ Global
 		{312E5799-D7D1-4109-8497-04C4AC3B43F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{312E5799-D7D1-4109-8497-04C4AC3B43F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{312E5799-D7D1-4109-8497-04C4AC3B43F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59445A63-B03E-421A-9762-A11C5B648996}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59445A63-B03E-421A-9762-A11C5B648996}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59445A63-B03E-421A-9762-A11C5B648996}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59445A63-B03E-421A-9762-A11C5B648996}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AABB21BF-4A48-44D2-AE86-1E5262683C4C} = {4CF79911-C0E7-4EB0-AC65-B9A0317F458D}
