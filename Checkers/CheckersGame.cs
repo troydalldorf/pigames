@@ -161,8 +161,13 @@ public class CheckersGame : IGameElement
                 var piece = board[x, y];
                 if (piece != null)
                 {
-                    var pieceColor = piece.IsPlayer1 ? Color.Red : Color.Blue;
-                    display.DrawCircle(xPos + CellSize / 2, yPos + CellSize / 2, PieceRadius, pieceColor, pieceColor);
+                    var pieceColor = piece.IsPlayer1 ? Color.DarkRed : Color.DarkBlue;
+                    display.DrawCircle(xPos + CellSize / 2, yPos + CellSize / 2, PieceRadius-1, pieceColor, pieceColor);
+                    if (piece == selectedPiece)
+                    {
+                        pieceColor = piece.IsPlayer1 ? Color.Red : Color.Blue;
+                        display.DrawCircle(xPos + CellSize / 2, yPos + CellSize / 2, PieceRadius-1, pieceColor, pieceColor);
+                    }
                 }
             }
         }
@@ -172,7 +177,7 @@ public class CheckersGame : IGameElement
         // Draw the player's turn
         var playerTurnText = isPlayer1Turn ? "Player 1" : "Player 2";
         var turnTextColor = isPlayer1Turn ? Color.Red : Color.Blue;
-        font.DrawText(display, 1, 32, turnTextColor, playerTurnText);
+        font.DrawText(display, 1, 35, turnTextColor, playerTurnText);
     }
 
     public bool IsDone() => isDone;
