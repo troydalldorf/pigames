@@ -172,22 +172,22 @@ public class BingoGame : IGameElement
 
     private void DrawCard(IDisplay display, int[,] card, int x, int y, int currentPlayer)
     {
+        var rowHeight = 6;
+        var colWidth = 12;
+        var yOffset = currentPlayer == 1 ? 32 : 0;
         // Draw a player's bingo card
-        for (int row = 0; row < 5; row++)
+        for (var row = 0; row < 5; row++)
         {
-            for (int col = 0; col < 5; col++)
+            for (var col = 0; col < 5; col++)
             {
-                int number = card[row, col];
-
+                var number = card[row, col];
                 if (number == -1)
                 {
-                    // Marked off number
-                    display.DrawRectangle(x + col * 12, y + row * 12, 10, 10, currentPlayer == 1 ? Color.Green : Color.Yellow, currentPlayer == 1 ? Color.Black : Color.Black);
+                    display.DrawRectangle(x + col * colWidth, y + rowHeight * 12, colWidth, colWidth, currentPlayer == 1 ? Color.Green : Color.Yellow, currentPlayer == 1 ? Color.Black : Color.Black);
                 }
                 else
                 {
-                    // Unmarked number
-                    font.DrawText(display, x + col * 12, y + row * 12, currentPlayer == 1 ? Color.Green : Color.Yellow, number.ToString());
+                    font.DrawText(display, x + col * colWidth, y + rowHeight * 12, currentPlayer == 1 ? Color.Green : Color.Yellow, number.ToString());
                 }
             }
         }
@@ -196,13 +196,13 @@ public class BingoGame : IGameElement
     private void Shuffle<T>(List<T> list)
     {
         // Shuffle a list of items
-        Random random = new Random();
-        int n = list.Count;
+        var random = new Random();
+        var n = list.Count;
 
         while (n > 1)
         {
             n--;
-            int k = random.Next(n + 1);
+            var k = random.Next(n + 1);
             T value = list[k];
             list[k] = list[n];
             list[n] = value;
