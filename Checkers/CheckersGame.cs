@@ -155,7 +155,7 @@ public class CheckersGame : IGameElement
                 var xPos = x * CellSize + Padding;
                 var yPos = y * CellSize + Padding;
 
-                var cellColor = (x + y) % 2 == 0 ? Color.Black : Color.White;
+                var cellColor = (x + y) % 2 == 0 ? Color.Black : Color.DarkGray;
                 display.DrawRectangle(xPos, yPos, CellSize, CellSize, cellColor, cellColor);
 
                 var piece = board[x, y];
@@ -167,10 +167,12 @@ public class CheckersGame : IGameElement
             }
         }
 
+        // cursor
+        display.DrawRectangle(_cursorX * CellSize, _cursorY * CellSize, CellSize, CellSize, Color.Lime);
         // Draw the player's turn
         var playerTurnText = isPlayer1Turn ? "Player 1" : "Player 2";
         var turnTextColor = isPlayer1Turn ? Color.Red : Color.Blue;
-        font.DrawText(display, 1, 1, turnTextColor, playerTurnText);
+        font.DrawText(display, 1, 32, turnTextColor, playerTurnText);
     }
 
     public bool IsDone() => isDone;
