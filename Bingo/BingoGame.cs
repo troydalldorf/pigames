@@ -13,10 +13,10 @@ public class BingoGame : IGameElement
 
     public BingoGame()
     {
-        font = new LedFont(LedFontType.Font5x7);
+        font = new LedFont(LedFontType.FontTomThumb);
 
         // Generate random numbers for the game
-        for (int i = 1; i <= 25; i++)
+        for (var i = 1; i <= 25; i++)
         {
             numbers.Add(i);
         }
