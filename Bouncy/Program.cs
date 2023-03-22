@@ -17,6 +17,40 @@ var p2Console = new PlayerConsole(0x44, 0x43);
 
 while (true)
 {
+    if (x == px)
+    {
+        x = 32;
+    }
+    if (x == bx)
+    {
+        x = 32;
+    }
+    if (x == bx-4)
+    {
+        x = 32;
+    }
+    if (x == px+4)
+    {
+        x = 32;
+    }
+    
+    if (y == py)
+    {
+        y = 32;
+    }
+    if (y == by)
+    {
+        y = 32;
+    }
+    if (y == by+20)
+    {
+        y = 32;
+    }
+    if (y == py+20)
+    {
+        y = 32;
+    }
+
     //p2 joystick
     var stick2 = p2Console.ReadJoystick();
     if (stick2.IsLeft()) bx--;
