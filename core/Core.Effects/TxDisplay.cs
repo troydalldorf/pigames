@@ -33,9 +33,9 @@ public class TxDisplay: IDisplay, IDirectCanvasAccess
         concrete.SetPixel(xTransform(x, y), yTransform(x, y), color);
     }
 
-    public void DrawCircle(int x, int y, int radius, Color color)
+    public void DrawCircle(int x, int y, int radius, Color color, Color? fillColor = null)
     {
-        concrete.DrawCircle(xTransform(x, y), yTransform(x, y), radius, color);
+        concrete.DrawCircle(xTransform(x, y), yTransform(x, y), radius, color, fillColor);
     }
 
     public void DrawLine(int x0, int y0, int x1, int y1, Color color)
