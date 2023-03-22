@@ -4,8 +4,8 @@ using Core.Display;
 using Core.Inputs;
 
 var display = new LedDisplay();
-var bx=16
-var by=4
+var bx = 16;
+var by = 4;
 int x = 45;
 int y = 5;
 int dx = 1;
@@ -18,17 +18,17 @@ var p2Console = new PlayerConsole(0x44, 0x43);
 while (true)
 {
     //p2 joystick
-    var stick = p2Console.ReadJoystick();
-    if (stick.IsLeft()) bx--;
-    if (stick.IsRight()) bx++;
-    if (stick.IsUp()) by--;
-    if (stick.IsDown()) by++;
+    var stick2 = p2Console.ReadJoystick();
+    if (stick2.IsLeft()) bx--;
+    if (stick2.IsRight()) bx++;
+    if (stick2.IsUp()) by--;
+    if (stick2.IsDown()) by++;
     //p1 joystick
-    var stick = p1Console.ReadJoystick();
-    if (stick.IsLeft()) px--;
-    if (stick.IsRight()) px++;
-    if (stick.IsUp()) py--;
-    if (stick.IsDown()) py++;
+    var stick1 = p1Console.ReadJoystick();
+    if (stick1.IsLeft()) px--;
+    if (stick1.IsRight()) px++;
+    if (stick1.IsUp()) py--;
+    if (stick1.IsDown()) py++;
     // ball code
     x = x + dx;
     y = y + dy;
