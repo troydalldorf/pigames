@@ -141,7 +141,7 @@ public class BingoGame : IGameElement
     private bool CheckWinner(int[,] card)
     {
         // Check if a player has marked all numbers in a row, column, or diagonal
-        for (int i = 0; i < 5; i++)
+        for (var i = 0; i < 5; i++)
         {
             // Check row
             if (card[i, 0] == -1 && card[i, 1] == -1 && card[i, 2] == -1 && card[i, 3] == -1 && card[i, 4] == -1)
@@ -183,11 +183,11 @@ public class BingoGame : IGameElement
                 var number = card[row, col];
                 if (number == -1)
                 {
-                    display.DrawRectangle(x + col * colWidth, y + rowHeight * 12, colWidth, colWidth, currentPlayer == 1 ? Color.Green : Color.Yellow, currentPlayer == 1 ? Color.Black : Color.Black);
+                    display.DrawRectangle(x + col * colWidth, yOffset + y + rowHeight * 12, colWidth, colWidth, currentPlayer == 1 ? Color.Green : Color.Yellow, currentPlayer == 1 ? Color.Black : Color.Black);
                 }
                 else
                 {
-                    font.DrawText(display, x + col * colWidth, y + rowHeight * 12, currentPlayer == 1 ? Color.Green : Color.Yellow, number.ToString());
+                    font.DrawText(display, x + col * colWidth, yOffset + y + rowHeight * 12, currentPlayer == 1 ? Color.Green : Color.Yellow, number.ToString());
                 }
             }
         }
@@ -195,8 +195,6 @@ public class BingoGame : IGameElement
 
     private void Shuffle<T>(List<T> list)
     {
-        // Shuffle a list of items
-        var random = new Random();
         var n = list.Count;
 
         while (n > 1)
