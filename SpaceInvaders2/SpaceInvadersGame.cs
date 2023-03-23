@@ -39,6 +39,7 @@ public class SpaceInvadersGame : IGameElement
         var image = SpriteImage.FromResource("si.png", new Point(0, 60));
         alienSprite = image.GetSpriteAnimation(0, 0, 4, 3, 2, 1);
         playerSprite = image.GetSpriteAnimation(0, 4, 6, 3, 1, 1);
+        Initialize();
     }
 
     public bool IsDone() => isDone;
