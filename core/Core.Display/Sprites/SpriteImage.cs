@@ -11,7 +11,7 @@ public class SpriteImage
 
     public static SpriteImage FromResource(string resourceName, Point? transparentRef)
     {
-        var assembly = Assembly.GetExecutingAssembly();
+        var assembly = Assembly.GetCallingAssembly();
         resourceName = assembly.GetManifestResourceNames().First(x => x.EndsWith(resourceName));
         using var stream = assembly.GetManifestResourceStream(resourceName);
         if (stream == null)
