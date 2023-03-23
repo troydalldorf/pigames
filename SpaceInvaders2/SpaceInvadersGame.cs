@@ -36,10 +36,7 @@ public class SpaceInvadersGame : IGameElement
 
     public SpaceInvadersGame()
     {
-        var assemblyLocation = Assembly.GetExecutingAssembly().Location;
-        var assemblyDirectory = Path.GetDirectoryName(assemblyLocation);
-        var pngFilePath = Path.Combine(assemblyDirectory, "si.png");
-        var image = SpriteImage.FromFile(pngFilePath, new Point(0, 60));
+        var image = SpriteImage.FromResource("si.png", new Point(0, 60));
         alienSprite = image.GetSpriteAnimation(0, 0, 4, 3, 2, 1);
         playerSprite = image.GetSpriteAnimation(0, 4, 6, 3, 1, 1);
     }

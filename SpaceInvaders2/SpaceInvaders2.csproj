@@ -15,7 +15,7 @@
 
     <ItemGroup>
         <None Remove="si.png" />
-        <Resource Include="si.png" CopyToOutputDirectory="Always" />
+        <EmbeddedResource Include="si.png" CopyToOutputDirectory="Always" />
     </ItemGroup>
     
 </Project>

@@ -173,7 +173,7 @@ public class BingoGame : IGameElement
     private void DrawCard(IDisplay display, int[,] card, int x, int y, int currentPlayer)
     {
         var rowHeight = 6;
-        var colWidth = 12;
+        var colWidth = 10;
         // Draw a player's bingo card
         for (var row = 0; row < 5; row++)
         {
@@ -182,7 +182,7 @@ public class BingoGame : IGameElement
                 var number = card[row, col];
                 if (number == -1)
                 {
-                    display.DrawRectangle(x + col * colWidth, y + row * rowHeight, colWidth, colWidth, currentPlayer == 1 ? Color.Green : Color.Yellow, currentPlayer == 1 ? Color.Black : Color.Black);
+                    display.DrawRectangle(x + col * colWidth, y + row * rowHeight, colWidth, rowHeight, currentPlayer == 1 ? Color.Green : Color.Yellow, currentPlayer == 1 ? Color.Black : Color.Black);
                 }
                 else
                 {

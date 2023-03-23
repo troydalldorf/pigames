@@ -12,10 +12,11 @@ public class SpriteImage
     public static SpriteImage FromResource(string resourceName, Point? transparentRef)
     {
         var assembly = Assembly.GetExecutingAssembly();
+        resourceName = assembly.GetManifestResourceNames().First(x => x.EndsWith(resourceName));
         using var stream = assembly.GetManifestResourceStream(resourceName);
         if (stream == null)
         {
-            throw new ArgumentException($"Resource not found: {resourceName}");
+            throw new ArgumentException($"Resource not found: {resourceName}. Available resources: {string.Join(", ", assembly.GetManifestResourceNames())}");
         }
         return new SpriteImage(new Bitmap(stream), transparentRef);
     }
