@@ -67,8 +67,8 @@ public class BingoGame : IGameElement
 
     public void Draw(IDisplay display)
     {
-        DrawCard(display, player1Card, 2, 2, currentPlayer: 1);
-        DrawCard(display, player2Card, 34, 2, currentPlayer: 2);
+        DrawCard(display, player1Card, 1, 1, currentPlayer: 1);
+        DrawCard(display, player2Card, 1, 32, currentPlayer: 2);
     }
 
     public bool IsDone() => isDone;
@@ -174,7 +174,6 @@ public class BingoGame : IGameElement
     {
         var rowHeight = 6;
         var colWidth = 12;
-        var yOffset = currentPlayer == 1 ? 32 : 0;
         // Draw a player's bingo card
         for (var row = 0; row < 5; row++)
         {
@@ -183,11 +182,11 @@ public class BingoGame : IGameElement
                 var number = card[row, col];
                 if (number == -1)
                 {
-                    display.DrawRectangle(x + col * colWidth, yOffset + y + rowHeight * 12, colWidth, colWidth, currentPlayer == 1 ? Color.Green : Color.Yellow, currentPlayer == 1 ? Color.Black : Color.Black);
+                    display.DrawRectangle(x + col * colWidth, y + row * rowHeight, colWidth, colWidth, currentPlayer == 1 ? Color.Green : Color.Yellow, currentPlayer == 1 ? Color.Black : Color.Black);
                 }
                 else
                 {
-                    font.DrawText(display, x + col * colWidth, yOffset + y + rowHeight * 12, currentPlayer == 1 ? Color.Green : Color.Yellow, number.ToString());
+                    font.DrawText(display, x + col * colWidth, y + row * rowHeight - 5, currentPlayer == 1 ? Color.Green : Color.Yellow, number.ToString());
                 }
             }
         }
