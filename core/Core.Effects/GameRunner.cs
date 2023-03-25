@@ -22,7 +22,7 @@ public class GameRunner : IDisposable
         p2Console = new Player2Console();
     }
 
-    public void Run(Func<IGameElement> createGame, int? frameIntervalMs = 33)
+    public void Run(Func<IGameElement> createGame, int? frameIntervalMs = 33, bool canPause = true)
     {
         Console.WriteLine("Starting game...");
         var game = createGame();
@@ -45,7 +45,7 @@ public class GameRunner : IDisposable
                 currentElement = gameOverElement;
             }
             // play -> pause
-            else if (currentElement == game && p1Console.ReadButtons().IsRedPushed())
+            else if (canPause && currentElement == game && p1Console.ReadButtons().IsRedPushed())
             {
                 pauseElement.Reset();
                 currentElement = pauseElement;
