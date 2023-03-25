@@ -1,4 +1,5 @@
 using Core;
+using Core.Inputs;
 
 namespace Snake;
 
@@ -47,7 +48,7 @@ public class SnakeGame2P : IDuoGameElement
 
     public void Handle2PInput(IPlayerConsole player2Console)
     {
-        HandleInput(player2Console, ref snakeDirection2);
+        HandleInput(new PlayerConsoleInversionDecorator(player2Console), ref snakeDirection2);
     }
     
     private static void HandleInput(IPlayerConsole playerConsole, ref Direction snakeDirection)

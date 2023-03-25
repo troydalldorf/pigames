@@ -1,5 +1,6 @@
 using System.Drawing;
 using Core;
+using Core.Inputs;
 
 public class ConnectFourGame : IDuoGameElement
 {
@@ -27,7 +28,7 @@ public class ConnectFourGame : IDuoGameElement
     public void Handle2PInput(IPlayerConsole player2Console)
     {
         if (currentPlayer == Color.Red) return;
-        HandleInputInternal(player2Console);
+        HandleInputInternal(new PlayerConsoleInversionDecorator(player2Console));
     }
     
     public void HandleInputInternal(IPlayerConsole playerConsole)

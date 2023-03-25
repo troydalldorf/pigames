@@ -31,15 +31,15 @@ public class Menu : IGameElement
     {
         new("B Man", () => new BombermanGame()),
         new("Breakout", () => new BreakoutGame()),
-        new("C-Four", () => new ConnectFourGame()),
+        new("C-Four", () => new ConnectFourGame(), 100),
         new("E-Pong", () => new PongGame()),
-        new("Flappy B", () => new FlappyBirdGame()),
-        new("Frogger", () => new FroggerGame()),
+        new("Flappy B", () => new FlappyBirdGame(), 50),
+        new("Frogger", () => new FroggerGame(), 100),
         new("OTHELLO", () => new OthelloGame()),
         new("PONG", () => new PongGame()),
-        new("SNAKE", () => new SnakeGame()),
-        new("SNAKE 2", () => new SnakeGame2P()),
-        new("SPACE IN", () => new SpaceInvadersGame()),
+        new("SNAKE", () => new SnakeGame(), 100),
+        new("SNAKE 2", () => new SnakeGame2P(), 100),
+        new("SPACE IN", () => new SpaceInvadersGame()), 50,
         new("TETRIS 1", () => new TetrisGame()),
         new("TETRIS 2", () => new DuoTetrisGame()),
     };
@@ -72,7 +72,7 @@ public class Menu : IGameElement
         {
             var item = items[cursor];
             var game = item.CreateGame;
-            runner.Run(game);
+            runner.Run(game, item.DisplayInterval);
         }
 
         var r = random.Next(0, 4);
