@@ -101,7 +101,7 @@ public class ConnectFourGame : IDuoGameElement
         {
             for (var x = 0; x < Columns; x++)
             {
-                if (grid[y, x] != Player.Empty &&
+                if (grid[y, x] == player &&
                     (CheckForWinDirection(x, y, 1, 0, player) ||
                      CheckForWinDirection(x, y, 0, 1, player) ||
                      CheckForWinDirection(x, y, 1, 1, player) ||
