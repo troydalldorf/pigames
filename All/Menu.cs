@@ -29,17 +29,17 @@ public class Menu : IGameElement
 
     private readonly GameItem[] items =
     {
-        new("B MAN", () => new BombermanGame(), null),
-        new("BREAKOUT", () => new BreakoutGame(), null),
-        new("E-PONG", null, () => new PongGame()),
-        new("FLAPPY B", () => new FlappyBirdGame(), null),
-        new("FROGGER", () => new FroggerGame(), null),
-        new("OTHELLO", () => new OthelloGame(), null),
-        new("PONG", null, () => new PongGame()),
-        new("SNAKE", () => new SnakeGame(), null),
-        new("SPACE IN", () => new SpaceInvadersGame(), null),
-        new("TETRIS 1", () => new TetrisGame(), null),
-        new("TETRIS 2", () => new DuoTetrisGame(), null),
+        new("B MAN", () => new BombermanGame()),
+        new("BREAKOUT", () => new BreakoutGame()),
+        new("E-PONG", () => new PongGame()),
+        new("FLAPPY B", () => new FlappyBirdGame()),
+        new("FROGGER", () => new FroggerGame()),
+        new("OTHELLO", () => new OthelloGame()),
+        new("PONG", () => new PongGame()),
+        new("SNAKE", () => new SnakeGame()),
+        new("SPACE IN", () => new SpaceInvadersGame()),
+        new("TETRIS 1", () => new TetrisGame()),
+        new("TETRIS 2", () => new DuoTetrisGame()),
     };
 
     public Menu(GameRunner runner)
@@ -69,7 +69,7 @@ public class Menu : IGameElement
         if (buttons.IsGreenPushed())
         {
             var item = items[cursor];
-            var game = item.OnePlayer ?? item.TwoPlayer;
+            var game = item.CreateGame ?? item.TwoPlayer;
             runner.Run(game);
         }
 

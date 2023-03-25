@@ -42,7 +42,9 @@ public class DuoTetrisGame : I2PGameElement
         if (p1TetrisGame.State() == GameOverState.EndOfGame && p2TetrisGame.State() == GameOverState.EndOfGame)
             return GameOverState.Draw;
         if (p1TetrisGame.State() == GameOverState.EndOfGame)
-            return GameOverState.Player2Wins; 
-        return GameOverState.Player1Wins;
+            return GameOverState.Player2Wins;
+        if (p2TetrisGame.State() == GameOverState.EndOfGame)
+            return GameOverState.Player1Wins;
+        return GameOverState.None;
     }
 }
