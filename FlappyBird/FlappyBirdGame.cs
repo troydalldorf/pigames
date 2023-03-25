@@ -111,7 +111,7 @@ public class FlappyBirdGame : IGameElement
         }
 
         // Draw score
-        font.DrawText(display, 1, 1, Color.DarkOliveGreen, score.ToString());
+        font.DrawText(display, Width-8, 10, Color.DarkOliveGreen, score.ToString());
     }
 
     public GameOverState State => isDone ? GameOverState.EndOfGame : GameOverState.None;
