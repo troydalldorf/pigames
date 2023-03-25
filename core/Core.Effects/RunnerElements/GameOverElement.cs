@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Drawing;
 using Core.Display.Fonts;
 
@@ -10,6 +11,7 @@ public class GameOverElement : IGameElement
     private readonly LedFont smallFont;
     private readonly LedFont largeFont;
     private Text text = new Text("GAME", "OVER", "PLAY AGAIN?");
+    private Stopwatch stopwatch = new Stopwatch();
 
     public GameOverElement()
     {
@@ -23,6 +25,8 @@ public class GameOverElement : IGameElement
     
     public void HandleInput(IPlayerConsole player1Console)
     {
+        if (stopwatch.ElapsedMilliseconds < 300) return;
+        
         var buttons = player1Console.ReadButtons();
         if (buttons.IsGreenPushed())
             GameOverAction = GameOverAction.PlayAgain;
@@ -62,6 +66,7 @@ public class GameOverElement : IGameElement
 
     public void Apply(GameOverState state)
     {
+        stopwatch.Restart();
         switch (state)
         {
             case GameOverState.None:
@@ -71,10 +76,10 @@ public class GameOverElement : IGameElement
                 this.text = new Text(null, "DRAW", "PLAY AGAIN?");
                 break;
             case GameOverState.Player1Wins:
-                this.text = new Text(null, "P1 WINS", "PLAY AGAIN?");
+                this.text = new Text("P1", "WINS", "PLAY AGAIN?");
                 break;
             case GameOverState.Player2Wins:
-                this.text = new Text(null, "P2 WINS", "PLAY AGAIN?");
+                this.text = new Text("P2", "WINS", "PLAY AGAIN?");
                 break;
         }
     }

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Drawing;
 using Core.Display.Fonts;
 
@@ -9,6 +10,7 @@ public class PauseElement : IGameElement
     private int frameCount;
     private readonly LedFont smallFont;
     private readonly LedFont largeFont;
+    private Stopwatch stopwatch = new Stopwatch();
     
     public PauseElement()
     {
@@ -22,6 +24,8 @@ public class PauseElement : IGameElement
     
     public void HandleInput(IPlayerConsole player1Console)
     {
+        if (stopwatch.ElapsedMilliseconds < 300) return;
+
         var buttons = player1Console.ReadButtons();
         if (buttons.IsGreenPushed())
             PauseAction = GamePauseAction.Resume;
@@ -54,6 +58,7 @@ public class PauseElement : IGameElement
 
     public void Reset()
     {
+        stopwatch.Restart();
         PauseAction = GamePauseAction.Paused;
     }
 }

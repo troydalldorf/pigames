@@ -26,9 +26,9 @@ class MinesweeperGame
     private int cursorX = 4*TileSize;
     private int cursorY = 4*TileSize;
     private bool gameOver = false;
-    private SpriteAnimation soilSprite;
-    private SpriteAnimation idSprite;
-    private SpriteAnimation cursorSprite;
+    private readonly SpriteAnimation soilSprite;
+    private readonly SpriteAnimation idSprite;
+    private readonly SpriteAnimation cursorSprite;
 
     public MinesweeperGame(LedDisplay display, PlayerConsole playerConsole)
     {
