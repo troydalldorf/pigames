@@ -85,6 +85,12 @@ public class SpaceInvadersGame : IGameElement
                 break;
             }
         }
+        
+        foreach (var bomb in pixelBombs.ToArray())
+        {
+            bomb.Update();
+            if (bomb.IsExtinguished()) pixelBombs.Remove(bomb);
+        }
 
         if (!currentLevel.Enemies.Any())
         {
@@ -119,12 +125,6 @@ public class SpaceInvadersGame : IGameElement
                 State = GameOverState.EndOfGame;
                 return;
             }
-        }
-        
-        foreach (var bomb in pixelBombs.ToArray())
-        {
-            bomb.Update();
-            if (bomb.IsExtinguished()) pixelBombs.Remove(bomb);
         }
     }
 
