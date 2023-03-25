@@ -1,12 +1,11 @@
-using System.Drawing;
 using Core;
 using Core.Display.Sprites;
 using Core.Inputs;
 
 public class ConnectFourGame : IDuoGameElement
 {
-    private readonly Color[,] grid;
-    private Color currentPlayer;
+    private readonly Player[,] grid;
+    private Player currentPlayer;
     private int selectedColumn;
     private const int Rows = 6;
     private const int Columns = 7;
@@ -15,8 +14,8 @@ public class ConnectFourGame : IDuoGameElement
 
     public ConnectFourGame()
     {
-        grid = new Color[Rows, Columns];
-        currentPlayer = Color.Red;
+        grid = new Player[Rows, Columns];
+        currentPlayer = Player.Red;
         selectedColumn = 0;
         State = GameOverState.None;
         var image = SpriteImage.FromResource("c4.png");
@@ -25,17 +24,17 @@ public class ConnectFourGame : IDuoGameElement
 
     public void HandleInput(IPlayerConsole player1Console)
     {
-        if (currentPlayer == Color.Blue) return;
+        if (currentPlayer == Player.Blue) return;
         HandleInputInternal(player1Console);
     }
 
     public void Handle2PInput(IPlayerConsole player2Console)
     {
-        if (currentPlayer == Color.Red) return;
+        if (currentPlayer == Player.Red) return;
         HandleInputInternal(new PlayerConsoleInversionDecorator(player2Console));
     }
-    
-    public void HandleInputInternal(IPlayerConsole playerConsole)
+
+    private void HandleInputInternal(IPlayerConsole playerConsole)
     {
         var joystick = playerConsole.ReadJoystick();
         if (joystick.HasFlag(JoystickDirection.Left) && selectedColumn > 0)
@@ -49,11 +48,11 @@ public class ConnectFourGame : IDuoGameElement
             {
                 if (CheckForWin(currentPlayer))
                 {
-                    State = currentPlayer == Color.Red ? GameOverState.Player1Wins : GameOverState.Player2Wins;
+                    State = currentPlayer == Player.Red ? GameOverState.Player1Wins : GameOverState.Player2Wins;
                     return;
                 }
 
-                currentPlayer = currentPlayer == Color.Red ? Color.Blue : Color.Red;
+                currentPlayer = currentPlayer ==Player.Red ? Player.Blue : Player.Red;
             }
         }
     }
@@ -64,23 +63,18 @@ public class ConnectFourGame : IDuoGameElement
 
     public void Draw(IDisplay display)
     {
+        const int xOffset = 4;
+        const int yOffset = 12;
         for (var y = 0; y < Rows; y++)
         {
             for (var x = 0; x < Columns; x++)
-            {
-                if (grid[y, x] == Color.Empty)
-                    pieces.Draw(display, x * CellSize, y * CellSize, 2);
-                else if (grid[y, x] == Color.Blue)
-                    pieces.Draw(display, x * CellSize, y * CellSize, 0);
-                else if (grid[y, x] == Color.Red)
-                    pieces.Draw(display, x * CellSize, y * CellSize, 1);
-            }
+                pieces.Draw(display, xOffset + x * CellSize, yOffset + y * CellSize, (int)grid[y, x]);
         }
 
         // Draw the current player's disk above the board
-        var diskX = selectedColumn * CellSize + CellSize / 2;
-        var diskY = (Rows + 1) * CellSize + CellSize / 2;
-        display.DrawCircle(diskX, diskY, CellSize / 2 - 1, currentPlayer);
+        var diskX = xOffset + selectedColumn * CellSize;
+        const int diskY = yOffset - CellSize-3;
+        pieces.Draw(display, diskX, diskY, (int)currentPlayer);
     }
 
     public GameOverState State { get; private set; }
@@ -89,7 +83,7 @@ public class ConnectFourGame : IDuoGameElement
     {
         for (var row = Rows - 1; row >= 0; row--)
         {
-            if (grid[row, column] != Color.Empty) continue;
+            if (grid[row, column] != Player.Empty) continue;
             grid[row, column] = currentPlayer;
             return true;
         }
@@ -97,13 +91,13 @@ public class ConnectFourGame : IDuoGameElement
         return false;
     }
 
-    private bool CheckForWin(Color player)
+    private bool CheckForWin(Player player)
     {
-        for (int y = 0; y < Rows; y++)
+        for (var y = 0; y < Rows; y++)
         {
-            for (int x = 0; x < Columns; x++)
+            for (var x = 0; x < Columns; x++)
             {
-                if (grid[y, x] == player &&
+                if (grid[y, x] != Player.Empty &&
                     (CheckForWinDirection(x, y, 1, 0, player) ||
                      CheckForWinDirection(x, y, 0, 1, player) ||
                      CheckForWinDirection(x, y, 1, 1, player) ||
@@ -117,13 +111,13 @@ public class ConnectFourGame : IDuoGameElement
         return false;
     }
 
-    private bool CheckForWinDirection(int x, int y, int dx, int dy, Color player)
+    private bool CheckForWinDirection(int x, int y, int dx, int dy, Player player)
     {
-        int count = 0;
+        var count = 0;
 
         while (x >= 0 && x < Columns && y >= 0 && y < Rows)
         {
-            if (grid[y, x] == player)
+            if (grid[y, x] != player)
             {
                 count++;
                 if (count == 4)
@@ -139,5 +133,12 @@ public class ConnectFourGame : IDuoGameElement
         }
 
         return false;
+    }
+
+    private enum Player
+    {
+        Empty = 0,
+        Blue  = 1,
+        Red   = 2
     }
 }
