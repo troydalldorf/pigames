@@ -13,41 +13,40 @@ public class BombermanGame : IDuoGameElement
     private const int GridSize = 8;
     private const int BombTimer = 3000;
     private const int ExplosionDuration = 500;
+    private readonly LedFont font;
 
-    private LedFont _font;
-
-    private Grid _grid;
-    private Player _player1;
-    private Player _player2;
-    private List<Bomb> _bombs;
-    private List<Explosion> _explosions;
-    private bool _isDone;
+    private Grid grid;
+    private Player player1;
+    private Player player2;
+    private List<Bomb> bombs;
+    private List<Explosion> explosions;
+    private bool isDone;
 
     public BombermanGame()
     {
-        _font = new LedFont(LedFontType.Font4x6);
+        font = new LedFont(LedFontType.Font4x6);
         Initialize();
     }
 
     private void Initialize()
     {
-        _grid = new Grid(GridSize, GridSize);
-        _player1 = new Player(0, 0);
-        _player2 = new Player(GridSize - 1, GridSize - 1);
-        _bombs = new List<Bomb>();
-        _explosions = new List<Explosion>();
+        grid = new Grid(GridSize, GridSize);
+        player1 = new Player(0, 0, grid);
+        player2 = new Player(GridSize - 1, GridSize - 1, grid);
+        bombs = new List<Bomb>();
+        explosions = new List<Explosion>();
 
-        _isDone = false;
+        isDone = false;
     }
 
     public void HandleInput(IPlayerConsole player1Console)
     {
-        HandlePlayerInput(player1Console, _player1);
+        HandlePlayerInput(player1Console, player1);
     }
 
     public void Handle2PInput(IPlayerConsole player2Console)
     {
-        HandlePlayerInput(player2Console, _player2);
+        HandlePlayerInput(player2Console, player2);
     }
 
     private void HandlePlayerInput(IPlayerConsole console, Player player)
@@ -71,7 +70,7 @@ public class BombermanGame : IDuoGameElement
                 break;
         }
 
-        if (buttons.HasFlag(Buttons.Red))
+        if (buttons.HasFlag(Buttons.Green))
         {
             PlaceBomb(player.X, player.Y);
         }
@@ -86,14 +85,14 @@ public class BombermanGame : IDuoGameElement
 
     private void UpdateBombs()
     {
-        for (int i = _bombs.Count - 1; i >= 0; i--)
+        for (int i = bombs.Count - 1; i >= 0; i--)
         {
-            var bomb = _bombs[i];
+            var bomb = bombs[i];
             bomb.Update();
 
             if (bomb.IsExploded)
             {
-                _bombs.RemoveAt(i);
+                bombs.RemoveAt(i);
                 CreateExplosion(bomb.X, bomb.Y);
             }
         }
@@ -101,25 +100,25 @@ public class BombermanGame : IDuoGameElement
 
     private void UpdateExplosions()
     {
-        for (int i = _explosions.Count - 1; i >= 0; i--)
+        for (int i = explosions.Count - 1; i >= 0; i--)
         {
-            var explosion = _explosions[i];
+            var explosion = explosions[i];
             explosion.Update();
 
             if (explosion.IsDone)
             {
-                _explosions.RemoveAt(i);
+                explosions.RemoveAt(i);
             }
         }
     }
 
     private void CheckPlayerCollision()
     {
-        foreach (var explosion in _explosions)
+        foreach (var explosion in explosions)
         {
-            if (explosion.CollidesWith(_player1.X, _player1.Y) || explosion.CollidesWith(_player2.X, _player2.Y))
+            if (explosion.CollidesWith(player1.X, player1.Y) || explosion.CollidesWith(player2.X, player2.Y))
             {
-                _isDone = true;
+                isDone = true;
                 break;
             }
        
@@ -128,56 +127,92 @@ public class BombermanGame : IDuoGameElement
 
     public void Draw(IDisplay display)
     {
-        _grid.Draw(display);
-        _player1.Draw(display, Color.Blue);
-        _player2.Draw(display, Color.Red);
+        grid.Draw(display);
+        player1.Draw(display, Color.Blue);
+        player2.Draw(display, Color.Red);
 
-        foreach (var bomb in _bombs)
+        foreach (var bomb in bombs)
         {
             bomb.Draw(display);
         }
 
-        foreach (var explosion in _explosions)
+        foreach (var explosion in explosions)
         {
             explosion.Draw(display);
         }
 
-        if (_isDone)
+        if (isDone)
         {
-            _font.DrawText(display, 10, 30, Color.White, "Game Over");
+            font.DrawText(display, 10, 30, Color.White, "Game Over");
         }
     }
 
-    public GameOverState State => _isDone ? GameOverState.EndOfGame : GameOverState.None;
+    public GameOverState State => isDone ? GameOverState.EndOfGame : GameOverState.None;
 
     private void PlaceBomb(int x, int y)
     {
-        _bombs.Add(new Bomb(x, y, BombTimer));
+        bombs.Add(new Bomb(x, y, BombTimer));
     }
 
     private void CreateExplosion(int x, int y)
     {
-        _explosions.Add(new Explosion(x, y, ExplosionDuration));
+        explosions.Add(new Explosion(x, y, ExplosionDuration));
     }
 }
 
 public class Grid
 {
-    private int _width;
-    private int _height;
+    private bool[,] _maze;
+
     public Grid(int width, int height)
     {
-        _width = width;
-        _height = height;
+        Width = width;
+        Height = height;
+        _maze = new bool[width, height];
+        GenerateMaze();
+    }
+    
+    public int Width { get; private set; }
+    public int Height { get; private set; }
+
+    private void GenerateMaze()
+    {
+        // Hard-coded maze layout (1 for walls, 0 for paths)
+        int[,] mazeLayout =
+        {
+            { 1, 0, 1, 1, 1, 1, 0, 1 },
+            { 1, 0, 1, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 1, 1, 0, 1 },
+            { 1, 1, 1, 0, 1, 1, 0, 1 },
+            { 1, 1, 1, 0, 1, 1, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 1, 1, 1, 1, 0, 1 },
+            { 1, 0, 1, 1, 1, 1, 0, 1 }
+        };
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                _maze[x, y] = mazeLayout[y, x] == 1;
+            }
+        }
+    }
+
+    public bool IsWall(int x, int y)
+    {
+        return _maze[x, y];
     }
 
     public void Draw(IDisplay display)
     {
-        for (int x = 0; x < _width; x++)
+        for (int x = 0; x < Width; x++)
         {
-            for (int y = 0; y < _height; y++)
+            for (int y = 0; y < Height; y++)
             {
-                display.DrawRectangle(x * 8, y * 8, 8, 8, Color.Gray);
+                if (_maze[x, y])
+                {
+                    display.DrawRectangle(x * 8, y * 8, 8, 8, Color.Gray, Color.Gray);
+                }
             }
         }
     }
@@ -187,16 +222,24 @@ public class Player
 {
     public int X { get; private set; }
     public int Y { get; private set; }
-    public Player(int x, int y)
+    private Grid _grid;
+
+    public Player(int x, int y, Grid grid)
     {
         X = x;
         Y = y;
+        _grid = grid;
     }
 
     public void Move(int dx, int dy)
     {
-        X += dx;
-        Y += dy;
+        int newX = X + dx;
+        int newY = Y + dy;
+        if (newX >= 0 && newX < _grid.Width && newY >= 0 && newY < _grid.Height && !_grid.IsWall(newX, newY))
+        {
+            X = newX;
+            Y = newY;
+        }
     }
 
     public void Draw(IDisplay display, Color color)
