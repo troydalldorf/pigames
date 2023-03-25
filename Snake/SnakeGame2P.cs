@@ -33,8 +33,8 @@ public class SnakeGame2P : IDuoGameElement
     {
         snake1 = new List<Point>();
         snake2 = new List<Point>();
-        InitializeSnake(snake1, Direction.Right);
-        InitializeSnake(snake2, Direction.Left);
+        InitializeSnake(snake1, Direction.Down);
+        InitializeSnake(snake2, Direction.Up);
         SpawnFood(ref food1);
         SpawnFood(ref food2);
         State = GameOverState.None;
