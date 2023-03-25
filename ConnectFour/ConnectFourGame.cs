@@ -1,5 +1,6 @@
 using System.Drawing;
 using Core;
+using Core.Display.Sprites;
 using Core.Inputs;
 
 public class ConnectFourGame : IDuoGameElement
@@ -10,6 +11,7 @@ public class ConnectFourGame : IDuoGameElement
     private const int Rows = 6;
     private const int Columns = 7;
     private const int CellSize = 8;
+    private SpriteAnimation pieces;
 
     public ConnectFourGame()
     {
@@ -17,6 +19,8 @@ public class ConnectFourGame : IDuoGameElement
         currentPlayer = Color.Red;
         selectedColumn = 0;
         State = GameOverState.None;
+        var image = SpriteImage.FromResource("c4.png");
+        pieces = image.GetSpriteAnimation(1, 1, 8, 8, 3, 1);
     }
 
     public void HandleInput(IPlayerConsole player1Console)
@@ -60,27 +64,16 @@ public class ConnectFourGame : IDuoGameElement
 
     public void Draw(IDisplay display)
     {
-        var darkYellow = Color.FromArgb(64, 64, 0);
-        for (var y = 0; y < Rows; y++)
-        {
-            for (var x = 0; x < Columns; x++)
-            {
-                display.DrawRectangle(x * CellSize, y * CellSize, CellSize, CellSize, darkYellow, darkYellow);
-            }
-        }
-
         for (var y = 0; y < Rows; y++)
         {
             for (var x = 0; x < Columns; x++)
             {
                 if (grid[y, x] == Color.Empty)
-                {
-                    display.DrawCircle(x * CellSize + CellSize / 2, y * CellSize + CellSize / 2, CellSize / 2 - 1, Color.Black, Color.Black);
-                }
-                else
-                {
-                    display.DrawCircle(x * CellSize + CellSize / 2, y * CellSize + CellSize / 2, CellSize / 2 - 1, grid[y, x]);
-                }
+                    pieces.Draw(display, x * CellSize, y * CellSize, 2);
+                else if (grid[y, x] == Color.Blue)
+                    pieces.Draw(display, x * CellSize, y * CellSize, 0);
+                else if (grid[y, x] == Color.Red)
+                    pieces.Draw(display, x * CellSize, y * CellSize, 1);
             }
         }
 

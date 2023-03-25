@@ -11,4 +11,9 @@
       <ProjectReference Include="..\core\Core.Effects\Core.Effects.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="c4.png" />
+      <EmbeddedResource Include="c4.png" />
+    </ItemGroup>
+
 </Project>

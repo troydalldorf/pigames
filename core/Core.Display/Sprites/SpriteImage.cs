@@ -9,7 +9,7 @@ public class SpriteImage
     private readonly Bitmap image;
     private readonly Color? transparent;
 
-    public static SpriteImage FromResource(string resourceName, Point? transparentRef)
+    public static SpriteImage FromResource(string resourceName, Point? transparentRef = null)
     {
         var assembly = Assembly.GetCallingAssembly();
         resourceName = assembly.GetManifestResourceNames().First(x => x.EndsWith(resourceName));
