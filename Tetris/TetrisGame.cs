@@ -24,7 +24,7 @@ public class TetrisGame : IGameElement
     private readonly Random random;
     private readonly Stopwatch stopwatch;
     private long lastActionAt;
-    private GameOverState gameOver;
+    private GameOverState gameOver = GameOverState.None;
 
     public TetrisGame()
     {
