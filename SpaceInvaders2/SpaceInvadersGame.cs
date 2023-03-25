@@ -65,6 +65,13 @@ public class SpaceInvadersGame : IGameElement
         // Update projectiles
         for (var i = bullets.Count - 1; i >= 0; i--)
         {
+            bullets[i] = new Rectangle(bullets[i].X, bullets[i].Y - 3, bullets[i].Width, bullets[i].Height);
+            if (bullets[i].Y < 0)
+            {
+                bullets.RemoveAt(i);
+                continue;
+            }
+            
             for (var j = currentLevel.Enemies.Count - 1; j >= 0; j--)
             {
                 if (!bullets[i].IntersectsWith(currentLevel.Enemies[j].Rectangle)) continue;
