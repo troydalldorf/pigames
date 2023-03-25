@@ -1,12 +1,10 @@
 using Core;
-using Core.Display;
-using Core.Inputs;
+using Core.Display.Fonts;
 
 namespace FlappyBird;
 
 using System;
 using System.Drawing;
-using System.Threading;
 
 public class FlappyBirdGame : IGameElement
 {
@@ -14,17 +12,19 @@ public class FlappyBirdGame : IGameElement
     private const int Height = 64;
     private const int BirdSize = 4;
     private const int PipeWidth = 8;
-    private const int PipeGap = 16;
+    private const int PipeGapStart = 24;
+    private int pipeGap = PipeGapStart;
     private const int NumPipes = 3;
     private const int PipeSpacing = Width / NumPipes;
     private const int Gravity = 1;
     private const int FlapPower = 4;
-
+    private int score;
     private Rectangle bird;
     private int birdVelocity;
     private Rectangle[] pipes;
-    private Random random = new();
+    private readonly Random random = new();
     private bool isDone;
+    private LedFont font = new LedFont(LedFontType.FontTomThumb);
 
     public FlappyBirdGame()
     {
@@ -42,8 +42,10 @@ public class FlappyBirdGame : IGameElement
         {
             var gapStart = random.Next(Height / 4, 3 * Height / 4);
             pipes[i * 2] = new Rectangle(i * PipeSpacing + Width, 0, PipeWidth, gapStart);
-            pipes[i * 2 + 1] = new Rectangle(i * PipeSpacing + Width, gapStart + PipeGap, PipeWidth, Height - gapStart - PipeGap);
+            pipes[i * 2 + 1] = new Rectangle(i * PipeSpacing + Width, gapStart + pipeGap, PipeWidth, Height - gapStart - pipeGap);
         }
+
+        score = 0;
     }
 
     public void HandleInput(IPlayerConsole player1Console)
@@ -79,8 +81,20 @@ public class FlappyBirdGame : IGameElement
             if (pipes[i].Right < 0)
             {
                 var gapStart = random.Next(Height / 4, 3 * Height / 4);
-                pipes[i] = new Rectangle((i / 2) * PipeSpacing + Width, pipes[i].Y < Height / 2 ? 0 : gapStart + PipeGap, PipeWidth, pipes[i].Height);
+                pipes[i] = new Rectangle((i / 2) * PipeSpacing + Width, pipes[i].Y < Height / 2 ? 0 : gapStart + pipeGap, PipeWidth, pipes[i].Height);
             }
+        }
+
+        // Increase score if bird passes through a pair of pipes
+        if (pipes.Any(pipe => pipe.X + PipeWidth == bird.X))
+        {
+            score++;
+        }
+
+        // Make gaps larger at the start and reduce them over time
+        if (pipeGap > BirdSize * 4)
+        {
+            pipeGap--;
         }
     }
 
@@ -92,8 +106,12 @@ public class FlappyBirdGame : IGameElement
         // Draw pipes
         foreach (var pipe in pipes)
         {
-            display.DrawRectangle(pipe.X, pipe.Y, PipeWidth, pipe.Height, Color.Green);
+            display.DrawRectangle(pipe.X, pipe.Y, PipeWidth, pipe.Height, Color.Green, Color.DarkGreen);
+            display.DrawLine(pipe.X + 1, pipe.Y + 1, pipe.X + 1, pipe.Y + pipe.Height - 1, Color.LawnGreen);
         }
+
+        // Draw score
+        font.DrawText(display, 1, 1, Color.DarkOliveGreen, score.ToString());
     }
 
     public GameOverState State => isDone ? GameOverState.EndOfGame : GameOverState.None;
