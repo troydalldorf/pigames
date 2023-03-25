@@ -96,5 +96,5 @@ public class FlappyBirdGame : IGameElement
         }
     }
 
-    public bool IsDone() => isDone;
+    public GameOverState State() => isDone ? GameOverState.EndOfGame : GameOverState.None;
 }

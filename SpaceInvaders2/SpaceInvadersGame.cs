@@ -32,7 +32,7 @@ public class SpaceInvadersGame : IGameElement
     private List<Rectangle> bullets;
     private List<PixelBomb> pixelBombs = new();
     private bool moveInvadersRight = true;
-    private bool isDone;
+    private GameOverState isDone;
 
     public SpaceInvadersGame()
     {
@@ -42,7 +42,7 @@ public class SpaceInvadersGame : IGameElement
         Initialize();
     }
 
-    public bool IsDone() => isDone;
+    public GameOverState State() => isDone;
 
     private void Initialize()
     {
@@ -140,7 +140,7 @@ public class SpaceInvadersGame : IGameElement
 
                 if (invaders[i].Bottom < Height - PlayerHeight) continue;
                 // Game over
-                isDone = true;
+                isDone = GameOverState.EndOfGame;
                 return;
             }
         }

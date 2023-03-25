@@ -111,8 +111,10 @@ public class PongGame : I2PGameElement
         display.DrawRectangle(ballPosition.X, ballPosition.Y, BallSize, BallSize, Color.White);
     }
 
-    public bool IsDone()
+    public GameOverState State()
     {
-        return p1Score + p2Score >= 15;
+        if (p1Score + p2Score >= 15)
+            return p1Score > p2Score ? GameOverState.Player1Wins : GameOverState.Player2Wins;
+        return GameOverState.None;
     }
 }

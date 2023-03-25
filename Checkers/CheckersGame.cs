@@ -180,7 +180,10 @@ public class CheckersGame : IGameElement
         font.DrawText(display, 1, 35, turnTextColor, playerTurnText);
     }
 
-    public bool IsDone() => isDone;
+    public GameOverState State()
+    {
+        return GameOverState.None;
+    }
 
     private class CheckerPiece
     {

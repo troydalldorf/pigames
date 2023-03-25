@@ -1,105 +1,88 @@
 using System.Drawing;
 using Core.Display;
 using Core.Display.Fonts;
+using Core.Effects.RunnerElements;
 using Core.Inputs;
 
 namespace Core.Effects;
 
 public class GameRunner : IDisposable
 {
-    private readonly int top;
-    private readonly LedFont largeFont;
-    private readonly LedFont smallFont;
     private int frameCount;
     private readonly LedDisplay display;
     private readonly Player1Console p1Console;
     private readonly Player2Console p2Console;
-    
+    private GameOverElement gameOverElement = new GameOverElement();
+    private PauseElement pauseElement = new PauseElement();
+
     public GameRunner()
     {
-        top = 2;
-        largeFont = new LedFont(LedFontType.Font10x20);
-        smallFont = new LedFont(LedFontType.Font5x8);
-        display = new LedDisplay(); 
+        display = new LedDisplay();
         p1Console = new Player1Console();
         p2Console = new Player2Console();
     }
-    
+
     public void Run(Func<IGameElement> createGame, int? frameIntervalMs = 33)
     {
         Console.WriteLine("Starting game...");
         var game = createGame();
+        var currentElement = game;
         Console.WriteLine("Running game...");
-        var state = GameState.Running;
-        while (state != GameState.Done)
+        var state = GameState.Playing;
+        while (state != GameState.Exit)
         {
-            switch (state)
-            {
-                case GameState.Running:
-                {
-                    game.HandleInput(p1Console);
-                    if (game is I2PGameElement p2GameElement) p2GameElement.Handle2PInput(p2Console); 
-                    break;
-                }
-                case GameState.GameOver:
-                    HandleGameOverInput(p1Console, ref state);
-                    break;
-                case GameState.PlayAgain:
-                    DisposeGame(game);
-                    game = createGame();
-                    state = GameState.Running;
-                    break;
-            }
-            game.Update();
-            if (state == GameState.Running && game.IsDone()) state = GameState.GameOver;
+            currentElement.HandleInput(p1Console);
+            if (currentElement is I2PGameElement p2GameElement) p2GameElement.Handle2PInput(p2Console);
+            currentElement.Update();
             display.Clear();
-            game.Draw(display);
-            switch (state)
-            {
-                case GameState.GameOver:
-                    DrawGameOver();
-                    break;
-            }
+            currentElement.Draw(display);
             display.Update(frameIntervalMs);
+
+            // play -> GO
+            if (currentElement == game && currentElement.State() != GameOverState.None)
+            {
+                gameOverElement.Apply(game.State());
+                currentElement = gameOverElement;
+            }
+            // play -> pause
+            else if (currentElement == game && p1Console.ReadButtons().IsRedPushed())
+            {
+                pauseElement.Reset();
+                currentElement = pauseElement;
+            }
+            // GO -> play again
+            else if (currentElement == gameOverElement && gameOverElement.GameOverAction == GameOverAction.PlayAgain)
+            {
+                DisposeGame(game);
+                game = createGame();
+                currentElement = game;
+            }
+            else if (currentElement == gameOverElement && gameOverElement.GameOverAction == GameOverAction.Exit)
+            {
+                state = GameState.Exit;
+            }
+            // pause -> resume
+            else if (currentElement == pauseElement && pauseElement.PauseAction == GamePauseAction.Resume)
+            {
+                currentElement = game;
+            }
+            // pause -> exit
+            else if (currentElement == pauseElement && pauseElement.PauseAction == GamePauseAction.Exit)
+            {
+                state = GameState.Exit;
+            }
         }
+
         Console.WriteLine("Exiting game...");
         DisposeGame(game);
-    }
-
-    private void HandleGameOverInput(IPlayerConsole console, ref GameState state)
-    {
-        var buttons = console.ReadButtons();
-        if (buttons.IsGreenPushed())
-            state = GameState.PlayAgain;
-        else if (buttons.IsRedPushed())
-            state = GameState.Done;
-        
-        // LED Buttons
-        frameCount++;
-        var button = frameCount % 6 < 3;
-        console.LightButtons(button, !button, false, false);
-    }
-
-    private void DrawGameOver()
-    {
-        largeFont.DrawText(display, 6, top+12, Color.Black, "GAME", 3);
-        largeFont.DrawText(display, 8, top+14, Color.Black, "GAME", 3);
-        largeFont.DrawText(display, 7, top+13, Color.Crimson, "GAME", 3);
-        largeFont.DrawText(display, 6, top+27, Color.Black, "OVER", 3);
-        largeFont.DrawText(display, 8, top+29, Color.Black, "OVER", 3);
-        largeFont.DrawText(display, 7, top+28, Color.Crimson, "OVER", 3);
-        display.DrawRectangle(0, top+36-8, 64, 8, Color.Black, Color.Black);
-        smallFont.DrawText(display, 4, top+36, Color.Blue, "PLAY AGAIN?", 0);
     }
 
     private void DisposeGame(IGameElement? game)
     {
         if (game is IDisposable disposable) disposable.Dispose();
     }
-    
+
     public void Dispose()
     {
-        smallFont.Dispose();
-        largeFont.Dispose();
     }
 }

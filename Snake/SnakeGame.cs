@@ -18,7 +18,7 @@ public class SnakeGame : IGameElement
     private List<Point> snake;
     private Direction snakeDirection;
     private Point food;
-    private bool isDone;
+    private GameOverState isDone;
 
     public SnakeGame()
     {
@@ -99,7 +99,7 @@ public class SnakeGame : IGameElement
         // Check collision with the wall
         if (snake[0].X < 0 || snake[0].X >= Width || snake[0].Y < 0 || snake[0].Y >= Height)
         {
-            isDone = true;
+            isDone = GameOverState.EndOfGame;
             return;
         }
 
@@ -107,7 +107,7 @@ public class SnakeGame : IGameElement
         for (var i = 1; i < snake.Count; i++)
         {
             if (snake[0] != snake[i]) continue;
-            isDone = true;
+            isDone = GameOverState.EndOfGame;
             return;
         }
     }
@@ -121,5 +121,5 @@ public class SnakeGame : IGameElement
         display.DrawRectangle(food.X, food.Y, SnakeSize, SnakeSize, Color.Red);
     }
 
-    public bool IsDone() => isDone;
+    public GameOverState State() => isDone;
 }

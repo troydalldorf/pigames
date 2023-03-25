@@ -13,6 +13,8 @@ public class OthelloGame : I2PGameElement
     private Grid grid;
     private Player currentPlayer;
     private bool isDone;
+    private int? blackScore;
+    private int? whiteScore;
 
     public OthelloGame()
     {
@@ -29,7 +31,6 @@ public class OthelloGame : I2PGameElement
         grid.PlacePiece(4, 3, Player.Black, true);
 
         currentPlayer = Player.Black;
-        isDone = false;
     }
     
     public void HandleInput(IPlayerConsole player1Console)
@@ -98,28 +99,29 @@ public class OthelloGame : I2PGameElement
     public void Draw(IDisplay display)
     {
         grid.Draw(display, currentPlayer);
-
-        if (isDone)
-        {
-            var blackScore = grid.Score(Player.Black);
-            var whiteScore = grid.Score(Player.White);
-
-            if (blackScore > whiteScore)
-            {
-                font.DrawText(display, 10, 30, Color.White, "Black Wins");
-            }
-            else if (whiteScore > blackScore)
-            {
-                font.DrawText(display, 10, 30, Color.White, "White Wins");
-            }
-            else
-            {
-                font.DrawText(display, 10, 30, Color.White, "Draw");
-            }
-        }
     }
 
-    public bool IsDone() => isDone;
+    public GameOverState State()
+    {
+        if (isDone)
+        {
+            if (whiteScore == null || blackScore == null)
+            {
+                blackScore = grid.Score(Player.Black);
+                whiteScore = grid.Score(Player.White);
+            }
+            if (whiteScore == blackScore)
+            {
+                return GameOverState.Draw;
+            }
+            else if (whiteScore > blackScore)
+                return GameOverState.Player1Wins;
+            else
+                return GameOverState.Player2Wins;
+        }
+
+        return GameOverState.None;
+    }
 }
 
 public enum Player
