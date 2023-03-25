@@ -24,7 +24,6 @@ public class TetrisGame : IGameElement
     private readonly Random random;
     private readonly Stopwatch stopwatch;
     private long lastActionAt;
-    private GameOverState gameOver = GameOverState.None;
 
     public TetrisGame()
     {
@@ -100,7 +99,7 @@ public class TetrisGame : IGameElement
 
             if (!IsValidMove(currentX, currentY, currentTetromino))
             {
-                gameOver = GameOverState.EndOfGame;
+                State = GameOverState.EndOfGame;
             }
         }
     }
@@ -140,10 +139,7 @@ public class TetrisGame : IGameElement
         }
     }
 
-    public GameOverState State()
-    {
-        return gameOver;
-    }
+    public GameOverState State { get; private set; } = GameOverState.None;
 
     private bool IsValidMove(int newX, int newY, Tetromino tetromino)
     {

@@ -1,16 +1,12 @@
-using System.Reflection;
 using Core;
-using Core.Display;
 using Core.Display.Sprites;
 using Core.Effects;
-using Core.Inputs;
 
 namespace SpaceInvaders2;
 
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Threading;
 
 public class SpaceInvadersGame : IGameElement
 {
@@ -32,7 +28,6 @@ public class SpaceInvadersGame : IGameElement
     private List<Rectangle> bullets;
     private List<PixelBomb> pixelBombs = new();
     private bool moveInvadersRight = true;
-    private GameOverState isDone;
 
     public SpaceInvadersGame()
     {
@@ -42,7 +37,7 @@ public class SpaceInvadersGame : IGameElement
         Initialize();
     }
 
-    public GameOverState State() => isDone;
+    public GameOverState State { get; private set; }
 
     private void Initialize()
     {
@@ -140,7 +135,7 @@ public class SpaceInvadersGame : IGameElement
 
                 if (invaders[i].Bottom < Height - PlayerHeight) continue;
                 // Game over
-                isDone = GameOverState.EndOfGame;
+                State = GameOverState.EndOfGame;
                 return;
             }
         }

@@ -144,7 +144,7 @@ public class BreakoutGame : IGameElement
         }
     }
 
-    public GameOverState State() => isDone ? GameOverState.EndOfGame : GameOverState.None;
+    public GameOverState State => isDone ? GameOverState.EndOfGame : GameOverState.None;
 
     private record Brick(int X, int Y, Color Color)
     {

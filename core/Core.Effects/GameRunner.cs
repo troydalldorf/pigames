@@ -1,6 +1,4 @@
-using System.Drawing;
 using Core.Display;
-using Core.Display.Fonts;
 using Core.Effects.RunnerElements;
 using Core.Inputs;
 
@@ -12,8 +10,8 @@ public class GameRunner : IDisposable
     private readonly LedDisplay display;
     private readonly Player1Console p1Console;
     private readonly Player2Console p2Console;
-    private GameOverElement gameOverElement = new GameOverElement();
-    private PauseElement pauseElement = new PauseElement();
+    private readonly GameOverElement gameOverElement = new GameOverElement();
+    private readonly PauseElement pauseElement = new PauseElement();
 
     public GameRunner()
     {
@@ -40,9 +38,9 @@ public class GameRunner : IDisposable
             display.Update(frameIntervalMs);
 
             // play -> GO
-            if (currentElement == game && currentElement.State() != GameOverState.None)
+            if (currentElement == game && currentElement.State != GameOverState.None)
             {
-                gameOverElement.Apply(game.State());
+                gameOverElement.Apply(game.State);
                 currentElement = gameOverElement;
             }
             // play -> pause

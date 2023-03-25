@@ -148,7 +148,7 @@ public class BombermanGame : I2PGameElement
         }
     }
 
-    public GameOverState State() => _isDone ? GameOverState.EndOfGame : GameOverState.None;
+    public GameOverState State => _isDone ? GameOverState.EndOfGame : GameOverState.None;
 
     private void PlaceBomb(int x, int y)
     {

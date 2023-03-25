@@ -71,7 +71,7 @@ public class BingoGame : IGameElement
         DrawCard(display, player2Card, 1, 32, currentPlayer: 2);
     }
 
-    public GameOverState State() => isDone ? GameOverState.EndOfGame : GameOverState.None;
+    public GameOverState State => isDone ? GameOverState.EndOfGame : GameOverState.None;
 
     private int[,] GenerateCard()
     {

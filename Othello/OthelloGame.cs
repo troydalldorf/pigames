@@ -101,26 +101,30 @@ public class OthelloGame : I2PGameElement
         grid.Draw(display, currentPlayer);
     }
 
-    public GameOverState State()
+    public GameOverState State
     {
-        if (isDone)
+        get
         {
-            if (whiteScore == null || blackScore == null)
+            if (isDone)
             {
-                blackScore = grid.Score(Player.Black);
-                whiteScore = grid.Score(Player.White);
-            }
-            if (whiteScore == blackScore)
-            {
-                return GameOverState.Draw;
-            }
-            else if (whiteScore > blackScore)
-                return GameOverState.Player1Wins;
-            else
-                return GameOverState.Player2Wins;
-        }
+                if (whiteScore == null || blackScore == null)
+                {
+                    blackScore = grid.Score(Player.Black);
+                    whiteScore = grid.Score(Player.White);
+                }
 
-        return GameOverState.None;
+                if (whiteScore == blackScore)
+                {
+                    return GameOverState.Draw;
+                }
+                else if (whiteScore > blackScore)
+                    return GameOverState.Player1Wins;
+                else
+                    return GameOverState.Player2Wins;
+            }
+
+            return GameOverState.None;
+        }
     }
 }
 

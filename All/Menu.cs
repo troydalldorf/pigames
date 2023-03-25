@@ -101,8 +101,5 @@ public class Menu : IGameElement
         }
     }
 
-    public GameOverState State()
-    {
-        return GameOverState.None;
-    }
+    public GameOverState State => GameOverState.None;
 }

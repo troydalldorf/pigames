@@ -121,10 +121,13 @@ public class EPongGame : I2PGameElement
         display.DrawRectangle(ballPosition.X, ballPosition.Y, BallSize, BallSize, Color.White);
     }
 
-    public GameOverState State()
+    public GameOverState State
     {
-        if (p1Score + p2Score >= 15)
-            return p1Score > p2Score ? GameOverState.Player1Wins : GameOverState.Player2Wins;
-        return GameOverState.None;
+        get
+        {
+            if (p1Score + p2Score >= 15)
+                return p1Score > p2Score ? GameOverState.Player1Wins : GameOverState.Player2Wins;
+            return GameOverState.None;
+        }
     }
 }

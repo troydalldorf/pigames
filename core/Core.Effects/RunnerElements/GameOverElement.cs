@@ -59,30 +59,20 @@ public class GameOverElement : IGameElement
         smallFont.DrawText(display, 4, Top + 36, Color.Blue, text.Prompt, 0);
     }
 
-    public GameOverState State()
-    {
-        return GameOverAction == GameOverAction.None ? GameOverState.None : GameOverState.EndOfGame;
-    }
+    public GameOverState State => GameOverAction == GameOverAction.None ? GameOverState.None : GameOverState.EndOfGame;
 
     public void Apply(GameOverState state)
     {
         stopwatch.Restart();
         GameOverAction = GameOverAction.None;
-        switch (state)
+        this.text = state switch
         {
-            case GameOverState.None:
-                this.text = new Text("GAME", "OVER", "PLAY AGAIN?");
-                break;
-            case GameOverState.Draw:
-                this.text = new Text(null, "DRAW", "PLAY AGAIN?");
-                break;
-            case GameOverState.Player1Wins:
-                this.text = new Text("P1", "WINS", "PLAY AGAIN?");
-                break;
-            case GameOverState.Player2Wins:
-                this.text = new Text("P2", "WINS", "PLAY AGAIN?");
-                break;
-        }
+            GameOverState.None => new Text("GAME", "OVER", "PLAY AGAIN?"),
+            GameOverState.Draw => new Text(null, "DRAW", "PLAY AGAIN?"),
+            GameOverState.Player1Wins => new Text(" P1", "WINS", "PLAY AGAIN?"),
+            GameOverState.Player2Wins => new Text(" P2", "WINS", "PLAY AGAIN?"),
+            _ => this.text
+        };
     }
 
     private record Text(string? Line1, string Line2, string Prompt);

@@ -103,5 +103,5 @@ public class FroggerGame : IGameElement
         }
     }
 
-    public GameOverState State() => isDone ? GameOverState.EndOfGame : GameOverState.None;
+    public GameOverState State => isDone ? GameOverState.EndOfGame : GameOverState.None;
 }

@@ -51,10 +51,7 @@ public class PauseElement : IGameElement
         smallFont.DrawText(display, 4, Top + 36, Color.Blue, "CONTINUE?", 0);
     }
 
-    public GameOverState State()
-    {
-        return PauseAction != GamePauseAction.Paused ? GameOverState.EndOfGame : GameOverState.None;
-    }
+    public GameOverState State => PauseAction == GamePauseAction.Paused ? GameOverState.None : GameOverState.EndOfGame;
 
     public void Reset()
     {
