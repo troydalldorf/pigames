@@ -41,9 +41,9 @@ public class EPongGame : IDuoGameElement
         if (stick1.IsRight() && player1Paddle.Right < Width)
             player1Paddle.X += 2;
         if (stick1.IsUp() && player1Paddle.Top > 0)
-            player1Paddle.Y -= 2;
-        if (stick1.IsDown() && player1Paddle.Bottom > 0)
             player1Paddle.Y += 2;
+        if (stick1.IsDown() && player1Paddle.Bottom > 0)
+            player1Paddle.Y -= 2;
     }
 
     public void Handle2PInput(IPlayerConsole player2Console)
@@ -110,8 +110,8 @@ public class EPongGame : IDuoGameElement
     public void Draw(IDisplay display)
     {
         // Draw Score
-        font.DrawText(display, 1, 28, Color.Red, p1Score.ToString());
-        font.DrawText(display, 1, 35, Color.MediumVioletRed, p2Score.ToString());
+        font.DrawText(display, 1, 28, Color.MediumVioletRed, p1Score.ToString());
+        font.DrawText(display, 1, 35, Color.Red, p2Score.ToString());
 
         // Draw paddles
         display.DrawRectangle(player1Paddle.X, player1Paddle.Y, PaddleWidth, PaddleHeight, Color.Crimson);
@@ -125,9 +125,10 @@ public class EPongGame : IDuoGameElement
     {
         get
         {
-            if (p1Score + p2Score >= 15)
-                return p1Score > p2Score ? GameOverState.Player1Wins : GameOverState.Player2Wins;
+            if (p1Score + p2Score >= 15)      //p2/p1 was flipped.
+                return p1Score > p2Score ? GameOverState.Player2Wins : GameOverState.Player1Wins;
             return GameOverState.None;
+        
         }
     }
 }
