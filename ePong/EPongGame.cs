@@ -114,11 +114,11 @@ public class EPongGame : IDuoGameElement
         font.DrawText(display, 1, 35, Color.DimGray, p2Score.ToString());
 
         // Draw paddles
-        display.DrawRectangle(player1Paddle.X, player1Paddle.Y, PaddleWidth, PaddleHeight, Color.White);
-        display.DrawRectangle(player2Paddle.X, player2Paddle.Y, PaddleWidth, PaddleHeight, Color.White);
+        display.DrawRectangle(player1Paddle.X, player1Paddle.Y, PaddleWidth, PaddleHeight, Color.Crimson);
+        display.DrawRectangle(player2Paddle.X, player2Paddle.Y, PaddleWidth, PaddleHeight, Color.DeepPink);
 
         // Draw ball
-        display.DrawRectangle(ballPosition.X, ballPosition.Y, BallSize, BallSize, Color.White);
+        display.DrawRectangle(ballPosition.X, ballPosition.Y, BallSize, BallSize, Color.Ivory);
     }
 
     public GameOverState State
