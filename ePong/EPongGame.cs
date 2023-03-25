@@ -110,15 +110,15 @@ public class EPongGame : IDuoGameElement
     public void Draw(IDisplay display)
     {
         // Draw Score
-        font.DrawText(display, 1, 28, Color.DimGray, p1Score.ToString());
-        font.DrawText(display, 1, 35, Color.DimGray, p2Score.ToString());
+        font.DrawText(display, 1, 28, Color.Red, p1Score.ToString());
+        font.DrawText(display, 1, 35, Color.MediumVioletRed, p2Score.ToString());
 
         // Draw paddles
         display.DrawRectangle(player1Paddle.X, player1Paddle.Y, PaddleWidth, PaddleHeight, Color.Crimson);
         display.DrawRectangle(player2Paddle.X, player2Paddle.Y, PaddleWidth, PaddleHeight, Color.DeepPink);
 
         // Draw ball
-        display.DrawRectangle(ballPosition.X, ballPosition.Y, BallSize, BallSize, Color.Ivory);
+        display.DrawRectangle(ballPosition.X, ballPosition.Y, BallSize, BallSize, Color.DarkGoldenrod);
     }
 
     public GameOverState State
