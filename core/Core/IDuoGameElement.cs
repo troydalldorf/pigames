@@ -1,6 +1,6 @@
 namespace Core;
 
-public interface I2PGameElement : IGameElement
+public interface IDuoGameElement : IGameElement
 {
     void Handle2PInput(IPlayerConsole player2Console);
 }

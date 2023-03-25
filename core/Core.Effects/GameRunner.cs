@@ -31,7 +31,7 @@ public class GameRunner : IDisposable
         {
             // game loop
             currentElement.HandleInput(p1Console);
-            if (currentElement is I2PGameElement p2GameElement) p2GameElement.Handle2PInput(p2Console);
+            if (currentElement is IDuoGameElement p2GameElement) p2GameElement.Handle2PInput(p2Console);
             currentElement.Update();
             display.Clear();
             currentElement.Draw(display);

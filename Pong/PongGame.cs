@@ -6,7 +6,7 @@ namespace Pong;
 using System;
 using System.Drawing;
 
-public class PongGame : I2PGameElement
+public class PongGame : IDuoGameElement
 {
     private const int Width = 64;
     private const int Height = 64;

@@ -4,7 +4,7 @@ using Core.Display.Fonts;
 
 namespace ePong;
 
-public class EPongGame : I2PGameElement
+public class EPongGame : IDuoGameElement
 {
     private const int Width = 64;
     private const int Height = 64;

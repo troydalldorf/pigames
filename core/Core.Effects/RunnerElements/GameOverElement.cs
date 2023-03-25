@@ -11,7 +11,7 @@ public class GameOverElement : IGameElement
     private readonly LedFont smallFont;
     private readonly LedFont largeFont;
     private Text text = new Text("GAME", "OVER", "PLAY AGAIN?");
-    private Stopwatch stopwatch = new Stopwatch();
+    private readonly Stopwatch stopwatch = new Stopwatch();
 
     public GameOverElement()
     {

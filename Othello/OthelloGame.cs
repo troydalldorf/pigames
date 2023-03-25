@@ -4,7 +4,7 @@ using Core.Display.Fonts;
 
 namespace Othello;
 
-public class OthelloGame : I2PGameElement
+public class OthelloGame : IDuoGameElement
 {
     private const int GridSize = 8;
 

@@ -2,14 +2,11 @@ using Core;
 
 namespace Snake;
 
-using Core.Inputs;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Threading;
-using Core.Display;
 
-public class SnakeGame2P
+public class SnakeGame2P : IDuoGameElement
 {
     private enum Direction
     {
@@ -24,53 +21,47 @@ public class SnakeGame2P
     private const int SnakeSize = 2;
     private const int InitialSnakeLength = 5;
 
-    private LedDisplay display;
-    private PlayerConsole player1Console;
-    private PlayerConsole player2Console;
-
-    private List<Point> snake1;
+    private readonly List<Point> snake1;
     private Direction snakeDirection1;
     private Point food1;
 
-    private List<Point> snake2;
+    private readonly List<Point> snake2;
     private Direction snakeDirection2;
     private Point food2;
 
-    private bool gameRunning;
-
-    public SnakeGame2P(LedDisplay display, PlayerConsole player1Console, PlayerConsole player2Console)
+    public SnakeGame2P()
     {
-        this.display = display;
-        this.player1Console = player1Console;
-        this.player2Console = player2Console;
-
         snake1 = new List<Point>();
         snake2 = new List<Point>();
-
-        gameRunning = false;
-    }
-
-    public void Run()
-    {
-        gameRunning = true;
         InitializeSnake(snake1, Direction.Right);
         InitializeSnake(snake2, Direction.Left);
         SpawnFood(ref food1);
         SpawnFood(ref food2);
+        State = GameOverState.None;
+    }
 
-        while (gameRunning)
-        {
-            HandleInput(player1Console, ref snakeDirection1);
-            HandleInput(player2Console, ref snakeDirection2);
-            UpdateSnake(snake1, snakeDirection1, ref food1);
-            UpdateSnake(snake2, snakeDirection2, ref food2);
-            CheckCollision(snake1);
-            CheckCollision(snake2);
-            Draw(snake1, food1, Color.Green, Color.Red);
-            Draw(snake2, food2, Color.Blue, Color.Yellow);
+    public void HandleInput(IPlayerConsole player1Console)
+    {
+        HandleInput(player1Console, ref snakeDirection1);
+    }
 
-            Thread.Sleep(100);
-        }
+    public void Handle2PInput(IPlayerConsole player2Console)
+    {
+        HandleInput(player2Console, ref snakeDirection2);
+    }
+    
+    private static void HandleInput(IPlayerConsole playerConsole, ref Direction snakeDirection)
+    {
+        var stick = playerConsole.ReadJoystick();
+
+        if (stick.IsLeft() && snakeDirection != Direction.Right)
+            snakeDirection = Direction.Left;
+        else if (stick.IsRight() && snakeDirection != Direction.Left)
+            snakeDirection = Direction.Right;
+        else if (stick.IsUp() && snakeDirection != Direction.Down)
+            snakeDirection = Direction.Up;
+        else if (stick.IsDown() && snakeDirection != Direction.Up)
+            snakeDirection = Direction.Down;
     }
 
     private void InitializeSnake(List<Point> snake, Direction direction)
@@ -94,7 +85,7 @@ public class SnakeGame2P
         snakeDirection1 = direction;
     }
 
-    private void SpawnFood(ref Point food)
+    private static void SpawnFood(ref Point food)
     {
         var random = new Random();
         var x = random.Next(0, Width / SnakeSize) * SnakeSize;
@@ -102,21 +93,21 @@ public class SnakeGame2P
         food = new Point(x, y);
     }
 
-    private void HandleInput(PlayerConsole playerConsole, ref Direction snakeDirection)
+    public void Update()
     {
-        var stick = playerConsole.ReadJoystick();
-
-        if (stick.IsLeft() && snakeDirection != Direction.Right)
-            snakeDirection = Direction.Left;
-        else if (stick.IsRight() && snakeDirection != Direction.Left)
-            snakeDirection = Direction.Right;
-        else if (stick.IsUp() && snakeDirection != Direction.Down)
-            snakeDirection = Direction.Up;
-        else if (stick.IsDown() && snakeDirection != Direction.Up)
-            snakeDirection = Direction.Down;
+        UpdateSnake(snake1, snakeDirection1, ref food1);
+        UpdateSnake(snake2, snakeDirection2, ref food2);
+        var s1Collision = CheckCollision(snake1);
+        var s2Collision = CheckCollision(snake2);
+        if (s1Collision && s2Collision)
+            State = GameOverState.Draw;
+        else if (s1Collision)
+            State = GameOverState.Player2Wins;
+        else if (s2Collision)
+            State = GameOverState.Player1Wins;
     }
 
-    private void UpdateSnake(List<Point> snake, Direction snakeDirection, ref Point food)
+    private static void UpdateSnake(IList<Point> snake, Direction snakeDirection, ref Point food)
     {
         var newPosition = new Point(snake[0].X, snake[0].Y);
 
@@ -150,28 +141,34 @@ public class SnakeGame2P
         }
     }
 
-    private void CheckCollision(List<Point> snake)
+    private bool CheckCollision(List<Point> snake)
     {
         // Check collision with the wall
-        if (snake[0].X < 0 || snake[0].X >= Width || snake[0].Y < 0 || snake[0].Y >= Height)
+        if (snake[0].X is < 0 or >= Width || snake[0].Y is < 0 or >= Height)
         {
-            gameRunning = false;
-            return;
+            return true;
         }
 
         // Check collision with itself
         for (var i = 1; i < snake.Count; i++)
         {
             if (snake[0] != snake[i]) continue;
-            gameRunning = false;
-            return;
+            return true;
         }
+
+        return false;
     }
 
-    private void Draw(List<Point> snake, Point food, Color snakeColor, Color foodColor)
+    public void Draw(IDisplay display)
     {
-        display.Clear();
+        Draw(display, snake1, food1, Color.Green, Color.Red);
+        Draw(display, snake2, food2, Color.Blue, Color.Yellow);
+    }
 
+    public GameOverState State { get; private set; }
+
+    private static void Draw(IDisplay display, List<Point> snake, Point food, Color snakeColor, Color foodColor)
+    {
         // Draw snake
         foreach (var point in snake)
         {
@@ -180,7 +177,5 @@ public class SnakeGame2P
 
         // Draw food
         display.DrawRectangle(food.X, food.Y, SnakeSize, SnakeSize, foodColor);
-
-        display.Update();
     }
 }

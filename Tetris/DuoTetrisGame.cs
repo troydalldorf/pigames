@@ -3,7 +3,7 @@ using Core.Effects;
 
 namespace Tetris;
 
-public class DuoTetrisGame : I2PGameElement
+public class DuoTetrisGame : IDuoGameElement
 {
     private readonly TetrisGame p1TetrisGame;
     private readonly TetrisGame p2TetrisGame;

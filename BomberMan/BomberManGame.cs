@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 
-public class BombermanGame : I2PGameElement
+public class BombermanGame : IDuoGameElement
 {
     private const int GridSize = 8;
     private const int BombTimer = 3000;
