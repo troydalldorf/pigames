@@ -31,6 +31,7 @@ public class GameRunner : IDisposable
         var state = GameState.Playing;
         while (state != GameState.Exit)
         {
+            // game loop
             currentElement.HandleInput(p1Console);
             if (currentElement is I2PGameElement p2GameElement) p2GameElement.Handle2PInput(p2Console);
             currentElement.Update();

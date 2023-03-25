@@ -67,6 +67,7 @@ public class GameOverElement : IGameElement
     public void Apply(GameOverState state)
     {
         stopwatch.Restart();
+        GameOverAction = GameOverAction.None;
         switch (state)
         {
             case GameOverState.None:
