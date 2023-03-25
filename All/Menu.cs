@@ -29,11 +29,12 @@ public class Menu : IGameElement
 
     private readonly GameItem[] items =
     {
-        new("B MAN", () => new BombermanGame()),
-        new("BREAKOUT", () => new BreakoutGame()),
-        new("E-PONG", () => new PongGame()),
-        new("FLAPPY B", () => new FlappyBirdGame()),
-        new("FROGGER", () => new FroggerGame()),
+        new("B Man", () => new BombermanGame()),
+        new("Breakout", () => new BreakoutGame()),
+        new("C-Four", () => new ConnectFourGame()),
+        new("E-Pong", () => new PongGame()),
+        new("Flappy B", () => new FlappyBirdGame()),
+        new("Frogger", () => new FroggerGame()),
         new("OTHELLO", () => new OthelloGame()),
         new("PONG", () => new PongGame()),
         new("SNAKE", () => new SnakeGame()),

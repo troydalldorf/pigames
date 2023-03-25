@@ -20,11 +20,13 @@ public class ConnectFourGame : IDuoGameElement
 
     public void HandleInput(IPlayerConsole player1Console)
     {
+        if (currentPlayer == Color.Blue) return;
         HandleInputInternal(player1Console);
     }
 
     public void Handle2PInput(IPlayerConsole player2Console)
     {
+        if (currentPlayer == Color.Red) return;
         HandleInputInternal(player2Console);
     }
     
@@ -57,8 +59,7 @@ public class ConnectFourGame : IDuoGameElement
 
     public void Draw(IDisplay display)
     {
-        // Draw the static game board
-        var darkYellow = Color.FromArgb(128, 128, 0);
+        var darkYellow = Color.FromArgb(64, 64, 0);
         for (var y = 0; y < Rows; y++)
         {
             for (var x = 0; x < Columns; x++)
@@ -67,24 +68,15 @@ public class ConnectFourGame : IDuoGameElement
             }
         }
 
-        // Draw the holes
         for (var y = 0; y < Rows; y++)
         {
             for (var x = 0; x < Columns; x++)
             {
                 if (grid[y, x] == Color.Empty)
                 {
-                    display.DrawCircle(x * CellSize + CellSize / 2, y * CellSize + CellSize / 2, CellSize / 2 - 1, Color.Black);
+                    display.DrawCircle(x * CellSize + CellSize / 2, y * CellSize + CellSize / 2, CellSize / 2 - 1, Color.Black, Color.Black);
                 }
-            }
-        }
-
-        // Draw the dropped disks
-        for (var y = 0; y < Rows; y++)
-        {
-            for (var x = 0; x < Columns; x++)
-            {
-                if (grid[y, x] != Color.Empty)
+                else
                 {
                     display.DrawCircle(x * CellSize + CellSize / 2, y * CellSize + CellSize / 2, CellSize / 2 - 1, grid[y, x]);
                 }
@@ -92,8 +84,8 @@ public class ConnectFourGame : IDuoGameElement
         }
 
         // Draw the current player's disk above the board
-        int diskX = selectedColumn * CellSize + CellSize / 2;
-        int diskY = (Rows + 1) * CellSize + CellSize / 2;
+        var diskX = selectedColumn * CellSize + CellSize / 2;
+        var diskY = (Rows + 1) * CellSize + CellSize / 2;
         display.DrawCircle(diskX, diskY, CellSize / 2 - 1, currentPlayer);
     }
 
