@@ -1,3 +1,4 @@
+using System.Drawing;
 using Core;
 using Core.Display.Sprites;
 using Core.Inputs;
@@ -10,7 +11,8 @@ public class ConnectFourGame : IDuoGameElement
     private const int Rows = 6;
     private const int Columns = 7;
     private const int CellSize = 8;
-    private SpriteAnimation pieces;
+    private SpriteAnimation gridPieces;
+    private SpriteAnimation dropPieces;
 
     public ConnectFourGame()
     {
@@ -19,7 +21,9 @@ public class ConnectFourGame : IDuoGameElement
         selectedColumn = 0;
         State = GameOverState.None;
         var image = SpriteImage.FromResource("c4.png");
-        pieces = image.GetSpriteAnimation(1, 1, 8, 8, 3, 1);
+        gridPieces = image.GetSpriteAnimation(1, 1, 8, 8, 3, 1);
+        image = SpriteImage.FromResource("c4.png", new Point(1, 1));
+        dropPieces = image.GetSpriteAnimation(1, 1, 8, 8, 3, 1);
     }
 
     public void HandleInput(IPlayerConsole player1Console)
@@ -68,13 +72,13 @@ public class ConnectFourGame : IDuoGameElement
         for (var y = 0; y < Rows; y++)
         {
             for (var x = 0; x < Columns; x++)
-                pieces.Draw(display, xOffset + x * CellSize, yOffset + y * CellSize, (int)grid[y, x]);
+                gridPieces.Draw(display, xOffset + x * CellSize, yOffset + y * CellSize, (int)grid[y, x]);
         }
 
         // Draw the current player's disk above the board
         var diskX = xOffset + selectedColumn * CellSize;
-        const int diskY = yOffset - CellSize-3;
-        pieces.Draw(display, diskX, diskY, (int)currentPlayer);
+        const int diskY = yOffset - CellSize-1;
+        dropPieces.Draw(display, diskX, diskY, (int)currentPlayer);
     }
 
     public GameOverState State { get; private set; }
