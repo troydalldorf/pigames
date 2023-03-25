@@ -1,76 +1,79 @@
 using System.Drawing;
 using Core;
 
-public class ConnectFourGame : IGameElement
+public class ConnectFourGame : IDuoGameElement
 {
-    private IDisplay _display;
-    private IPlayerConsole _player1Console;
-    private IPlayerConsole _player2Console;
-    private Color[,] _grid;
-    private Color _currentPlayer;
-    private int _selectedColumn;
-    private bool _isDone;
+    private readonly Color[,] grid;
+    private Color currentPlayer;
+    private int selectedColumn;
+    private bool isDone;
     private const int Rows = 6;
     private const int Columns = 7;
     private const int CellSize = 8;
 
-    public ConnectFourGame(IDisplay display, IPlayerConsole player1Console, IPlayerConsole player2Console)
+    public ConnectFourGame()
     {
-        _display = display;
-        _player1Console = player1Console;
-        _player2Console = player2Console;
-        _grid = new Color[Rows, Columns];
-        _currentPlayer = Color.Red;
-        _selectedColumn = 0;
-        _isDone = false;
+        grid = new Color[Rows, Columns];
+        currentPlayer = Color.Red;
+        selectedColumn = 0;
+        isDone = false;
     }
 
-    public void HandleInput(IPlayerConsole playerConsole)
+    public void HandleInput(IPlayerConsole player1Console)
+    {
+        HandleInputInternal(player1Console);
+    }
+
+    public void Handle2PInput(IPlayerConsole player2Console)
+    {
+        HandleInputInternal(player2Console);
+    }
+    
+    public void HandleInputInternal(IPlayerConsole playerConsole)
     {
         var joystick = playerConsole.ReadJoystick();
-        if (joystick.HasFlag(JoystickDirection.Left) && _selectedColumn > 0)
-            _selectedColumn--;
-        if (joystick.HasFlag(JoystickDirection.Right) && _selectedColumn < Columns - 1)
-            _selectedColumn++;
+        if (joystick.HasFlag(JoystickDirection.Left) && selectedColumn > 0)
+            selectedColumn--;
+        if (joystick.HasFlag(JoystickDirection.Right) && selectedColumn < Columns - 1)
+            selectedColumn++;
 
         if (playerConsole.ReadButtons().HasFlag(Buttons.Green))
         {
-            if (TryDropDisk(_selectedColumn))
+            if (TryDropDisk(selectedColumn))
             {
-                if (CheckForWin(_currentPlayer))
+                if (CheckForWin(currentPlayer))
                 {
-                    _isDone = true;
+                    isDone = true;
                     return;
                 }
 
-                _currentPlayer = _currentPlayer == Color.Red ? Color.Blue : Color.Red;
+                currentPlayer = currentPlayer == Color.Red ? Color.Blue : Color.Red;
             }
         }
     }
 
     public void Update()
     {
-        HandleInput(_currentPlayer == Color.Red ? _player1Console : _player2Console);
     }
 
     public void Draw(IDisplay display)
     {
         // Draw the static game board
-        Color darkYellow = Color.FromArgb(128, 128, 0);
-        for (int y = 0; y < Rows; y++)
+        var darkYellow = Color.FromArgb(128, 128, 0);
+        for (var y = 0; y < Rows; y++)
         {
-            for (int x = 0; x < Columns; x++)
+            for (var x = 0; x < Columns; x++)
             {
                 display.DrawRectangle(x * CellSize, y * CellSize, CellSize, CellSize, darkYellow, darkYellow);
             }
         }
 
         // Draw the holes
-        for (int y = 0; y < Rows; y++)
+        for (var y = 0; y < Rows; y++)
         {
-            for (int x = 0; x < Columns; x++)
+            for (var x = 0; x < Columns; x++)
             {
-                if (_grid[y, x] == Color.Empty)
+                if (grid[y, x] == Color.Empty)
                 {
                     display.DrawCircle(x * CellSize + CellSize / 2, y * CellSize + CellSize / 2, CellSize / 2 - 1, Color.Black);
                 }
@@ -78,34 +81,32 @@ public class ConnectFourGame : IGameElement
         }
 
         // Draw the dropped disks
-        for (int y = 0; y < Rows; y++)
+        for (var y = 0; y < Rows; y++)
         {
-            for (int x = 0; x < Columns; x++)
+            for (var x = 0; x < Columns; x++)
             {
-                if (_grid[y, x] != Color.Empty)
+                if (grid[y, x] != Color.Empty)
                 {
-                    display.DrawCircle(x * CellSize + CellSize / 2, y * CellSize + CellSize / 2, CellSize / 2 - 1, _grid[y, x]);
+                    display.DrawCircle(x * CellSize + CellSize / 2, y * CellSize + CellSize / 2, CellSize / 2 - 1, grid[y, x]);
                 }
             }
         }
 
         // Draw the current player's disk above the board
-        int diskX = _selectedColumn * CellSize + CellSize / 2;
+        int diskX = selectedColumn * CellSize + CellSize / 2;
         int diskY = (Rows + 1) * CellSize + CellSize / 2;
-        display.DrawCircle(diskX, diskY, CellSize / 2 - 1, _currentPlayer);
+        display.DrawCircle(diskX, diskY, CellSize / 2 - 1, currentPlayer);
     }
 
-    public GameOverState State => _isDone ? GameOverState.EndOfGame : GameOverState.None;
+    public GameOverState State => isDone ? GameOverState.EndOfGame : GameOverState.None;
 
     private bool TryDropDisk(int column)
     {
-        for (int row = Rows - 1; row >= 0; row--)
+        for (var row = Rows - 1; row >= 0; row--)
         {
-            if (_grid[row, column] == Color.Empty)
-            {
-                _grid[row, column] = _currentPlayer;
-                return true;
-            }
+            if (grid[row, column] != Color.Empty) continue;
+            grid[row, column] = currentPlayer;
+            return true;
         }
 
         return false;
@@ -117,7 +118,7 @@ public class ConnectFourGame : IGameElement
         {
             for (int x = 0; x < Columns; x++)
             {
-                if (_grid[y, x] == player &&
+                if (grid[y, x] == player &&
                     (CheckForWinDirection(x, y, 1, 0, player) ||
                      CheckForWinDirection(x, y, 0, 1, player) ||
                      CheckForWinDirection(x, y, 1, 1, player) ||
@@ -137,7 +138,7 @@ public class ConnectFourGame : IGameElement
 
         while (x >= 0 && x < Columns && y >= 0 && y < Rows)
         {
-            if (_grid[y, x] == player)
+            if (grid[y, x] == player)
             {
                 count++;
                 if (count == 4)
