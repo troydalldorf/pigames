@@ -2,4 +2,4 @@ using Core;
 
 namespace All;
 
-public record GameItem(string Name, Func<IGameElement>? CreateGame);
+public record GameItem(string Name, Func<IGameElement> CreateGame);
