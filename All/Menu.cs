@@ -39,7 +39,7 @@ public class Menu : IGameElement
         new("PONG", () => new PongGame()),
         new("SNAKE", () => new SnakeGame(), 100),
         new("SNAKE 2", () => new SnakeGame2P(), 100),
-        new("SPACE IN", () => new SpaceInvadersGame()), 50,
+        new("SPACE IN", () => new SpaceInvadersGame(), 75),
         new("TETRIS 1", () => new TetrisGame()),
         new("TETRIS 2", () => new DuoTetrisGame()),
     };
