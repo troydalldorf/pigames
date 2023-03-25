@@ -6,7 +6,6 @@ public class ConnectFourGame : IDuoGameElement
     private readonly Color[,] grid;
     private Color currentPlayer;
     private int selectedColumn;
-    private bool isDone;
     private const int Rows = 6;
     private const int Columns = 7;
     private const int CellSize = 8;
@@ -16,7 +15,7 @@ public class ConnectFourGame : IDuoGameElement
         grid = new Color[Rows, Columns];
         currentPlayer = Color.Red;
         selectedColumn = 0;
-        isDone = false;
+        State = GameOverState.None;
     }
 
     public void HandleInput(IPlayerConsole player1Console)
@@ -43,7 +42,7 @@ public class ConnectFourGame : IDuoGameElement
             {
                 if (CheckForWin(currentPlayer))
                 {
-                    isDone = true;
+                    State = currentPlayer == Color.Red ? GameOverState.Player1Wins : GameOverState.Player2Wins;
                     return;
                 }
 
@@ -98,7 +97,7 @@ public class ConnectFourGame : IDuoGameElement
         display.DrawCircle(diskX, diskY, CellSize / 2 - 1, currentPlayer);
     }
 
-    public GameOverState State => isDone ? GameOverState.EndOfGame : GameOverState.None;
+    public GameOverState State { get; private set; }
 
     private bool TryDropDisk(int column)
     {
