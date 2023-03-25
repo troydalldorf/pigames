@@ -69,7 +69,7 @@ public class Menu : IGameElement
         if (buttons.IsGreenPushed())
         {
             var item = items[cursor];
-            var game = item.CreateGame ?? item.TwoPlayer;
+            var game = item.CreateGame;
             runner.Run(game);
         }
 
