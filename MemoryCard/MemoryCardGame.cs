@@ -11,6 +11,8 @@ public class MemoryCardGame : IPlayableGameElement
     private Card[,] cards;
     private Card firstSelectedCard;
     private Card secondSelectedCard;
+    private int cursorRow = 0;
+    private int cursorCol = 0;
 
     public MemoryCardGame()
     {
@@ -34,7 +36,7 @@ public class MemoryCardGame : IPlayableGameElement
             }
         }
         firstSelectedCard = cards[0, 0];
-        firstSelectedCard.IsSelected = true;
+        firstSelectedCard.IsSelected = false;
     }
 
     private static List<CardShape> GenerateCardShapes()
@@ -54,14 +56,14 @@ public class MemoryCardGame : IPlayableGameElement
         var stick = playerConsole.ReadJoystick();
         var buttons = playerConsole.ReadButtons();
 
-        if (stick.IsUp()) firstSelectedCard.Row = Math.Max(firstSelectedCard.Row - 1, 0);
-        if (stick.IsDown()) firstSelectedCard.Row = Math.Min(firstSelectedCard.Row + 1, Rows - 1);
-        if (stick.IsLeft()) firstSelectedCard.Column = Math.Max(firstSelectedCard.Column - 1, 0);
-        if (stick.IsRight()) firstSelectedCard.Column = Math.Min(firstSelectedCard.Column + 1, Columns - 1);
+        if (stick.IsUp()) cursorCol = Math.Max(cursorCol - 1, 0);
+        if (stick.IsDown()) cursorCol = Math.Min(cursorCol + 1, Rows - 1);
+        if (stick.IsLeft()) cursorRow = Math.Max(cursorRow - 1, 0);
+        if (stick.IsRight()) cursorRow = Math.Min(cursorRow + 1, Columns - 1);
+        var selectedCard = cards[cursorRow, cursorCol];
 
-        if (buttons.HasFlag(Buttons.Red) && firstSelectedCard != null && secondSelectedCard == null)
+        if (buttons.HasFlag(Buttons.Green) && firstSelectedCard != null && secondSelectedCard == null)
         {
-            var selectedCard = cards[firstSelectedCard.Row, firstSelectedCard.Column];
             if (!selectedCard.IsMatched)
             {
                 if (secondSelectedCard == null)
