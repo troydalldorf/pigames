@@ -16,7 +16,7 @@ public class AsteroidsGame : IDuoPlayableGameElement
     private const int DisplayHeight = 64;
     private const int MaxBullets = 250;
     private const int BulletLife = 64;
-    private const float ShipRotationSpeed = 5f;
+    private const float ShipRotationSpeed = 10f;
     private const float BulletSpeed = 4f;
 
     public AsteroidsGame()

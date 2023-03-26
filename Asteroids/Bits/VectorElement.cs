@@ -57,6 +57,7 @@ public abstract class VectorElement : IGameElement
     public virtual void Draw(IDisplay display)
     {
         // Scale and rotate the shape
+        var radians = Rotation * Math.PI / 180;
         var transformedShape = new PointF[shape.Length];
         for (var i = 0; i < shape.Length; i++)
         {
@@ -64,8 +65,8 @@ public abstract class VectorElement : IGameElement
             var y = shape[i].Y * Size;
 
             // Rotate the point
-            var rotatedX = x * (float)Math.Cos(Rotation) - y * (float)Math.Sin(Rotation);
-            var rotatedY = x * (float)Math.Sin(Rotation) + y * (float)Math.Cos(Rotation);
+            var rotatedX = x * (float)Math.Cos(radians) - y * (float)Math.Sin(radians);
+            var rotatedY = x * (float)Math.Sin(radians) + y * (float)Math.Cos(radians);
 
             // Translate the point
             var translatedX = rotatedX + Location.X;
