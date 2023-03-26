@@ -12,7 +12,7 @@ public class AsteroidsGame : IPlayableGameElement
     private int[] scores;
     private const int DisplayWidth = 64;
     private const int DisplayHeight = 64;
-    private const int MaxBullets = 10;
+    private const int MaxBullets = 250;
     private const int BulletLife = 64;
     private const float ShipAcceleration = 0.1f;
     private const float ShipRotationSpeed = 5f;
@@ -22,8 +22,8 @@ public class AsteroidsGame : IPlayableGameElement
     {
         ships = new List<Ship>
         {
-            new Ship(DisplayWidth, DisplayHeight) { Location = new PointF(32, 32), Size=3, Rotation = 0, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false },
-            new Ship(DisplayWidth, DisplayHeight) { Location = new PointF(32, 32), Size=3, Rotation = 180, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false }
+            new Ship(DisplayWidth, DisplayHeight, Color.Red) { Location = new PointF(32, 32), Size=3, Rotation = 0, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false },
+            new Ship(DisplayWidth, DisplayHeight, Color.Blue) { Location = new PointF(32, 32), Size=3, Rotation = 180, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false }
         };
         asteroids = new List<Asteroid>();
         bullets = new List<Bullet>();
@@ -69,7 +69,7 @@ public class AsteroidsGame : IPlayableGameElement
         if (stick.IsLeft()) ship.RotationSpeed = -ShipRotationSpeed;
         if (stick.IsRight()) ship.RotationSpeed = ShipRotationSpeed;
 
-        if (stick.IsUp()) ship.Thrusting = true;
+        if (stick.IsUp() || buttons.IsBluePushed()) ship.Thrusting = true;
 
         // Fire bullet
         if (buttons.IsGreenPushed() && bullets.Count < MaxBullets)
