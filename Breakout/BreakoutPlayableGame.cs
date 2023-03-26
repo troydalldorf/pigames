@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-public class BreakoutGame : IGameElement
+public class BreakoutPlayableGame : IPlayableGameElement
 {
     private const int Width = 64;
     private const int Height = 64;
@@ -27,7 +27,7 @@ public class BreakoutGame : IGameElement
     private readonly List<PixelBomb> pixelBombs = new();
     private bool isDone;
 
-    public BreakoutGame()
+    public BreakoutPlayableGame()
     {
         Initialize();
     }

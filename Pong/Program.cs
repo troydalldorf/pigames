@@ -5,5 +5,5 @@ using Pong;
 
 Console.WriteLine("Pong game starting...");
 var runner = new GameRunner();
-runner.Run(()=>new PongGame());
+runner.Run(()=>new PongPlayableGame());
 Console.WriteLine("Exiting Pong game...");

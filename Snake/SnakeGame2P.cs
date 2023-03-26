@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-public class SnakeGame2P : IDuoGameElement
+public class SnakeGame2P : IDuoPlayableGameElement
 {
     private enum Direction
     {

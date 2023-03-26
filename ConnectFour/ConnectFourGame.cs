@@ -3,7 +3,7 @@ using Core;
 using Core.Display.Sprites;
 using Core.Inputs;
 
-public class ConnectFourGame : IDuoGameElement
+public class ConnectFourGame : IDuoPlayableGameElement
 {
     private readonly Player[,] grid;
     private Player currentPlayer;

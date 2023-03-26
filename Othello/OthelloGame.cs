@@ -1,10 +1,11 @@
 using System.Drawing;
 using Core;
 using Core.Display.Fonts;
+using Core.Inputs;
 
 namespace Othello;
 
-public class OthelloGame : IDuoGameElement
+public class OthelloGame : IDuoPlayableGameElement
 {
     private const int GridSize = 8;
 
@@ -42,7 +43,7 @@ public class OthelloGame : IDuoGameElement
     public void Handle2PInput(IPlayerConsole player2Console)
     {
         if (currentPlayer == Player.White) return;
-        InternalHandleInput(player2Console);
+        InternalHandleInput(new PlayerConsoleInversionDecorator(player2Console));
     }
     
     private void InternalHandleInput(IPlayerConsole console)

@@ -6,7 +6,7 @@ using Core.Effects;
 
 namespace Tetris;
 
-public class TetrisGame : IGameElement
+public class TetrisPlayableGame : IPlayableGameElement
 {
     private const int Width = 10;
     private const int Height = 20;
@@ -25,7 +25,7 @@ public class TetrisGame : IGameElement
     private readonly Stopwatch stopwatch;
     private long lastActionAt;
 
-    public TetrisGame()
+    public TetrisPlayableGame()
     {
         this.stopwatch = new Stopwatch();
         this.stopwatch.Start();

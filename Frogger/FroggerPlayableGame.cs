@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace Frogger;
 
-public class FroggerGame : IGameElement
+public class FroggerPlayableGame : IPlayableGameElement
 {
     private const int Width = 64;
     private const int Height = 64;
@@ -21,7 +21,7 @@ public class FroggerGame : IGameElement
     private bool isDone;
     //private readonly Sprite frogSprite;
 
-    public FroggerGame()
+    public FroggerPlayableGame()
     {
         //var image = new SpriteImage("frogger.png", new Point(0, 1));
         //frogSprite = image.GetSprite(0, 0, 4, 4);

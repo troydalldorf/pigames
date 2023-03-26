@@ -2,7 +2,7 @@ using System.Drawing;
 using Core;
 using Core.Display.Fonts;
 
-public class BingoGame : IGameElement
+public class BingoPlayableGame : IPlayableGameElement
 {
     private LedFont font;
     private int[,] player1Card;
@@ -11,7 +11,7 @@ public class BingoGame : IGameElement
     private bool isDone;
     private Random random = new();
 
-    public BingoGame()
+    public BingoPlayableGame()
     {
         font = new LedFont(LedFontType.FontTomThumb);
 

@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-public class SpaceInvadersGame : IGameElement
+public class SpaceInvadersPlayableGame : IPlayableGameElement
 {
     private const int Width = 64;
     private const int Height = 64;
@@ -27,7 +27,7 @@ public class SpaceInvadersGame : IGameElement
     private List<PixelBomb> pixelBombs = new();
     private bool moveInvadersRight = true;
 
-    public SpaceInvadersGame()
+    public SpaceInvadersPlayableGame()
     {
         var image = SpriteImage.FromResource("si.png", new Point(0, 60));
         levels = new Levels(image);

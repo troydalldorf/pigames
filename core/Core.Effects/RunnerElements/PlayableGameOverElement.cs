@@ -4,7 +4,7 @@ using Core.Display.Fonts;
 
 namespace Core.Effects.RunnerElements;
 
-public class GameOverElement : IGameElement
+public class PlayableGameOverElement : IPlayableGameElement
 {
     private const int Top = 2;
     private int frameCount;
@@ -13,7 +13,7 @@ public class GameOverElement : IGameElement
     private Text text = new Text("GAME", "OVER", "PLAY AGAIN?");
     private readonly Stopwatch stopwatch = new Stopwatch();
 
-    public GameOverElement()
+    public PlayableGameOverElement()
     {
         GameOverAction = GameOverAction.None;
         frameCount = 0;

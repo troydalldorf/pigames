@@ -15,7 +15,7 @@ using Tetris;
 
 namespace All;
 
-public class Menu : IGameElement
+public class Menu : IPlayableGameElement
 {
     private readonly GameRunner runner;
     private readonly LedFont font = new(LedFontType.FontTomThumb);
@@ -30,18 +30,18 @@ public class Menu : IGameElement
     private readonly GameItem[] items =
     {
         new("B Man", () => new BombermanGame()),
-        new("Breakout", () => new BreakoutGame()),
+        new("Breakout", () => new BreakoutPlayableGame()),
         new("C-Four", () => new ConnectFourGame(), 100),
-        new("E-Pong", () => new PongGame()),
-        new("Flappy B", () => new FlappyBirdGame(), 50),
-        new("Frogger", () => new FroggerGame(), 100),
+        new("E-Pong", () => new PongPlayableGame()),
+        new("Flappy B", () => new FlappyBirdPlayableGame(), 50),
+        new("Frogger", () => new FroggerPlayableGame(), 100),
         new("OTHELLO", () => new OthelloGame()),
-        new("PONG", () => new PongGame()),
-        new("SNAKE", () => new SnakeGame(), 100),
+        new("PONG", () => new PongPlayableGame()),
+        new("SNAKE", () => new SnakePlayableGame(), 100),
         new("SNAKE 2", () => new SnakeGame2P(), 100),
-        new("SPACE IN", () => new SpaceInvadersGame(), 75),
-        new("TETRIS 1", () => new TetrisGame()),
-        new("TETRIS 2", () => new DuoTetrisGame()),
+        new("SPACE IN", () => new SpaceInvadersPlayableGame(), 75),
+        new("TETRIS 1", () => new TetrisPlayableGame()),
+        new("TETRIS 2", () => new DuoPlayableTetrisGame()),
     };
 
     public Menu(GameRunner runner)

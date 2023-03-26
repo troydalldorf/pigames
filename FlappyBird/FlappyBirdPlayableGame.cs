@@ -6,7 +6,7 @@ namespace FlappyBird;
 using System;
 using System.Drawing;
 
-public class FlappyBirdGame : IGameElement
+public class FlappyBirdPlayableGame : IPlayableGameElement
 {
     private const int Width = 64;
     private const int Height = 64;
@@ -26,7 +26,7 @@ public class FlappyBirdGame : IGameElement
     private bool isDone;
     private LedFont font = new LedFont(LedFontType.FontTomThumb);
 
-    public FlappyBirdGame()
+    public FlappyBirdPlayableGame()
     {
         Initialize();
     }

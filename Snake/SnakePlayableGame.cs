@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-public class SnakeGame : IGameElement
+public class SnakePlayableGame : IPlayableGameElement
 {
     private enum Direction { Up, Down, Left, Right }
 
@@ -19,7 +19,7 @@ public class SnakeGame : IGameElement
     private Direction snakeDirection;
     private Point food;
 
-    public SnakeGame()
+    public SnakePlayableGame()
     {
         snake = new List<Point>();
         InitializeSnake();

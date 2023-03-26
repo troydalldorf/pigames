@@ -10,7 +10,7 @@ public class GameRunner : IDisposable
     private readonly LedDisplay display;
     private readonly Player1Console p1Console;
     private readonly Player2Console p2Console;
-    private readonly GameOverElement gameOverElement = new GameOverElement();
+    private readonly PlayableGameOverElement playableGameOverElement = new PlayableGameOverElement();
     private readonly PauseElement pauseElement = new PauseElement();
 
     public GameRunner()
@@ -20,7 +20,7 @@ public class GameRunner : IDisposable
         p2Console = new Player2Console();
     }
 
-    public void Run(Func<IGameElement> createGame, int? frameIntervalMs = 33, bool canPause = true)
+    public void Run(Func<IPlayableGameElement> createGame, int? frameIntervalMs = 33, bool canPause = true)
     {
         Console.WriteLine("Starting game...");
         var game = createGame();
@@ -31,7 +31,7 @@ public class GameRunner : IDisposable
         {
             // game loop
             currentElement.HandleInput(p1Console);
-            if (currentElement is IDuoGameElement p2GameElement) p2GameElement.Handle2PInput(p2Console);
+            if (currentElement is IDuoPlayableGameElement p2GameElement) p2GameElement.Handle2PInput(p2Console);
             currentElement.Update();
             display.Clear();
             currentElement.Draw(display);
@@ -40,8 +40,8 @@ public class GameRunner : IDisposable
             // play -> GO
             if (currentElement == game && currentElement.State != GameOverState.None)
             {
-                gameOverElement.Apply(game.State);
-                currentElement = gameOverElement;
+                playableGameOverElement.Apply(game.State);
+                currentElement = playableGameOverElement;
             }
             // play -> pause
             else if (canPause && currentElement == game && p1Console.ReadButtons().IsRedPushed())
@@ -50,13 +50,13 @@ public class GameRunner : IDisposable
                 currentElement = pauseElement;
             }
             // GO -> play again
-            else if (currentElement == gameOverElement && gameOverElement.GameOverAction == GameOverAction.PlayAgain)
+            else if (currentElement == playableGameOverElement && playableGameOverElement.GameOverAction == GameOverAction.PlayAgain)
             {
                 DisposeGame(game);
                 game = createGame();
                 currentElement = game;
             }
-            else if (currentElement == gameOverElement && gameOverElement.GameOverAction == GameOverAction.Exit)
+            else if (currentElement == playableGameOverElement && playableGameOverElement.GameOverAction == GameOverAction.Exit)
             {
                 state = GameState.Exit;
             }
@@ -76,7 +76,7 @@ public class GameRunner : IDisposable
         DisposeGame(game);
     }
 
-    private void DisposeGame(IGameElement? game)
+    private void DisposeGame(IPlayableGameElement? game)
     {
         if (game is IDisposable disposable) disposable.Dispose();
     }

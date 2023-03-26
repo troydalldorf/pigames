@@ -2,4 +2,4 @@
 
 Console.WriteLine("Checkers game starting...");
 var runner = new GameRunner();
-runner.Run(() => new BingoGame());
+runner.Run(() => new BingoPlayableGame());

@@ -4,7 +4,7 @@ using Core.Display.Fonts;
 
 namespace Core.Effects.RunnerElements;
 
-public class PauseElement : IGameElement
+public class PauseElement : IPlayableGameElement
 {
     private const int Top = 2;
     private int frameCount;
