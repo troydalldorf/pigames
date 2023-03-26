@@ -1,4 +1,5 @@
 using System.Drawing;
+using Core;
 
 namespace Asteroids.Bits;
 
@@ -27,5 +28,13 @@ public class Ship : VectorElement
                 Velocity.Y + (float)(Math.Cos(Rotation * Math.PI / 180) * ThrustPower));
         }
         base.Update();
+    }
+
+    public override void Draw(IDisplay display)
+    {
+        var dx = (float)(Math.Sin(Rotation * Math.PI / 180) * Size);
+        var dy = (float)(Math.Cos(Rotation * Math.PI / 180) * Size);
+        display.DrawLine((int)(Location.X+dx), (int)(Location.Y+dy), (int)(Location.X+dx*2), (int)(Location.Y+dy*2), Color.Orange);
+        base.Draw(display);
     }
 }
