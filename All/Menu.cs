@@ -36,13 +36,13 @@ public class Menu : IPlayableGameElement
         new("E-Pong", () => new PongPlayableGame()),
         new("Flappy B", () => new FlappyBirdPlayableGame(), 50),
         new("Frogger", () => new FroggerPlayableGame(), 100),
-        new("OTHELLO", () => new OthelloGame()),
-        new("PONG", () => new PongPlayableGame()),
-        new("SNAKE", () => new SnakePlayableGame(), 100),
-        new("SNAKE 2", () => new SnakeGame2P(), 100),
-        new("SPACE IN", () => new SpaceInvadersPlayableGame(), 75),
-        new("TETRIS 1", () => new TetrisGame()),
-        new("TETRIS 2", () => new DuoPlayableTetrisGame()),
+        new("Othello", () => new OthelloGame()),
+        new("Pong", () => new PongPlayableGame()),
+        new("Snake", () => new SnakePlayableGame(), 100),
+        new("Snake 2", () => new SnakeGame2P(), 100),
+        new("Space I", () => new SpaceInvadersPlayableGame(), 75),
+        new("Tetris 1", () => new TetrisGame()),
+        new("Tetris 2", () => new DuoPlayableTetrisGame()),
     };
 
     public Menu(GameRunner runner)
