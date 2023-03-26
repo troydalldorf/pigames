@@ -11,8 +11,8 @@ public class MemoryCardGame : IPlayableGameElement
     private Card[,] cards;
     private Card firstSelectedCard;
     private Card secondSelectedCard;
-    private int cursorRow = 0;
-    private int cursorCol = 0;
+    private int cursorX = 0;
+    private int cursorY = 0;
 
     public MemoryCardGame()
     {
@@ -56,11 +56,11 @@ public class MemoryCardGame : IPlayableGameElement
         var stick = playerConsole.ReadJoystick();
         var buttons = playerConsole.ReadButtons();
 
-        if (stick.IsUp()) cursorCol = Math.Max(cursorCol - 1, 0);
-        if (stick.IsDown()) cursorCol = Math.Min(cursorCol + 1, Rows - 1);
-        if (stick.IsLeft()) cursorRow = Math.Max(cursorRow - 1, 0);
-        if (stick.IsRight()) cursorRow = Math.Min(cursorRow + 1, Columns - 1);
-        var selectedCard = cards[cursorRow, cursorCol];
+        if (stick.IsUp()) cursorY = Math.Max(cursorY - 1, 0);
+        if (stick.IsDown()) cursorY = Math.Min(cursorY + 1, Rows - 1);
+        if (stick.IsLeft()) cursorX = Math.Max(cursorX - 1, 0);
+        if (stick.IsRight()) cursorX = Math.Min(cursorX + 1, Columns - 1);
+        var selectedCard = cards[cursorX, cursorY];
 
         if (buttons.HasFlag(Buttons.Green) && firstSelectedCard != null && secondSelectedCard == null)
         {
@@ -121,7 +121,7 @@ public class MemoryCardGame : IPlayableGameElement
                 {
                     card.Shape.Draw(display, x, y, CardSize);
                 }
-                if (cursorCol == y && cursorRow == x)
+                if (cursorX == x && cursorY == y)
                 {
                     display.DrawRectangle(x, y, CardSize, CardSize, Color.Red);
                 }
