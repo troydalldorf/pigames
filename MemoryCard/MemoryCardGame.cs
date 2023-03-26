@@ -23,8 +23,6 @@ public class MemoryCardGame : IPlayableGameElement
         cards = new Card[Rows, Columns];
         var cardShapes = GenerateCardShapes();
         var random = new Random();
-        firstSelectedCard = cards[0, 0];
-        firstSelectedCard.IsSelected = true;
 
         for (var row = 0; row < Rows; row++)
         {
@@ -35,6 +33,8 @@ public class MemoryCardGame : IPlayableGameElement
                 cardShapes.RemoveAt(index);
             }
         }
+        firstSelectedCard = cards[0, 0];
+        firstSelectedCard.IsSelected = true;
     }
 
     private static List<CardShape> GenerateCardShapes()
