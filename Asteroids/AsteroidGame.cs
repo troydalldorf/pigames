@@ -4,7 +4,7 @@ using Core;
 using Core.Display.Fonts;
 using Core.Effects;
 
-public class AsteroidsGame : IPlayableGameElement
+public class AsteroidsGame : IDuoPlayableGameElement
 {
     private readonly List<Ship> ships;
     private readonly List<Asteroid> asteroids;
@@ -155,24 +155,18 @@ public class AsteroidsGame : IPlayableGameElement
     
     public void Draw(IDisplay display)
     {
-        // Draw ships
         foreach (var ship in ships)
         {
             ship.Draw(display);
         }
-
-        // Draw bullets
         foreach (var bullet in bullets)
         {
             bullet.Draw(display);
         }
-
-        // Draw asteroids
         foreach (var asteroid in asteroids)
         {
             asteroid.Draw(display);
         }
-        
         foreach (var pixelBomb in pixelBombs)
         {
             pixelBomb.Draw(display);
