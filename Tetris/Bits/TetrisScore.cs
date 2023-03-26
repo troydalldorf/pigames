@@ -1,4 +1,4 @@
-namespace Tetris;
+namespace Tetris.Bits;
 
 public class TetrisScore
 {
@@ -8,10 +8,13 @@ public class TetrisScore
     }
     
     public int Score { get; private set; }
+    
+    public int ClearedLines { get; private set; }
 
     public void Reset()
     {
         Score = 0;
+        ClearedLines = 0;
     }
     
     public void ScoreLinesCleared(int lines)
@@ -24,6 +27,7 @@ public class TetrisScore
             4 => 800,
             _ => 0,
         };
+        ClearedLines += lines;
     }
 
     public void ScoreDrop()

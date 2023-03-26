@@ -7,6 +7,8 @@ using Tetris.Bits;
 
 namespace Tetris;
 
+// 1. Score per block moved / hard vs. soft drop. Hard drop, drops all the way, one button.
+
 public class TetrisGame : IPlayableGameElement
 {
     private const int Width = 10;
@@ -17,7 +19,8 @@ public class TetrisGame : IPlayableGameElement
     private Tetromino currentTetromino;
     private readonly SevenBagRandomizer randomizer;
     private int currentX, currentY;
-    private readonly int speed;
+    private int speed;
+    private int currentLevel;
     private int frame;
     private readonly TetrisScore score = new();
     private readonly List<PixelBomb> pixelBombs = new();
@@ -37,6 +40,7 @@ public class TetrisGame : IPlayableGameElement
         randomizer = new SevenBagRandomizer(random);
         speed = 10;
         frame = 0;
+        currentLevel = 1;
 
         NewTetromino();
     }
@@ -98,6 +102,7 @@ public class TetrisGame : IPlayableGameElement
         {
             MergeTetromino();
             ClearLines();
+            CheckLevelUp();
             NewTetromino();
 
             if (!IsValidMove(currentX, currentY, currentTetromino))
@@ -107,10 +112,18 @@ public class TetrisGame : IPlayableGameElement
         }
     }
 
+    private void CheckLevelUp()
+    {
+        if (score.ClearedLines < currentLevel * 10) return;
+        currentLevel++;
+        speed = 10 - currentLevel;
+    }
+
     public void Draw(IDisplay display)
     {
         display.DrawRectangle(0, 0, Width*PixelSize+2, Height*PixelSize+2, Color.DarkGray);
         font.DrawText(display, 2, 6, Color.DarkGray, score.Score.ToString());
+        font.DrawText(display, 26, 6, Color.DarkGray, $"L:{currentLevel}");
         
         foreach (var bomb in pixelBombs)
         {
