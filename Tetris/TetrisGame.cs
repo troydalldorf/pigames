@@ -123,7 +123,7 @@ public class TetrisGame : IPlayableGameElement
     {
         display.DrawRectangle(0, 0, Width*PixelSize+2, Height*PixelSize+2, Color.DarkGray);
         font.DrawText(display, 2, 6, Color.DarkGray, score.Score.ToString());
-        font.DrawText(display, 26, 6, Color.DarkGray, $"L:{currentLevel}");
+        font.DrawText(display, 24, 6, Color.DarkGray, $"L{currentLevel}");
         
         foreach (var bomb in pixelBombs)
         {

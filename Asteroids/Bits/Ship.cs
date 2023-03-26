@@ -32,9 +32,18 @@ public class Ship : VectorElement
 
     public override void Draw(IDisplay display)
     {
-        var dx = (float)(Math.Sin(Rotation * Math.PI / 180) * Size);
-        var dy = (float)(Math.Cos(Rotation * Math.PI / 180) * Size);
+        // thruster
+        var thrusterRotation = Rotation + 180;
+        var dx = (float)(Math.Sin(thrusterRotation * Math.PI / 180) * Size);
+        var dy = (float)(Math.Cos(thrusterRotation * Math.PI / 180) * Size);
         display.DrawLine((int)(Location.X+dx), (int)(Location.Y+dy), (int)(Location.X+dx*2), (int)(Location.Y+dy*2), Color.Orange);
+        
+        // gun
+        dx = (float)(Math.Sin(Rotation * Math.PI / 180) * Size);
+        dy = (float)(Math.Cos(Rotation * Math.PI / 180) * Size);
+        display.SetPixel((int)(Location.X+dx), (int)(Location.Y+dy),  Color.GreenYellow);
+        
+        // ship
         base.Draw(display);
     }
 }
