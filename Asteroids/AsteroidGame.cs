@@ -22,8 +22,8 @@ public class AsteroidsGame : IPlayableGameElement
     {
         ships = new List<Ship>
         {
-            new Ship(DisplayWidth, DisplayHeight) { Location = new PointF(32, 32), Rotation = 0, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false },
-            new Ship(DisplayWidth, DisplayHeight) { Location = new PointF(32, 32), Rotation = 180, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false }
+            new Ship(DisplayWidth, DisplayHeight) { Location = new PointF(32, 32), Size=3, Rotation = 0, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false },
+            new Ship(DisplayWidth, DisplayHeight) { Location = new PointF(32, 32), Size=3, Rotation = 180, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false }
         };
         asteroids = new List<Asteroid>();
         bullets = new List<Bullet>();
