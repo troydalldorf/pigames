@@ -10,6 +10,8 @@ public class AsteroidsGame : IPlayableGameElement
     private readonly List<Bullet> bullets;
     private readonly LedFont scoreFont;
     private int[] scores;
+    private const int DisplayWidth = 64;
+    private const int DisplayHeight = 64;
     private const int MaxBullets = 10;
     private const int BulletLife = 64;
     private const float ShipAcceleration = 0.1f;
@@ -20,8 +22,8 @@ public class AsteroidsGame : IPlayableGameElement
     {
         ships = new List<Ship>
         {
-            new Ship { Location = new PointF(32, 32), Rotation = 0, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false },
-            new Ship { Location = new PointF(32, 32), Rotation = 180, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false }
+            new Ship(DisplayWidth, DisplayHeight) { Location = new PointF(32, 32), Rotation = 0, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false },
+            new Ship(DisplayWidth, DisplayHeight) { Location = new PointF(32, 32), Rotation = 180, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false }
         };
         asteroids = new List<Asteroid>();
         bullets = new List<Bullet>();
@@ -36,7 +38,7 @@ public class AsteroidsGame : IPlayableGameElement
         var random = new Random();
         for (var i = 0; i < 5; i++)
         {
-            asteroids.Add(new Asteroid
+            asteroids.Add(new Asteroid(DisplayWidth, DisplayHeight)
             {
                 Location = new PointF(random.Next(0, 64), random.Next(0, 64)),
                 Rotation = random.Next(0, 360),
@@ -110,7 +112,6 @@ public class AsteroidsGame : IPlayableGameElement
 
     public void Update()
     {
-        // Update ships
         foreach (var ship in ships)
         {
             ship.Update();

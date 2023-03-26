@@ -10,15 +10,48 @@ public abstract class VectorElement : IGameElement
     public PointF Velocity { get; set; }
     public float RotationSpeed { get; set; }
     public int Size { get; set; }
-    private PointF[] shape;
-    
-    public VectorElement(PointF[] shape)
+    private readonly PointF[] shape;
+    private readonly Color color;
+    protected int DisplayWidth { get; }
+    protected int DisplayHeight { get; }
+
+    public VectorElement(PointF[] shape, Color color, int displayWidth, int displayHeight)
     {
         this.shape = shape;
+        this.color = color;
+        this.DisplayWidth = displayWidth;
+        this.DisplayHeight = displayHeight;
     }
-    
+
     public void Update()
     {
+        // Update location
+        Location = new PointF(
+            Location.X + Velocity.X,
+            Location.Y + Velocity.Y
+        );
+
+        // Update rotation
+        Rotation += RotationSpeed;
+
+        // Wrap around the screen
+        if (Location.X < 0)
+        {
+            Location = new PointF(DisplayWidth, Location.Y);
+        }
+        else if (Location.X > DisplayWidth)
+        {
+            Location = new PointF(0, Location.Y);
+        }
+
+        if (Location.Y < 0)
+        {
+            Location = new PointF(Location.X, DisplayHeight);
+        }
+        else if (Location.Y > DisplayHeight)
+        {
+            Location = new PointF(Location.X, 0);
+        }
     }
 
     public void Draw(IDisplay display)
@@ -48,11 +81,11 @@ public abstract class VectorElement : IGameElement
             display.DrawLine(
                 (int)transformedShape[i].X, (int)transformedShape[i].Y,
                 (int)transformedShape[nextIndex].X, (int)transformedShape[nextIndex].Y,
-                Color.White
+                color
             );
         }
     }
-    
+
     public bool IsCollidingWith(VectorElement other)
     {
         var thisRadius = Size / 2.0f;

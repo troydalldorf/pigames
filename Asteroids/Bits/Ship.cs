@@ -13,7 +13,7 @@ public class Ship : VectorElement
         new PointF(1, 1),
     };
 
-    public Ship() : base(Shape)
+    public Ship(int displayWidth, int displayHeight) : base(Shape, Color.Blue, displayWidth, displayHeight)
     {
     }
     

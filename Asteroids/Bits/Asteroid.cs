@@ -15,11 +15,11 @@ public class Asteroid : VectorElement
         new[] { new PointF(-1, 0), new PointF(0, -1), new PointF(1, 0), new PointF(0, 1) },
     };
 
-    public Asteroid() : base(GetRandomShape())
+    public Asteroid(int displayWidth, int displayHeight) : base(GetRandomShape(), Color.Gray, displayWidth, displayHeight)
     {
     }
 
-    public List<Asteroid> SpawnSmallerAsteroids()
+    public IEnumerable<Asteroid> SpawnSmallerAsteroids()
     {
         var smallerAsteroids = new List<Asteroid>();
 
@@ -33,7 +33,7 @@ public class Asteroid : VectorElement
             var angle = (float)(2 * Math.PI * i / NumSmallerAsteroids);
             var newVelocity = new PointF((float)(Velocity.X + Math.Cos(angle)), (float)(Velocity.Y + Math.Sin(angle)));
 
-            smallerAsteroids.Add(new Asteroid
+            smallerAsteroids.Add(new Asteroid(DisplayWidth, DisplayHeight)
             {
                 Location = new PointF(Location.X, Location.Y),
                 Rotation = 0,
