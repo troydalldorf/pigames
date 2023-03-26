@@ -10,7 +10,7 @@ public class AsteroidsGame : IPlayableGameElement
     private readonly List<Asteroid> asteroids;
     private readonly List<Bullet> bullets;
     private readonly LedFont scoreFont;
-    private List<PixelBomb> pixelBombs;
+    private List<PixelBomb> pixelBombs = new();
     private int[] scores;
     private const int DisplayWidth = 64;
     private const int DisplayHeight = 64;
@@ -86,32 +86,6 @@ public class AsteroidsGame : IPlayableGameElement
         }
     }
 
-    public void Draw(IDisplay display)
-    {
-        // Draw ships
-        foreach (var ship in ships)
-        {
-            ship.Draw(display);
-        }
-
-        // Draw bullets
-        foreach (var bullet in bullets)
-        {
-            bullet.Draw(display);
-        }
-
-        // Draw asteroids
-        foreach (var asteroid in asteroids)
-        {
-            asteroid.Draw(display);
-        }
-
-        // Draw scores
-        //var font = new LedFont(LedFontType.Font5x7);
-        //font.DrawText(display, 1, 1, Color.White, $"P1: {player1Score}", 1);
-        //font.DrawText(display, 1, 9, Color.White, $"P2: {player2Score}", 1);
-    }
-
     public void Update()
     {
         foreach (var ship in ships)
@@ -133,7 +107,9 @@ public class AsteroidsGame : IPlayableGameElement
             // Check for bullet-asteroid collisions
             for (var j = asteroids.Count - 1; j >= 0; j--)
             {
-                if (!bullets[i].IsCollidingWith(asteroids[j])) continue;
+                var asteroid = asteroids[j];
+                if (!bullets[i].IsCollidingWith(asteroid)) continue;
+                pixelBombs.Add(new PixelBomb((int)asteroid.Location.X, (int)asteroid.Location.Y, 5*asteroid.Size, asteroid.Color));
                 if (asteroids[j].Size > 1)
                 {
                     asteroids.AddRange(asteroids[j].SpawnSmallerAsteroids());
@@ -156,7 +132,17 @@ public class AsteroidsGame : IPlayableGameElement
                 // Handle ship destruction and respawn
                 // You can implement lives and game over logic here
                 //ship.Respawn();
+                pixelBombs.Add(new PixelBomb((int)ship.Location.X, (int)ship.Location.Y, 10, ship.Color));
                 break;
+            }
+        }
+        
+        foreach (var pixelBomb in pixelBombs.ToArray())
+        {
+            pixelBomb.Update();
+            if (pixelBomb.IsExtinguished())
+            {
+                pixelBombs.Remove(pixelBomb);
             }
         }
 
@@ -165,6 +151,37 @@ public class AsteroidsGame : IPlayableGameElement
         {
             InitializeAsteroids();
         }
+    }
+    
+    public void Draw(IDisplay display)
+    {
+        // Draw ships
+        foreach (var ship in ships)
+        {
+            ship.Draw(display);
+        }
+
+        // Draw bullets
+        foreach (var bullet in bullets)
+        {
+            bullet.Draw(display);
+        }
+
+        // Draw asteroids
+        foreach (var asteroid in asteroids)
+        {
+            asteroid.Draw(display);
+        }
+        
+        foreach (var pixelBomb in pixelBombs)
+        {
+            pixelBomb.Draw(display);
+        }
+
+        // Draw scores
+        //var font = new LedFont(LedFontType.Font5x7);
+        //font.DrawText(display, 1, 1, Color.White, $"P1: {player1Score}", 1);
+        //font.DrawText(display, 1, 9, Color.White, $"P2: {player2Score}", 1);
     }
 
     public GameOverState State { get; private set; }

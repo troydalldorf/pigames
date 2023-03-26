@@ -11,14 +11,14 @@ public abstract class VectorElement : IGameElement
     public float RotationSpeed { get; set; }
     public int Size { get; set; }
     private readonly PointF[] shape;
-    private readonly Color color;
+    public Color Color { get; }
     protected int DisplayWidth { get; }
     protected int DisplayHeight { get; }
 
     public VectorElement(PointF[] shape, Color color, int displayWidth, int displayHeight)
     {
         this.shape = shape;
-        this.color = color;
+        this.Color = color;
         this.DisplayWidth = displayWidth;
         this.DisplayHeight = displayHeight;
     }
@@ -81,7 +81,7 @@ public abstract class VectorElement : IGameElement
             display.DrawLine(
                 (int)transformedShape[i].X, (int)transformedShape[i].Y,
                 (int)transformedShape[nextIndex].X, (int)transformedShape[nextIndex].Y,
-                color
+                Color
             );
         }
     }
