@@ -121,6 +121,10 @@ public class MemoryCardGame : IPlayableGameElement
                 {
                     card.Shape.Draw(display, x, y, CardSize);
                 }
+                if (cursorCol == y && cursorRow == x)
+                {
+                    display.DrawRectangle(x, y, CardSize, CardSize, Color.Red);
+                }
             }
         }
     }
