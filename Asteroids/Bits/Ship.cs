@@ -4,7 +4,7 @@ namespace Asteroids.Bits;
 
 public class Ship : VectorElement
 {
-    private const float ThrustPower = 1.0f;
+    private const float ThrustPower = 0.1f;
     public bool Thrusting { get; set; }
     
     private static readonly PointF[] Shape = new[]

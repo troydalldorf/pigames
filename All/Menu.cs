@@ -29,6 +29,7 @@ public class Menu : IPlayableGameElement
 
     private readonly GameItem[] items =
     {
+        new("Astrd 2", () => new AsteroidsGame()),
         new("B Man", () => new BombermanGame()),
         new("Breakout", () => new BreakoutPlayableGame()),
         new("C-Four", () => new ConnectFourGame(), 100),
