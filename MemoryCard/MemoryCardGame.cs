@@ -103,8 +103,6 @@ public class MemoryCardGame : IPlayableGameElement
 
     public void Draw(IDisplay display)
     {
-        display.Clear();
-
         for (var row = 0; row < Rows; row++)
         {
             for (var col = 0; col < Columns; col++)
