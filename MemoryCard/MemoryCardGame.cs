@@ -160,7 +160,7 @@ public static class CardShapeExtensions
 {
     public static void Draw(this CardShape shape, IDisplay display, int x, int y, int size)
     {
-        Color color = Color.FromArgb((int)shape * 32, 255, 255, 255);
+        var color = Color.FromArgb(255, 255, 255);
 
         switch (shape)
         {
