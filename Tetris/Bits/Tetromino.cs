@@ -1,9 +1,8 @@
-namespace Tetris;
-
-using System;
 using System.Drawing;
 
-class Tetromino
+namespace Tetris.Bits;
+
+public class Tetromino
 {
     private static readonly int[][] TetrominoShapes = {
         new[] { 0x0F00, 0x2222, 0x00F0, 0x4444 }, // I
@@ -27,28 +26,23 @@ class Tetromino
 
     private int[] shape;
     private int rotation;
-    public int Type { get; }
+    public TetrominoType Type { get; }
 
-    public Tetromino(int type)
+    public Tetromino(TetrominoType type)
     {
         Type = type;
-        shape = TetrominoShapes[type-1];
+        shape = TetrominoShapes[(int)type-1];
         rotation = 0;
     }
 
-    public int Width => 4;
-    public int Height => 4;
+    public static int Width => 4;
+    public static int Height => 4;
 
     public bool this[int x, int y] => (shape[rotation] & (1 << (15 - (y * 4 + x)))) != 0;
 
-    public static Tetromino RandomTetromino(Random random)
+    public static Color GetColor(TetrominoType type)
     {
-        return new Tetromino(random.Next(TetrominoShapes.Length) + 1);
-    }
-
-    public static Color GetColor(int type)
-    {
-        return TetrominoColors[type-1];
+        return TetrominoColors[(int)type-1];
     }
 
     public Tetromino RotateRight()

@@ -41,7 +41,7 @@ public class Menu : IPlayableGameElement
         new("SNAKE", () => new SnakePlayableGame(), 100),
         new("SNAKE 2", () => new SnakeGame2P(), 100),
         new("SPACE IN", () => new SpaceInvadersPlayableGame(), 75),
-        new("TETRIS 1", () => new TetrisPlayableGame()),
+        new("TETRIS 1", () => new TetrisGame()),
         new("TETRIS 2", () => new DuoPlayableTetrisGame()),
     };
 

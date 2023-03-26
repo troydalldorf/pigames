@@ -3,17 +3,19 @@ using System.Drawing;
 using Core;
 using Core.Display.Fonts;
 using Core.Effects;
+using Tetris.Bits;
 
 namespace Tetris;
 
-public class TetrisPlayableGame : IPlayableGameElement
+public class TetrisGame : IPlayableGameElement
 {
     private const int Width = 10;
     private const int Height = 20;
     private const int PixelSize = 3;
 
-    private readonly int[,] grid;
+    private readonly TetrominoType[,] grid;
     private Tetromino currentTetromino;
+    private readonly SevenBagRandomizer randomizer;
     private int currentX, currentY;
     private readonly int speed;
     private int frame;
@@ -25,13 +27,14 @@ public class TetrisPlayableGame : IPlayableGameElement
     private readonly Stopwatch stopwatch;
     private long lastActionAt;
 
-    public TetrisPlayableGame()
+    public TetrisGame()
     {
         this.stopwatch = new Stopwatch();
         this.stopwatch.Start();
 
-        grid = new int[Width, Height];
+        grid = new TetrominoType[Width, Height];
         random = new Random();
+        randomizer = new SevenBagRandomizer(random);
         speed = 10;
         frame = 0;
 
@@ -127,9 +130,9 @@ public class TetrisPlayableGame : IPlayableGameElement
         }
 
         // Draw current tetromino
-        for (var x = 0; x < currentTetromino.Width; x++)
+        for (var x = 0; x < Tetromino.Width; x++)
         {
-            for (var y = 0; y < currentTetromino.Height; y++)
+            for (var y = 0; y < Tetromino.Height; y++)
             {
                 if (currentTetromino[x, y])
                 {
@@ -143,9 +146,9 @@ public class TetrisPlayableGame : IPlayableGameElement
 
     private bool IsValidMove(int newX, int newY, Tetromino tetromino)
     {
-        for (var x = 0; x < tetromino.Width; x++)
+        for (var x = 0; x < Tetromino.Width; x++)
         {
-            for (var y = 0; y < tetromino.Height; y++)
+            for (var y = 0; y < Tetromino.Height; y++)
             {
                 if (!tetromino[x, y]) continue;
                 var boardX = newX + x;
@@ -163,9 +166,9 @@ public class TetrisPlayableGame : IPlayableGameElement
     private void MergeTetromino()
     {
         score.ScoreDrop();
-        for (var x = 0; x < currentTetromino.Width; x++)
+        for (var x = 0; x < Tetromino.Width; x++)
         {
-            for (var y = 0; y < currentTetromino.Height; y++)
+            for (var y = 0; y < Tetromino.Height; y++)
             {
                 if (currentTetromino[x, y])
                 {
@@ -211,8 +214,8 @@ public class TetrisPlayableGame : IPlayableGameElement
 
     private void NewTetromino()
     {
-        currentTetromino = Tetromino.RandomTetromino(random);
-        currentX = Width / 2 - currentTetromino.Width / 2;
+        currentTetromino = randomizer.GetRandomTetromino();
+        currentX = Width / 2 - Tetromino.Width / 2;
         currentY = 0;
     }
 }
