@@ -19,7 +19,6 @@ public abstract class VectorElement : IGameElement
     
     public void Update()
     {
-        throw new NotImplementedException();
     }
 
     public void Draw(IDisplay display)
