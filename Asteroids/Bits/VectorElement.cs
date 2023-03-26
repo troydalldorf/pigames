@@ -23,7 +23,7 @@ public abstract class VectorElement : IGameElement
         this.DisplayHeight = displayHeight;
     }
 
-    public void Update()
+    public virtual void Update()
     {
         // Update location
         Location = new PointF(
@@ -54,7 +54,7 @@ public abstract class VectorElement : IGameElement
         }
     }
 
-    public void Draw(IDisplay display)
+    public virtual void Draw(IDisplay display)
     {
         // Scale and rotate the shape
         var transformedShape = new PointF[shape.Length];

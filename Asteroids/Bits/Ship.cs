@@ -4,6 +4,7 @@ namespace Asteroids.Bits;
 
 public class Ship : VectorElement
 {
+    private const float ThrustPower = 1.0f;
     public bool Thrusting { get; set; }
     
     private static readonly PointF[] Shape = new[]
@@ -16,6 +17,15 @@ public class Ship : VectorElement
     public Ship(int displayWidth, int displayHeight, Color color) : base(Shape, color, displayWidth, displayHeight)
     {
     }
-    
-    private const float ShipRadius = 2.0f;
+
+    public override void Update()
+    {
+        if (Thrusting)
+        {
+            Velocity = new PointF(
+                Velocity.X + (float)(Math.Sin(Rotation * Math.PI / 180) * ThrustPower), 
+                Velocity.Y + (float)(Math.Cos(Rotation * Math.PI / 180) * ThrustPower));
+        }
+        base.Update();
+    }
 }

@@ -2,6 +2,7 @@ using System.Drawing;
 using Asteroids.Bits;
 using Core;
 using Core.Display.Fonts;
+using Core.Effects;
 
 public class AsteroidsGame : IPlayableGameElement
 {
@@ -9,6 +10,7 @@ public class AsteroidsGame : IPlayableGameElement
     private readonly List<Asteroid> asteroids;
     private readonly List<Bullet> bullets;
     private readonly LedFont scoreFont;
+    private List<PixelBomb> pixelBombs;
     private int[] scores;
     private const int DisplayWidth = 64;
     private const int DisplayHeight = 64;
@@ -22,8 +24,8 @@ public class AsteroidsGame : IPlayableGameElement
     {
         ships = new List<Ship>
         {
-            new Ship(DisplayWidth, DisplayHeight, Color.Red) { Location = new PointF(32, 32), Size=3, Rotation = 0, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false },
-            new Ship(DisplayWidth, DisplayHeight, Color.Blue) { Location = new PointF(32, 32), Size=3, Rotation = 180, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false }
+            new Ship(DisplayWidth, DisplayHeight, Color.Red) { Location = new PointF(32, 32), Size=2, Rotation = 0, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false },
+            new Ship(DisplayWidth, DisplayHeight, Color.Blue) { Location = new PointF(32, 32), Size=2, Rotation = 180, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false }
         };
         asteroids = new List<Asteroid>();
         bullets = new List<Bullet>();
