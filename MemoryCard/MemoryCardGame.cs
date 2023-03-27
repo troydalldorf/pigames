@@ -9,8 +9,8 @@ public class MemoryCardGame : IPlayableGameElement
     private const int CardSpacing = 2;
 
     private Card[,] cards;
-    private Card firstSelectedCard;
-    private Card secondSelectedCard;
+    private Card? firstSelectedCard;
+    private Card? secondSelectedCard;
     private int cursorCol = 0;
     private int cursorRow = 0;
 
@@ -35,8 +35,6 @@ public class MemoryCardGame : IPlayableGameElement
                 cardShapes.RemoveAt(index);
             }
         }
-        firstSelectedCard = cards[0, 0];
-        firstSelectedCard.IsSelected = false;
     }
 
     private static List<CardShape> GenerateCardShapes()
@@ -62,29 +60,34 @@ public class MemoryCardGame : IPlayableGameElement
         if (stick.IsRight()) cursorCol = Math.Min(cursorCol + 1, Columns - 1);
         var selectedCard = cards[cursorCol, cursorRow];
 
-        if (buttons.HasFlag(Buttons.Green) && firstSelectedCard != null && secondSelectedCard == null)
+        if (buttons.HasFlag(Buttons.Green))
         {
             if (!selectedCard.IsMatched)
             {
-                if (secondSelectedCard == null)
+                if (firstSelectedCard == null)
+                {
+                    firstSelectedCard = selectedCard;
+                    firstSelectedCard.IsSelected = true;
+                }
+                else if (secondSelectedCard == null)
                 {
                     secondSelectedCard = selectedCard;
                     secondSelectedCard.IsSelected = true;
                 }
 
-                if (firstSelectedCard.Shape == secondSelectedCard.Shape)
+                if (firstSelectedCard != null && secondSelectedCard != null)
                 {
-                    firstSelectedCard.IsMatched = true;
-                    secondSelectedCard.IsMatched = true;
+                    if (firstSelectedCard?.Shape == secondSelectedCard?.Shape)
+                    {
+                        firstSelectedCard.IsMatched = true;
+                        secondSelectedCard.IsMatched = true;
+                    }
+                    else
+                    {
+                        firstSelectedCard.IsSelected = false;
+                        secondSelectedCard.IsSelected = false;
+                    }                    
                 }
-                else
-                {
-                    firstSelectedCard.IsSelected = false;
-                    secondSelectedCard.IsSelected = false;
-                }
-
-                firstSelectedCard = secondSelectedCard;
-                secondSelectedCard = null;
             }
         }
 
