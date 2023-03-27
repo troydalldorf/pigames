@@ -1,3 +1,5 @@
+namespace MemoryCard.Bits;
+
 public enum CardShape
 {
     Circle,

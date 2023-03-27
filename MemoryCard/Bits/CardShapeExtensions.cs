@@ -1,15 +1,17 @@
 using System.Drawing;
 using Core;
 
+namespace MemoryCard.Bits;
+
 public static class CardShapeExtensions
 {
     public static void Draw(this CardShape shape, IDisplay display, int x, int y, int size)
     {
-        var color = Color.FromArgb(255, 255, 255);
+        var color = Color.LightSlateGray;
         x += 1;
         y += 1;
         size -= 2;
-        
+
         switch (shape)
         {
             case CardShape.Circle:
@@ -51,6 +53,41 @@ public static class CardShapeExtensions
                 display.DrawLine(x + size, y + yOffset * 3 / 2, x + size - xOffset, y + yOffset * 2, color);
                 display.DrawLine(x + xOffset, y + yOffset * 2, x + size - xOffset, y + yOffset * 2, color);
                 break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(shape), shape, null);
+        }
+    }
+
+    private static void DrawStar(int x, int y, int size, IDisplay display, Color color)
+    {
+        var halfSize = size / 2;
+        var innerRadius = size / 4;
+
+        var centerX = x + halfSize;
+        var centerY = y + halfSize;
+
+        // Draw 5 outer points
+        var outerPoints = new PointF[5];
+        var angle = -Math.PI / 2;
+        for (int i = 0; i < 5; i++)
+        {
+            outerPoints[i] = new PointF((float)(centerX + halfSize * Math.Cos(angle)), (float)(centerY + halfSize * Math.Sin(angle)));
+            angle += 2 * Math.PI / 5;
+        }
+
+        // Draw 5 inner points
+        var innerPoints = new PointF[5];
+        angle = -Math.PI / 2 + Math.PI / 5;
+        for (int i = 0; i < 5; i++)
+        {
+            innerPoints[i] = new PointF((float)(centerX + innerRadius * Math.Cos(angle)), (float)(centerY + innerRadius * Math.Sin(angle)));
+            angle += 2 * Math.PI / 5;
+        }
+
+        // Draw 10 lines connecting outer and inner points
+        for (int i = 0; i < 5; i++)
+        {
+            display.DrawLine((int)outerPoints[i].X, (int)outerPoints[i].Y, (int)innerPoints[(i + 1) % 5].X, (int)innerPoints[(i + 1) % 5].Y, color);
         }
     }
 }

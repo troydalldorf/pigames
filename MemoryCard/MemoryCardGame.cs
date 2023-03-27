@@ -1,10 +1,14 @@
+using System.Diagnostics;
 using System.Drawing;
 using Core;
+using MemoryCard.Bits;
+
+namespace MemoryCard;
 
 public class MemoryCardGame : IPlayableGameElement
 {
-    private const int Rows = 6;
-    private const int Columns = 6;
+    private const int Rows = 4;
+    private const int Columns = 5;
     private const int CardSize = 8;
     private const int CardSpacing = 2;
 
@@ -13,9 +17,13 @@ public class MemoryCardGame : IPlayableGameElement
     private Card? secondSelectedCard;
     private int cursorCol = 0;
     private int cursorRow = 0;
+    private readonly Stopwatch stopwatch;
+    private long lastActionAt;
 
     public MemoryCardGame()
     {
+        this.stopwatch = new Stopwatch();
+        this.stopwatch.Start();
         Initialize();
     }
 
@@ -46,49 +54,70 @@ public class MemoryCardGame : IPlayableGameElement
             shapes.Add(shape);
             shapes.Add(shape);
         }
+
         return shapes;
     }
 
     public void HandleInput(IPlayerConsole playerConsole)
     {
+        if (stopwatch.ElapsedMilliseconds - lastActionAt < 120)
+            return;
         var stick = playerConsole.ReadJoystick();
         var buttons = playerConsole.ReadButtons();
 
-        if (stick.IsUp()) cursorRow = Math.Max(cursorRow - 1, 0);
-        if (stick.IsDown()) cursorRow = Math.Min(cursorRow + 1, Rows - 1);
-        if (stick.IsLeft()) cursorCol = Math.Max(cursorCol - 1, 0);
-        if (stick.IsRight()) cursorCol = Math.Min(cursorCol + 1, Columns - 1);
+        if (stick.IsUp())
+        {
+            cursorRow = Math.Max(cursorRow - 1, 0);
+            lastActionAt = stopwatch.ElapsedMilliseconds;
+        }
+
+        if (stick.IsDown())
+        {
+            cursorRow = Math.Min(cursorRow + 1, Rows - 1);
+            lastActionAt = stopwatch.ElapsedMilliseconds;
+        }
+
+        if (stick.IsLeft())
+        {
+            cursorCol = Math.Max(cursorCol - 1, 0);
+            lastActionAt = stopwatch.ElapsedMilliseconds;
+        }
+
+        if (stick.IsRight())
+        {
+            cursorCol = Math.Min(cursorCol + 1, Columns - 1);
+            lastActionAt = stopwatch.ElapsedMilliseconds;
+        }
+
         var selectedCard = cards[cursorRow, cursorCol];
 
-        if (buttons.HasFlag(Buttons.Green))
+        if (buttons.IsGreenPushed())
         {
-            if (!selectedCard.IsMatched)
+            lastActionAt = stopwatch.ElapsedMilliseconds;
+            if (selectedCard.State.HasFlag(CardState.Matched))
+                return;
+
+            if (firstSelectedCard == null)
             {
-                if (firstSelectedCard != null && secondSelectedCard != null)
+                firstSelectedCard = selectedCard;
+                firstSelectedCard.State = CardState.Selected;
+            }
+            else if (secondSelectedCard == null && firstSelectedCard != selectedCard) // Ensure the second card is different from the first one
+            {
+                secondSelectedCard = selectedCard;
+                secondSelectedCard.State = CardState.Selected;
+            }
+
+            if (firstSelectedCard != null && secondSelectedCard != null)
+            {
+                if (firstSelectedCard.Shape == secondSelectedCard.Shape)
                 {
-                    firstSelectedCard.IsSelected = false;
-                    secondSelectedCard.IsSelected = false;
-                    firstSelectedCard = null;
-                    secondSelectedCard = null;
+                    firstSelectedCard.State = CardState.Matched;
+                    secondSelectedCard.State = CardState.Matched;
                 }
-                if (firstSelectedCard == null)
-                {
-                    firstSelectedCard = selectedCard;
-                    firstSelectedCard.IsSelected = true;
-                }
-                else if (secondSelectedCard == null && firstSelectedCard != selectedCard) // Ensure the second card is different from the first one
-                {
-                    secondSelectedCard = selectedCard;
-                    secondSelectedCard.IsSelected = true;
-                }
-                if (firstSelectedCard != null && secondSelectedCard != null)
-                {
-                    if (firstSelectedCard.Shape == secondSelectedCard.Shape)
-                    {
-                        firstSelectedCard.IsMatched = true;
-                        secondSelectedCard.IsMatched = true;
-                    }
-                }
+
+                firstSelectedCard.State = secondSelectedCard.State = CardState.Unselecting;
+                firstSelectedCard = secondSelectedCard = null;
             }
         }
 
@@ -97,7 +126,7 @@ public class MemoryCardGame : IPlayableGameElement
 
     private bool IsAllMatched()
     {
-        return cards.Cast<Card?>().All(card => card.IsMatched);
+        return cards.Cast<Card>().All(card => card.State == CardState.Matched);
     }
 
     public void Update()
@@ -115,18 +144,23 @@ public class MemoryCardGame : IPlayableGameElement
                 var x = col * (CardSize + CardSpacing);
                 var y = row * (CardSize + CardSpacing);
 
-                if (!card.IsSelected && !card.IsMatched)
+                if (card.State == CardState.FaceDown)
                 {
-                    var color = card.IsMatched ? Color.Yellow : Color.Gray;
-                    display.DrawRectangle(x, y, CardSize, CardSize, color, Color.Gray);
+                    display.DrawRectangle(x, y, CardSize, CardSize, Color.Gray, Color.Gray);
+                    display.SetPixel(x, y, Color.Black);
+                    display.SetPixel(x + CardSize, y, Color.Black);
+                    display.SetPixel(x + CardSize, y + CardSize, Color.Black);
+                    display.SetPixel(x, y + CardSize, Color.Black);
                 }
                 else
                 {
+                    var color = card.State == CardState.Matched ? Color.Yellow : Color.Gray;
                     card.Shape.Draw(display, x, y, CardSize);
                 }
+
                 if (cursorCol == col && cursorRow == row)
                 {
-                    display.DrawRectangle(x, y, CardSize, CardSize, Color.Red);
+                    display.DrawRectangle(x, y, CardSize, CardSize, Color.LimeGreen);
                 }
             }
         }
