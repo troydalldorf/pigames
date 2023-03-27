@@ -77,7 +77,7 @@ public class MemoryCardGame : IPlayableGameElement
 
                 if (firstSelectedCard != null && secondSelectedCard != null)
                 {
-                    if (firstSelectedCard?.Shape == secondSelectedCard?.Shape)
+                    if (firstSelectedCard.Shape == secondSelectedCard.Shape)
                     {
                         firstSelectedCard.IsMatched = true;
                         secondSelectedCard.IsMatched = true;
@@ -86,7 +86,9 @@ public class MemoryCardGame : IPlayableGameElement
                     {
                         firstSelectedCard.IsSelected = false;
                         secondSelectedCard.IsSelected = false;
-                    }                    
+                    }
+                    firstSelectedCard = null;
+                    secondSelectedCard = null;
                 }
             }
         }
