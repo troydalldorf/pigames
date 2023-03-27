@@ -159,8 +159,13 @@ public class MemoryCardGame : IPlayableGameElement
                 }
                 else
                 {
-                    var color = card.State == CardState.Matched ? Color.Yellow : Color.Gray;
-                    card.Shape.Draw(display, x, y, CardSize);
+                    var color = card.State switch
+                    {
+                        CardState.Selected => Color.Yellow,
+                        CardState.Unselecting => Color.Gray,
+                        _ => Color.LimeGreen
+                    };
+                    card.Shape.Draw(display, x, y, CardSize, color);
                 }
 
                 if (cursorCol == col && cursorRow == row)

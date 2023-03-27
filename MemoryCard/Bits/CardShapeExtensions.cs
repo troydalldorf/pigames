@@ -5,9 +5,8 @@ namespace MemoryCard.Bits;
 
 public static class CardShapeExtensions
 {
-    public static void Draw(this CardShape shape, IDisplay display, int x, int y, int size)
+    public static void Draw(this CardShape shape, IDisplay display, int x, int y, int size, Color color)
     {
-        var color = Color.LightSlateGray;
         x += 1;
         y += 1;
         size -= 2;
