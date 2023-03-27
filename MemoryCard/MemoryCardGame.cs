@@ -17,6 +17,7 @@ public class MemoryCardGame : IPlayableGameElement
     private Card? secondSelectedCard;
     private int cursorCol = 0;
     private int cursorRow = 0;
+    private int unselectingCount = 0;
     private readonly Stopwatch stopwatch;
     private long lastActionAt;
 
@@ -40,7 +41,11 @@ public class MemoryCardGame : IPlayableGameElement
             for (var col = 0; col < level.Columns; col++)
             {
                 if (cardShapes.Count == 0) // Odd number of cards, e.g. 5x5
-                    cards[row, col] = new Card(CardShape.Blank, row, col);
+                {
+                    var card = new Card(CardShape.Blank, row, col);
+                    card.State = CardState.Matched;
+                    cards[row, col] = card;
+                }
                 else
                 {
                     var index = random.Next(cardShapes.Count);
@@ -102,6 +107,15 @@ public class MemoryCardGame : IPlayableGameElement
 
         if (buttons.IsGreenPushed())
         {
+            // prevent flipping cards too fast
+            if (unselectingCount > 0)
+            {
+                cards.Cast<Card>()
+                    .Where(x => x.State == CardState.Unselecting)
+                    .ToList()
+                    .ForEach(x => x.State = CardState.FaceDown);
+                unselectingCount = 0;
+            }
             lastActionAt = stopwatch.ElapsedMilliseconds;
             if (selectedCard.State.HasFlag(CardState.Matched))
                 return;
@@ -127,6 +141,7 @@ public class MemoryCardGame : IPlayableGameElement
                 else
                 {
                     firstSelectedCard.State = secondSelectedCard.State = CardState.Unselecting;
+                    unselectingCount = 2;
                 }
                 firstSelectedCard = secondSelectedCard = null;
             }
