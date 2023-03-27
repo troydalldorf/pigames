@@ -11,7 +11,6 @@ public static class CardShapeExtensions
         x += 1;
         y += 1;
         size -= 2;
-
         switch (shape)
         {
             case CardShape.Circle:
@@ -32,7 +31,7 @@ public static class CardShapeExtensions
                 display.DrawLine(x + size, y + size / 2, x + size / 2, y, color);
                 break;
             case CardShape.Star:
-                // Add star drawing logic here.
+                DrawStar(x, y, size, display, color);
                 break;
             case CardShape.Plus:
                 var lineWidth = size / 4;
@@ -78,14 +77,14 @@ public static class CardShapeExtensions
         // Draw 5 inner points
         var innerPoints = new PointF[5];
         angle = -Math.PI / 2 + Math.PI / 5;
-        for (int i = 0; i < 5; i++)
+        for (var i = 0; i < 5; i++)
         {
             innerPoints[i] = new PointF((float)(centerX + innerRadius * Math.Cos(angle)), (float)(centerY + innerRadius * Math.Sin(angle)));
             angle += 2 * Math.PI / 5;
         }
 
         // Draw 10 lines connecting outer and inner points
-        for (int i = 0; i < 5; i++)
+        for (var i = 0; i < 5; i++)
         {
             display.DrawLine((int)outerPoints[i].X, (int)outerPoints[i].Y, (int)innerPoints[(i + 1) % 5].X, (int)innerPoints[(i + 1) % 5].Y, color);
         }
