@@ -12,6 +12,8 @@ public static class CardShapeExtensions
         size -= 2;
         switch (shape)
         {
+            case CardShape.Blank:
+                break;
             case CardShape.Circle:
                 display.DrawCircle(x + size / 2, y + size / 2, size / 2, color);
                 break;

@@ -28,7 +28,7 @@ public class MemoryCardGame : IPlayableGameElement
 
     private void Initialize(int levelNo)
     { 
-        level = LevelFactory.CreateLevel(levelNo);
+        level = LevelFactory.GetLevel(levelNo);
         State = GameOverState.None;
         cards = new Card[level.Rows, level.Columns];
         var cardShapes = GenerateCardShapes();
@@ -126,7 +126,15 @@ public class MemoryCardGame : IPlayableGameElement
             }
         }
 
-        if (IsAllMatched()) State = GameOverState.Player1Wins;
+        if (IsAllMatched())
+        {
+            if (level.LevelNo < LevelFactory.MaxLevel)
+                Initialize(level.LevelNo + 1);
+            else
+            {
+                State = GameOverState.Player1Wins;
+            }
+        }
     }
 
     private bool IsAllMatched()
@@ -141,13 +149,15 @@ public class MemoryCardGame : IPlayableGameElement
 
     public void Draw(IDisplay display)
     {
+        var xOffset = (level.Columns * (CardSize + CardSpacing) - 64) / 2;
+        var yOffset = (level.Rows * (CardSize + CardSpacing) - 64) / 2;
         for (var row = 0; row < level.Rows; row++)
         {
             for (var col = 0; col < level.Columns; col++)
             {
                 var card = cards[row, col];
-                var x = col * (CardSize + CardSpacing);
-                var y = row * (CardSize + CardSpacing);
+                var x = xOffset + col * (CardSize + CardSpacing);
+                var y = yOffset + row * (CardSize + CardSpacing);
 
                 if (card.State == CardState.FaceDown)
                 {
