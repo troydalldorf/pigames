@@ -3,10 +3,10 @@ using Core;
 
 public class MemoryCardGame : IPlayableGameElement
 {
-    private const int Rows = 4;
-    private const int Columns = 8;
-    private const int CardSize = 12;
-    private const int CardSpacing = 2;
+    private const int Rows = 5;
+    private const int Columns = 5;
+    private const int CardSize = 10;
+    private const int CardSpacing = 1;
 
     private Card[,] cards;
     private Card? firstSelectedCard;
@@ -118,7 +118,8 @@ public class MemoryCardGame : IPlayableGameElement
 
                 if (!card.IsSelected && !card.IsMatched)
                 {
-                    display.DrawRectangle(x, y, CardSize, CardSize, Color.Gray, Color.Gray);
+                    var color = card.IsMatched ? Color.Yellow : Color.Gray;
+                    display.DrawRectangle(x, y, CardSize, CardSize, color, Color.Gray);
                 }
                 else
                 {
