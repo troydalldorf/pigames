@@ -7,11 +7,10 @@ namespace MemoryCard;
 
 public class MemoryCardGame : IPlayableGameElement
 {
-    private const int Rows = 4;
-    private const int Columns = 5;
     private const int CardSize = 10;
     private const int CardSpacing = 2;
 
+    private Level level;
     private Card[,] cards;
     private Card? firstSelectedCard;
     private Card? secondSelectedCard;
@@ -24,19 +23,20 @@ public class MemoryCardGame : IPlayableGameElement
     {
         this.stopwatch = new Stopwatch();
         this.stopwatch.Start();
-        Initialize();
+        Initialize(1);
     }
 
-    private void Initialize()
-    {
+    private void Initialize(int levelNo)
+    { 
+        level = LevelFactory.CreateLevel(levelNo);
         State = GameOverState.None;
-        cards = new Card[Rows, Columns];
+        cards = new Card[level.Rows, level.Columns];
         var cardShapes = GenerateCardShapes();
         var random = new Random();
 
-        for (var row = 0; row < Rows; row++)
+        for (var row = 0; row < level.Rows; row++)
         {
-            for (var col = 0; col < Columns; col++)
+            for (var col = 0; col < level.Columns; col++)
             {
                 var index = random.Next(cardShapes.Count);
                 cards[row, col] = new Card(cardShapes[index], row, col);
@@ -45,11 +45,11 @@ public class MemoryCardGame : IPlayableGameElement
         }
     }
 
-    private static List<CardShape> GenerateCardShapes()
+    private List<CardShape> GenerateCardShapes()
     {
         var shapes = new List<CardShape>();
         var totalCardShapes = Enum.GetValues(typeof(CardShape)).Length;
-        const int totalPairs = Rows * Columns / 2;
+        var totalPairs = level.Rows * level.Columns / 2;
 
         for (var i = 0; i < totalPairs; i++)
         {
@@ -76,7 +76,7 @@ public class MemoryCardGame : IPlayableGameElement
 
         if (stick.IsDown())
         {
-            cursorRow = Math.Min(cursorRow + 1, Rows - 1);
+            cursorRow = Math.Min(cursorRow + 1, level.Rows - 1);
             lastActionAt = stopwatch.ElapsedMilliseconds;
         }
 
@@ -88,7 +88,7 @@ public class MemoryCardGame : IPlayableGameElement
 
         if (stick.IsRight())
         {
-            cursorCol = Math.Min(cursorCol + 1, Columns - 1);
+            cursorCol = Math.Min(cursorCol + 1, level.Columns - 1);
             lastActionAt = stopwatch.ElapsedMilliseconds;
         }
 
@@ -141,9 +141,9 @@ public class MemoryCardGame : IPlayableGameElement
 
     public void Draw(IDisplay display)
     {
-        for (var row = 0; row < Rows; row++)
+        for (var row = 0; row < level.Rows; row++)
         {
-            for (var col = 0; col < Columns; col++)
+            for (var col = 0; col < level.Columns; col++)
             {
                 var card = cards[row, col];
                 var x = col * (CardSize + CardSpacing);
