@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Diagnostics;
 using System.Drawing;
 using Core;
@@ -31,29 +32,34 @@ public class MemoryCardGame : IPlayableGameElement
         level = LevelFactory.GetLevel(levelNo);
         State = GameOverState.None;
         cards = new Card[level.Rows, level.Columns];
-        var cardShapes = GenerateCardShapes();
+        var cardShapes = GenerateCardShapes(level.Shapes);
         var random = new Random();
 
         for (var row = 0; row < level.Rows; row++)
         {
             for (var col = 0; col < level.Columns; col++)
             {
-                var index = random.Next(cardShapes.Count);
-                cards[row, col] = new Card(cardShapes[index], row, col);
-                cardShapes.RemoveAt(index);
+                if (cardShapes.Count == 0) // Odd number of cards, e.g. 5x5
+                    cards[row, col] = new Card(CardShape.Blank, row, col);
+                else
+                {
+                    var index = random.Next(cardShapes.Count);
+                    cards[row, col] = new Card(cardShapes[index], row, col);
+                    cardShapes.RemoveAt(index);
+                }
             }
         }
     }
 
-    private List<CardShape> GenerateCardShapes()
+    private List<CardShape> GenerateCardShapes(IList<CardShape> availableShapes)
     {
         var shapes = new List<CardShape>();
-        var totalCardShapes = Enum.GetValues(typeof(CardShape)).Length;
+        var totalCardShapes = availableShapes.Count;
         var totalPairs = level.Rows * level.Columns / 2;
 
         for (var i = 0; i < totalPairs; i++)
         {
-            var shape = (CardShape)(i % totalCardShapes);
+            var shape = availableShapes[i % totalCardShapes];
             shapes.Add(shape);
             shapes.Add(shape);
         }
