@@ -149,8 +149,8 @@ public class MemoryCardGame : IPlayableGameElement
 
     public void Draw(IDisplay display)
     {
-        var xOffset = (level.Columns * (CardSize + CardSpacing) - 64) / 2;
-        var yOffset = (level.Rows * (CardSize + CardSpacing) - 64) / 2;
+        var xOffset = (64 - level.Columns * (CardSize + CardSpacing)) / 2;
+        var yOffset = (64 - level.Rows * (CardSize + CardSpacing)) / 2;
         for (var row = 0; row < level.Rows; row++)
         {
             for (var col = 0; col < level.Columns; col++)
