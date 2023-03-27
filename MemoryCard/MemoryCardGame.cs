@@ -9,7 +9,7 @@ public class MemoryCardGame : IPlayableGameElement
 {
     private const int Rows = 4;
     private const int Columns = 5;
-    private const int CardSize = 8;
+    private const int CardSize = 10;
     private const int CardSpacing = 2;
 
     private Card[,] cards;
@@ -48,8 +48,8 @@ public class MemoryCardGame : IPlayableGameElement
     private static List<CardShape> GenerateCardShapes()
     {
         var shapes = new List<CardShape>();
-        int totalCardShapes = Enum.GetValues(typeof(CardShape)).Length;
-        int totalPairs = Rows * Columns / 2;
+        var totalCardShapes = Enum.GetValues(typeof(CardShape)).Length;
+        const int totalPairs = Rows * Columns / 2;
 
         for (var i = 0; i < totalPairs; i++)
         {
@@ -63,7 +63,7 @@ public class MemoryCardGame : IPlayableGameElement
 
     public void HandleInput(IPlayerConsole playerConsole)
     {
-        if (stopwatch.ElapsedMilliseconds - lastActionAt < 120)
+        if (stopwatch.ElapsedMilliseconds - lastActionAt < 200)
             return;
         var stick = playerConsole.ReadJoystick();
         var buttons = playerConsole.ReadButtons();
