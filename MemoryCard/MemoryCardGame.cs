@@ -76,12 +76,11 @@ public class MemoryCardGame : IPlayableGameElement
                     firstSelectedCard = selectedCard;
                     firstSelectedCard.IsSelected = true;
                 }
-                else if (secondSelectedCard == null)
+                else if (secondSelectedCard == null && firstSelectedCard != selectedCard) // Ensure the second card is different from the first one
                 {
                     secondSelectedCard = selectedCard;
                     secondSelectedCard.IsSelected = true;
                 }
-
                 if (firstSelectedCard != null && secondSelectedCard != null)
                 {
                     if (firstSelectedCard.Shape == secondSelectedCard.Shape)

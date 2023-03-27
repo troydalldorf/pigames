@@ -6,7 +6,10 @@ public static class CardShapeExtensions
     public static void Draw(this CardShape shape, IDisplay display, int x, int y, int size)
     {
         var color = Color.FromArgb(255, 255, 255);
-
+        x += 1;
+        y += 1;
+        size -= 2;
+        
         switch (shape)
         {
             case CardShape.Circle:
