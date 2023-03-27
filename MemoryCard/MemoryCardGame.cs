@@ -162,7 +162,7 @@ public class MemoryCardGame : IPlayableGameElement
                     var color = card.State switch
                     {
                         CardState.Selected => Color.Yellow,
-                        CardState.Unselecting => Color.Gray,
+                        CardState.Unselecting => Color.PaleGoldenrod,
                         _ => Color.LimeGreen
                     };
                     card.Shape.Draw(display, x, y, CardSize, color);

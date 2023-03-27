@@ -7,6 +7,7 @@ using Core.Display.Fonts;
 using Core.Effects;
 using FlappyBird;
 using Frogger;
+using MemoryCard;
 using Othello;
 using Pong;
 using Snake;
@@ -37,6 +38,7 @@ public class Menu : IPlayableGameElement
         new("Flappy B", () => new FlappyBirdPlayableGame(), 50),
         new("Frogger", () => new FroggerPlayableGame(), 100),
         new("Othello", () => new OthelloGame()),
+        new("Memory", () => new MemoryCardGame()),
         new("Pong", () => new PongPlayableGame()),
         new("Snake", () => new SnakePlayableGame(), 100),
         new("Snake 2", () => new SnakeGame2P(), 100),
