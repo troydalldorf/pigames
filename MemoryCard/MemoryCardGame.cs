@@ -121,8 +121,8 @@ public class MemoryCardGame : IPlayableGameElement
                 else
                 {
                     firstSelectedCard.State = secondSelectedCard.State = CardState.Unselecting;
-                    firstSelectedCard = secondSelectedCard = null;
                 }
+                firstSelectedCard = secondSelectedCard = null;
             }
         }
 
