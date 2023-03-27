@@ -118,9 +118,11 @@ public class MemoryCardGame : IPlayableGameElement
                     firstSelectedCard.State = CardState.Matched;
                     secondSelectedCard.State = CardState.Matched;
                 }
-
-                firstSelectedCard.State = secondSelectedCard.State = CardState.Unselecting;
-                firstSelectedCard = secondSelectedCard = null;
+                else
+                {
+                    firstSelectedCard.State = secondSelectedCard.State = CardState.Unselecting;
+                    firstSelectedCard = secondSelectedCard = null;
+                }
             }
         }
 
