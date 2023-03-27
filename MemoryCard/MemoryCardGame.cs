@@ -3,9 +3,9 @@ using Core;
 
 public class MemoryCardGame : IPlayableGameElement
 {
-    private const int Rows = 5;
-    private const int Columns = 5;
-    private const int CardSize = 10;
+    private const int Rows = 6;
+    private const int Columns = 6;
+    private const int CardSize = 8;
     private const int CardSpacing = 2;
 
     private Card[,] cards;
@@ -30,7 +30,7 @@ public class MemoryCardGame : IPlayableGameElement
         {
             for (var col = 0; col < Columns; col++)
             {
-                var index = random.Next(cardShapes.Count-1);
+                var index = random.Next(cardShapes.Count);
                 cards[row, col] = new Card(cardShapes[index], row, col);
                 cardShapes.RemoveAt(index);
             }
