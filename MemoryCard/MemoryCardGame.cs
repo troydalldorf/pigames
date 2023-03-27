@@ -48,9 +48,12 @@ public class MemoryCardGame : IPlayableGameElement
     private static List<CardShape> GenerateCardShapes()
     {
         var shapes = new List<CardShape>();
-        for (var i = 0; i < Rows * Columns / 2; i++)
+        int totalCardShapes = Enum.GetValues(typeof(CardShape)).Length;
+        int totalPairs = Rows * Columns / 2;
+
+        for (var i = 0; i < totalPairs; i++)
         {
-            var shape = (CardShape)i;
+            var shape = (CardShape)(i % totalCardShapes);
             shapes.Add(shape);
             shapes.Add(shape);
         }
