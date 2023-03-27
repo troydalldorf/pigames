@@ -58,12 +58,19 @@ public class MemoryCardGame : IPlayableGameElement
         if (stick.IsDown()) cursorRow = Math.Min(cursorRow + 1, Rows - 1);
         if (stick.IsLeft()) cursorCol = Math.Max(cursorCol - 1, 0);
         if (stick.IsRight()) cursorCol = Math.Min(cursorCol + 1, Columns - 1);
-        var selectedCard = cards[cursorCol, cursorRow];
+        var selectedCard = cards[cursorRow, cursorCol];
 
         if (buttons.HasFlag(Buttons.Green))
         {
             if (!selectedCard.IsMatched)
             {
+                if (firstSelectedCard != null && secondSelectedCard != null)
+                {
+                    firstSelectedCard.IsSelected = false;
+                    secondSelectedCard.IsSelected = false;
+                    firstSelectedCard = null;
+                    secondSelectedCard = null;
+                }
                 if (firstSelectedCard == null)
                 {
                     firstSelectedCard = selectedCard;
@@ -82,13 +89,6 @@ public class MemoryCardGame : IPlayableGameElement
                         firstSelectedCard.IsMatched = true;
                         secondSelectedCard.IsMatched = true;
                     }
-                    else
-                    {
-                        firstSelectedCard.IsSelected = false;
-                        secondSelectedCard.IsSelected = false;
-                    }
-                    firstSelectedCard = null;
-                    secondSelectedCard = null;
                 }
             }
         }
