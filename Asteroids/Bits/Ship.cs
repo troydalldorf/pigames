@@ -33,7 +33,10 @@ public class Ship : VectorElement
     public override void Draw(IDisplay display)
     {
         // thruster
-        display.DrawLine((int)(Location.X-Velocity.X), (int)(Location.Y-Velocity.Y), (int)(Location.X+Velocity.Y*2), (int)(Location.Y+Velocity.Y*2), Color.Orange);
+        if (Thrusting)
+        {
+            display.DrawLine((int)(Location.X-Velocity.X), (int)(Location.Y-Velocity.Y), (int)(Location.X+Velocity.Y*2), (int)(Location.Y+Velocity.Y*2), Color.Orange);
+        }
         // gun
         display.SetPixel((int)(Location.X+Velocity.X), (int)(Location.Y+Velocity.X),  Color.WhiteSmoke);
         // ship
