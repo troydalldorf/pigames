@@ -84,7 +84,7 @@ public class BreakoutPlayableGame : IPlayableGameElement
         {
             foreach (var brick in bricks)
             {
-                pixelBombs.Add(new PixelBomb(brick.X+2, brick.Y+2, BrickWidth*BrickHeight, brick.Color));
+                pixelBombs.Add(new PixelBomb(brick.X+2, brick.Y+2, BrickWidth*BrickHeight, brick.Color, 3));
             }
 
             bricks.Clear();
