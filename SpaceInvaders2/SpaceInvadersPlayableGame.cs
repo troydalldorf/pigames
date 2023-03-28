@@ -75,7 +75,7 @@ public class SpaceInvadersPlayableGame : IPlayableGameElement
             for (var j = currentLevel.Enemies.Count - 1; j >= 0; j--)
             {
                 if (!bullets[i].IntersectsWith(currentLevel.Enemies[j].Rectangle)) continue;
-                pixelBombs.Add(new SpriteBomb(currentLevel.Enemies[j].Rectangle.X + 2, currentLevel.Enemies[j].Rectangle.Y + 2, currentLevel.Enemies[j].Sprite, 3));
+                pixelBombs.Add(new SpriteBomb(currentLevel.Enemies[j].Rectangle.X + 2, currentLevel.Enemies[j].Rectangle.Y + 2, currentLevel.Enemies[j].Sprite));
                 bullets.RemoveAt(i);
                 currentLevel.Enemies[j].Health -= 1;
                 if (currentLevel.Enemies[j].Health <= 0)
