@@ -184,9 +184,9 @@ public class MemoryCardGame : IPlayableGameElement
                 {
                     display.DrawRectangle(x, y, CardSize, CardSize, Color.Gray, Color.Gray);
                     display.SetPixel(x, y, Color.Black);
-                    display.SetPixel(x + CardSize, y, Color.Black);
-                    display.SetPixel(x + CardSize, y + CardSize, Color.Black);
-                    display.SetPixel(x, y + CardSize, Color.Black);
+                    display.SetPixel(x + CardSize-1, y, Color.Black);
+                    display.SetPixel(x + CardSize-1, y + CardSize-1, Color.Black);
+                    display.SetPixel(x, y + CardSize-1, Color.Black);
                 }
                 else
                 {
