@@ -5,15 +5,15 @@ namespace Core.Effects;
 
 public class PixelBomb
 {
-    private List<Spark> sparks;
+    private readonly List<Spark> sparks;
     private int updateCount;
 
-    public PixelBomb(int centerX, int centerY, int numPixels, Color color)
+    public PixelBomb(int centerX, int centerY, int numPixels, Color color, int tail = 0)
     {
         sparks = new List<Spark>();
         for (var i = 0; i < numPixels; i++)
         {
-            sparks.Add(new Spark(centerX, centerY, color));
+            sparks.Add(new Spark(centerX, centerY, color, tail));
         }
     }
 
@@ -29,10 +29,7 @@ public class PixelBomb
         updateCount++;
         foreach (var spark in sparks.ToArray())
         {
-            spark.X += spark.VelocityX;
-            spark.Y += spark.VelocityY;
-            spark.VelocityX *= 0.98;
-            spark.VelocityY *= 0.98;
+            spark.Update();
             if (spark.X < 0 | spark.X > 63 | spark.Y < 0 | spark.Y > 63)
                 sparks.Remove(spark);
         }
@@ -42,9 +39,7 @@ public class PixelBomb
     {
         foreach (var spark in sparks)
         {
-            var x = (int)Math.Round(spark.X);
-            var y = (int)Math.Round(spark.Y);
-            display.SetPixel(x, y, spark.Color);
+            spark.Draw(display);
         }
     }
 }

@@ -108,7 +108,7 @@ public class AsteroidsGame : IDuoPlayableGameElement
             {
                 var asteroid = asteroids[j];
                 if (!bullets[i].IsCollidingWith(asteroid)) continue;
-                pixelBombs.Add(new PixelBomb((int)asteroid.Location.X, (int)asteroid.Location.Y, 5*asteroid.Size, asteroid.Color));
+                pixelBombs.Add(new PixelBomb((int)asteroid.Location.X, (int)asteroid.Location.Y, 5*asteroid.Size, asteroid.Color, 3));
                 if (asteroids[j].Size > 1)
                 {
                     asteroids.AddRange(asteroids[j].SpawnSmallerAsteroids());
@@ -131,7 +131,7 @@ public class AsteroidsGame : IDuoPlayableGameElement
                 // Handle ship destruction and respawn
                 // You can implement lives and game over logic here
                 //ship.Respawn();
-                pixelBombs.Add(new PixelBomb((int)ship.Location.X, (int)ship.Location.Y, 10, ship.Color));
+                pixelBombs.Add(new PixelBomb((int)ship.Location.X, (int)ship.Location.Y, 20, ship.Color, 3));
                 break;
             }
         }
