@@ -22,21 +22,25 @@ public class BombermanGame : IDuoPlayableGameElement
     private Player player2;
     private List<Bomb> bombs;
     private List<Explosion> explosions;
-    private SpriteAnimation sprites;
+    private Sprite p1Sprite;
+    private Sprite p2Sprite;
+    private Sprite bombSprite;
 
     public BombermanGame()
     {
         font = new LedFont(LedFontType.Font4x6);
         var image = SpriteImage.FromResource("bm.png");
-        sprites = image.GetSpriteAnimation(1, 1, 8, 8, 3, 1);
+        p1Sprite = image.GetSprite(1, 1, 8, 8);
+        p2Sprite = image.GetSprite(10, 1, 8, 8);
+        bombSprite = image.GetSprite(19, 1, 8, 8);
         Initialize();
     }
 
     private void Initialize()
     {
         grid = new Grid(GridSize, GridSize);
-        player1 = new Player(0, 0, grid);
-        player2 = new Player(GridSize - 1, GridSize - 1, grid);
+        player1 = new Player(0, 0, grid, p1Sprite);
+        player2 = new Player(GridSize - 1, GridSize - 1, grid, p2Sprite);
         bombs = new List<Bomb>();
         explosions = new List<Explosion>();
         State = GameOverState.None;
@@ -131,17 +135,12 @@ public class BombermanGame : IDuoPlayableGameElement
     public void Draw(IDisplay display)
     {
         grid.Draw(display);
-        sprites.Draw(display, player1.X*8, player1.Y*8, 0);
-        sprites.Draw(display, player2.X*8, player2.Y*8, 1);
-        //player1.Draw(display, Color.Blue);
-        //player2.Draw(display, Color.Red);
-
+        player1.Draw(display);
+        player2.Draw(display);
         foreach (var bomb in bombs)
         {
-            sprites.Draw(display, bomb.X*8, bomb.Y*8, 2);
-            //bomb.Draw(display);
+            bomb.Draw(display);
         }
-
         foreach (var explosion in explosions)
         {
             explosion.Draw(display);
@@ -152,7 +151,7 @@ public class BombermanGame : IDuoPlayableGameElement
 
     private void PlaceBomb(int x, int y)
     {
-        bombs.Add(new Bomb(x, y, BombTimer));
+        bombs.Add(new Bomb(x, y, BombTimer, bombSprite));
     }
 
     private void CreateExplosion(int x, int y)

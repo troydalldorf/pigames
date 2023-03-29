@@ -2,7 +2,7 @@ using System.Drawing;
 using Core;
 using Core.Display.Fonts;
 
-public class CheckersPlayableGame : IPlayableGameElement
+public class CheckersGame : IPlayableGameElement
 {
     private const int BoardSize = 8;
     private const int CellSize = 8;
@@ -18,7 +18,7 @@ public class CheckersPlayableGame : IPlayableGameElement
     private int _cursorX;
     private int _cursorY;
 
-    public CheckersPlayableGame()
+    public CheckersGame()
     {
         font = new LedFont(LedFontType.Font4x6);
 

@@ -1,23 +1,26 @@
 using System.Drawing;
 using Core;
+using Core.Display.Sprites;
 
 namespace BomberMan.Bits;
 
-public class Bomb
+public class Bomb : IGameElement
 {
     public int X { get; }
     public int Y { get; }
-    public bool IsExploded => _timer.ElapsedMilliseconds >= _timeout;
-    private Timer _timer;
-    private int _timeout;
+    public bool IsExploded => timer.ElapsedMilliseconds >= timeout;
+    private readonly Timer timer;
+    private readonly int timeout;
+    private readonly Sprite sprite;
 
-    public Bomb(int x, int y, int timeout)
+    public Bomb(int x, int y, int timeout, Sprite sprite)
     {
         X = x;
         Y = y;
-        _timeout = timeout;
-        _timer = new Timer();
-        _timer.Start();
+        this.timeout = timeout;
+        this.sprite = sprite;
+        timer = new Timer();
+        timer.Start();
     }
 
     public void Update()
@@ -26,6 +29,6 @@ public class Bomb
 
     public void Draw(IDisplay display)
     {
-        display.DrawCircle(X * 8 + 4, Y * 8 + 4, 4, Color.Black);
+        sprite.Draw(display, X*8, Y*8);
     }
 }

@@ -32,7 +32,7 @@ public class Menu : IPlayableGameElement
     {
         new("Astrd 2", () => new AsteroidsGame()),
         new("B Man", () => new BombermanGame()),
-        new("Breakout", () => new BreakoutPlayableGame()),
+        new("Breakout", () => new BreakoutGame()),
         new("C-Four", () => new ConnectFourGame(), 100),
         new("E-Pong", () => new PongPlayableGame()),
         new("Flappy B", () => new FlappyBirdPlayableGame(), 50),

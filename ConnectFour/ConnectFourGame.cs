@@ -121,7 +121,7 @@ public class ConnectFourGame : IDuoPlayableGameElement
 
         while (x >= 0 && x < Columns && y >= 0 && y < Rows)
         {
-            if (grid[y, x] != player)
+            if (grid[y, x] == player)
             {
                 count++;
                 if (count == 4)

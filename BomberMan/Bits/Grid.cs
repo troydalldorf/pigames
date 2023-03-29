@@ -32,9 +32,9 @@ public class Grid
             { 1, 0, 1, 1, 1, 1, 0, 1 },
             { 1, 0, 1, 1, 1, 1, 0, 1 }
         };
-        for (int x = 0; x < Width; x++)
+        for (var x = 0; x < Width; x++)
         {
-            for (int y = 0; y < Height; y++)
+            for (var y = 0; y < Height; y++)
             {
                 maze[x, y] = mazeLayout[y, x] == 1;
             }
