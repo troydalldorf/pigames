@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Core;
 using Core.Display.Fonts;
 
@@ -20,6 +21,8 @@ public class MinesweeperGame : IPlayableGameElement
     private int cursorX = 4 * TileSize;
     private int cursorY = 4 * TileSize;
     private bool gameOver = false;
+    private readonly Stopwatch stopwatch;
+    private long lastActionAt;
 
     public MinesweeperGame()
     {
@@ -39,30 +42,36 @@ public class MinesweeperGame : IPlayableGameElement
 
     public void HandleInput(IPlayerConsole player1Console)
     {
+        if (stopwatch.ElapsedMilliseconds - lastActionAt < 120)
+            return;
         var stick = player1Console.ReadJoystick();
         if (stick.IsUp())
         {
             cursorY -= TileSize;
             if (cursorY < 0)
                 cursorY = 0;
+            lastActionAt = stopwatch.ElapsedMilliseconds;
         }
         else if (stick.IsDown())
         {
             cursorY += TileSize;
             if (cursorY > Height - TileSize)
                 cursorY = Height - TileSize;
+            lastActionAt = stopwatch.ElapsedMilliseconds;
         }
         else if (stick.IsLeft())
         {
             cursorX -= TileSize;
             if (cursorX < 0)
                 cursorX = 0;
+            lastActionAt = stopwatch.ElapsedMilliseconds;
         }
         else if (stick.IsRight())
         {
             cursorX += TileSize;
             if (cursorX > Width - TileSize)
                 cursorX = Width - TileSize;
+            lastActionAt = stopwatch.ElapsedMilliseconds;
         }
 
         var tileX = cursorX / TileSize;
@@ -79,13 +88,40 @@ public class MinesweeperGame : IPlayableGameElement
             else
             {
                 RevealEmpty(tileX, tileY);
+                if (CheckWinCondition())
+                {
+                    State = GameOverState.Player1Wins;
+                }
             }
+            lastActionAt = stopwatch.ElapsedMilliseconds;
         }
         else if (buttons.IsBluePushed()) // Assuming button 2 is for flagging
         {
             flagged[tileX, tileY] = !flagged[tileX, tileY];
+            if (CheckWinCondition())
+            {
+                State = GameOverState.Player1Wins;
+            }
+            lastActionAt = stopwatch.ElapsedMilliseconds;
         }
     }
+    
+    public bool CheckWinCondition()
+    {
+        for (var x = 0; x < Width / TileSize; x++)
+        {
+            for (var y = 0; y < Height / TileSize; y++)
+            {
+                if (board[x, y] != -1 && !revealed[x, y])
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
 
     public void Update()
     {
