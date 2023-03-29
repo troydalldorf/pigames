@@ -76,9 +76,8 @@ public class Menu : IPlayableGameElement
 
         if (buttons.IsGreenPushed())
         {
-            var item = items[cursor];
-            var game = item.CreateGame;
-            runner.Run(game, item.DisplayInterval);
+            var (name, game, displayInterval) = items[cursor];
+            runner.Run(game, displayInterval, name:name);
         }
 
         var r = random.Next(0, 4);

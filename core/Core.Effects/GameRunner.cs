@@ -20,12 +20,13 @@ public class GameRunner : IDisposable
         p2Console = new Player2Console();
     }
 
-    public void Run(Func<IPlayableGameElement> createGame, int? frameIntervalMs = 33, bool canPause = true)
+    public void Run(Func<IPlayableGameElement> createGame, int? frameIntervalMs = 33, bool canPause = true, string name = "game")
     {
-        Console.WriteLine("Starting game...");
+        Console.WriteLine($"Starting {name}...");
+        var leaderBoard = new Leaderboard(name);
         var game = createGame();
         var currentElement = game;
-        Console.WriteLine("Running game...");
+        Console.WriteLine($"Running {name}...");
         var state = GameState.Playing;
         while (state != GameState.Exit)
         {
@@ -72,7 +73,7 @@ public class GameRunner : IDisposable
             }
         }
 
-        Console.WriteLine("Exiting game...");
+        Console.WriteLine($"Exiting {name}...");
         DisposeGame(game);
     }
 

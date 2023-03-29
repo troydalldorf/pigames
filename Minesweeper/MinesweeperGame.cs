@@ -207,6 +207,6 @@ public class MinesweeperGame : IPlayableGameElement
 
     private void DrawNumber(IDisplay display, int x, int y, int number)
     {
-        font.DrawText(display, x + 3, y - 1, Color.DarkGreen, number.ToString());
+        font.DrawText(display, x + 3, y + 4, Color.DarkGreen, number.ToString());
     }
 }

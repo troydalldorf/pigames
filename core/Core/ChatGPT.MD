@@ -62,7 +62,25 @@ public enum LedFontType
 Sample game structure is below. NOTE that the main game loop exists outside the class, that does not need to be included in your output.
 
 ``` csharp
-public class MyGame : IGameElement
+
+public interface IGameElement
+{
+    void Update();
+    void Draw(IDisplay display);
+}
+
+public interface IPlayableGameElement : IGameElement
+{
+    void HandleInput(IPlayerConsole player1Console);
+    GameOverState State { get; }
+}
+
+public interface IDuoPlayableGameElement : IPlayableGameElement
+{
+    void Handle2PInput(IPlayerConsole player2Console);
+}
+
+public class MyGame : IPlayableGameElement
 {
     public MyGame()
     {
@@ -89,6 +107,15 @@ public class MyGame : IGameElement
         // draw to the display, pixels, lines, circles, rectangles, text.
     }
 
-    public bool IsDone() => isDone;
+    GameOverState State { get; }
+}
+
+public enum GameOverState
+{
+    None,
+    EndOfGame,
+    Player1Wins,
+    Player2Wins,
+    Draw,
 }
 ```
