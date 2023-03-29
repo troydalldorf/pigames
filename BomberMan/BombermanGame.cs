@@ -1,6 +1,7 @@
 using BomberMan.Bits;
 using Core;
 using Core.Display.Fonts;
+using Core.Display.Sprites;
 
 namespace BomberMan;
 
@@ -21,10 +22,13 @@ public class BombermanGame : IDuoPlayableGameElement
     private Player player2;
     private List<Bomb> bombs;
     private List<Explosion> explosions;
+    private SpriteAnimation sprites;
 
     public BombermanGame()
     {
         font = new LedFont(LedFontType.Font4x6);
+        var image = SpriteImage.FromResource("bm.png");
+        sprites = image.GetSpriteAnimation(1, 1, 8, 8, 3, 1);
         Initialize();
     }
 
@@ -127,12 +131,15 @@ public class BombermanGame : IDuoPlayableGameElement
     public void Draw(IDisplay display)
     {
         grid.Draw(display);
-        player1.Draw(display, Color.Blue);
-        player2.Draw(display, Color.Red);
+        sprites.Draw(display, player1.X*8, player1.Y*8, 0);
+        sprites.Draw(display, player1.X*8, player1.Y*8, 1);
+        //player1.Draw(display, Color.Blue);
+        //player2.Draw(display, Color.Red);
 
         foreach (var bomb in bombs)
         {
-            bomb.Draw(display);
+            sprites.Draw(display, bomb.X*8, bomb.Y*8, 1);
+            //bomb.Draw(display);
         }
 
         foreach (var explosion in explosions)
