@@ -138,7 +138,7 @@ public class BombermanGame : IDuoPlayableGameElement
 
         foreach (var bomb in bombs)
         {
-            sprites.Draw(display, bomb.X*8, bomb.Y*8, 1);
+            sprites.Draw(display, bomb.X*8, bomb.Y*8, 2);
             //bomb.Draw(display);
         }
 
