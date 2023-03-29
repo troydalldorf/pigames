@@ -34,6 +34,7 @@ public class Menu : IPlayableGameElement
         new("B Man", () => new BombermanGame()),
         new("Breakout", () => new BreakoutGame()),
         new("C-Four", () => new ConnectFourGame(), 100),
+        new("Checkers", () => new CheckersGame()),
         new("E-Pong", () => new PongPlayableGame()),
         new("Flappy B", () => new FlappyBirdPlayableGame(), 50),
         new("Frogger", () => new FroggerPlayableGame(), 100),

@@ -1,8 +1,9 @@
 using System.Drawing;
+using Checkers.Bits;
 using Core;
 using Core.Display.Fonts;
 
-public class CheckersGame : IPlayableGameElement
+public class CheckersGame : IDuoPlayableGameElement
 {
     private const int BoardSize = 8;
     private const int CellSize = 8;
@@ -14,9 +15,8 @@ public class CheckersGame : IPlayableGameElement
     private CheckerPiece[,] board;
     private CheckerPiece selectedPiece;
     private bool isPlayer1Turn;
-    private readonly bool isDone;
-    private int _cursorX;
-    private int _cursorY;
+    private int cursorX;
+    private int cursorY;
 
     public CheckersGame()
     {
@@ -94,52 +94,135 @@ public class CheckersGame : IPlayableGameElement
                 break;
         }
 
-        var newX = _cursorX + dx;
-        var newY = _cursorY + dy;
+        var newX = cursorX + dx;
+        var newY = cursorY + dy;
 
         if (newX >= 0 && newX < BoardSize && newY >= 0 && newY < BoardSize)
         {
-            _cursorX = newX;
-            _cursorY = newY;
+            cursorX = newX;
+            cursorY = newY;
         }
 
         if (buttons == Buttons.Green)
         {
-            var piece = board[_cursorX, _cursorY];
+            var piece = board[cursorX, cursorY];
             if (piece != null && piece.IsPlayer1 == isPlayer1)
             {
                 selectedPiece = piece;
             }
             else if (selectedPiece != null)
             {
-                var dxMove = Math.Abs(_cursorX - selectedPiece.X);
-                var dyMove = _cursorY - selectedPiece.Y;
-                var validMove = (dxMove == 1 && dyMove == (isPlayer1 ? -1 : 1)) ||
-                                (dxMove == 2 && dyMove == (isPlayer1 ? -2 : 2));
-
-                if (validMove)
-                {
-                    board[selectedPiece.X, selectedPiece.Y] = null;
-                    selectedPiece.X = _cursorX;
-                    selectedPiece.Y = _cursorY;
-                    board[_cursorX, _cursorY] = selectedPiece;
-
-                    if (_cursorY == 0 || _cursorY == BoardSize - 1)
-                    {
-                        selectedPiece.IsKing = true;
-                    }
-
-                    selectedPiece = null;
-                    isPlayer1Turn = !isPlayer1Turn;
-                }
+                TryToMovePiece(isPlayer1);
             }
         }
-        else if (buttons == Buttons.Red)
+        else if (buttons == Buttons.Blue)
         {
             selectedPiece = null;
         }
     }
 
+    private void TryToMovePiece(bool isPlayer1)
+    {
+        int dxMove = Math.Abs(cursorX - selectedPiece.X);
+        int dyMove = isPlayer1 ? cursorY - selectedPiece.Y : selectedPiece.Y - cursorY;
+        bool validMove = (dxMove == 1 && dyMove == 1) || (dxMove == 2 && dyMove == 2);
+
+        if (validMove)
+        {
+            bool isCaptureMove = dxMove == 2;
+            int captureX = (cursorX + selectedPiece.X) / 2;
+            int captureY = (cursorY + selectedPiece.Y) / 2;
+
+            if (isCaptureMove && board[captureX, captureY]?.IsPlayer1 != isPlayer1)
+            {
+                board[captureX, captureY] = null; // Remove the captured piece
+            }
+            else if (isCaptureMove)
+            {
+                // Invalid capture move
+                return;
+            }
+
+            board[selectedPiece.X, selectedPiece.Y] = null;
+            selectedPiece.X = cursorX;
+            selectedPiece.Y = cursorY;
+            board[cursorX, cursorY] = selectedPiece;
+
+            if (cursorY == 0 || cursorY == BoardSize - 1)
+            {
+                selectedPiece.IsKing = true;
+            }
+
+            if (isCaptureMove && CanCaptureAgain(selectedPiece, isPlayer1))
+            {
+                // Allow multiple captures
+                return;
+            }
+
+            selectedPiece = null;
+            isPlayer1Turn = !isPlayer1Turn;
+
+            if (IsGameOver())
+            {
+                Console.WriteLine("Game over!");
+            }
+        }
+    }
+
+    private bool CanCaptureAgain(CheckerPiece piece, bool isPlayer1)
+    {
+        int[] directions = { -1, 1 };
+        foreach (int dx in directions)
+        {
+            foreach (int dy in directions)
+            {
+                int x = piece.X + dx * 2;
+                int y = piece.Y + (isPlayer1 ? -dy * 2 : dy * 2);
+                int captureX = piece.X + dx;
+                int captureY = piece.Y + (isPlayer1 ? -dy : dy);
+
+                if (x >= 0 && x < BoardSize && y >= 0 && y < BoardSize)
+                {
+                    CheckerPiece targetPiece = board[x, y];
+                    CheckerPiece capturePiece = board[captureX, captureY];
+
+                    if (targetPiece == null && capturePiece?.IsPlayer1 != isPlayer1)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private bool IsGameOver()
+    {
+        int player1Pieces = 0;
+        int player2Pieces = 0;
+
+        for (int y = 0; y < BoardSize; y++)
+        {
+            for (int x = 0; x < BoardSize; x++)
+            {
+                CheckerPiece piece = board[x, y];
+                if (piece != null)
+                {
+                    if (piece.IsPlayer1)
+                    {
+                        player1Pieces++;
+                    }
+                    else
+                    {
+                        player2Pieces++;
+                    }
+                }
+            }
+        }
+
+        return player1Pieces == 0 || player2Pieces == 0;
+    }
 
     public void Update()
     {
@@ -173,7 +256,7 @@ public class CheckersGame : IPlayableGameElement
         }
 
         // cursor
-        display.DrawRectangle(_cursorX * CellSize, _cursorY * CellSize, CellSize, CellSize, Color.Lime);
+        display.DrawRectangle(cursorX * CellSize, cursorY * CellSize, CellSize, CellSize, Color.Lime);
         // Draw the player's turn
         var playerTurnText = isPlayer1Turn ? "Player 1" : "Player 2";
         var turnTextColor = isPlayer1Turn ? Color.Red : Color.Blue;
@@ -181,20 +264,4 @@ public class CheckersGame : IPlayableGameElement
     }
 
     public GameOverState State => GameOverState.None;
-
-    private class CheckerPiece
-    {
-        public bool IsPlayer1 { get; }
-        public bool IsKing { get; set; }
-        public int X { get; set; }
-        public int Y { get; set; }
-
-        public CheckerPiece(bool isPlayer1, bool isKing, int x, int y)
-        {
-            IsPlayer1 = isPlayer1;
-            IsKing = isKing;
-            X = x;
-            Y = y;
-        }
-    }
 }
