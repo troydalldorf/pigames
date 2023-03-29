@@ -132,7 +132,7 @@ public class BombermanGame : IDuoPlayableGameElement
     {
         grid.Draw(display);
         sprites.Draw(display, player1.X*8, player1.Y*8, 0);
-        sprites.Draw(display, player1.X*8, player1.Y*8, 1);
+        sprites.Draw(display, player2.X*8, player2.Y*8, 1);
         //player1.Draw(display, Color.Blue);
         //player2.Draw(display, Color.Red);
 
