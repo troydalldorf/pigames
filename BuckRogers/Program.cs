@@ -1,5 +1,4 @@
-﻿using BuckRogers;
-using Core.Effects;
+﻿using Core.Effects;
 
 Console.WriteLine("Buck Rogers starting...");
 var runner = new GameRunner();

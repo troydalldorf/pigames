@@ -16,13 +16,13 @@ public class BuckRogersGame : IPlayableGameElement
 
     private readonly LedFont font;
 
-    private int _playerX;
-    private int _playerY;
-    private int _gameSpeed;
-    private DateTime _lastSpeedIncrease;
-    private DateTime _lastAlienSpawn;
-    private List<Cone> _cones;
-    private List<Alien> _aliens;
+    private int playerX;
+    private int playerY;
+    private int gameSpeed;
+    private DateTime lastSpeedIncrease;
+    private DateTime lastAlienSpawn;
+    private List<Cone> cones;
+    private List<Alien> aliens;
 
     public BuckRogersGame()
     {
@@ -33,13 +33,13 @@ public class BuckRogersGame : IPlayableGameElement
 
     private void InitializeGame()
     {
-        _playerX = DisplaySize / 2;
-        _playerY = DisplaySize - 10;
-        _gameSpeed = InitialSpeed;
-        _lastSpeedIncrease = DateTime.UtcNow;
-        _lastAlienSpawn = DateTime.UtcNow;
-        _cones = new List<Cone>();
-        _aliens = new List<Alien>();
+        playerX = DisplaySize / 2;
+        playerY = DisplaySize - 10;
+        gameSpeed = InitialSpeed;
+        lastSpeedIncrease = DateTime.UtcNow;
+        lastAlienSpawn = DateTime.UtcNow;
+        cones = new List<Cone>();
+        aliens = new List<Alien>();
     }
 
     public void HandleInput(IPlayerConsole player1Console)
@@ -64,28 +64,28 @@ public class BuckRogersGame : IPlayableGameElement
                 break;
         }
 
-        var newX = _playerX + dx;
-        var newY = _playerY + dy;
+        var newX = playerX + dx;
+        var newY = playerY + dy;
 
         if (newX >= 0 && newX < DisplaySize && newY >= 0 && newY < DisplaySize)
         {
-            _playerX = newX;
-            _playerY = newY;
+            playerX = newX;
+            playerY = newY;
         }
     }
 
     public void Update()
     {
         // Move cones
-        for (int i = _cones.Count - 1; i >= 0; i--)
+        for (var i = cones.Count - 1; i >= 0; i--)
         {
-            Cone cone = _cones[i];
-            cone.Y += _gameSpeed;
+            var cone = cones[i];
+            cone.Y += gameSpeed;
             if (cone.Y >= DisplaySize)
             {
-                _cones.RemoveAt(i);
+                cones.RemoveAt(i);
             }
-            else if (CheckCollision(_playerX, _playerY, PlayerSize, cone.X, cone.Y, ConeSize))
+            else if (CheckCollision(playerX, playerY, PlayerSize, cone.X, cone.Y, ConeSize))
             {
                 // Player collided with a cone, game over
                 InitializeGame();
@@ -94,15 +94,15 @@ public class BuckRogersGame : IPlayableGameElement
         }
 
         // Move aliens
-        for (int i = _aliens.Count - 1; i >= 0; i--)
+        for (int i = aliens.Count - 1; i >= 0; i--)
         {
-            Alien alien = _aliens[i];
-            alien.Y += _gameSpeed;
+            Alien alien = aliens[i];
+            alien.Y += gameSpeed;
             if (alien.Y >= DisplaySize)
             {
-                _aliens.RemoveAt(i);
+                aliens.RemoveAt(i);
             }
-            else if (CheckCollision(_playerX, _playerY, PlayerSize, alien.X, alien.Y, AlienSize))
+            else if (CheckCollision(playerX, playerY, PlayerSize, alien.X, alien.Y, AlienSize))
             {
                 InitializeGame();
                 return;
@@ -112,19 +112,19 @@ public class BuckRogersGame : IPlayableGameElement
         // Spawn new cones and aliens
         DateTime currentTime = DateTime.UtcNow;
 
-        if ((currentTime - _lastSpeedIncrease).TotalMilliseconds >= SpeedIncreaseInterval)
+        if ((currentTime - lastSpeedIncrease).TotalMilliseconds >= SpeedIncreaseInterval)
         {
-            _gameSpeed = Math.Min(_gameSpeed + 1, MaxSpeed);
-            _lastSpeedIncrease = currentTime;
+            gameSpeed = Math.Min(gameSpeed + 1, MaxSpeed);
+            lastSpeedIncrease = currentTime;
         }
 
-        if ((currentTime - _lastAlienSpawn).TotalMilliseconds >= AlienSpawnInterval)
+        if ((currentTime - lastAlienSpawn).TotalMilliseconds >= AlienSpawnInterval)
         {
             SpawnAlienWave();
-            _lastAlienSpawn = currentTime;
+            lastAlienSpawn = currentTime;
         }
 
-        if (_cones.Count < 10)
+        if (cones.Count < 10)
         {
             SpawnCone();
         }
@@ -138,7 +138,7 @@ public class BuckRogersGame : IPlayableGameElement
     private void SpawnCone()
     {
         int x = new Random().Next(DisplaySize);
-        _cones.Add(new Cone(x, -ConeSize));
+        cones.Add(new Cone(x, -ConeSize));
     }
 
     private void SpawnAlienWave()
@@ -149,7 +149,7 @@ public class BuckRogersGame : IPlayableGameElement
 
         for (int i = 0; i < waveSize; i++)
         {
-            _aliens.Add(new Alien(startX + i * AlienSize, startY));
+            aliens.Add(new Alien(startX + i * AlienSize, startY));
         }
     }
 
@@ -158,16 +158,16 @@ public class BuckRogersGame : IPlayableGameElement
         display.Clear();
 
         // Draw player
-        display.DrawRectangle(_playerX - PlayerSize / 2, _playerY - PlayerSize / 2, PlayerSize, PlayerSize, Color.White);
+        display.DrawRectangle(playerX - PlayerSize / 2, playerY - PlayerSize / 2, PlayerSize, PlayerSize, Color.White);
 
         // Draw cones
-        foreach (var cone in _cones)
+        foreach (var cone in cones)
         {
             display.DrawRectangle(cone.X - ConeSize / 2, cone.Y - ConeSize / 2, ConeSize, ConeSize, Color.Green);
         }
 
         // Draw aliens
-        foreach (var alien in _aliens)
+        foreach (var alien in aliens)
         {
             display.DrawRectangle(alien.X - AlienSize / 2, alien.Y - AlienSize / 2, AlienSize, AlienSize, Color.Red);
         }
