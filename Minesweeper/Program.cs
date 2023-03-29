@@ -1,10 +1,7 @@
-﻿using Core.Display;
-using Core.Inputs;
+﻿using Core.Effects;
 using Minesweeper;
 
-Console.WriteLine("Minesweeper game starting...");
-
-var display = new LedDisplay();
-var playerConsole = new PlayerConsole(0x3a, 0x42);
-var snakeGame = new MinesweeperGame(display, playerConsole);
-snakeGame.Run();
+Console.WriteLine("Starting Minesweeper...");
+var runner = new GameRunner();
+runner.Run(() => new MinesweeperGame());
+Console.WriteLine("Exiting Minesweeper...");

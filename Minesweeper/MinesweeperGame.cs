@@ -1,56 +1,30 @@
 using Core;
-using Core.Display;
 using Core.Display.Fonts;
-using Core.Display.Sprites;
-using Core.Inputs;
 
 namespace Minesweeper;
 
 using System;
 using System.Drawing;
-using System.Threading;
 
-class MinesweeperGame
+public class MinesweeperGame : IPlayableGameElement
 {
     private const int Width = 64;
     private const int Height = 64;
     private const int TileSize = 8;
     private const int NumMines = 10;
 
-    private LedDisplay display;
     private LedFont font;
-    private PlayerConsole playerConsole;
     private int[,] board;
     private bool[,] revealed;
     private bool[,] flagged;
-    private int cursorX = 4*TileSize;
-    private int cursorY = 4*TileSize;
+    private int cursorX = 4 * TileSize;
+    private int cursorY = 4 * TileSize;
     private bool gameOver = false;
-    private readonly SpriteAnimation soilSprite;
-    private SpriteAnimation idSprite;
-    private SpriteAnimation cursorSprite;
 
-    public MinesweeperGame(LedDisplay display, PlayerConsole playerConsole)
+    public MinesweeperGame()
     {
-        this.display = display;
         this.font = new LedFont(LedFontType.FontTomThumb);
-        this.playerConsole = playerConsole;
-        var image = SpriteImage.FromFile("ms.png", new Point(0, 46));
-        soilSprite = image.GetSpriteAnimation(1, 1, 8, 8, 2, 1);
-        idSprite = image.GetSpriteAnimation(1, 10, 8, 8, 2, 1);
-        cursorSprite = image.GetSpriteAnimation(1, 19, 8, 8, 1, 1);
-    }
-
-    public void Run()
-    {
         Initialize();
-
-        while (true)
-        {
-            Update();
-            Draw();
-            Thread.Sleep(50);
-        }
     }
 
     private void Initialize()
@@ -58,14 +32,14 @@ class MinesweeperGame
         board = new int[Width / TileSize, Height / TileSize];
         revealed = new bool[Width / TileSize, Height / TileSize];
         flagged = new bool[Width / TileSize, Height / TileSize];
-
+        State = GameOverState.None;
         PlaceMines();
         CalculateNumbers();
     }
 
-    public void Update()
+    public void HandleInput(IPlayerConsole player1Console)
     {
-        var stick = playerConsole.ReadJoystick();
+        var stick = player1Console.ReadJoystick();
         if (stick.IsUp())
         {
             cursorY -= TileSize;
@@ -75,7 +49,7 @@ class MinesweeperGame
         else if (stick.IsDown())
         {
             cursorY += TileSize;
-            if (cursorY >= Height)
+            if (cursorY > Height - TileSize)
                 cursorY = Height - TileSize;
         }
         else if (stick.IsLeft())
@@ -87,37 +61,38 @@ class MinesweeperGame
         else if (stick.IsRight())
         {
             cursorX += TileSize;
-            if (cursorX >= Width)
+            if (cursorX > Width - TileSize)
                 cursorX = Width - TileSize;
         }
 
         var tileX = cursorX / TileSize;
         var tileY = cursorY / TileSize;
 
-        var buttons = playerConsole.ReadButtons();
+        var buttons = player1Console.ReadButtons();
         if (revealed[tileX, tileY]) return;
-        if (buttons.IsRedPushed()) // Assuming button 1 is for revealing
+        if (buttons.IsGreenPushed()) // Assuming button 1 is for revealing
         {
             if (board[tileX, tileY] == -1)
             {
-                gameOver = true;
+                State = GameOverState.EndOfGame;
             }
             else
             {
                 RevealEmpty(tileX, tileY);
             }
         }
-        else if (buttons.IsGreenPushed()) // Assuming button 2 is for flagging
+        else if (buttons.IsBluePushed()) // Assuming button 2 is for flagging
         {
             flagged[tileX, tileY] = !flagged[tileX, tileY];
         }
     }
 
-
-    private void Draw()
+    public void Update()
     {
-        display.Clear();
+    }
 
+    public void Draw(IDisplay display)
+    {
         for (var x = 0; x < Width / TileSize; x++)
         {
             for (var y = 0; y < Height / TileSize; y++)
@@ -127,26 +102,47 @@ class MinesweeperGame
 
                 if (revealed[x, y])
                 {
-                    soilSprite.Draw(display, xPos, yPos, 1);
+                    display.DrawRectangle(xPos, yPos, TileSize, TileSize, Color.LightBlue, Color.LightBlue);
                     if (board[x, y] > 0)
                     {
-                        DrawNumber(xPos, yPos, board[x, y]);
+                        DrawNumber(display, xPos, yPos, board[x, y]);
                     }
                 }
                 else
                 {
-                    soilSprite.Draw(display, xPos, yPos, 0);
+                    display.DrawRectangle(xPos, yPos, TileSize, TileSize, Color.LightBlue);
                     if (flagged[x, y])
                     {
-                        idSprite.Draw(display, xPos, yPos, 0);
+                        DrawFlag(display, xPos, yPos, Color.Red);
                     }
                 }
             }
         }
-        cursorSprite.Draw(display, cursorX, cursorY, 0);
-
-        display.Update();
+        display.DrawRectangle(cursorX, cursorY, TileSize, TileSize, Color.GreenYellow);
     }
+
+    public GameOverState State { get; private set; }
+
+    private static void DrawFlag(IDisplay display, int xPos, int yPos, Color color)
+    {
+        int flagPoleX = xPos + TileSize / 2;
+        int flagPoleY1 = yPos + TileSize / 4;
+        int flagPoleY2 = yPos + 3 * TileSize / 4;
+
+        int flagTopX = xPos + TileSize / 2;
+        int flagTopY = yPos + TileSize / 4;
+        int flagBottomX = xPos + 3 * TileSize / 4;
+        int flagBottomY = yPos + TileSize / 2;
+
+        // Draw the flag pole
+        display.DrawLine(flagPoleX, flagPoleY1, flagPoleX, flagPoleY2, color);
+
+        // Draw the flag triangle
+        display.DrawLine(flagTopX, flagTopY, flagBottomX, flagTopY, color);
+        display.DrawLine(flagTopX, flagTopY, flagBottomX, flagBottomY, color);
+        display.DrawLine(flagBottomX, flagTopY, flagBottomX, flagBottomY, color);
+    }
+
 
     private void PlaceMines()
     {
@@ -194,10 +190,9 @@ class MinesweeperGame
         }
     }
 
-
     private void RevealEmpty(int x, int y)
     {
-        if (x < 0 || x >= Width / TileSize || y < 0 || y >= Height / TileSize || revealed[x, y] || board[x, y] == -1) return;
+        if (x < 0 || x >= Width / TileSize || y < 0 || y >= Height / TileSize || revealed[x, y] || flagged[x, y] || board[x, y] == -1) return;
         revealed[x, y] = true;
 
         if (board[x, y] != 0) return;
@@ -210,8 +205,8 @@ class MinesweeperGame
         }
     }
 
-    private void DrawNumber(int x, int y, int number)
+    private void DrawNumber(IDisplay display, int x, int y, int number)
     {
-        font.DrawText(display, x+3, y-1, Color.DarkGreen, number.ToString());
+        font.DrawText(display, x + 3, y - 1, Color.DarkGreen, number.ToString());
     }
 }
