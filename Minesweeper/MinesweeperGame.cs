@@ -21,7 +21,7 @@ public class MinesweeperGame : IPlayableGameElement
     private int cursorX = 4 * TileSize;
     private int cursorY = 4 * TileSize;
     private bool gameOver = false;
-    private readonly Stopwatch stopwatch;
+    private readonly Stopwatch stopwatch = new Stopwatch();
     private long lastActionAt;
 
     public MinesweeperGame()
@@ -32,6 +32,7 @@ public class MinesweeperGame : IPlayableGameElement
 
     private void Initialize()
     {
+        stopwatch.Start();
         board = new int[Width / TileSize, Height / TileSize];
         revealed = new bool[Width / TileSize, Height / TileSize];
         flagged = new bool[Width / TileSize, Height / TileSize];
