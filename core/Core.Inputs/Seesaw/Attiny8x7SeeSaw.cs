@@ -15,7 +15,7 @@ namespace Core.Inputs.Seesaw
         /// <param name="mode">The pin mode to be set.</param>
         public void SetGpioPinMode(byte pin, PinMode mode)
         {
-            if (pin < 0 || pin > 63)
+            if (pin > 63)
             {
                 throw new ArgumentOutOfRangeException(nameof(pin), "Gpio pin must be within 0-63 range.");
             }
@@ -31,11 +31,13 @@ namespace Core.Inputs.Seesaw
         public void SetGpioPinModeBulk(ulong pins, PinMode mode)
         {
             byte[] pinArray;
-
-            if (!HasModule(Iot.Device.Seesaw.Seesaw.SeesawModule.Gpio))
+            var retry = 0;
+            while (!HasModule(Iot.Device.Seesaw.Seesaw.SeesawModule.Gpio) && retry++ < 4)
             {
-                throw new InvalidOperationException($"The hardware on I2C Bus {this.I2CDevice.ConnectionSettings.BusId}, Address 0x{this.I2CDevice.ConnectionSettings.DeviceAddress:X2} does not support Adafruit SeeSaw GPIO functionality");
+                Thread.Sleep(100);
             }
+            if (retry >= 4)
+                throw new InvalidOperationException($"The hardware on I2C Bus {this.I2CDevice.ConnectionSettings.BusId}, Address 0x{this.I2CDevice.ConnectionSettings.DeviceAddress:X2} does not support Adafruit SeeSaw GPIO functionality");
 
             pinArray = PinsToPinArray(pins);
 
