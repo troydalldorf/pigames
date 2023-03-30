@@ -60,9 +60,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asteroids", "Asteroids\Aste
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryCard", "MemoryCard\MemoryCard.csproj", "{FEC28F36-EC6D-4299-AEDD-26F61BC94CE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuckRogers", "BuckRogers\BuckRogers.csproj", "{5FBEE391-CA7E-4C79-8939-963E175E135F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigDug", "DigDug\DigDug.csproj", "{F95A0C94-3298-49A7-A89A-70DAB0EC2F87}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{A291C2BF-4A4E-4579-AE39-8951DBCB5490}"
+	ProjectSection(SolutionItems) = preProject
+		publish.sh = publish.sh
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -178,10 +181,6 @@ Global
 		{FEC28F36-EC6D-4299-AEDD-26F61BC94CE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEC28F36-EC6D-4299-AEDD-26F61BC94CE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEC28F36-EC6D-4299-AEDD-26F61BC94CE2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5FBEE391-CA7E-4C79-8939-963E175E135F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5FBEE391-CA7E-4C79-8939-963E175E135F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5FBEE391-CA7E-4C79-8939-963E175E135F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5FBEE391-CA7E-4C79-8939-963E175E135F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F95A0C94-3298-49A7-A89A-70DAB0EC2F87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F95A0C94-3298-49A7-A89A-70DAB0EC2F87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F95A0C94-3298-49A7-A89A-70DAB0EC2F87}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -135,16 +135,12 @@ public class BombermanGame : IDuoPlayableGameElement
     public void Draw(IDisplay display)
     {
         grid.Draw(display);
+        foreach (var bomb in bombs)
+            bomb.Draw(display);
         player1.Draw(display);
         player2.Draw(display);
-        foreach (var bomb in bombs)
-        {
-            bomb.Draw(display);
-        }
         foreach (var explosion in explosions)
-        {
             explosion.Draw(display);
-        }
     }
 
     public GameOverState State { get; private set; }

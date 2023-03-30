@@ -238,8 +238,12 @@ public class CheckersGame : IDuoPlayableGameElement
                 var xPos = x * CellSize + Padding;
                 var yPos = y * CellSize + Padding;
 
-                var cellColor = (x + y) % 2 == 0 ? Color.Black : Color.DarkGray;
+                var cellColor = (x + y) % 2 == 0 ? Color.Black : Color.SlateGray;
                 display.DrawRectangle(xPos, yPos, CellSize, CellSize, cellColor, cellColor);
+                
+                // cursor
+                if (x == cursorX && y == cursorY)
+                    display.DrawRectangle(cursorX * CellSize, cursorY * CellSize, CellSize, CellSize, Color.Lime);
 
                 var piece = board[x, y];
                 if (piece != null)
@@ -254,9 +258,7 @@ public class CheckersGame : IDuoPlayableGameElement
                 }
             }
         }
-
-        // cursor
-        display.DrawRectangle(cursorX * CellSize, cursorY * CellSize, CellSize, CellSize, Color.Lime);
+        
         // Draw the player's turn
         var playerTurnText = isPlayer1Turn ? "Player 1" : "Player 2";
         var turnTextColor = isPlayer1Turn ? Color.Red : Color.Blue;
