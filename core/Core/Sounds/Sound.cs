@@ -1,24 +1,34 @@
-using NAudio.Wave;
+using CSCore;
+using CSCore.Codecs;
 
 namespace Core.Sounds;
 
-public class Sound : IWaveProvider
+public class Sound : IWaveSource
 {
     private readonly byte[] audioData;
+    private long position;
 
     public Sound(string filePath)
     {
-        using var audioFileReader = new AudioFileReader(filePath);
-        var bytesToRead = (int)audioFileReader.Length;
+        using var source = CodecFactory.Instance.GetCodec(filePath);
+        var bytesToRead = (int)source.Length;
         var audioBytes = new byte[bytesToRead];
-        _ = audioFileReader.Read(audioBytes, 0, bytesToRead);
-        WaveFormat = audioFileReader.WaveFormat;
+        source.Read(audioBytes, 0, bytesToRead);
+        WaveFormat = source.WaveFormat;
         audioData = audioBytes;
     }
+
+    public bool CanSeek => true;
     
     public WaveFormat WaveFormat { get; }
-    
-    public int? Length => audioData.Length;
+
+    public long Position
+    {
+        get => position;
+        set => position = Math.Max(0, Math.Min(value, Length));
+    }
+
+    public long Length => audioData.Length;
 
     public byte[] GetAudioData()
     {
@@ -27,8 +37,13 @@ public class Sound : IWaveProvider
 
     public int Read(byte[] buffer, int offset, int count)
     {
-        var bytesToRead = Math.Min(count, audioData.Length);
-        Array.Copy(audioData, 0, buffer, offset, bytesToRead);
+        var bytesToRead = (int)Math.Min(count, Length - position);
+        Array.Copy(audioData, position, buffer, offset, bytesToRead);
+        position += bytesToRead;
         return bytesToRead;
+    }
+
+    public void Dispose()
+    {
     }
 }

@@ -1,21 +1,21 @@
-using NAudio.Wave;
+using CSCore.SoundOut;
 
 namespace Core.Sounds;
 
 public class Player : IDisposable
 {
-    private readonly WaveOutEvent outputDevice;
+    private readonly ISoundOut outputDevice;
 
     public Player()
     {
-        outputDevice = new WaveOutEvent();
+        outputDevice = new WasapiOut();
     }
 
     public void Play(Sound sound)
     {
-        outputDevice.Init(sound);
+        outputDevice.Initialize(sound);
         outputDevice.Play();
-        outputDevice.Stop();
+        //outputDevice.Stop();
     }
 
     public void Dispose()
