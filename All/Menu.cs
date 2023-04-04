@@ -7,6 +7,7 @@ using ConnectFour;
 using Core;
 using Core.Fonts;
 using Core.Runner;
+using Core.Sounds;
 using FlappyBird;
 using Frogger;
 using MemoryCard;
@@ -16,6 +17,7 @@ using Pong;
 using Snake;
 using SpaceInvaders2;
 using Tetris;
+using SoundPlayer = Core.Sounds.Player;
 
 namespace All;
 
@@ -28,6 +30,8 @@ public class Menu : IPlayableGameElement
     private readonly Stopwatch stopwatch = new();
     private long lastActionAt;
     private readonly Random random = new();
+    private readonly SoundPlayer player = new();
+    private readonly Sound selectSound = new Sound("./sfx/select.mp3");
 
     private const int Offset = 6;
     private const int ItemHeight = 6;
@@ -83,6 +87,7 @@ public class Menu : IPlayableGameElement
         if (buttons.IsGreenPushed())
         {
             var (name, game, displayInterval) = items[cursor];
+            player.Play(selectSound);
             runner.Run(game, displayInterval, name:name);
         }
 

@@ -6,7 +6,7 @@ public class Player : IDisposable
 {
     private readonly WaveOutEvent outputDevice;
 
-    public Player(string path)
+    public Player()
     {
         outputDevice = new WaveOutEvent();
     }

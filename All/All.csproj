@@ -25,7 +25,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="sfx" />
+      <None Remove="sfx\game-over.mp3" />
+      <Content Include="sfx\game-over.mp3" CopyToOutputDirectory="Always" />
+      <None Remove="sfx\select.mp3" />
+      <Content Include="sfx\select.mp3" CopyToOutputDirectory="Always" />
     </ItemGroup>
 
 </Project>
