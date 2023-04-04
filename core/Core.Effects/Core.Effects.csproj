@@ -8,7 +8,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Core.Display\Core.Display.csproj" />
-      <ProjectReference Include="..\Core.Inputs\Core.Inputs.csproj" />
     </ItemGroup>
 
     <ItemGroup>

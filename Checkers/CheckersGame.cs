@@ -1,7 +1,9 @@
 using System.Drawing;
 using Checkers.Bits;
 using Core;
-using Core.Display.Fonts;
+using Core.Fonts;
+
+namespace Checkers;
 
 public class CheckersGame : IDuoPlayableGameElement
 {
@@ -10,7 +12,7 @@ public class CheckersGame : IDuoPlayableGameElement
     private const int Padding = 0;
     private const int PieceRadius = 3;
 
-    private readonly LedFont font;
+    private readonly IFont font;
 
     private CheckerPiece[,] board;
     private CheckerPiece selectedPiece;
@@ -18,9 +20,9 @@ public class CheckersGame : IDuoPlayableGameElement
     private int cursorX;
     private int cursorY;
 
-    public CheckersGame()
+    public CheckersGame(IFontFactory fontFactory)
     {
-        font = new LedFont(LedFontType.Font4x6);
+        font = fontFactory.GetFont(LedFontType.Font4x6);
 
         InitializeBoard();
     }

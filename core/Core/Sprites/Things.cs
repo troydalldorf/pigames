@@ -1,6 +1,7 @@
 using System.Collections;
+using Core.Display.Sprites;
 
-namespace Core.Display.Sprites;
+namespace Core.Sprites;
 
 public class Things : Things<Thing> { }
 
@@ -64,7 +65,7 @@ public class Things<T>: IEnumerable<T>
         return list.SelectMany(t => t.GetCollisions(otherThings));
     }
 
-    public void DrawAll(LedDisplay display)
+    public void DrawAll(IDisplay display)
     {
         Visit(t => t.Draw(display));
     }

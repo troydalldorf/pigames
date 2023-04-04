@@ -6,4 +6,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Iot.Device.Bindings" Version="2.2.0" />
+      <PackageReference Include="NAudio" Version="2.1.0" />
+      <PackageReference Include="System.Device.Gpio" Version="2.2.0" />
+    </ItemGroup>
+
 </Project>

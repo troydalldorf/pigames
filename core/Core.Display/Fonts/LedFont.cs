@@ -1,9 +1,10 @@
 using System.Drawing;
 using Core.Display.LedMatrix;
+using Core.Fonts;
 
 namespace Core.Display.Fonts;
 
-public class LedFont : IDisposable
+public class LedFont : IFont, IDisposable
 {
     private RgbLedFont font;
     public LedFont(LedFontType fontType) : this(LedFont.GetBdfFilePath(fontType))
@@ -17,7 +18,7 @@ public class LedFont : IDisposable
 
     public void DrawText(IDisplay display, int x, int y, Color color, string text, int spacing = 0, bool vertical = false)
     {
-        var rgbCanvas = ((IDirectCanvasAccess)display).GetCanvas()._canvas;
+        var rgbCanvas = ((RgbLedCanvas)((IDirectCanvasAccess)display).GetCanvas())._canvas;
         font.DrawText(rgbCanvas, x, y, color, text, spacing, vertical);
     }
 

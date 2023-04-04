@@ -1,4 +1,4 @@
-namespace Core.Display.Fonts;
+namespace Core.Fonts;
 
 public enum LedFontType
 {

@@ -1,23 +1,25 @@
 using System.Diagnostics;
 using System.Drawing;
-using Core.Display.Fonts;
+using Core.Fonts;
 
-namespace Core.Effects.RunnerElements;
+namespace Core.Runner.RunnerElements;
 
 public class PauseElement : IPlayableGameElement
 {
+    private readonly IFontFactory fontFactory;
     private const int Top = 2;
     private int frameCount;
-    private readonly LedFont smallFont;
-    private readonly LedFont largeFont;
+    private readonly IFont smallFont;
+    private readonly IFont largeFont;
     private Stopwatch stopwatch = new Stopwatch();
     
-    public PauseElement()
+    public PauseElement(IFontFactory fontFactory)
     {
+        this.fontFactory = fontFactory;
         PauseAction = GamePauseAction.Paused;
         frameCount = 0;
-        smallFont = new LedFont(LedFontType.Font5x8);
-        largeFont = new LedFont(LedFontType.Font10x20);
+        smallFont = fontFactory.GetFont(LedFontType.Font5x8);
+        largeFont = fontFactory.GetFont(LedFontType.Font5x8);
     }
     
     public GamePauseAction PauseAction { get; private set; }

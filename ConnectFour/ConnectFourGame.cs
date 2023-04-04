@@ -3,6 +3,8 @@ using Core;
 using Core.Display.Sprites;
 using Core.Inputs;
 
+namespace ConnectFour;
+
 public class ConnectFourGame : IDuoPlayableGameElement
 {
     private readonly Player[,] grid;
@@ -11,8 +13,8 @@ public class ConnectFourGame : IDuoPlayableGameElement
     private const int Rows = 6;
     private const int Columns = 7;
     private const int CellSize = 8;
-    private SpriteAnimation gridPieces;
-    private SpriteAnimation dropPieces;
+    private readonly SpriteAnimation gridPieces;
+    private readonly SpriteAnimation dropPieces;
 
     public ConnectFourGame()
     {

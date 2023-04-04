@@ -80,5 +80,5 @@ public class LedDisplay : IDisplay, IDirectCanvasAccess
         canvas.DrawLine(x, y2, x, y, color);
     }
 
-    RgbLedCanvas IDirectCanvasAccess.GetCanvas() => canvas;
+    object IDirectCanvasAccess.GetCanvas() => canvas;
 }

@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
@@ -9,8 +8,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\core\Core.Display\Core.Display.csproj" />
-      <ProjectReference Include="..\core\Core.Effects\Core.Effects.csproj" />
-      <ProjectReference Include="..\core\Core.Inputs\Core.Inputs.csproj" />
     </ItemGroup>
 
 </Project>

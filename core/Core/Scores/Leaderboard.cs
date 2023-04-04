@@ -1,7 +1,7 @@
 using System.Drawing;
 using System.Text.Json;
 using Core;
-using Core.Display.Fonts;
+using Core.Fonts;
 
 public class Leaderboard : IPlayableGameElement
 {
@@ -16,17 +16,17 @@ public class Leaderboard : IPlayableGameElement
     private int score;
     private int initialsIndex;
 
-    private readonly LedFont font;
+    private readonly IFont font;
     private readonly Color textColor = Color.Green;
     private readonly Color highlightedTextColor = Color.Red;
     private readonly Color backgroundColor = Color.Black;
 
-    public Leaderboard(string gameName)
+    public Leaderboard(string gameName, IFontFactory fontFactory)
     {
         this.gameName = gameName;
         scoresFilePath = $"{gameName}.json";
 
-        font = new LedFont(LedFontType.Font5x7);
+        font = fontFactory.GetFont(LedFontType.Font5x7);
 
         LoadScoresFromFile();
     }

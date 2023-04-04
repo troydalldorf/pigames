@@ -2,9 +2,11 @@ using System.Diagnostics;
 using System.Drawing;
 using BomberMan;
 using Breakout;
+using Checkers;
+using ConnectFour;
 using Core;
-using Core.Display.Fonts;
-using Core.Effects;
+using Core.Fonts;
+using Core.Runner;
 using FlappyBird;
 using Frogger;
 using MemoryCard;
@@ -20,7 +22,8 @@ namespace All;
 public class Menu : IPlayableGameElement
 {
     private readonly GameRunner runner;
-    private readonly LedFont font = new(LedFontType.FontTomThumb);
+    private readonly IFontFactory fontFactory;
+    private readonly IFont font;
     private int cursor;
     private readonly Stopwatch stopwatch = new();
     private long lastActionAt;
@@ -29,31 +32,34 @@ public class Menu : IPlayableGameElement
     private const int Offset = 6;
     private const int ItemHeight = 6;
 
-    private readonly GameItem[] items =
-    {
-        new("Asteroid", () => new AsteroidsGame()),
-        new("B Man", () => new BombermanGame()),
-        new("Breakout", () => new BreakoutGame()),
-        new("C-Four", () => new ConnectFourGame(), 100),
-        new("Checkers", () => new CheckersGame()),
-        new("E-Pong", () => new PongPlayableGame()),
-        new("Flappy B", () => new FlappyBirdPlayableGame(), 50),
-        new("Frogger", () => new FroggerPlayableGame(), 100),
-        new("Othello", () => new OthelloGame()),
-        new("Memory", () => new MemoryCardGame()),
-        new("Mines", () => new MinesweeperGame()),
-        new("Pong", () => new PongPlayableGame()),
-        new("Snake", () => new SnakePlayableGame(), 100),
-        new("Snake 2", () => new SnakeGame2P(), 100),
-        new("Space I", () => new SpaceInvadersPlayableGame(), 75),
-        new("Tetris 1", () => new TetrisGame()),
-        new("Tetris 2", () => new DuoPlayableTetrisGame()),
-    };
+    private readonly GameItem[] items;
 
-    public Menu(GameRunner runner)
+    public Menu(GameRunner runner, IFontFactory fontFactory)
     {
+        this.fontFactory = fontFactory;
         this.runner = runner;
+        this.font = fontFactory.GetFont(LedFontType.FontTomThumb);
         stopwatch.Start();
+        this.items = new GameItem[]
+        {
+            new("Asteroid", () => new AsteroidsGame()),
+            new("B Man", () => new BombermanGame(fontFactory)),
+            new("Breakout", () => new BreakoutGame()),
+            new("C-Four", () => new ConnectFourGame(), 100),
+            new("Checkers", () => new CheckersGame(fontFactory)),
+            new("E-Pong", () => new PongPlayableGame(fontFactory)),
+            new("Flappy B", () => new FlappyBirdPlayableGame(fontFactory), 50),
+            new("Frogger", () => new FroggerPlayableGame(), 100),
+            new("Othello", () => new OthelloGame(fontFactory)),
+            new("Memory", () => new MemoryCardGame()),
+            new("Mines", () => new MinesweeperGame(fontFactory)),
+            new("Pong", () => new PongPlayableGame(fontFactory)),
+            new("Snake", () => new SnakePlayableGame(), 100),
+            new("Snake 2", () => new SnakeGame2P(), 100),
+            new("Space I", () => new SpaceInvadersPlayableGame(), 75),
+            new("Tetris 1", () => new TetrisGame(fontFactory)),
+            new("Tetris 2", () => new DuoPlayableTetrisGame(fontFactory)),
+        };
     }
 
     public void HandleInput(IPlayerConsole console)

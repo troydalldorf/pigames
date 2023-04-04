@@ -1,6 +1,6 @@
 using System.Drawing;
 using Core;
-using Core.Display.Fonts;
+using Core.Fonts;
 using Core.Inputs;
 
 namespace Othello;
@@ -9,7 +9,7 @@ public class OthelloGame : IDuoPlayableGameElement
 {
     private const int GridSize = 8;
 
-    private readonly LedFont font;
+    private readonly IFont font;
 
     private Grid grid;
     private Player currentPlayer;
@@ -17,9 +17,9 @@ public class OthelloGame : IDuoPlayableGameElement
     private int? blackScore;
     private int? whiteScore;
 
-    public OthelloGame()
+    public OthelloGame(IFontFactory fontFactory)
     {
-        font = new LedFont(LedFontType.Font4x6);
+        font = fontFactory.GetFont(LedFontType.Font4x6);
         Initialize();
     }
 

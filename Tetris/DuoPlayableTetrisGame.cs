@@ -1,5 +1,6 @@
 using Core;
 using Core.Effects;
+using Core.Fonts;
 
 namespace Tetris;
 
@@ -8,10 +9,10 @@ public class DuoPlayableTetrisGame : IDuoPlayableGameElement
     private readonly TetrisGame p1TetrisGame;
     private readonly TetrisGame p2TetrisGame;
 
-    public DuoPlayableTetrisGame()
+    public DuoPlayableTetrisGame(IFontFactory fontFactory)
     {
-        this.p1TetrisGame = new TetrisGame();
-        this.p2TetrisGame = new TetrisGame();
+        this.p1TetrisGame = new TetrisGame(fontFactory);
+        this.p2TetrisGame = new TetrisGame(fontFactory);
     }
 
     public void HandleInput(IPlayerConsole p1Console)

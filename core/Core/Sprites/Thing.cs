@@ -1,6 +1,6 @@
-using System.Runtime.Intrinsics.X86;
+using Core.Display.Sprites;
 
-namespace Core.Display.Sprites;
+namespace Core.Sprites;
 
 public class Thing
 {
@@ -38,7 +38,7 @@ public class Thing
         return new Collision(this, otherThing);
     }
 
-    public void Draw(LedDisplay display)
+    public void Draw(IDisplay display)
     {
         Sprite.Draw(display, X, Y, SpriteFrameNo);
     }

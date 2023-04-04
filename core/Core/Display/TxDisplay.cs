@@ -1,5 +1,4 @@
 using System.Drawing;
-using Core.Display.LedMatrix;
 
 namespace Core.Effects;
 
@@ -48,7 +47,7 @@ public class TxDisplay: IDisplay, IDirectCanvasAccess
         concrete.DrawRectangle(xTransform(x, y), yTransform(x, y), width, height, color);
     }
 
-    RgbLedCanvas IDirectCanvasAccess.GetCanvas()
+    object IDirectCanvasAccess.GetCanvas()
     {
         return ((IDirectCanvasAccess)concrete).GetCanvas();
     }

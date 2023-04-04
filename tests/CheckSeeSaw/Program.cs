@@ -1,6 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using Core;
+﻿using Core;
 using Core.Inputs;
 
 Console.WriteLine("Hello, World!");

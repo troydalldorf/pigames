@@ -1,5 +1,6 @@
 using Core;
 using Core.Display.Fonts;
+using Core.Fonts;
 
 namespace FlappyBird;
 
@@ -24,10 +25,11 @@ public class FlappyBirdPlayableGame : IPlayableGameElement
     private Rectangle[] pipes;
     private readonly Random random = new();
     private bool isDone;
-    private LedFont font = new LedFont(LedFontType.FontTomThumb);
+    private readonly IFont font;
 
-    public FlappyBirdPlayableGame()
+    public FlappyBirdPlayableGame(IFontFactory fontFactory)
     {
+        font = fontFactory.GetFont(LedFontType.FontTomThumb);
         Initialize();
     }
 

@@ -1,29 +1,33 @@
-using Core.Display;
-using Core.Effects.RunnerElements;
+using Core.Fonts;
 using Core.Inputs;
+using Core.Runner.RunnerElements;
 
-namespace Core.Effects;
+namespace Core.Runner;
 
 public class GameRunner : IDisposable
 {
     private int frameCount;
-    private readonly LedDisplay display;
+    private readonly IDisplay display;
+    private readonly IFontFactory fontFactory;
     private readonly Player1Console p1Console;
     private readonly Player2Console p2Console;
-    private readonly PlayableGameOverElement playableGameOverElement = new PlayableGameOverElement();
-    private readonly PauseElement pauseElement = new PauseElement();
+    private readonly PlayableGameOverElement playableGameOverElement;
+    private readonly PauseElement pauseElement;
 
-    public GameRunner()
+    public GameRunner(IDisplay display, IFontFactory fontFactory)
     {
-        display = new LedDisplay();
+        this.display = display;
+        this.fontFactory = fontFactory;
         p1Console = new Player1Console();
         p2Console = new Player2Console();
+        this.pauseElement = new PauseElement(fontFactory);
+        this.playableGameOverElement = new PlayableGameOverElement(fontFactory);
     }
 
     public void Run(Func<IPlayableGameElement> createGame, int? frameIntervalMs = 33, bool canPause = true, string name = "game")
     {
         Console.WriteLine($"Starting {name}...");
-        var leaderBoard = new Leaderboard(name);
+        var leaderBoard = new Leaderboard(name, this.fontFactory);
         var game = createGame();
         var currentElement = game;
         Console.WriteLine($"Running {name}...");

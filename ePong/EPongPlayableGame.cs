@@ -1,6 +1,6 @@
 using System.Drawing;
 using Core;
-using Core.Display.Fonts;
+using Core.Fonts;
 
 namespace ePong;
 
@@ -12,7 +12,7 @@ public class EPongPlayableGame : IDuoPlayableGameElement
     private const int PaddleHeight = 2;
     private const int BallSize = 2;
     
-    private readonly LedFont font;
+    private readonly IFont font;
     private int p1Score;
     private int p2Score;
 
@@ -22,9 +22,9 @@ public class EPongPlayableGame : IDuoPlayableGameElement
     private Point ballVelocity;
     private Random random;
 
-    public EPongPlayableGame()
+    public EPongPlayableGame(IFontFactory fontFactory)
     {
-        this.font = new LedFont(LedFontType.FontTomThumb);
+        this.font = fontFactory.GetFont(LedFontType.FontTomThumb);
         player1Paddle = new Rectangle(Width / 2 - PaddleWidth / 2, Height - 1 - PaddleHeight, PaddleWidth, PaddleHeight);
         player2Paddle = new Rectangle(Width / 2 - PaddleWidth / 2, 0, PaddleWidth, PaddleHeight);
         ballPosition = new Point(Width / 2, Height / 2);

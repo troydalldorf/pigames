@@ -24,4 +24,8 @@
       <ProjectReference Include="..\Tetris\Tetris.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="sfx" />
+    </ItemGroup>
+
 </Project>

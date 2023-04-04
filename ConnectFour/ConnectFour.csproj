@@ -1,19 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\core\Core.Effects\Core.Effects.csproj" />
+      <None Remove="c4.png" />
+      <EmbeddedResource Include="c4.png" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="c4.png" />
-      <EmbeddedResource Include="c4.png" />
+      <ProjectReference Include="..\core\Core\Core.csproj" />
     </ItemGroup>
 
 </Project>

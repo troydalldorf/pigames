@@ -1,24 +1,24 @@
 using System.Diagnostics;
 using System.Drawing;
-using Core.Display.Fonts;
+using Core.Fonts;
 
-namespace Core.Effects.RunnerElements;
+namespace Core.Runner.RunnerElements;
 
 public class PlayableGameOverElement : IPlayableGameElement
 {
     private const int Top = 2;
     private int frameCount;
-    private readonly LedFont smallFont;
-    private readonly LedFont largeFont;
+    private readonly IFont smallFont;
+    private readonly IFont largeFont;
     private Text text = new Text("GAME", "OVER", "PLAY AGAIN?");
     private readonly Stopwatch stopwatch = new Stopwatch();
 
-    public PlayableGameOverElement()
+    public PlayableGameOverElement(IFontFactory fontFactory)
     {
         GameOverAction = GameOverAction.None;
         frameCount = 0;
-        smallFont = new LedFont(LedFontType.Font5x8);
-        largeFont = new LedFont(LedFontType.Font10x20);
+        smallFont = fontFactory.GetFont(LedFontType.Font5x8);
+        largeFont = fontFactory.GetFont(LedFontType.Font10x20);
     }
     
     public GameOverAction GameOverAction { get; private set; }

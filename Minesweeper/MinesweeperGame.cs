@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using Core;
-using Core.Display.Fonts;
+using Core.Fonts;
 
 namespace Minesweeper;
 
@@ -14,7 +14,7 @@ public class MinesweeperGame : IPlayableGameElement
     private const int TileSize = 8;
     private const int NumMines = 10;
 
-    private LedFont font;
+    private IFont font;
     private int[,] board;
     private bool[,] revealed;
     private bool[,] flagged;
@@ -24,9 +24,9 @@ public class MinesweeperGame : IPlayableGameElement
     private readonly Stopwatch stopwatch = new Stopwatch();
     private long lastActionAt;
 
-    public MinesweeperGame()
+    public MinesweeperGame(IFontFactory fontFactory)
     {
-        this.font = new LedFont(LedFontType.FontTomThumb);
+        font = fontFactory.GetFont(LedFontType.FontTomThumb);
         Initialize();
     }
 

@@ -1,6 +1,6 @@
 using System.Drawing;
 using Core;
-using Core.Display.Fonts;
+using Core.Fonts;
 using DigDug.Bits;
 
 public class DigDugGame : IDuoPlayableGameElement
@@ -9,10 +9,11 @@ public class DigDugGame : IDuoPlayableGameElement
     private readonly List<Enemy> enemies;
     private readonly Tunnel tunnel;
     private readonly int score;
-    private readonly LedFont font = new LedFont(LedFontType.Font4x6);
+    private readonly IFont font;
 
-    public DigDugGame()
+    public DigDugGame(IFontFactory fontFactory)
     {
+        font = fontFactory.GetFont(LedFontType.Font4x6);
         player = new Player(32, 32);
         enemies = new List<Enemy>
         {

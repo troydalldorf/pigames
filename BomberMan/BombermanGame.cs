@@ -2,20 +2,18 @@ using BomberMan.Bits;
 using Core;
 using Core.Display.Fonts;
 using Core.Display.Sprites;
+using Core.Fonts;
 
 namespace BomberMan;
 
-using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Threading;
 
 public class BombermanGame : IDuoPlayableGameElement
 {
     private const int GridSize = 8;
     private const int BombTimer = 3000;
     private const int ExplosionDuration = 500;
-    private readonly LedFont font;
+    private readonly IFont font;
 
     private Grid grid;
     private Player player1;
@@ -26,9 +24,9 @@ public class BombermanGame : IDuoPlayableGameElement
     private Sprite p2Sprite;
     private Sprite bombSprite;
 
-    public BombermanGame()
+    public BombermanGame(IFontFactory fontFactory)
     {
-        font = new LedFont(LedFontType.Font4x6);
+        font = fontFactory.GetFont(LedFontType.Font4x6);
         var image = SpriteImage.FromResource("bm.png");
         p1Sprite = image.GetSprite(1, 1, 8, 8);
         p2Sprite = image.GetSprite(10, 1, 8, 8);

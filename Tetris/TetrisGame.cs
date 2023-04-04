@@ -3,6 +3,7 @@ using System.Drawing;
 using Core;
 using Core.Display.Fonts;
 using Core.Effects;
+using Core.Fonts;
 using Tetris.Bits;
 
 namespace Tetris;
@@ -24,19 +25,19 @@ public class TetrisGame : IPlayableGameElement
     private int frame;
     private readonly TetrisScore score = new();
     private readonly List<PixelBomb> pixelBombs = new();
-    private readonly LedFont font = new(LedFontType.FontTomThumb);
+    private readonly IFont font;
 
-    private readonly Random random;
     private readonly Stopwatch stopwatch;
     private long lastActionAt;
 
-    public TetrisGame()
+    public TetrisGame(IFontFactory fontFactory)
     {
+        this.font = fontFactory.GetFont(LedFontType.FontTomThumb);
         this.stopwatch = new Stopwatch();
         this.stopwatch.Start();
 
         grid = new TetrominoType[Width, Height];
-        random = new Random();
+        var random = new Random();
         randomizer = new SevenBagRandomizer(random);
         speed = 10;
         frame = 0;

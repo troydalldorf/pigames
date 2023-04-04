@@ -4,15 +4,12 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>Core</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\core\Core.Display\Core.Display.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="frogger.png" />
-      <Content Include="frogger.png" CopyToOutputDirectory="Always" />
+      <Folder Include="Display" />
+      <Folder Include="Inputs" />
     </ItemGroup>
 
 </Project>
