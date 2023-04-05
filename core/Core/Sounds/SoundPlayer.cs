@@ -17,8 +17,13 @@ public class SoundPlayer : IDisposable
     public void Play(Sound sound)
     {
         var filepath = Path.Combine(this.path, sound.Filename);
-        using var stream = File.OpenRead(filepath);
-        var soundStream = new SoundStream(stream, audioEngine);
+
+        using var fileStream = File.OpenRead(filepath);
+        var memoryStream = new MemoryStream();
+        fileStream.CopyTo(memoryStream);
+        memoryStream.Position = 0;
+
+        var soundStream = new SoundStream(memoryStream, audioEngine);
         soundStream.Play();
     }
 
