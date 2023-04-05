@@ -29,8 +29,8 @@ public class Menu : IPlayableGameElement
     private readonly Stopwatch stopwatch = new();
     private long lastActionAt;
     private readonly Random random = new();
-    private readonly SoundPlayer soundPlayer = new("./sfx");
-    private readonly Sound selectSound = new Sound("select.mp3");
+    private readonly SoundPlayer soundPlayer = new();
+    private readonly Sound selectSound = new Sound("./sfx/select.mp3");
 
     private const int Offset = 6;
     private const int ItemHeight = 6;

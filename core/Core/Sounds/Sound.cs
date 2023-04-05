@@ -2,10 +2,19 @@ namespace Core.Sounds;
 
 public class Sound
 {
-    public string Filename { get; private set; }
-
+    private readonly MemoryStream memoryStream;
+    
     public Sound(string filename)
     {
-        Filename = filename;
+        using var fileStream = File.OpenRead(filename);
+        memoryStream = new MemoryStream();
+        fileStream.CopyTo(memoryStream);
+        memoryStream.Position = 0;
+    }
+
+    public Stream GetStream()
+    {
+        memoryStream.Position = 0;
+        return memoryStream;
     }
 }

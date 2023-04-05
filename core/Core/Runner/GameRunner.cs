@@ -13,9 +13,9 @@ public class GameRunner : IDisposable
     private readonly Player2Console p2Console;
     private readonly PlayableGameOverElement playableGameOverElement;
     private readonly PauseElement pauseElement;
-    private readonly SoundPlayer player = new SoundPlayer("./sfx");
-    private readonly Sound winSound = new Sound("win.mp3");
-    private readonly Sound gameOverSound = new Sound("game-over.mp3");
+    private readonly SoundPlayer player = new SoundPlayer();
+    private readonly Sound winSound = new Sound("./sfx/win.mp3");
+    private readonly Sound gameOverSound = new Sound("./sfx/game-over.mp3");
 
     public GameRunner(IDisplay display, IFontFactory fontFactory)
     {
