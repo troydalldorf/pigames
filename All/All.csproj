@@ -29,6 +29,18 @@
       <Content Include="sfx\game-over.mp3" CopyToOutputDirectory="Always" />
       <None Remove="sfx\select.mp3" />
       <Content Include="sfx\select.mp3" CopyToOutputDirectory="Always" />
+      <None Remove="sfx\boom.mp3" />
+      <Content Include="sfx\boom.mp3" CopyToOutputDirectory="Always"/>
+      <None Remove="sfx\coin.mp3" />
+      <Content Include="sfx\coin.mp3" CopyToOutputDirectory="Always" />
+      <None Remove="sfx\dead.mp3" />
+      <Content Include="sfx\dead.mp3" CopyToOutputDirectory="Always" />
+      <None Remove="sfx\laser-quick.mp3" />
+      <Content Include="sfx\laser-quick.mp3" CopyToOutputDirectory="Always" />
+      <None Remove="sfx\level-passed.mp3" />
+      <Content Include="sfx\level-passed.mp3" CopyToOutputDirectory="Always" />
+      <None Remove="sfx\win.mp3" />
+      <Content Include="sfx\win.mp3" CopyToOutputDirectory="Always" />
     </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 using Core.Fonts;
 using Core.Inputs;
 using Core.Runner.RunnerElements;
+using Core.Sounds;
 
 namespace Core.Runner;
 
@@ -12,6 +13,9 @@ public class GameRunner : IDisposable
     private readonly Player2Console p2Console;
     private readonly PlayableGameOverElement playableGameOverElement;
     private readonly PauseElement pauseElement;
+    private readonly SoundPlayer player = new SoundPlayer("./sfx");
+    private readonly Sound winSound = new Sound("win.mp3");
+    private readonly Sound gameOverSound = new Sound("game-over.mp3");
 
     public GameRunner(IDisplay display, IFontFactory fontFactory)
     {
@@ -46,6 +50,14 @@ public class GameRunner : IDisposable
             {
                 playableGameOverElement.Apply(game.State);
                 currentElement = playableGameOverElement;
+                if (game.State is GameOverState.Player1Wins or GameOverState.Player2Wins or GameOverState.Draw)
+                {
+                    player.Play(winSound);
+                }
+                else
+                {
+                    player.Play(gameOverSound);
+                }
             }
             // play -> pause
             else if (canPause && currentElement == game && p1Console.ReadButtons().IsRedPushed())
