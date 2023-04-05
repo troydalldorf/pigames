@@ -6,7 +6,6 @@ namespace Core.Runner;
 
 public class GameRunner : IDisposable
 {
-    private int frameCount;
     private readonly IDisplay display;
     private readonly IFontFactory fontFactory;
     private readonly Player1Console p1Console;

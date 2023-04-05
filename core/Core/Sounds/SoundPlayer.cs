@@ -1,27 +1,29 @@
-using CSCore.SoundOut;
+using SharpAudio;
+using SharpAudio.Codec;
 
 namespace Core.Sounds;
 
-public class Player : IDisposable
+public class SoundPlayer : IDisposable
 {
-    private readonly ISoundOut outputDevice;
+    private readonly string path;
+    private readonly AudioEngine audioEngine;
 
-    public Player()
+    public SoundPlayer(string path)
     {
-        outputDevice = new WasapiOut();
+        this.path = path;
+        audioEngine = AudioEngine.CreateDefault();
     }
 
     public void Play(Sound sound)
     {
-        outputDevice.Initialize(sound);
-        outputDevice.Play();
-        //outputDevice.Stop();
+        var filepath = Path.Combine(this.path, sound.Filename);
+        using var stream = File.OpenRead(filepath);
+        var soundStream = new SoundStream(stream, audioEngine);
+        soundStream.Play();
     }
 
     public void Dispose()
     {
-        outputDevice.Dispose();
+        audioEngine.Dispose();
     }
 }
-
-
