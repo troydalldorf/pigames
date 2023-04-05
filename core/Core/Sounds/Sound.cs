@@ -14,7 +14,6 @@ public class Sound
 
     public Stream GetStream()
     {
-        memoryStream.Position = 0;
-        return memoryStream;
+        return new SharedMemoryStream(memoryStream);
     }
 }
