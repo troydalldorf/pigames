@@ -10,12 +10,12 @@ public class Ship : VectorElement
     
     private static readonly PointF[] Shape = new[]
     {
+        new PointF(-1, 1),
+        new PointF(0, -1),
         new PointF(1, 1),
-        new PointF(1, 0),
-        new PointF(1, -1),
     };
 
-    public Ship(int displayWidth, int displayHeight, Color color) : base(Shape, color, displayWidth, displayHeight)
+    public Ship(int displayWidth, int displayHeight, Color color) : base(Shape, 90f, color, displayWidth, displayHeight)
     {
     }
 
@@ -32,7 +32,6 @@ public class Ship : VectorElement
 
     public override void Draw(IDisplay display)
     {
-        // thruster
         if (Thrusting)
         {
             // Calculate the direction of the ship's nose
@@ -56,6 +55,7 @@ public class Ship : VectorElement
         }
         // gun
         display.SetPixel((int)(Location.X+Velocity.X), (int)(Location.Y+Velocity.X),  Color.WhiteSmoke);
+        
         // ship
         base.Draw(display);
     }

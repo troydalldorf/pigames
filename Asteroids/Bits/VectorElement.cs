@@ -11,13 +11,15 @@ public abstract class VectorElement : IGameElement
     public float RotationSpeed { get; set; }
     public int Size { get; set; }
     private readonly PointF[] shape;
+    private readonly float shapeRotation;
     public Color Color { get; }
     protected int DisplayWidth { get; }
     protected int DisplayHeight { get; }
 
-    public VectorElement(PointF[] shape, Color color, int displayWidth, int displayHeight)
+    public VectorElement(PointF[] shape, float shapeRotation, Color color, int displayWidth, int displayHeight)
     {
         this.shape = shape;
+        this.shapeRotation = shapeRotation;
         this.Color = color;
         this.DisplayWidth = displayWidth;
         this.DisplayHeight = displayHeight;
@@ -57,7 +59,7 @@ public abstract class VectorElement : IGameElement
     public virtual void Draw(IDisplay display)
     {
         // Scale and rotate the shape
-        var radians = Rotation * Math.PI / 180;
+        var radians = (Rotation + shapeRotation) * Math.PI / 180;
         var transformedShape = new PointF[shape.Length];
         for (var i = 0; i < shape.Length; i++)
         {
