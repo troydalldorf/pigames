@@ -7,8 +7,8 @@ public class Bullet : IGameElement
 {
     public PointF Location { get; private set; }
     private PointF lastLocation;
-    public PointF Velocity { get; private set; }
-    public int Life { get; private set; }
+    public PointF Velocity { get; }
+    public int Life { get; }
     
     public Bullet(PointF location, PointF velocity, int life)
     {

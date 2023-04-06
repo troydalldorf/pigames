@@ -8,11 +8,11 @@ public class Ship : VectorElement
     private const float ThrustPower = 0.1f;
     public bool Thrusting { get; set; }
     
-    private static readonly PointF[] Shape = new[]
+    private static readonly PointF[] RotatedShape = new[]
     {
-        new PointF(-1, 1),
-        new PointF(0, -1),
         new PointF(1, 1),
+        new PointF(1, 0),
+        new PointF(1, -1),
     };
 
     public Ship(int displayWidth, int displayHeight, Color color) : base(Shape, color, displayWidth, displayHeight)
