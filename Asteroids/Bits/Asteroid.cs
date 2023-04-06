@@ -15,7 +15,7 @@ public class Asteroid : VectorElement
         new[] { new PointF(-1, 0), new PointF(0, -1), new PointF(1, 0), new PointF(0, 1) },
     };
 
-    public Asteroid(int displayWidth, int displayHeight) : base(GetRandomShape(), Color.Gray, displayWidth, displayHeight)
+    public Asteroid(int displayWidth, int displayHeight) : base(GetRandomShape(), 0f, Color.Gray, displayWidth, displayHeight)
     {
     }
 
