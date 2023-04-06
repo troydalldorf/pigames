@@ -8,7 +8,7 @@ public class Ship : VectorElement
     private const float ThrustPower = 0.1f;
     public bool Thrusting { get; set; }
     
-    private static readonly PointF[] RotatedShape = new[]
+    private static readonly PointF[] Shape = new[]
     {
         new PointF(1, 1),
         new PointF(1, 0),
