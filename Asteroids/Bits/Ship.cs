@@ -35,7 +35,7 @@ public class Ship : VectorElement
         if (Thrusting)
         {
             // Calculate the direction of the ship's nose
-            var radians = Rotation * Math.PI / 180;
+            var radians = (Rotation + 90) * Math.PI / 180;
             var noseDirection = new PointF((float)Math.Sin(radians), (float)-Math.Cos(radians));
 
             // Calculate the start and end points of the orange line
