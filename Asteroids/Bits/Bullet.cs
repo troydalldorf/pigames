@@ -5,23 +5,31 @@ namespace Asteroids.Bits;
 
 public class Bullet : IGameElement
 {
-    public PointF Location { get; set; }
-    public PointF Velocity { get; set; }
-    public int Life { get; set; }
+    public PointF Location { get; private set; }
+    private PointF lastLocation;
+    public PointF Velocity { get; private set; }
+    public int Life { get; private set; }
+    
+    public Bullet(PointF location, PointF velocity, int life)
+    {
+        Location = location;
+        lastLocation = location;
+        Velocity = velocity;
+        Life = life;
+    }
     
     public void Update()
     {
-        // Update the bullet's location based on its velocity
+        lastLocation = Location;
         Location = new PointF(Location.X + Velocity.X, Location.Y + Velocity.Y);
     }
 
     public void Draw(IDisplay display)
     {
-        // Draw the bullet as a single pixel on the display
-        display.SetPixel((int)Location.X, (int)Location.Y, Color.White);
+        display.DrawLine((int)lastLocation.X, (int)lastLocation.Y, (int)Location.X, (int)Location.Y, Color.White);
     }
     
-    private const float BulletRadius = 0.5f;
+    private const float BulletRadius = 2f;
 
     public bool IsCollidingWith(Asteroid asteroid)
     {

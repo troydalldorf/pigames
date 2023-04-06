@@ -5,27 +5,29 @@ using Core.Display.Fonts;
 using Core.Effects;
 using Core.Fonts;
 
+namespace Asteroids;
+
 public class AsteroidsGame : IDuoPlayableGameElement
 {
     private readonly List<Ship> ships;
     private readonly List<Asteroid> asteroids;
     private readonly List<Bullet> bullets;
     private readonly LedFont scoreFont;
-    private List<PixelBomb> pixelBombs = new();
+    private readonly List<PixelBomb> pixelBombs = new();
     private int[] scores;
     private const int DisplayWidth = 64;
     private const int DisplayHeight = 64;
     private const int MaxBullets = 250;
     private const int BulletLife = 64;
-    private const float ShipRotationSpeed = 10f;
+    private const float ShipRotationSpeed = 20f;
     private const float BulletSpeed = 4f;
 
     public AsteroidsGame()
     {
         ships = new List<Ship>
         {
-            new Ship(DisplayWidth, DisplayHeight, Color.Red) { Location = new PointF(32, 32), Size=2, Rotation = 0, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false },
-            new Ship(DisplayWidth, DisplayHeight, Color.Blue) { Location = new PointF(32, 32), Size=2, Rotation = 180, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false }
+            new Ship(DisplayWidth, DisplayHeight, Color.Red) { Location = new PointF(32, 27), Size=2, Rotation = 0, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false },
+            new Ship(DisplayWidth, DisplayHeight, Color.Blue) { Location = new PointF(32, 37), Size=2, Rotation = 180, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false }
         };
         asteroids = new List<Asteroid>();
         bullets = new List<Bullet>();
@@ -77,12 +79,10 @@ public class AsteroidsGame : IDuoPlayableGameElement
         if (buttons.IsGreenPushed() && bullets.Count < MaxBullets)
         {
             var radians = ship.Rotation * (Math.PI / 180);
-            bullets.Add(new Bullet
-            {
-                Location = new PointF(ship.Location.X, ship.Location.Y),
-                Velocity = new PointF((float)Math.Cos(radians) * BulletSpeed, (float)Math.Sin(radians) * BulletSpeed),
-                Life = BulletLife
-            });
+            bullets.Add(new Bullet(
+                new PointF(ship.Location.X, ship.Location.Y),
+                new PointF((float)Math.Cos(radians) * BulletSpeed, (float)Math.Sin(radians) * BulletSpeed),
+                BulletLife));
         }
     }
 
