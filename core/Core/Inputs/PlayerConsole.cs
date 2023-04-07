@@ -73,6 +73,7 @@ public class PlayerConsole : IDisposable, IPlayerConsole
     public void LightButtons(bool red, bool green, bool blue, bool yellow)
     {
         buttonsSeesaw.WriteGpioDigital(12, red);
+        buttonsSeesaw.WriteGpioDigital(13, yellow);
         buttonsSeesaw.WriteGpioDigital(1, blue);
         buttonsSeesaw.WriteGpioDigital(0, green);
     }
