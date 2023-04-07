@@ -60,7 +60,7 @@ public class GameRunner : IDisposable
                 }
             }
             // play -> pause
-            else if (canPause && currentElement == game && p1Console.ReadButtons().IsRedPushed())
+            else if (canPause && currentElement == game && p1Console.ReadButtons().IsYellowPushed())
             {
                 pauseElement.Reset();
                 currentElement = pauseElement;
