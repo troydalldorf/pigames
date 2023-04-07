@@ -10,4 +10,11 @@
       <ProjectReference Include="..\core\Core.Display\Core.Display.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="flappy.png" />
+      <EmbeddedResource Include="flappy.png">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+
 </Project>
