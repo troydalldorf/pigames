@@ -13,9 +13,9 @@ public class FlappyBirdPlayableGame : IPlayableGameElement
 {
     private const int Width = 64;
     private const int Height = 64;
-    private const int BirdSize = 8;
-    private const int PipeWidth = 8;
-    private const int PipeGapStart = 24;
+    private const int BirdSize = 4;
+    private const int PipeWidth = 4;
+    private const int PipeGapStart = 32;
     private int pipeGap = PipeGapStart;
     private const int NumPipes = 3;
     private const int PipeSpacing = Width / NumPipes;
@@ -122,7 +122,7 @@ public class FlappyBirdPlayableGame : IPlayableGameElement
     public void Draw(IDisplay display)
     {
         // Draw bird
-        birdSprite.Draw(display, bird.X, bird.Y);
+        birdSprite.Draw(display, bird.X-2, bird.Y-2);
 
         // Draw pipes
         foreach (var pipe in pipes)
