@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Asteroids\Asteroids.csproj" />
+      <ProjectReference Include="..\AstroChicken\AstroChicken.csproj" />
       <ProjectReference Include="..\BomberMan\BomberMan.csproj" />
       <ProjectReference Include="..\Breakout\Breakout.csproj" />
       <ProjectReference Include="..\Checkers\Checkers.csproj" />
@@ -30,7 +31,7 @@
       <None Remove="sfx\select.mp3" />
       <Content Include="sfx\select.mp3" CopyToOutputDirectory="Always" />
       <None Remove="sfx\boom.mp3" />
-      <Content Include="sfx\boom.mp3" CopyToOutputDirectory="Always"/>
+      <Content Include="sfx\boom.mp3" CopyToOutputDirectory="Always" />
       <None Remove="sfx\coin.mp3" />
       <Content Include="sfx\coin.mp3" CopyToOutputDirectory="Always" />
       <None Remove="sfx\dead.mp3" />

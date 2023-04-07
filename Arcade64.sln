@@ -63,6 +63,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{A291
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckAudio", "tests\CheckAudio\CheckAudio.csproj", "{FA81A311-939B-40FB-BD3A-77A822460288}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AstroChicken", "AstroChicken\AstroChicken.csproj", "{FC12E31D-4467-4977-A04B-5FF098EEB9F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -173,6 +175,10 @@ Global
 		{FA81A311-939B-40FB-BD3A-77A822460288}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA81A311-939B-40FB-BD3A-77A822460288}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA81A311-939B-40FB-BD3A-77A822460288}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC12E31D-4467-4977-A04B-5FF098EEB9F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC12E31D-4467-4977-A04B-5FF098EEB9F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC12E31D-4467-4977-A04B-5FF098EEB9F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC12E31D-4467-4977-A04B-5FF098EEB9F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AABB21BF-4A48-44D2-AE86-1E5262683C4C} = {4CF79911-C0E7-4EB0-AC65-B9A0317F458D}

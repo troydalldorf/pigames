@@ -47,6 +47,7 @@ public class Menu : IPlayableGameElement
         this.items = new GameItem[]
         {
             new("Asteroid", () => new AsteroidsGame()),
+            new("Astro C", () => new AstroChicken.AstroChicken(fontFactory)),
             new("B Man", () => new BombermanGame(fontFactory)),
             new("Breakout", () => new BreakoutGame()),
             new("C-Four", () => new ConnectFourGame(), 100),
@@ -92,7 +93,7 @@ public class Menu : IPlayableGameElement
         }
 
         var r = random.Next(0, 4);
-        console.LightButtons(r == 0, r == 2, r == 3, r == 4);
+        console.LightButtons(r == 0, r == 1, r == 2, r == 3);
     }
 
     public void Update()
