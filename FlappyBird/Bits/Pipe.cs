@@ -6,8 +6,8 @@ namespace FlappyBird.Bits;
 
 public class Pipe : IGameElement
 {
-    public int X { get; private set; }
-    public Rectangle Rectangle => new(X, y, width, height);
+    private int x;
+    public Rectangle Rectangle => new(x, y, width, height);
     private readonly int y;
     private readonly int width;
     private readonly int height;
@@ -16,7 +16,7 @@ public class Pipe : IGameElement
 
     public Pipe(int x, int y, int width, int height, bool isTop, SpriteAnimation sprite)
     {
-        this.X = x;
+        this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
@@ -26,22 +26,17 @@ public class Pipe : IGameElement
 
     public void Update()
     {
-        X -= 1;
+        x -= 1;
     }
     
     public void Draw(IDisplay display)
     {
-        // if (IsTop)
-        // {
-        //     for (var row=0; row<height/sprite.Height; row++)
-        //     {
-        //         sprite.Draw(display, X, y + row * sprite.Height, r);
-        //     }
-        //     sprite.Draw(display, X, y);
-        // }
-        // else
-        // {
-        //     sprite.Draw(display, X, y, SpriteFlip.Vertical);
-        // }
+        var rows = height / sprite.Height;
+        sprite.Draw(display, x, y, IsTop ? 1 : 2);
+        for (var row = 1; row < rows-1; row++)
+        {
+            sprite.Draw(display, x, y + row * sprite.Height, 1);
+        }
+        sprite.Draw(display, x, y, IsTop ? 0 : 1);
     }
 }

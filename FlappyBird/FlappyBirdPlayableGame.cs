@@ -107,7 +107,7 @@ public class FlappyBirdPlayableGame : IPlayableGameElement
         }
 
         // Increase score if bird passes through a pair of pipes
-        if (pipes.Any(pipe => pipe.X + PipeWidth == bird.X))
+        if (pipes.Any(pipe => pipe.Rectangle.Right == bird.X))
         {
             score++;
         }
@@ -121,19 +121,9 @@ public class FlappyBirdPlayableGame : IPlayableGameElement
 
     public void Draw(IDisplay display)
     {
-        // Draw bird
         birdSprite.Draw(display, bird.X-2, bird.Y-2);
-
-        // Draw pipes
         foreach (var pipe in pipes)
-        {
-            var r = pipe.Rectangle;
-            display.DrawRectangle(r.X, r.Y, PipeWidth, r.Height, Color.Green, Color.DarkGreen);
-            display.DrawLine(r.X + 1, r.Y + 1, pipe.X + 1, r.Y + r.Height - 1, Color.LawnGreen);
-            //pipe.Draw(display);
-        }
-
-        // Draw score
+            pipe.Draw(display);
         font.DrawText(display, Width-8, 10, Color.DarkOliveGreen, score.ToString());
     }
 
