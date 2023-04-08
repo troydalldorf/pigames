@@ -53,7 +53,6 @@ public class Card
             Rank.N7 => "7",
             Rank.N8 => "8",
             Rank.N9 => "9",
-            Rank.T => "10",
             _ => rank.ToString()
         };
     }

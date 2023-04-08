@@ -6,7 +6,6 @@ public enum Rank
     K,
     Q,
     J,
-    T,
     N9,
     N8,
     N7,

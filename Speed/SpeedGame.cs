@@ -1,22 +1,18 @@
 using Core;
 using Core.Fonts;
 using Speed.Bits;
+using System.Drawing;
 
 namespace Speed;
-
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 
 public class SpeedGame : IDuoPlayableGameElement
 {
     private const int TimeoutSeconds = 5;
     private DateTime timeout = DateTime.Now.AddSeconds(TimeoutSeconds);
-    private Player p1;
-    private Player p2;
+    private readonly Player p1;
+    private readonly Player p2;
     private readonly IFont font;
-    bool matched = false;
+    private bool matched = false;
 
     public SpeedGame(IFontFactory fontFactory)
     {
@@ -30,20 +26,20 @@ public class SpeedGame : IDuoPlayableGameElement
 
     public void HandleInput(IPlayerConsole player1Console)
     {
-        HandleInput(player1Console, p1, GameOverState.Player1Wins);
+        HandleInput(player1Console, p1, p2, GameOverState.Player1Wins);
     }
 
     public void Handle2PInput(IPlayerConsole player2Console)
     {
-        HandleInput(player2Console, p2, GameOverState.Player2Wins);
+        HandleInput(player2Console, p2, p1, GameOverState.Player2Wins);
     }
     
-    public void HandleInput(IPlayerConsole console, Player player, GameOverState winState)
+    public void HandleInput(IPlayerConsole console, Player player, Player otherPlayer, GameOverState winState)
     {
         var buttons = console.ReadButtons();
         if (player.IsTurn && buttons.IsBluePushed())
         {
-            TryNextCard(player, winState);
+            TryNextCard(player, otherPlayer, winState);
         }
         else if (!player.IsTurn && buttons.IsBluePushed())
         {
@@ -56,13 +52,13 @@ public class SpeedGame : IDuoPlayableGameElement
         }
     }
 
-    private void TryNextCard(Player player, GameOverState winState)
+    private void TryNextCard(Player player, Player otherPlayer, GameOverState winState)
     {
         if (player.HasCards) 
         {
             player.NextCard();
-            p1.IsTurn = false;
-            p2.IsTurn = true;
+            player.IsTurn = false;
+            otherPlayer.IsTurn = true;
             timeout = DateTime.Now.AddSeconds(TimeoutSeconds);
         }
         else
@@ -75,10 +71,10 @@ public class SpeedGame : IDuoPlayableGameElement
     public void Update()
     {
         if (p1.IsTurn && DateTime.Now >= timeout) 
-            TryNextCard(p1, GameOverState.Player1Wins);
+            TryNextCard(p1, p2, GameOverState.Player1Wins);
 
         if (p2.IsTurn && DateTime.Now >= timeout)
-            TryNextCard(p2, GameOverState.Player2Wins);
+            TryNextCard(p2, p1, GameOverState.Player2Wins);
     }
 
     public void Draw(IDisplay display)
