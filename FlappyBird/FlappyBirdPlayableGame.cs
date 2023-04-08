@@ -37,8 +37,8 @@ public class FlappyBirdPlayableGame : IPlayableGameElement
         font = fontFactory.GetFont(LedFontType.FontTomThumb);
         var image = SpriteImage.FromResource("flappy.png");
         birdSprite = image.GetSprite(1, 1, 9, 8);
-        greenPipeSprite = image.GetSpriteAnimation(1, 9, 8, 8, 3, 1);
-        orangePipeSprite = image.GetSpriteAnimation(1, 18, 8, 8, 3, 1);
+        greenPipeSprite = image.GetSpriteAnimation(1, 10, 8, 8, 3, 1);
+        orangePipeSprite = image.GetSpriteAnimation(1, 19, 8, 8, 3, 1);
         Initialize();
     }
 
