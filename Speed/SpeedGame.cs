@@ -125,9 +125,9 @@ public class SpeedGame : IDuoPlayableGameElement
     {
         display.Clear();
         player1Card?.Draw(display, 0, 0, p1Turn ? Color.Red : null, font);
-        player2Card?.Draw(display, display.Width - Card.CardWidth, display.Height -Card.CardHeight, p1Turn ? null : Color.GreenYellow, font);
-        font.DrawText(display, 2, display.Height / 2 - 7, Color.White, player1Score.ToString());
-        font.DrawText(display, display.Width - 10, display.Height / 2 + 2, Color.White, player2Score.ToString());
+        player2Card?.Draw(display, display.Width - Card.CardWidth, display.Height -Card.CardHeight, !p1Turn ? Color.GreenYellow : null, font);
+        font.DrawText(display, 16, 48, Color.White, player1Score.ToString());
+        font.DrawText(display, 48, 16, Color.White, player2Score.ToString());
     }
 
     public GameOverState State { get; private set; }
