@@ -104,20 +104,8 @@ public class SpeedGame : IDuoPlayableGameElement
     public void Draw(IDisplay display)
     {
         display.Clear();
-
-        // Draw Player 1's card
-        if (player1Card != null)
-        {
-            player1Card.Draw(display, 0, 0, true, font);
-        }
-
-        // Draw Player 2's card
-        if (player2Card != null)
-        {
-            player2Card.Draw(display, display.Width - Card.CardWidth, display.Height -Card.CardHeight, false, font);
-        }
-
-        // Draw scores
+        player1Card?.Draw(display, 0, 0, true, font);
+        player2Card?.Draw(display, display.Width - Card.CardWidth, display.Height -Card.CardHeight, false, font);
         font.DrawText(display, 2, display.Height / 2 - 7, Color.White, player1Score.ToString());
         font.DrawText(display, display.Width - 10, display.Height / 2 + 2, Color.White, player2Score.ToString());
     }
