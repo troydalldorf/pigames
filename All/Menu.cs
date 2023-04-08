@@ -17,7 +17,6 @@ using Othello;
 using Pong;
 using Snake;
 using SpaceInvaders2;
-using Speed;
 using Tetris;
 
 namespace All;
