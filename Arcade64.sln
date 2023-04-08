@@ -65,6 +65,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckAudio", "tests\CheckAu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AstroChicken", "AstroChicken\AstroChicken.csproj", "{FC12E31D-4467-4977-A04B-5FF098EEB9F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Speed", "Speed\Speed.csproj", "{EEA97998-CB2B-42D1-89EF-02DB575DE9B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -179,6 +181,10 @@ Global
 		{FC12E31D-4467-4977-A04B-5FF098EEB9F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC12E31D-4467-4977-A04B-5FF098EEB9F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC12E31D-4467-4977-A04B-5FF098EEB9F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEA97998-CB2B-42D1-89EF-02DB575DE9B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEA97998-CB2B-42D1-89EF-02DB575DE9B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEA97998-CB2B-42D1-89EF-02DB575DE9B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEA97998-CB2B-42D1-89EF-02DB575DE9B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AABB21BF-4A48-44D2-AE86-1E5262683C4C} = {4CF79911-C0E7-4EB0-AC65-B9A0317F458D}

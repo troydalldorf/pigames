@@ -17,6 +17,7 @@ using Othello;
 using Pong;
 using Snake;
 using SpaceInvaders2;
+using Speed;
 using Tetris;
 
 namespace All;
@@ -62,6 +63,7 @@ public class Menu : IPlayableGameElement
             new("Snake", () => new SnakePlayableGame(), 100),
             new("Snake 2", () => new SnakeGame2P(), 100),
             new("Space I", () => new SpaceInvadersPlayableGame(), 75),
+            new("Speed", () => new SpeedGame(fontFactory), 100),
             new("Tetris 1", () => new TetrisGame(fontFactory)),
             new("Tetris 2", () => new DuoPlayableTetrisGame(fontFactory)),
         };

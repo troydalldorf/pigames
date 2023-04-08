@@ -22,6 +22,7 @@
       <ProjectReference Include="..\Pong\Pong.csproj" />
       <ProjectReference Include="..\Snake\Snake.csproj" />
       <ProjectReference Include="..\SpaceInvaders2\SpaceInvaders2.csproj" />
+      <ProjectReference Include="..\Speed\Speed.csproj" />
       <ProjectReference Include="..\Tetris\Tetris.csproj" />
     </ItemGroup>
 
