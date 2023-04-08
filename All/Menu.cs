@@ -63,7 +63,7 @@ public class Menu : IPlayableGameElement
             new("Snake", () => new SnakePlayableGame(), 100),
             new("Snake 2", () => new SnakeGame2P(), 100),
             new("Space I", () => new SpaceInvadersPlayableGame(), 75),
-            new("Speed", () => new SpeedGame(fontFactory), 100),
+            //new("Speed", () => new SpeedGame(fontFactory), 100),
             new("Tetris 1", () => new TetrisGame(fontFactory)),
             new("Tetris 2", () => new DuoPlayableTetrisGame(fontFactory)),
         };
@@ -90,7 +90,7 @@ public class Menu : IPlayableGameElement
         if (buttons.IsGreenPushed())
         {
             var (name, game, displayInterval) = items[cursor];
-            soundPlayer.Play(selectSound);
+            //soundPlayer.Play(selectSound);
             runner.Run(game, displayInterval, name:name);
         }
 

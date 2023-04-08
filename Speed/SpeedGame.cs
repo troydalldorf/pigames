@@ -48,7 +48,7 @@ public class SpeedGame : IDuoPlayableGameElement
 
         if (buttons.IsGreenPushed())
         {
-            CheckMatch(1);
+            CheckMatch(player);
         }
     }
 
@@ -88,16 +88,13 @@ public class SpeedGame : IDuoPlayableGameElement
 
     public GameOverState State { get; private set; }
 
-    private void CheckMatch(int player)
+    private void CheckMatch(Player player)
     {
         if (matched) return;
         if (p1.CurrentCard != null && p1.CurrentCard?.Rank == p2.CurrentCard?.Rank)
         {
             matched = true;
-            if (player == 1)
-                p1.ScoreMatch();
-            else 
-                p2.ScoreMatch();
+            player.ScoreMatch();
         }
     }
 }

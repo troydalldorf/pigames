@@ -14,8 +14,8 @@ public class GameRunner : IDisposable
     private readonly PlayableGameOverElement playableGameOverElement;
     private readonly PauseElement pauseElement;
     private readonly SoundPlayer player = new SoundPlayer();
-    private readonly Sound winSound = new Sound("./sfx/win.mp3");
-    private readonly Sound gameOverSound = new Sound("./sfx/game-over.mp3");
+    // private readonly Sound winSound = new Sound("./sfx/win.mp3");
+    // private readonly Sound gameOverSound = new Sound("./sfx/game-over.mp3");
 
     public GameRunner(IDisplay display, IFontFactory fontFactory)
     {
@@ -52,11 +52,11 @@ public class GameRunner : IDisposable
                 currentElement = playableGameOverElement;
                 if (game.State is GameOverState.Player1Wins or GameOverState.Player2Wins or GameOverState.Draw)
                 {
-                    player.Play(winSound);
+                    // player.Play(winSound);
                 }
                 else
                 {
-                    player.Play(gameOverSound);
+                    // player.Play(gameOverSound);
                 }
             }
             // play -> pause
