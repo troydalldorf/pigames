@@ -85,8 +85,8 @@ public class SpeedGame : IDuoPlayableGameElement
     {
         display.Clear();
         font.DrawText(display, 16, 48, Color.White, p1.Score.ToString());
-        p1.CurrentCard?.Draw(display, display.Width - Card.CardWidth, display.Height -Card.CardHeight, p2.IsTurn ? Color.Red : null, font);
-        p2.CurrentCard?.Draw(display, 0, 0, p1.IsTurn ? Color.Blue : null, font);
+        p1.CurrentCard?.Draw(display, display.Width - Card.CardWidth, display.Height -Card.CardHeight, p1.IsTurn ? Color.Red : null, font);
+        p2.CurrentCard?.Draw(display, 0, 0, p2.IsTurn ? Color.Blue : null, font);
         font.DrawText(display, 48, 16, Color.White, p2.Score.ToString());
     }
 
