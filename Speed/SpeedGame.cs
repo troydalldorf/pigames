@@ -12,56 +12,42 @@ using System.Linq;
 public class SpeedGame : IDuoPlayableGameElement
 {
     private const int TimeoutSeconds = 5;
-
-    private readonly Queue<Card> player1Cards;
-    private readonly Queue<Card> player2Cards;
-    private Card? player1Card;
-    private Card? player2Card;
-    private int player1Score;
-    private int player2Score;
-    private DateTime player1Timeout;
-    private DateTime player2Timeout;
-    private bool p1Turn;
+    private DateTime timeout = DateTime.Now.AddSeconds(TimeoutSeconds);
+    private Player p1;
+    private Player p2;
     private readonly IFont font;
+    bool matched = false;
 
     public SpeedGame(IFontFactory fontFactory)
     {
         font = fontFactory.GetFont(LedFontType.Font6x12);
-
         var deck = Card.GenerateDeck().Shuffle().ToList();
-        player1Cards = new Queue<Card>(deck.Take(26));
-        player2Cards = new Queue<Card>(deck.Skip(26).Take(26));
-
-        player1Score = 0;
-        player2Score = 0;
-
-        player1Card = null;
-        player2Card = null;
-
-        player1Timeout = DateTime.Now.AddSeconds(TimeoutSeconds);
-        player2Timeout = DateTime.Now.AddSeconds(TimeoutSeconds);
-        p1Turn = true;
+        p1 = new Player(deck.Take(26));
+        p2 = new Player(deck.Skip(26).Take(26));
+        p1.IsTurn = true;
+        p2.IsTurn = false;
     }
 
     public void HandleInput(IPlayerConsole player1Console)
     {
-        var buttons = player1Console.ReadButtons();
-        if (p1Turn && buttons.IsBluePushed())
+        HandleInput(player1Console, p1, GameOverState.Player1Wins);
+    }
+
+    public void Handle2PInput(IPlayerConsole player2Console)
+    {
+        HandleInput(player2Console, p2, GameOverState.Player2Wins);
+    }
+    
+    public void HandleInput(IPlayerConsole console, Player player, GameOverState winState)
+    {
+        var buttons = console.ReadButtons();
+        if (player.IsTurn && buttons.IsBluePushed())
         {
-            if (player1Cards.Count > 0)
-            {
-                player1Card = player1Cards.Dequeue();
-                p1Turn = false;
-                player2Timeout = DateTime.Now.AddSeconds(TimeoutSeconds);
-            }
-            else
-            {
-                State = GameOverState.Player2Wins;
-            }
+            TryNextCard(player, winState);
         }
-        else if (!p1Turn && buttons.IsBluePushed())
+        else if (!player.IsTurn && buttons.IsBluePushed())
         {
-            player1Score--;
+            player.ScoreMiss();
         }
 
         if (buttons.IsGreenPushed())
@@ -70,80 +56,52 @@ public class SpeedGame : IDuoPlayableGameElement
         }
     }
 
-    public void Handle2PInput(IPlayerConsole player2Console)
+    private void TryNextCard(Player player, GameOverState winState)
     {
-        var buttons = player2Console.ReadButtons();
-        if (!p1Turn && buttons.IsBluePushed())
+        if (player.HasCards) 
         {
-            if (player2Cards.Count > 0)
-            {
-                player2Card = player2Cards.Dequeue();
-                p1Turn = true;
-                player1Timeout = DateTime.Now.AddSeconds(TimeoutSeconds);
-            }
-            else
-            {
-                State = GameOverState.Player1Wins;
-            }
+            player.NextCard();
+            p1.IsTurn = false;
+            p2.IsTurn = true;
+            timeout = DateTime.Now.AddSeconds(TimeoutSeconds);
         }
-        else if (p1Turn && buttons.IsBluePushed())
+        else
         {
-            player1Score--;
+            State = winState;
         }
-
-        if (buttons.IsGreenPushed())
-        {
-            CheckMatch(2);
-        }
+        matched = false;
     }
 
     public void Update()
     {
-        if (p1Turn && DateTime.Now >= player1Timeout)
-        {
-            if (player1Cards.Count > 0)
-            {
-                player1Card = player1Cards.Dequeue();
-            }
-            p1Turn = false;
-            player2Timeout = DateTime.Now.AddSeconds(TimeoutSeconds);
-        }
+        if (p1.IsTurn && DateTime.Now >= timeout) 
+            TryNextCard(p1, GameOverState.Player1Wins);
 
-        if (!p1Turn && DateTime.Now >= player2Timeout)
-        {
-            if (player2Cards.Count > 0)
-            {
-                player2Card = player2Cards.Dequeue();
-            }
-
-            p1Turn = true;
-            player1Timeout = DateTime.Now.AddSeconds(TimeoutSeconds);
-        }
+        if (p2.IsTurn && DateTime.Now >= timeout)
+            TryNextCard(p2, GameOverState.Player2Wins);
     }
 
     public void Draw(IDisplay display)
     {
         display.Clear();
-        player1Card?.Draw(display, 0, 0, p1Turn ? Color.Red : null, font);
-        player2Card?.Draw(display, display.Width - Card.CardWidth, display.Height -Card.CardHeight, !p1Turn ? Color.GreenYellow : null, font);
-        font.DrawText(display, 16, 48, Color.White, player1Score.ToString());
-        font.DrawText(display, 48, 16, Color.White, player2Score.ToString());
+        font.DrawText(display, 16, 48, Color.White, p1.Score.ToString());
+        p1.CurrentCard?.Draw(display, display.Width - Card.CardWidth, display.Height -Card.CardHeight, p2.IsTurn ? Color.Red : null, font);
+        p2.CurrentCard?.Draw(display, 0, 0, p1.IsTurn ? Color.Blue : null, font);
+        font.DrawText(display, 48, 16, Color.White, p2.Score.ToString());
     }
 
     public GameOverState State { get; private set; }
 
     private void CheckMatch(int player)
     {
-        if (player1Card != null && player2Card != null && player1Card.Rank == player2Card.Rank)
+        if (matched) return;
+        if (p1.CurrentCard != null && p1.CurrentCard?.Rank == p2.CurrentCard?.Rank)
         {
+            matched = true;
             if (player == 1)
-            {
-                player1Score++;
-            }
-            else
-            {
-                player2Score++;
-            }
+                p1.ScoreMatch();
+            else 
+                p2.ScoreMatch();
         }
     }
 }
