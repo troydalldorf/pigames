@@ -21,13 +21,12 @@ public class SpeedGame : IDuoPlayableGameElement
     private int player2Score;
     private DateTime player1Timeout;
     private DateTime player2Timeout;
-    private bool player1Ready;
-    private bool player2Ready;
+    private bool p1Turn;
     private readonly IFont font;
 
     public SpeedGame(IFontFactory fontFactory)
     {
-        font = fontFactory.GetFont(LedFontType.Font5x7);
+        font = fontFactory.GetFont(LedFontType.Font6x12);
 
         var deck = Card.GenerateDeck().Shuffle().ToList();
         player1Cards = new Queue<Card>(deck.Take(26));
@@ -41,21 +40,31 @@ public class SpeedGame : IDuoPlayableGameElement
 
         player1Timeout = DateTime.Now.AddSeconds(TimeoutSeconds);
         player2Timeout = DateTime.Now.AddSeconds(TimeoutSeconds);
-
-        player1Ready = false;
-        player2Ready = false;
+        p1Turn = true;
     }
 
     public void HandleInput(IPlayerConsole player1Console)
     {
         var buttons = player1Console.ReadButtons();
-
-        if ((buttons & Buttons.Blue) != 0)
+        if (p1Turn && buttons.IsBluePushed())
         {
-            player1Ready = true;
+            if (player1Cards.Count > 0)
+            {
+                player1Card = player1Cards.Dequeue();
+                p1Turn = false;
+                player2Timeout = DateTime.Now.AddSeconds(TimeoutSeconds);
+            }
+            else
+            {
+                State = GameOverState.Player2Wins;
+            }
+        }
+        else if (!p1Turn && buttons.IsBluePushed())
+        {
+            player1Score--;
         }
 
-        if ((buttons & Buttons.Green) != 0)
+        if (buttons.IsGreenPushed())
         {
             CheckMatch(1);
         }
@@ -64,13 +73,25 @@ public class SpeedGame : IDuoPlayableGameElement
     public void Handle2PInput(IPlayerConsole player2Console)
     {
         var buttons = player2Console.ReadButtons();
-
-        if ((buttons & Buttons.Blue) != 0)
+        if (!p1Turn && buttons.IsBluePushed())
         {
-            player2Ready = true;
+            if (player2Cards.Count > 0)
+            {
+                player2Card = player2Cards.Dequeue();
+                p1Turn = true;
+                player1Timeout = DateTime.Now.AddSeconds(TimeoutSeconds);
+            }
+            else
+            {
+                State = GameOverState.Player1Wins;
+            }
+        }
+        else if (p1Turn && buttons.IsBluePushed())
+        {
+            player1Score--;
         }
 
-        if ((buttons & Buttons.Green) != 0)
+        if (buttons.IsGreenPushed())
         {
             CheckMatch(2);
         }
@@ -78,39 +99,38 @@ public class SpeedGame : IDuoPlayableGameElement
 
     public void Update()
     {
-        if (player1Ready || DateTime.Now >= player1Timeout)
+        if (p1Turn && DateTime.Now >= player1Timeout)
         {
             if (player1Cards.Count > 0)
             {
                 player1Card = player1Cards.Dequeue();
             }
-
-            player1Timeout = DateTime.Now.AddSeconds(TimeoutSeconds);
-            player1Ready = false;
+            p1Turn = false;
+            player2Timeout = DateTime.Now.AddSeconds(TimeoutSeconds);
         }
 
-        if (player2Ready || DateTime.Now >= player2Timeout)
+        if (!p1Turn && DateTime.Now >= player2Timeout)
         {
             if (player2Cards.Count > 0)
             {
                 player2Card = player2Cards.Dequeue();
             }
 
+            p1Turn = true;
             player2Timeout = DateTime.Now.AddSeconds(TimeoutSeconds);
-            player2Ready = false;
         }
     }
 
     public void Draw(IDisplay display)
     {
         display.Clear();
-        player1Card?.Draw(display, 0, 0, true, font);
-        player2Card?.Draw(display, display.Width - Card.CardWidth, display.Height -Card.CardHeight, false, font);
+        player1Card?.Draw(display, 0, 0, Color.Green, font);
+        player2Card?.Draw(display, display.Width - Card.CardWidth, display.Height -Card.CardHeight, Color.Green, font);
         font.DrawText(display, 2, display.Height / 2 - 7, Color.White, player1Score.ToString());
         font.DrawText(display, display.Width - 10, display.Height / 2 + 2, Color.White, player2Score.ToString());
     }
 
-    public GameOverState State => GameOverState.None;
+    public GameOverState State { get; private set; }
 
     private void CheckMatch(int player)
     {
@@ -123,20 +143,6 @@ public class SpeedGame : IDuoPlayableGameElement
             else
             {
                 player2Score++;
-            }
-
-            player1Card = null;
-            player2Card = null;
-        }
-        else
-        {
-            if (player == 1)
-            {
-                player1Score--;
-            }
-            else
-            {
-                player2Score--;
             }
         }
     }

@@ -31,21 +31,14 @@ public class Card
         return deck;
     }
 
-    public void Draw(IDisplay display, int x, int y, bool isPlayer1, IFont font)
+    public void Draw(IDisplay display, int x, int y, Color? selectColor, IFont font)
     {
         var color = GetSuitColor(Suit);
         display.DrawRectangle(x, y, CardWidth, CardHeight, color, Color.White);
-
-        if (isPlayer1)
-        {
-            font.DrawText(display, x + 2, y + 2, color, GetRankSymbol(Rank));
-            font.DrawText(display, x + CardWidth - 8, y + CardHeight - 12, color, GetSuitSymbol(this.Suit));
-        }
-        else
-        {
-            font.DrawText(display, x + CardWidth - 8, y + 2, color, Rank.ToString());
-            font.DrawText(display, x + 2, y + CardHeight - 12, color, GetSuitSymbol(this.Suit));
-        }
+        font.DrawText(display, x + 2, y + 10, color, GetRankSymbol(Rank));
+        font.DrawText(display, x + 8, y + 10, color, GetSuitSymbol(this.Suit));
+        if (selectColor != null)
+            display.DrawRectangle(x, y, CardWidth, CardHeight, selectColor.Value);
     }
     
     private static string GetRankSymbol(Rank rank)
