@@ -35,8 +35,8 @@ public class Card
     {
         var color = GetSuitColor(Suit);
         display.DrawRectangle(x, y, CardWidth, CardHeight, color, Color.White);
-        font.DrawText(display, x + 2, y + 10, color, GetRankSymbol(Rank));
-        font.DrawText(display, x + 8, y + 10, color, GetSuitSymbol(this.Suit));
+        font.DrawText(display, x + 6, y + 20, color, GetRankSymbol(Rank));
+        font.DrawText(display, x + 14, y + 20, color, GetSuitSymbol(this.Suit));
         if (selectColor != null)
             display.DrawRectangle(x, y, CardWidth, CardHeight, selectColor.Value);
     }

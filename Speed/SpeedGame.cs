@@ -117,15 +117,15 @@ public class SpeedGame : IDuoPlayableGameElement
             }
 
             p1Turn = true;
-            player2Timeout = DateTime.Now.AddSeconds(TimeoutSeconds);
+            player1Timeout = DateTime.Now.AddSeconds(TimeoutSeconds);
         }
     }
 
     public void Draw(IDisplay display)
     {
         display.Clear();
-        player1Card?.Draw(display, 0, 0, Color.Green, font);
-        player2Card?.Draw(display, display.Width - Card.CardWidth, display.Height -Card.CardHeight, Color.Green, font);
+        player1Card?.Draw(display, 0, 0, p1Turn ? Color.Red : null, font);
+        player2Card?.Draw(display, display.Width - Card.CardWidth, display.Height -Card.CardHeight, p1Turn ? Color.GreenYellow, font);
         font.DrawText(display, 2, display.Height / 2 - 7, Color.White, player1Score.ToString());
         font.DrawText(display, display.Width - 10, display.Height / 2 + 2, Color.White, player2Score.ToString());
     }
