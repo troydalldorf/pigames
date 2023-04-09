@@ -51,7 +51,7 @@ public class FlappyBirdPlayableGame : IPlayableGameElement
 
         for (var i = 0; i < NumPipes; i++)
         {
-            pipes[i * 2] = new PipeColumn(greenPipeSprite, orangePipeSprite, pipeNo++, i * PipeSpacing + Width, pipeGap);
+            pipes[i] = new PipeColumn(greenPipeSprite, orangePipeSprite, pipeNo++, i * PipeSpacing + Width, pipeGap);
         }
 
         score = 0;
