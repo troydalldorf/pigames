@@ -56,6 +56,7 @@ public class Menu : IPlayableGameElement
             new("Flappy B", () => new FlappyBirdPlayableGame(fontFactory), 50),
             new("Frogger", () => new FroggerPlayableGame(), 100),
             new("Othello", () => new OthelloGame(fontFactory)),
+            new("MasterM", () => new MastermindGame.MastermindGame(fontFactory)),
             new("Memory", () => new MemoryCardGame()),
             new("Mines", () => new MinesweeperGame(fontFactory)),
             new("Pong", () => new PongPlayableGame(fontFactory)),
