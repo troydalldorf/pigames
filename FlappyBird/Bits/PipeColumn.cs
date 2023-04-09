@@ -36,6 +36,8 @@ public class PipeColumn : IGameElement
     
     public void Update()
     {
+        topPipe.Update();
+        bottomPipe.Update();
     }
 
     public void Draw(IDisplay display)
