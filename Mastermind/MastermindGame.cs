@@ -35,9 +35,9 @@ public class MastermindGame : IPlayableGameElement
     private void Initialize()
     {
         secretCode = GenerateSecretCode();
-        playerGuesses = new List<int[]>();
+        playerGuesses = new List<int[]>(new int[MaxAttempts][]);
         guessResults = new List<(int, int)>();
-        currentAttempt = 0;
+        currentAttempt = MaxAttempts - 1;
     }
 
     private int[] GenerateSecretCode()
@@ -139,32 +139,34 @@ public class MastermindGame : IPlayableGameElement
         // Draw the secret code (only when the game is over)
         if (State != GameOverState.None)
         {
-            for (var i = 0; i < CodeLength; i++)
+            for (int i = 0; i < CodeLength; i++)
             {
-                var x = i * CellSize * 2;
-                var y = 0;
+                int x = i * CellSize * 2;
+                int y = 0;
                 display.DrawRectangle(x, y, CellSize, CellSize, Color.Black, Colors[secretCode[i]]);
             }
         }
 
         // Draw the player's guesses
-        for (var attempt = 0; attempt < playerGuesses.Count; attempt++)
+        for (int attempt = 0; attempt < playerGuesses.Count; attempt++)
         {
-            var guess = playerGuesses[attempt];
-            for (var i = 0; i < CodeLength; i++)
+            int[] guess = playerGuesses[attempt];
+            if (guess == null) continue;
+
+            for (int i = 0; i < CodeLength; i++)
             {
-                var x = i * CellSize * 2;
-                var y = (attempt + 1) * CellSize * 2;
+                int x = i * CellSize * 2;
+                int y = (MaxAttempts - attempt) * (CellSize * 2 + Spacing);
                 display.DrawRectangle(x, y, CellSize, CellSize, Color.Black, Colors[guess[i]]);
             }
 
             // Draw the result for each guess
             if (attempt < guessResults.Count)
             {
-                var (correctColorAndPosition, correctColorOnly) = guessResults[attempt];
-                const int x = CodeLength * CellSize * 2;
-                var y = (attempt + 1) * CellSize * 2;
-                var result = $"{correctColorAndPosition}/{correctColorOnly}";
+                (int correctColorAndPosition, int correctColorOnly) = guessResults[attempt];
+                int x = CodeLength * CellSize * 2;
+                int y = (MaxAttempts - attempt) * (CellSize * 2 + Spacing);
+                string result = $"{correctColorAndPosition}/{correctColorOnly}";
                 font.DrawText(display, x, y, Color.White, result);
             }
         }
