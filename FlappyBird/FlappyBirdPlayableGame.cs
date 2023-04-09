@@ -24,7 +24,8 @@ public class FlappyBirdPlayableGame : IPlayableGameElement
     private int score;
     private Rectangle bird;
     private int birdVelocity;
-    private Pipe[] pipes;
+    private PipeColumn[] pipes;
+    private int pipeNo = 0;
     private readonly Random random = new();
     private bool isDone;
     private readonly IFont font;
@@ -46,15 +47,11 @@ public class FlappyBirdPlayableGame : IPlayableGameElement
     {
         bird = new Rectangle(Width / 4, Height / 2, BirdSize, BirdSize);
         birdVelocity = 0;
-
-        pipes = new Pipe[NumPipes * 2];
+        pipes = new PipeColumn[NumPipes];
 
         for (var i = 0; i < NumPipes; i++)
         {
-            var gapStart = random.Next(Height / 4, 3 * Height / 4);
-            var sprite = i % 2 == 0 ? greenPipeSprite : orangePipeSprite;
-            pipes[i * 2] = new Pipe(i * PipeSpacing + Width, 0, PipeWidth, gapStart, true, sprite);
-            pipes[i * 2 + 1] = new Pipe(i * PipeSpacing + Width, gapStart + pipeGap, PipeWidth, Height - gapStart - pipeGap, false, sprite);
+            pipes[i * 2] = new PipeColumn(greenPipeSprite, orangePipeSprite, pipeNo++, i * PipeSpacing + Width, pipeGap);
         }
 
         score = 0;
@@ -77,8 +74,7 @@ public class FlappyBirdPlayableGame : IPlayableGameElement
 
     public void Update()
     {
-        // Check for collision
-        if (pipes.Any(pipe => bird.IntersectsWith(pipe.Rectangle)))
+        if (pipes.Any(pipe => pipe.IsBirdColliding(bird)))
         {
             isDone = true;
             return;
@@ -88,26 +84,12 @@ public class FlappyBirdPlayableGame : IPlayableGameElement
         for (var i = 0; i < pipes.Length; i++)
         {
             pipes[i].Update();
-
-            // Reset pipe when off-screen
-            if (pipes[i].Rectangle.Right < 0)
-            {
-                var gapStart = random.Next(Height / 4, 3 * Height / 4);
-                var x = (i / 2) * PipeSpacing + Width;
-                var sprite = i % 4 < 2 ? greenPipeSprite : orangePipeSprite;
-                if (pipes[i].IsTop)
-                {
-                    pipes[i] = new Pipe(x, 0, PipeWidth, gapStart, true, sprite);
-                }
-                else
-                {
-                    pipes[i] = new Pipe(x, gapStart + pipeGap, PipeWidth, Height - gapStart - pipeGap, false, sprite);
-                }
-            }
+            if (pipes[i].IsOffScreen())
+                pipes[i] = new PipeColumn(greenPipeSprite, orangePipeSprite, pipeNo++, Width, pipeGap);
         }
 
         // Increase score if bird passes through a pair of pipes
-        if (pipes.Any(pipe => pipe.Rectangle.Right == bird.X))
+        if (pipes.Any(pipe => pipe.Right == bird.X))
         {
             score++;
         }
