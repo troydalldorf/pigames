@@ -9,6 +9,7 @@ public class MastermindGame : IPlayableGameElement
     private const int CodeLength = 4;
     private const int MaxAttempts = 10;
     private const int CellSize = 2;
+    private const int Spacing = 1;
 
     private int[] secretCode;
     private List<int[]> playerGuesses;
