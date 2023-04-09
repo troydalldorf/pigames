@@ -31,12 +31,10 @@ public class Pipe : IGameElement
     
     public void Draw(IDisplay display)
     {
-        var rows = height / sprite.Height;
-        sprite.Draw(display, x, y, IsTop ? 1 : 2);
+        var rows = height / sprite.Height + 1;
         for (var row = 1; row < rows-1; row++)
-        {
             sprite.Draw(display, x, y + row * sprite.Height, 1);
-        }
+        sprite.Draw(display, x, y, IsTop ? 1 : 2);
         sprite.Draw(display, x, y + (rows-1) * sprite.Height, IsTop ? 0 : 1);
     }
 }

@@ -14,7 +14,7 @@ public class FlappyBirdPlayableGame : IPlayableGameElement
     private const int Width = 64;
     private const int Height = 64;
     private const int BirdSize = 4;
-    private const int PipeWidth = 4;
+    private const int PipeWidth = 6;
     private const int PipeGapStart = 32;
     private int pipeGap = PipeGapStart;
     private const int NumPipes = 3;
@@ -52,7 +52,7 @@ public class FlappyBirdPlayableGame : IPlayableGameElement
         for (var i = 0; i < NumPipes; i++)
         {
             var gapStart = random.Next(Height / 4, 3 * Height / 4);
-            var sprite = i % 4 < 2 ? greenPipeSprite : orangePipeSprite;
+            var sprite = i % 2 == 0 ? greenPipeSprite : orangePipeSprite;
             pipes[i * 2] = new Pipe(i * PipeSpacing + Width, 0, PipeWidth, gapStart, true, sprite);
             pipes[i * 2 + 1] = new Pipe(i * PipeSpacing + Width, gapStart + pipeGap, PipeWidth, Height - gapStart - pipeGap, false, sprite);
         }
