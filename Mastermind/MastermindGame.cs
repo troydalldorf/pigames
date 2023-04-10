@@ -113,7 +113,7 @@ public class MastermindGame : IPlayableGameElement
 
             for (var i = 0; i < CodeLength; i++)
             {
-                if (secretCode[i] == null) continue;
+                if (guess[i] == null) continue;
                 display.DrawRectangle(xOffset + i * CellSize * 2 + Spacing, y, CellSize, CellSize, Color.Black, Colors[(int)guess[i]!.Value]);
                 y -= CellSize + Spacing*2;
             }
