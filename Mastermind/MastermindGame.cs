@@ -129,13 +129,6 @@ public class MastermindGame : IPlayableGameElement
                 display.SetPixel(x++, yResult, Color.Red);
             }
         }
-
-        // Draw the cursor
-        if (State == GameOverState.None)
-        {
-            y = (MaxAttempts - currentAttempt) * (CellSize + spacing) + spacing + CellSize + 2 * spacing;
-            display.DrawRectangle(xOffset + cursor.Position * (CellSize + spacing) - 1, y - 1, CellSize + 2, CellSize + 2, Color.White, Color.Transparent);
-        }
     }
 
 
