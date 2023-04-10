@@ -106,15 +106,14 @@ public class MastermindGame : IPlayableGameElement
         {
             var guess = playerGuesses[attempt];
             y = (MaxAttempts - attempt) * (CellSize + spacing) + spacing + CellSize + 2 * spacing;
-
-            for (var i = 0; i < CodeLength; i++)
-            {
-                display.DrawRectangle(xOffset + i * (CellSize + spacing), y, CellSize, CellSize, guess[i].ToColor(), guess[i].ToColor());
-            }
             if (attempt == playerGuesses.Count - 1)
             {
                 // Draw the cursor
                 display.DrawRectangle(xOffset + cursorPosition * (CellSize + spacing) - 1, y - 1, CellSize + 2, CellSize + 2, Color.White, Color.Transparent);
+            }
+            for (var i = 0; i < CodeLength; i++)
+            {
+                display.DrawRectangle(xOffset + i * (CellSize + spacing), y, CellSize, CellSize, guess[i].ToColor(), guess[i].ToColor());
             }
 
             // Draw the result for each guess
