@@ -16,6 +16,7 @@ public class MastermindGame : IPlayableGameElement
     private List<(int, int)> guessResults; // (correct color and position, correct color only)
     private int currentAttempt;
     private readonly IFont font;
+    private int cursorPosition = 0;
 
     private static readonly Color[] Colors = new[]
     {
@@ -52,7 +53,7 @@ public class MastermindGame : IPlayableGameElement
 
         return code;
     }
-
+    
     public void HandleInput(IPlayerConsole playerConsole)
     {
         if (State != GameOverState.None) return;
@@ -62,30 +63,30 @@ public class MastermindGame : IPlayableGameElement
 
         if (direction != JoystickDirection.None)
         {
-            var newGuess = new int[CodeLength];
-            Array.Copy(playerGuesses[currentAttempt], newGuess, CodeLength);
-
-            for (var i = 0; i < CodeLength; i++)
+            if (direction == JoystickDirection.Left)
             {
-                if (direction == JoystickDirection.Up)
-                {
-                    newGuess[i] = (newGuess[i] + 1) % Colors.Length;
-                }
-                else if (direction == JoystickDirection.Down)
-                {
-                    newGuess[i] = (newGuess[i] - 1 + Colors.Length) % Colors.Length;
-                }
+                cursorPosition = (cursorPosition - 1 + CodeLength) % CodeLength;
             }
-
-            playerGuesses[currentAttempt] = newGuess;
+            else if (direction == JoystickDirection.Right)
+            {
+                cursorPosition = (cursorPosition + 1) % CodeLength;
+            }
+            else if (direction == JoystickDirection.Up)
+            {
+                playerGuesses[currentAttempt][cursorPosition] = (playerGuesses[currentAttempt][cursorPosition] + 1) % Colors.Length;
+            }
+            else if (direction == JoystickDirection.Down)
+            {
+                playerGuesses[currentAttempt][cursorPosition] = (playerGuesses[currentAttempt][cursorPosition] - 1 + Colors.Length) % Colors.Length;
+            }
         }
         else if (buttonPressed == Buttons.Green)
         {
             var result = CheckGuess(playerGuesses[currentAttempt]);
             guessResults.Add(result);
-            currentAttempt++;
+            currentAttempt--;
 
-            if (result.Item1 == CodeLength || currentAttempt >= MaxAttempts)
+            if (result.Item1 == CodeLength || currentAttempt < 0)
             {
                 State = result.Item1 == CodeLength ? GameOverState.Player1Wins : GameOverState.EndOfGame;
             }
