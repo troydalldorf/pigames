@@ -109,7 +109,7 @@ public class MastermindGame : IPlayableGameElement
 
             for (var i = 0; i < CodeLength; i++)
             {
-                display.DrawRectangle(xOffset + i * (CellSize + spacing), y, CellSize, CellSize, Color.Black, guess[i].ToColor());
+                display.DrawRectangle(xOffset + i * (CellSize + spacing), y, CellSize, CellSize, guess[i].ToColor(), guess[i].ToColor());
             }
             if (attempt == playerGuesses.Count - 1)
             {
@@ -130,7 +130,6 @@ public class MastermindGame : IPlayableGameElement
             }
         }
     }
-
 
     public GameOverState State { get; private set; } = GameOverState.None;
 }
