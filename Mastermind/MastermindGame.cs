@@ -89,7 +89,7 @@ public class MastermindGame : IPlayableGameElement
         display.DrawRectangle(0, 0, (CellSize + spacing) * CodeLength + spacing, CellSize + 2 * spacing, Color.Gray, Color.Gray);
 
         // Draw the board border
-        display.DrawRectangle(0, CellSize + 2 * spacing, (CellSize + spacing) * CodeLength + spacing, (CellSize + spacing) * MaxAttempts + spacing, Color.Gray, Color.Gray);
+        display.DrawRectangle(0, CellSize + 2 * spacing, (CellSize + spacing) * CodeLength + spacing, (CellSize + spacing) * MaxAttempts + spacing, Color.Gray);
 
         // Draw the secret code (only when the game is over)
         if (State != GameOverState.None)

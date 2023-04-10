@@ -71,6 +71,7 @@ public class PlayableGameOverElement : IPlayableGameElement
             GameOverState.Draw => new Text(null, "DRAW", "PLAY AGAIN?"),
             GameOverState.Player1Wins => new Text(" P1", "WINS", "PLAY AGAIN?"),
             GameOverState.Player2Wins => new Text(" P2", "WINS", "PLAY AGAIN?"),
+            GameOverState.EndOfGame => new Text("P1", "LOSE", "PLAY AGAIN?"),
             _ => this.text
         };
     }

@@ -9,6 +9,7 @@ using System.Drawing;
 
 public class MinesweeperGame : IPlayableGameElement
 {
+    // Allow clicking a "1" when there is one adjacent mine, and clear all others, or blow if it's incorrectly flagged.
     private const int Width = 64;
     private const int Height = 64;
     private const int TileSize = 8;
