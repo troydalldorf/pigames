@@ -65,6 +65,7 @@ public class MastermindGame : IPlayableGameElement
                 State = GameOverState.EndOfGame;
                 return;
             }
+
             playerGuesses.Add(new Guess());
         }
         else if (buttonPressed == Buttons.Red)
@@ -80,19 +81,23 @@ public class MastermindGame : IPlayableGameElement
 
     public void Draw(IDisplay display)
     {
-        const int h1 = CellSize + Spacing * 2 + 2;
-        const int w = CellSize + Spacing * 2 + 2;
-        display.DrawRectangle(0, 0, (CellSize + Spacing * 2) * CodeLength + Spacing,h1, Color.Gray, Color.Gray);
-        const int h2 = (CellSize + Spacing) * MaxAttempts + Spacing + 2;
-        display.DrawRectangle(0, h1+1, (CellSize + Spacing) * CodeLength + Spacing + 2, h2, Color.Gray);
-        const int xOffset = 1;
-        var y = h1 + h2 + 1 - CellSize - Spacing;
+        const int spacing = 2;
+        const int xOffset = spacing;
+        int y;
+
+        // Draw the secret code area border
+        display.DrawRectangle(0, 0, (CellSize + spacing) * CodeLength + spacing, CellSize + 2 * spacing, Color.Gray, Color.Gray);
+
+        // Draw the board border
+        display.DrawRectangle(0, CellSize + 2 * spacing, (CellSize + spacing) * CodeLength + spacing, (CellSize + spacing) * MaxAttempts + spacing, Color.Gray, Color.Gray);
+
+        // Draw the secret code (only when the game is over)
         if (State != GameOverState.None)
         {
+            y = spacing;
             for (var i = 0; i < CodeLength; i++)
             {
-                if (secretCode[i] == null) continue;
-                display.DrawRectangle(xOffset + i * (CellSize + Spacing), h1+2+Spacing, CellSize, CellSize, secretCode[i].ToColor());
+                display.DrawRectangle(xOffset + i * (CellSize + spacing), y, CellSize, CellSize, Color.Black, secretCode[i].ToColor());
             }
         }
 
@@ -100,25 +105,39 @@ public class MastermindGame : IPlayableGameElement
         for (var attempt = 0; attempt < playerGuesses.Count; attempt++)
         {
             var guess = playerGuesses[attempt];
+            y = (MaxAttempts - attempt) * (CellSize + spacing) + spacing + CellSize + 2 * spacing;
 
             for (var i = 0; i < CodeLength; i++)
             {
-                if (guess[i] == null) continue;
-                display.DrawRectangle(xOffset + i * CellSize * 2 + Spacing, y, CellSize, CellSize, Color.Black, guess[i].ToColor());
-                y -= CellSize + Spacing*2;
+                display.DrawRectangle(xOffset + i * (CellSize + spacing), y, CellSize, CellSize, Color.Black, guess[i].ToColor());
+            }
+            if (attempt == playerGuesses.Count - 1)
+            {
+                // Draw the cursor
+                display.DrawRectangle(xOffset + cursorPosition * (CellSize + spacing) - 1, y - 1, CellSize + 2, CellSize + 2, Color.White, Color.Transparent);
             }
 
-            var guessX = w;
+            // Draw the result for each guess
+            var x = (CodeLength + 1) * (CellSize + spacing);
+            var yResult = y + CellSize / 2;
             for (var i = 0; i < guess.CorrectColorAndPosition; i++)
             {
-                display.SetPixel(guessX++, y + CellSize/2, Color.White);
+                display.SetPixel(x++, yResult, Color.White);
             }
             for (var i = 0; i < guess.CorrectColorOnly; i++)
             {
-                display.SetPixel(guessX++, y + CellSize/2, Color.Red);
+                display.SetPixel(x++, yResult, Color.Red);
             }
         }
+
+        // Draw the cursor
+        if (State == GameOverState.None)
+        {
+            y = (MaxAttempts - currentAttempt) * (CellSize + spacing) + spacing + CellSize + 2 * spacing;
+            display.DrawRectangle(xOffset + cursor.Position * (CellSize + spacing) - 1, y - 1, CellSize + 2, CellSize + 2, Color.White, Color.Transparent);
+        }
     }
+
 
     public GameOverState State { get; private set; } = GameOverState.None;
 }
