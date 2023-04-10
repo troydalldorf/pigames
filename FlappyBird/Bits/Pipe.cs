@@ -12,7 +12,7 @@ public class Pipe : IGameElement
     private readonly int width;
     private readonly int height;
     private readonly SpriteAnimation sprite;
-    public bool IsTop { get; }
+    private bool IsTop { get; }
 
     public Pipe(int x, int y, int width, int height, bool isTop, SpriteAnimation sprite)
     {

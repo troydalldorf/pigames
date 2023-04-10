@@ -16,9 +16,9 @@ public class PipeColumn : IGameElement
     
     public PipeColumn(SpriteAnimation greenPipeSprite, SpriteAnimation orangePipeSprite, int pipeNo, int x, int pipeGap)
     {
-        var gapStart = Random.Next(Height / 4, 3 * Height / 4);
+        var gapStart = Random.Next(greenPipeSprite.Height, Height - pipeGap - orangePipeSprite.Height);
         var sprite = pipeNo % 2 == 0 ? greenPipeSprite : orangePipeSprite;
-        topPipe= new Pipe(x, 0, PipeWidth, gapStart, true, sprite);
+        topPipe = new Pipe(x, 0, PipeWidth, gapStart, true, sprite);
         bottomPipe = new Pipe(x, gapStart + pipeGap, PipeWidth, Height - gapStart - pipeGap, false, sprite);
     }
     
