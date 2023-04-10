@@ -53,7 +53,7 @@ public class Menu : IPlayableGameElement
             new("C-Four", () => new ConnectFourGame(), 100),
             new("Checkers", () => new CheckersGame(fontFactory)),
             new("E-Pong", () => new PongPlayableGame(fontFactory)),
-            new("Flappy B", () => new FlappyBirdPlayableGame(fontFactory), 50),
+            new("Flappy B", () => new FlappyBirdGame(fontFactory), 50),
             new("Frogger", () => new FroggerPlayableGame(), 100),
             new("Othello", () => new OthelloGame(fontFactory)),
             new("MasterM1", () => new Mastermind.MastermindGame(fontFactory)),

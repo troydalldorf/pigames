@@ -9,7 +9,7 @@ namespace FlappyBird;
 using System;
 using System.Drawing;
 
-public class FlappyBirdPlayableGame : IPlayableGameElement
+public class FlappyBirdGame : IPlayableGameElement
 {
     private const int Width = 64;
     private const int Height = 64;
@@ -33,7 +33,7 @@ public class FlappyBirdPlayableGame : IPlayableGameElement
     private readonly SpriteAnimation orangePipeSprite;
     private readonly SpriteAnimation greenPipeSprite;
 
-    public FlappyBirdPlayableGame(IFontFactory fontFactory)
+    public FlappyBirdGame(IFontFactory fontFactory)
     {
         font = fontFactory.GetFont(LedFontType.FontTomThumb);
         var image = SpriteImage.FromResource("flappy.png");

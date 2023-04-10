@@ -33,10 +33,12 @@ public class Guess : Code
         for (var i = 0; i < MaxCodeLength; i++)
         {
             if (correctness[i] != Correctness.None) continue;
-            if (remaining.Contains(this[i]))
+
+            var index = remaining.IndexOf(this[i]);
+            if (index >= 0)
             {
                 correctness[i] = Correctness.CorrectColorOnly;
-                remaining.Remove(this[i]);
+                remaining.RemoveAt(index);
             }
         }
         this.CorrectColorAndPosition = correctness.Count(c => c == Correctness.CorrectColorAndPosition);
