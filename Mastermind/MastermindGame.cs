@@ -105,7 +105,7 @@ public class MastermindGame : IPlayableGameElement
         for (var attempt = 0; attempt < playerGuesses.Count; attempt++)
         {
             var guess = playerGuesses[attempt];
-            y = (MaxAttempts - attempt) * (CellSize + spacing) + spacing + CellSize + 2 * spacing;
+            y = (MaxAttempts - attempt - 1) * (CellSize + spacing) + spacing + CellSize + 2 * spacing;
             if (attempt == playerGuesses.Count - 1)
             {
                 // Draw the cursor
