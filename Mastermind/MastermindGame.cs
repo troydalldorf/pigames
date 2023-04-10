@@ -9,23 +9,13 @@ public class MastermindGame : IPlayableGameElement
 {
     private const int CodeLength = 4;
     private const int MaxAttempts = 10;
-    private const int CellSize = 4;
+    private const int CellSize = 3;
     private const int Spacing = 2;
 
     private Code secretCode;
     private List<Guess> playerGuesses;
     private readonly IFont font;
     private int cursorPosition = 0;
-
-    private static readonly Color[] Colors = new[]
-    {
-        Color.White,
-        Color.Yellow,
-        Color.Orange,
-        Color.Pink,
-        Color.Green,
-        Color.Purple
-    };
 
     public MastermindGame(IFontFactory fontFactory)
     {
@@ -102,7 +92,7 @@ public class MastermindGame : IPlayableGameElement
             for (var i = 0; i < CodeLength; i++)
             {
                 if (secretCode[i] == null) continue;
-                display.DrawRectangle(xOffset + i * (CellSize + Spacing), h1+2+Spacing, CellSize, CellSize, Colors[(int)secretCode[i]!.Value]);
+                display.DrawRectangle(xOffset + i * (CellSize + Spacing), h1+2+Spacing, CellSize, CellSize, secretCode[i].ToColor());
             }
         }
 
@@ -114,7 +104,7 @@ public class MastermindGame : IPlayableGameElement
             for (var i = 0; i < CodeLength; i++)
             {
                 if (guess[i] == null) continue;
-                display.DrawRectangle(xOffset + i * CellSize * 2 + Spacing, y, CellSize, CellSize, Color.Black, Colors[(int)guess[i]!.Value]);
+                display.DrawRectangle(xOffset + i * CellSize * 2 + Spacing, y, CellSize, CellSize, Color.Black, guess[i].ToColor());
                 y -= CellSize + Spacing*2;
             }
 
