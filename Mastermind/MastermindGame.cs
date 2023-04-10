@@ -37,8 +37,7 @@ public class MastermindGame : IPlayableGameElement
     {
         secretCode = GenerateSecretCode();
         currentAttempt = 0;
-        playerGuesses = new List<int[]>(new int[MaxAttempts][]);
-        playerGuesses[currentAttempt] = new int[CodeLength];
+        playerGuesses = new List<int[]>(Enumerable.Range(0, MaxAttempts).Select(_ => new int[CodeLength]).ToList());
         guessResults = new List<(int, int)>();
     }
 
