@@ -80,12 +80,12 @@ public class MastermindGame : IPlayableGameElement
 
     public void Draw(IDisplay display)
     {
-        var h1 = CellSize + Spacing * 2 + 2;
-        var w = CellSize + Spacing * 2 + 2;
+        const int h1 = CellSize + Spacing * 2 + 2;
+        const int w = CellSize + Spacing * 2 + 2;
         display.DrawRectangle(0, 0, (CellSize + Spacing * 2) * CodeLength + Spacing,h1, Color.Gray, Color.Gray);
-        var h2 = (CellSize + Spacing) * MaxAttempts + Spacing + 2;
+        const int h2 = (CellSize + Spacing) * MaxAttempts + Spacing + 2;
         display.DrawRectangle(0, h1+1, (CellSize + Spacing) * CodeLength + Spacing + 2, h2, Color.Gray);
-        var xOffset = 1;
+        const int xOffset = 1;
         var y = h1 + h2 + 1 - CellSize - Spacing;
         if (State != GameOverState.None)
         {

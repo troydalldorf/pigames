@@ -14,7 +14,7 @@ public class Guess : Code
     public void PrevValue(int cursorPosition)
     {
         var current = (int)(this[cursorPosition] ?? 0);
-        this[cursorPosition] = (CodeValue)((current - 1) % MaxCodeValue);
+        this[cursorPosition] = (CodeValue)((MaxCodeValue + current - 1) % MaxCodeValue);
     }
     
     public void CheckGuess(Code secretCode)
