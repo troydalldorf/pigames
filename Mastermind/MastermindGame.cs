@@ -36,7 +36,7 @@ public class MastermindGame : IPlayableGameElement
     private void Initialize()
     {
         secretCode = GenerateSecretCode();
-        currentAttempt = MaxAttempts - 1;
+        currentAttempt = 0;
         playerGuesses = new List<int[]>(new int[MaxAttempts][]);
         playerGuesses[currentAttempt] = new int[CodeLength];
         guessResults = new List<(int, int)>();
@@ -138,17 +138,17 @@ public class MastermindGame : IPlayableGameElement
 
     public void Draw(IDisplay display)
     {
-        display.DrawRectangle(0, 0, (CellSize + Spacing) * CodeLength + Spacing + 2, (CellSize + Spacing) * MaxAttempts + 2, Color.Blue, Color.Blue);
+        display.DrawRectangle(0, 0, (CellSize + Spacing*2) * CodeLength + Spacing, (CellSize + Spacing) * MaxAttempts + 2, Color.Blue);
         var xOffset = 1;
         var yOffset = 5;
-        display.DrawRectangle(0, 0, (CellSize + Spacing) * CodeLength + Spacing + 2, (CellSize + Spacing * 2), Color.White, Color.White);
+        display.DrawRectangle(0, 0, (CellSize + Spacing*2) * CodeLength + Spacing, (CellSize + Spacing * 2), Color.White, Color.White);
         if (State != GameOverState.None)
         {
             for (int i = 0; i < CodeLength; i++)
             {
                 int x = i * CellSize * 2;
                 int y = 0;
-                display.DrawRectangle(xOffset+x, yOffset+y, CellSize, CellSize, Color.Black, Colors[secretCode[i]]);
+                display.DrawRectangle(1+x, 1+y, CellSize, CellSize, Colors[secretCode[i]]);
             }
         }
 
