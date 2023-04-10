@@ -14,7 +14,7 @@ public static class CodeValueExtensions
         Color.White,
         Color.Yellow,
         Color.Orange,
-        Color.Pink,
+        Color.Red,
         Color.Green,
         Color.Purple
     };

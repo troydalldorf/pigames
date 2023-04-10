@@ -44,7 +44,7 @@ public class TxDisplay: IDisplay, IDirectCanvasAccess
 
     public void DrawRectangle(int x, int y, int width, int height, Color color, Color? fillColor = null)
     {
-        concrete.DrawRectangle(xTransform(x, y), yTransform(x, y), width, height, color);
+        concrete.DrawRectangle(xTransform(x, y), yTransform(x, y), width, height, color, fillColor);
     }
 
     object IDirectCanvasAccess.GetCanvas()
