@@ -22,6 +22,8 @@ public class Code
         return code;
     }
     
+    public bool AnyNull() => sequence.Any(s => s == null);
+    
     public CodeValue? this[int index]
     {
         get => sequence[index];

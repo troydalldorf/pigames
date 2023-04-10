@@ -56,7 +56,8 @@ public class Menu : IPlayableGameElement
             new("Flappy B", () => new FlappyBirdPlayableGame(fontFactory), 50),
             new("Frogger", () => new FroggerPlayableGame(), 100),
             new("Othello", () => new OthelloGame(fontFactory)),
-            new("MasterM", () => new MastermindGame.MastermindGame(fontFactory)),
+            new("MasterM1", () => new Mastermind.MastermindGame(fontFactory)),
+            new("MasterM2", () => new Mastermind.DuoMastermindGame(fontFactory)),
             new("Memory", () => new MemoryCardGame()),
             new("Mines", () => new MinesweeperGame(fontFactory)),
             new("Pong", () => new PongPlayableGame(fontFactory)),
@@ -65,7 +66,7 @@ public class Menu : IPlayableGameElement
             new("Space I", () => new SpaceInvadersPlayableGame(), 75),
             //new("Speed", () => new SpeedGame(fontFactory), 100),
             new("Tetris 1", () => new TetrisGame(fontFactory)),
-            new("Tetris 2", () => new DuoPlayableTetrisGame(fontFactory)),
+            new("Tetris 2", () => new DuoTetrisGame(fontFactory)),
         };
     }
 

@@ -1,9 +1,9 @@
-﻿using Core;
+﻿using System.Drawing;
+using Core;
 using Core.Fonts;
-using System.Drawing;
 using MastermindGame.Bits;
 
-namespace MastermindGame;
+namespace Mastermind;
 
 public class MastermindGame : IPlayableGameElement
 {
@@ -54,6 +54,7 @@ public class MastermindGame : IPlayableGameElement
         }
         else if (buttonPressed == Buttons.Green)
         {
+            if (playerGuesses.Last().AnyNull()) return;
             playerGuesses.Last().CheckGuess(secretCode);
             if (playerGuesses.Last().CorrectColorAndPosition == CodeLength)
             {
@@ -76,7 +77,6 @@ public class MastermindGame : IPlayableGameElement
 
     public void Update()
     {
-        // No continuous updates required for this game
     }
 
     public void Draw(IDisplay display)

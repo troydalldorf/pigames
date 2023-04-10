@@ -4,12 +4,12 @@ using Core.Fonts;
 
 namespace Tetris;
 
-public class DuoPlayableTetrisGame : IDuoPlayableGameElement
+public class DuoTetrisGame : IDuoPlayableGameElement
 {
     private readonly TetrisGame p1TetrisGame;
     private readonly TetrisGame p2TetrisGame;
 
-    public DuoPlayableTetrisGame(IFontFactory fontFactory)
+    public DuoTetrisGame(IFontFactory fontFactory)
     {
         this.p1TetrisGame = new TetrisGame(fontFactory);
         this.p2TetrisGame = new TetrisGame(fontFactory);

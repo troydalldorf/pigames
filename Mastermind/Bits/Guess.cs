@@ -4,7 +4,7 @@ public class Guess : Code
 {
     public int CorrectColorAndPosition { get; private set; }
     public int CorrectColorOnly { get; private set; }
-
+    
     public void NextValue(int cursorPosition)
     {
         var current = (int)(this[cursorPosition] ?? 0);
