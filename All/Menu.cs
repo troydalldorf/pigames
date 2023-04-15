@@ -36,6 +36,7 @@ public class Menu : IPlayableGameElement
 
     private const int Offset = 6;
     private const int ItemHeight = 6;
+    private int page = 0;
 
     private readonly GameItem[] items;
 
@@ -48,7 +49,7 @@ public class Menu : IPlayableGameElement
         this.items = new GameItem[]
         {
             new("Asteroid", () => new AsteroidsGame()),
-            new("Astro C", () => new AstroChicken.AstroChicken(fontFactory)),
+            //new("Astro C", () => new AstroChicken.AstroChicken(fontFactory)),
             new("B Man", () => new BombermanGame(fontFactory)),
             new("Breakout", () => new BreakoutGame()),
             new("C-Four", () => new ConnectFourGame(), 100),
@@ -62,7 +63,7 @@ public class Menu : IPlayableGameElement
             new("Memory", () => new MemoryCardGame()),
             new("Mines", () => new MinesweeperGame(fontFactory)),
             new("Pong", () => new PongPlayableGame(fontFactory)),
-            new("PWings", () => new PacificWingsGame(fontFactory)),
+            new("P-Wings", () => new PacificWingsGame(fontFactory)),
             new("Snake", () => new SnakePlayableGame(), 100),
             new("Snake 2", () => new SnakeGame2P(), 100),
             new("Space I", () => new SpaceInvadersPlayableGame(), 75),

@@ -40,9 +40,11 @@ public class Enemy
     {
         Move();
 
-        if (State == EnemyState.Exploding && explosion.IsExtinguished())
+        if (State == EnemyState.Exploding)
         {
-            State = EnemyState.Destroyed;
+            explosion.Update();
+            if (explosion.IsExtinguished())
+                State = EnemyState.Destroyed;
         }
         
         foreach (var bullet in bullets.ToArray())
@@ -57,13 +59,14 @@ public class Enemy
 
     public void Draw(IDisplay display)
     {
-        if (State == EnemyState.Alive)
+        switch (State)
         {
-            this.sprite.Draw(display, X, Y);
-        }
-        else if (State == EnemyState.Exploding)
-        {
-            this.explosion.Draw(display);
+            case EnemyState.Alive:
+                this.sprite.Draw(display, X, Y);
+                break;
+            case EnemyState.Exploding:
+                this.explosion.Draw(display);
+                break;
         }
     }
 
