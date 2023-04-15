@@ -49,7 +49,7 @@ public class Enemy
         
         foreach (var bullet in bullets.ToArray())
         {
-            if (!IsCollidingWithBullet(bullet)) continue;
+            if (!IsCollidingWithBullet(bullet) && State == EnemyState.Alive) continue;
             explosion = new SpriteBomb(this.X, this.Y, this.sprite);
             State = EnemyState.Exploding;
             bullets.Remove(bullet);
