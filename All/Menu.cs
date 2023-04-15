@@ -114,9 +114,9 @@ public class Menu : IPlayableGameElement
             var itemNo = page * ItemsPerPage + i;
             if (itemNo >= items.Length) break; 
             var item = items[itemNo];
-            var x = 1;
+            const int x = 1;
             var y = Offset + i * ItemHeight;
-            if (cursor == i)
+            if (cursor == itemNo)
             {
                 display.DrawRectangle(x, y-5, 64, ItemHeight, Color.LightSkyBlue, Color.LightSkyBlue);
                 font.DrawText(display, x, y, Color.Black, item.Name);
