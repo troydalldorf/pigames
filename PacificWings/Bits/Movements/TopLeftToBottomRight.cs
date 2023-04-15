@@ -23,11 +23,11 @@ public class TopLeftToBottomRight : IMovementStrategyFactory
     {
         var targets = new List<Point>
         {
-            new(48, 0),
+            new(48, -sprite.Height),
             new(-sprite.Width, 64)
         };
         var delay = no * (sprite.Width + spacing) / this.speed;
         var offset = new Point(0, 0);
-        return new BezierMovementStrategy(targets, delay, offset);
+        return new BezierMovementStrategy(targets.ToArray(), delay, offset);
     }
 }

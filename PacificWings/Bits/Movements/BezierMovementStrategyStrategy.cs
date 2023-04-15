@@ -1,24 +1,30 @@
 using PacificWings.Bits;
 using PacificWings.Bits.Movements;
+using System;
 
 public class BezierMovementStrategy : IMovementStrategy
 {
-    private readonly List<Point> targets;
-    private int currentTargetIndex;
+    private readonly Point[] controlPoints;
     private readonly int delay;
     private readonly Point offset;
     private int moveCount;
     private Point currentPosition;
+    private float t;
 
-    public BezierMovementStrategy(List<Point> targets, int delay, Point offset)
+    public BezierMovementStrategy(Point[] controlPoints, int delay, Point offset)
     {
-        this.targets = targets;
-        currentTargetIndex = 0;
+        if (controlPoints.Length != 3)
+        {
+            throw new ArgumentException("Quadratic Bezier curve requires exactly 3 control points.");
+        }
+
+        this.controlPoints = controlPoints;
         this.delay = delay;
         this.offset = offset;
         moveCount = 0;
-        StartPosition = new Point(targets[0].X + offset.X, targets[0].Y + offset.Y);
+        StartPosition = new Point(controlPoints[0].X + offset.X, controlPoints[0].Y + offset.Y);
         currentPosition = StartPosition;
+        t = 0;
     }
 
     public Point StartPosition { get; }
@@ -31,37 +37,28 @@ public class BezierMovementStrategy : IMovementStrategy
             return true;
         }
 
-        if (currentTargetIndex == targets.Count - 1)
+        if (t >= 1)
         {
             return false;
         }
 
-        var target = new Point(targets[currentTargetIndex + 1].X + offset.X, targets[currentTargetIndex + 1].Y + offset.Y);
-        var distanceToTarget = Distance(currentPosition, target);
-        var moveFraction = enemy.Speed / distanceToTarget;
-
-        if (moveFraction >= 1)
-        {
-            currentPosition = target;
-            currentTargetIndex++;
-        }
-        else
-        {
-            var newX = currentPosition.X + ((target.X - currentPosition.X) * moveFraction);
-            var newY = currentPosition.Y + ((target.Y - currentPosition.Y) * moveFraction);
-            currentPosition = new Point(newX, newY);
-        }
-
-        enemy.X = (int)currentPosition.X;
-        enemy.Y = (int)currentPosition.Y;
+        currentPosition = CalculateBezierPoint(t, controlPoints[0], controlPoints[1], controlPoints[2]);
+        enemy.X = (int)(currentPosition.X + offset.X);
+        enemy.Y = (int)(currentPosition.Y + offset.Y);
+        t += enemy.Speed;
 
         return true;
     }
 
-    private static float Distance(Point p1, Point p2)
+    private Point CalculateBezierPoint(float t, Point p0, Point p1, Point p2)
     {
-        var dx = p2.X - p1.X;
-        var dy = p2.Y - p1.Y;
-        return (float)Math.Sqrt(dx * dx + dy * dy);
+        float u = 1 - t;
+        float tt = t * t;
+        float uu = u * u;
+
+        float x = uu * p0.X + 2 * u * t * p1.X + tt * p2.X;
+        float y = uu * p0.Y + 2 * u * t * p1.Y + tt * p2.Y;
+
+        return new Point(x, y);
     }
 }

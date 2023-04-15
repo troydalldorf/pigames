@@ -24,14 +24,14 @@ public class Loop : IMovementStrategyFactory
         var targets = new List<Point>
         {
             new(64+sprite.Width, -sprite.Height),
-            new(24, 26),
+            new(24, 46),
             new(4, 28),
-            new(32, 4),
+            new(28, 4),
             new(52, 28),
             new(-sprite.Width, 64)
         };
         var delay = no * (sprite.Width + spacing) / this.speed;
         var offset = new Point(0, 0);
-        return new BezierMovementStrategy(targets, delay, offset);
+        return new BezierMovementStrategy(targets.ToArray(), delay, offset);
     }
 }
