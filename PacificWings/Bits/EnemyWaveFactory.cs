@@ -25,8 +25,6 @@ public class EnemyWaveFactory
         if (waveNumber > Waves.Count)
             return null;
         var info = Waves[waveNumber];
-        var enemyX = 0;
-        var enemyY = 0;
         return new EnemyWave(info, enemySprite);
     }
 }
