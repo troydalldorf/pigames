@@ -31,7 +31,6 @@ public class BezierMovementStrategy : IMovementStrategy
             moveCount++;
             return true;
         }
-        Console.WriteLine($"move: {enemy.GetHashCode()}");
         if (currentTargetIndex == targets.Count - 1)
         {
             return false;
@@ -40,7 +39,7 @@ public class BezierMovementStrategy : IMovementStrategy
         var target = targets[currentTargetIndex + 1] + offset;
         var direction = Vector2.Normalize(target - currentPosition);
         var newPosition = currentPosition + direction * enemy.Speed;
-
+        Console.WriteLine("move: " + newPosition + " to " + target + "");
         if (Vector2.Distance(newPosition, target) < enemy.Speed)
         {
             currentPosition = target;
