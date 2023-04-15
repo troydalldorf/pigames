@@ -36,7 +36,7 @@ public class Enemy
             State = EnemyState.Destroyed;
     }
 
-    public void Update(List<Bullet> bullets)
+    public void Update(List<Bullet> bullets, Player player)
     {
         Move();
 
@@ -50,6 +50,7 @@ public class Enemy
         foreach (var bullet in bullets.ToArray())
         {
             if (!IsCollidingWithBullet(bullet) || State != EnemyState.Alive) continue;
+            player.AddScore(1);
             explosion = new SpriteBomb(this.X, this.Y, this.sprite);
             State = EnemyState.Exploding;
             bullets.Remove(bullet);

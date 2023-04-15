@@ -7,6 +7,7 @@ public class Player
 {
     private readonly SpriteAnimation playerSprite;
     private readonly SpriteAnimation bulletSprite;
+    private readonly TimeSpan shotDelay = TimeSpan.FromMilliseconds(200);
     public int X { get; private set; }
     public int Y { get; private set; }
     public int Width { get; } = 8;
@@ -17,6 +18,7 @@ public class Player
 
     private const int Speed = 2;
     private const int BulletSpeed = 4;
+    private DateTime lastShot = DateTime.MinValue;
 
     public Player(int x, int y, SpriteAnimation playerSprite, SpriteAnimation bulletSprite)
     {
@@ -54,6 +56,9 @@ public class Player
     {
         if (IsDestroyed) return;
 
+        if (DateTime.Now.Subtract(lastShot) > shotDelay)
+            return;
+        
         if (buttons.IsGreenPushed())
         {
             Bullets.Add(new Bullet(X, Y, BulletSpeed, this.bulletSprite));

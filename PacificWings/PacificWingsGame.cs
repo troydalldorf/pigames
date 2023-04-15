@@ -37,7 +37,7 @@ public class PacificWingsGame : IPlayableGameElement
     public void Update()
     {
         player.Update();
-        enemyWave.Update(player.Bullets);
+        enemyWave.Update(player.Bullets, player);
         if (enemyWave.IsComplete)
         {
             wave++;
@@ -49,7 +49,7 @@ public class PacificWingsGame : IPlayableGameElement
     {
         player.Draw(display);
         enemyWave.Draw(display);
-        font.DrawText(display, 0, 7, Color.Green, "Score: " + player.Score.ToString());
+        font.DrawText(display, 0, 7, Color.Green, player.Score.ToString());
     }
 
     public GameOverState State
