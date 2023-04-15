@@ -37,7 +37,7 @@ public class Menu : IPlayableGameElement
 
     private const int Offset = 6;
     private const int ItemHeight = 6;
-    private const int ItemsPerPage = 8;
+    private const int ItemsPerPage = 64/ItemHeight;
 
     private readonly GameItem[] items;
 
