@@ -4,6 +4,6 @@ namespace PacificWings.Bits.Movements;
 
 public interface IMovementStrategy
 {
-    Vector2 StartPosition { get; }
+    Point StartPosition { get; }
     bool Move(Enemy enemy);
 }

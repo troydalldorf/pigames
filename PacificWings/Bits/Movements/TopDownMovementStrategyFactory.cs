@@ -19,14 +19,14 @@ public class TopDownStrategyStrategy : IMovementStrategyFactory
     
     public IMovementStrategy Create(int no)
     {
-        var targets = new List<Vector2>
+        var targets = new List<Point>
         {
             new(0, 0),
             new(0, 64)
         };
         const int delay = 0;
         var left = total * (sprite.Width + spacing) / 2;
-        var offset = new Vector2(left + no * (sprite.Width + spacing), 0);
+        var offset = new Point(left + no * (sprite.Width + spacing), 0);
         return new BezierMovementStrategy(targets, delay, offset);
     }
 }

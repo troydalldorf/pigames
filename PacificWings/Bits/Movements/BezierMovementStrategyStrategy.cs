@@ -1,58 +1,70 @@
-using System.Numerics;
-
-namespace PacificWings.Bits.Movements;
+using System;
+using System.Collections.Generic;
+using PacificWings.Bits;
+using PacificWings.Bits.Movements;
 
 public class BezierMovementStrategy : IMovementStrategy
 {
-    private readonly List<Vector2> targets;
+    private readonly List<Point> targets;
     private int currentTargetIndex;
     private readonly int delay;
-    private readonly Vector2 offset;
+    private readonly Point offset;
     private int moveCount;
-    private Vector2 currentPosition;
+    private Point currentPosition;
 
-    public BezierMovementStrategy(List<Vector2> targets, int delay, Vector2 offset)
+    public BezierMovementStrategy(List<Point> targets, int delay, Point offset)
     {
         this.targets = targets;
         currentTargetIndex = 0;
         this.delay = delay;
         this.offset = offset;
         moveCount = 0;
-        StartPosition = targets[0] + offset;
+        StartPosition = new Point(targets[0].X + offset.X, targets[0].Y + offset.Y);
         currentPosition = StartPosition;
     }
 
-    public Vector2 StartPosition { get; }
+    public Point StartPosition { get; }
 
     public bool Move(Enemy enemy)
     {
+        Console.Write("move");
         if (moveCount < delay)
         {
             moveCount++;
             return true;
         }
+
         if (currentTargetIndex == targets.Count - 1)
         {
             return false;
         }
 
-        var target = targets[currentTargetIndex + 1] + offset;
-        var direction = Vector2.Normalize(target - currentPosition);
-        var newPosition = currentPosition + direction * enemy.Speed;
-        Console.WriteLine("move: " + newPosition + " to " + target + "");
-        if (Vector2.Distance(newPosition, target) < enemy.Speed)
+        Point target = new Point(targets[currentTargetIndex + 1].X + offset.X, targets[currentTargetIndex + 1].Y + offset.Y);
+        double distanceToTarget = Distance(currentPosition, target);
+        double moveFraction = enemy.Speed / distanceToTarget;
+
+        if (moveFraction >= 1)
         {
             currentPosition = target;
             currentTargetIndex++;
         }
         else
         {
-            currentPosition = newPosition;
+            int newX = currentPosition.X + (int)((target.X - currentPosition.X) * moveFraction);
+            int newY = currentPosition.Y + (int)((target.Y - currentPosition.Y) * moveFraction);
+            currentPosition = new Point(newX, newY);
         }
 
-        enemy.X = (int)currentPosition.X;
-        enemy.Y = (int)currentPosition.Y;
+        enemy.X = currentPosition.X;
+        enemy.Y = currentPosition.Y;
 
         return true;
+    }
+
+    private double Distance(Point p1, Point p2)
+    {
+        int dx = p2.X - p1.X;
+        int dy = p2.Y - p1.Y;
+        return Math.Sqrt(dx * dx + dy * dy);
     }
 }
