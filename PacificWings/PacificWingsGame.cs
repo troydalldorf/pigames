@@ -9,17 +9,19 @@ namespace PacificWings;
 public class PacificWingsGame : IPlayableGameElement
 {
     private readonly Player player;
-    private readonly EnemyWave enemyWave;
+    private EnemyWave enemyWave;
+    private SpriteAnimation enemySprite;
     private readonly IFont font;
+    private int wave = 0;
 
     public PacificWingsGame(IFontFactory fontFactory)
     {
         var image = SpriteImage.FromResource("pwings.png");
         var playerSprite = image.GetSpriteAnimation(1, 1, 9, 8, 2, 1);
-        var enemySprite = image.GetSpriteAnimation(1, 15, 9, 8, 2, 1);
+        this.enemySprite = image.GetSpriteAnimation(1, 15, 9, 8, 2, 1);
         var bulletSprite = image.GetSpriteAnimation(1, 10, 9, 3, 2, 1);
         player = new Player(32, 56, playerSprite, bulletSprite);
-        enemyWave = new EnemyWave(enemySprite);
+        enemyWave = EnemyWaveFactory.CreateWave(wave, enemySprite)!;
         font = fontFactory.GetFont(LedFontType.Font4x6);
     }
 
@@ -36,6 +38,11 @@ public class PacificWingsGame : IPlayableGameElement
     {
         player.Update();
         enemyWave.Update(player.Bullets);
+        if (enemyWave.IsComplete)
+        {
+            wave++;
+            enemyWave = EnemyWaveFactory.CreateWave(wave, this.enemySprite)!;
+        }
     }
 
     public void Draw(IDisplay display)

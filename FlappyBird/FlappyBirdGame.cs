@@ -93,7 +93,7 @@ public class FlappyBirdGame : IPlayableGameElement
         {
             score++;
             // Make gaps larger at the start and reduce them over time
-            if (score % 10 == 9 && pipeGap > BirdSize * 4)
+            if (score % 5 == 9 && pipeGap > BirdSize * 4)
             {
                 pipeGap--;
             }

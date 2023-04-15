@@ -7,21 +7,23 @@ namespace PacificWings.Bits;
 
 public class Enemy
 {
-    public int X { get; private set; }
-    public int Y { get; private set; }
+    public int X { get; set; }
+    public int Y { get; set; }
     public int Width { get; } = 8;
     public int Height { get; } = 8;
     public EnemyState State { get; private set; }
 
-    private int speed;
+    public int Speed { get; set; }
+    private readonly IEnemyMovement movementStrategy;
     private readonly SpriteAnimation sprite;
     private SpriteBomb explosion;
 
-    public Enemy(int x, int y, int speed, SpriteAnimation sprite)
+    public Enemy(int x, int y, int speed, IEnemyMovement movementStrategy, SpriteAnimation sprite)
     {
         X = x;
         Y = y;
-        this.speed = speed;
+        this.Speed = speed;
+        this.movementStrategy = movementStrategy;
         this.sprite = sprite;
         State = EnemyState.Alive;
     }
@@ -29,7 +31,7 @@ public class Enemy
     public void Move()
     {
         if (State != EnemyState.Alive) return;
-        Y += speed;
+        this.movementStrategy.Move(this);
         if (Y > 64)
         {
             State = EnemyState.Destroyed;
@@ -49,7 +51,7 @@ public class Enemy
         
         foreach (var bullet in bullets.ToArray())
         {
-            if (!IsCollidingWithBullet(bullet) && State == EnemyState.Alive) continue;
+            if (!IsCollidingWithBullet(bullet) || State != EnemyState.Alive) continue;
             explosion = new SpriteBomb(this.X, this.Y, this.sprite);
             State = EnemyState.Exploding;
             bullets.Remove(bullet);

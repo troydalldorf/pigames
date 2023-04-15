@@ -9,13 +9,14 @@ public class EnemyWave
     private readonly SpriteAnimation enemySprite;
     private List<Enemy> enemies;
     private int waveNumber;
+    public bool IsComplete => enemies.Count == 0;
 
-    public EnemyWave(SpriteAnimation enemySprite)
+    public EnemyWave(EnemyWaveInfo info, SpriteAnimation enemySprite)
     {
         this.enemySprite = enemySprite;
         this.enemies = new List<Enemy>();
         this.waveNumber = 1;
-        this.SpawnWave();
+        this.SpawnWave(info);
     }
 
     public void Update(List<Bullet> bullets)
@@ -25,11 +26,6 @@ public class EnemyWave
             enemy.Update(bullets);
         }
         enemies.RemoveAll(enemy => enemy.State == Enemy.EnemyState.Destroyed);
-        if (enemies.Count == 0)
-        {
-            waveNumber++;
-            SpawnWave();
-        }
     }
 
     public void Draw(IDisplay display)
@@ -38,17 +34,15 @@ public class EnemyWave
             enemy.Draw(display);
     }
 
-    private void SpawnWave()
+    private void SpawnWave(EnemyWaveInfo info)
     {
-        var enemySpeed = 1 + waveNumber / 5; // Increase enemy speed every 5 waves
-        const int enemySpacing = 16;
-        const int startX = (64 - enemySpacing * 3) / 2;
+         var startX = (64 - info.EnemySpacing * 3) / 2;
 
         for (var i = 0; i < 4; i++)
         {
-            var x = startX + i * enemySpacing;
+            var x = startX + i * info.EnemySpacing;
             var y = 8;
-            enemies.Add(new Enemy(x, y, enemySpeed, this.enemySprite));
+            enemies.Add(new Enemy(x, y, info.Speed, info.MovementStrategy, this.enemySprite));
         }
     }
 }
