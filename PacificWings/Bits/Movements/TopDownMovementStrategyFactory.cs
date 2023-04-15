@@ -21,7 +21,7 @@ public class TopDownStrategyStrategy : IMovementStrategyFactory
     {
         var targets = new List<Vector2>
         {
-            new(0, -sprite.Height),
+            new(0, 0),
             new(0, 64)
         };
         const int delay = 0;
