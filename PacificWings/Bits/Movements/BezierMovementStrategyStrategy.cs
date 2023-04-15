@@ -31,7 +31,7 @@ public class BezierMovementStrategy : IMovementStrategy
             moveCount++;
             return true;
         }
-
+        Console.WriteLine($"move: {enemy.GetHashCode()}");
         if (currentTargetIndex == targets.Count - 1)
         {
             return false;
