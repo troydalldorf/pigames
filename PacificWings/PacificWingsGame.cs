@@ -12,7 +12,7 @@ public class PacificWingsGame : IPlayableGameElement
     private EnemyWave enemyWave;
     private SpriteAnimation enemySprite;
     private readonly IFont font;
-    private int wave = 0;
+    private int wave = 1;
 
     public PacificWingsGame(IFontFactory fontFactory)
     {
