@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Numerics;
-using PacificWings.Bits;
-using PacificWings.Bits.Movements;
+
+namespace PacificWings.Bits.Movements;
 
 public class BezierMovementStrategy : IMovementStrategy
 {
@@ -11,7 +9,7 @@ public class BezierMovementStrategy : IMovementStrategy
     private readonly int delay;
     private readonly Vector2 offset;
     private int moveCount;
-    private float t;
+    private Vector2 currentPosition;
 
     public BezierMovementStrategy(List<Vector2> targets, int delay, Vector2 offset)
     {
@@ -21,14 +19,13 @@ public class BezierMovementStrategy : IMovementStrategy
         this.offset = offset;
         moveCount = 0;
         StartPosition = targets[0] + offset;
-        t = 0;
+        currentPosition = StartPosition;
     }
 
     public Vector2 StartPosition { get; }
 
     public bool Move(Enemy enemy)
     {
-        Console.Write("move");
         if (moveCount < delay)
         {
             moveCount++;
@@ -40,33 +37,23 @@ public class BezierMovementStrategy : IMovementStrategy
             return false;
         }
 
-        float currentDistance = Vector2.Distance(targets[currentTargetIndex], targets[currentTargetIndex + 1]);
-        float increment = enemy.Speed / currentDistance;
+        var target = targets[currentTargetIndex + 1] + offset;
+        var direction = Vector2.Normalize(target - currentPosition);
+        var newPosition = currentPosition + direction * enemy.Speed;
 
-        t += increment;
-
-        if (t >= 1)
+        if (Vector2.Distance(newPosition, target) < enemy.Speed)
         {
-            t = 0;
+            currentPosition = target;
             currentTargetIndex++;
-            if (currentTargetIndex == targets.Count - 1)
-            {
-                return false;
-            }
+        }
+        else
+        {
+            currentPosition = newPosition;
         }
 
-        var newPosition = CalculateBezierPoint(t, targets[currentTargetIndex], targets[currentTargetIndex + 1]);
-
-        newPosition += offset;
-
-        enemy.X = (int)newPosition.X;
-        enemy.Y = (int)newPosition.Y;
+        enemy.X = (int)currentPosition.X;
+        enemy.Y = (int)currentPosition.Y;
 
         return true;
-    }
-
-    private static Vector2 CalculateBezierPoint(float t, Vector2 p0, Vector2 p1)
-    {
-        return p0 * (1 - t) + p1 * t;
     }
 }
