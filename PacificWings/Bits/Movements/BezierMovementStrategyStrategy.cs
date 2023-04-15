@@ -40,7 +40,7 @@ public class BezierMovementStrategy : IMovementStrategy
         var distanceToTarget = Distance(currentPosition, target);
         var moveFraction = enemy.Speed / distanceToTarget;
 
-        Console.WriteLine($"Move Fraction: {moveFraction}, target: {target}, current: {currentPosition}");
+        Console.WriteLine($"Speed: {enemy.Speed}, distanceToTarget: {distanceToTarget} Move Fraction: {moveFraction}, target: {target}, current: {currentPosition}");
         if (moveFraction >= 1)
         {
             currentPosition = target;
