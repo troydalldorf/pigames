@@ -8,14 +8,12 @@ public class EnemyWave
 {
     private readonly SpriteAnimation enemySprite;
     private List<Enemy> enemies;
-    private int waveNumber;
     public bool IsComplete => enemies.Count == 0;
 
     public EnemyWave(EnemyWaveInfo info, SpriteAnimation enemySprite)
     {
         this.enemySprite = enemySprite;
         this.enemies = new List<Enemy>();
-        this.waveNumber = 1;
         this.SpawnWave(info);
     }
 

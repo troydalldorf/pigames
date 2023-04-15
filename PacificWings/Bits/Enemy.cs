@@ -28,11 +28,11 @@ public class Enemy
         State = EnemyState.Alive;
     }
 
-    public void Move()
+    private void Move()
     {
         if (State != EnemyState.Alive) return;
         this.movementStrategy.Move(this);
-        if (Y > 64)
+        if (Y+this.sprite.Height < 0 || Y > 64 || X+this.sprite.Width < 0 || X > 64)
         {
             State = EnemyState.Destroyed;
         }
