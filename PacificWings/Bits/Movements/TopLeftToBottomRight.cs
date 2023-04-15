@@ -4,16 +4,18 @@ using SixLabors.ImageSharp.Processing.Processors.Filters;
 
 namespace PacificWings.Bits.Movements;
 
-public class TopDownStrategyStrategy : IMovementStrategyFactory
+public class TopLeftToBottomRight : IMovementStrategyFactory
 {
     private readonly int total;
     private readonly int spacing;
+    private readonly int speed;
     private readonly ISprite sprite;
 
-    public TopDownStrategyStrategy(int total, int spacing, ISprite sprite)
+    public TopLeftToBottomRight(int total, int spacing, int speed, ISprite sprite)
     {
         this.total = total;
         this.spacing = spacing;
+        this.speed = speed;
         this.sprite = sprite;
     }
     
@@ -22,11 +24,10 @@ public class TopDownStrategyStrategy : IMovementStrategyFactory
         var targets = new List<Point>
         {
             new(0, 0),
-            new(0, 64)
+            new(64+sprite.Width, 64)
         };
-        const int delay = 0;
-        var left = total * (sprite.Width + spacing) / 2;
-        var offset = new Point(left + no * (sprite.Width + spacing), 0);
+        var delay = (sprite.Width + spacing) / this.speed;
+        var offset = new Point(0, 0);
         return new BezierMovementStrategy(targets, delay, offset);
     }
 }
