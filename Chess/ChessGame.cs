@@ -7,7 +7,6 @@ public class ChessGame : IDuoPlayableGameElement
 {
     public ChessGame()
     {
-        
         State = GameOverState.None;
     }
     
@@ -41,7 +40,7 @@ public class ChessGame : IDuoPlayableGameElement
     
     public void Handle2PInput(IPlayerConsole player2Console)
     {
-        throw new NotImplementedException();
     }
+    
     public GameOverState State { get; }
 }
