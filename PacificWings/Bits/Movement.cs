@@ -38,7 +38,7 @@ public class TopDownMovement : IEnemyMovement
 {
     public (int, int) Start(int enemyNo, int enemyWidth, int enemyHeight, int enemySpacing)
     {
-        return (-enemyHeight, enemyNo * (enemyWidth + enemySpacing));
+        return (enemyNo * (enemyWidth + enemySpacing), -enemyHeight);
     }
 
     public bool Move(Enemy enemy)
@@ -55,6 +55,7 @@ public class CircularMovement : IEnemyMovement
 
     public (int, int) Start(int enemyNo, int enemyWidth, int enemyHeight, int enemySpacing)
     {
+        stage = 0;
         return (64 + enemyNo * (enemyWidth + enemySpacing), 8 - enemyNo * (enemyWidth + enemySpacing));
     }
 
@@ -65,7 +66,7 @@ public class CircularMovement : IEnemyMovement
             enemy.Y += enemy.Speed;
             enemy.X -= enemy.Speed;
 
-            if (enemy.Y >= 48)
+            if (enemy.Y >= 40)
             {
                 stage = 1;
             }
