@@ -14,6 +14,7 @@ using Frogger;
 using MemoryCard;
 using Minesweeper;
 using Othello;
+using PacificWings;
 using Pong;
 using Snake;
 using SpaceInvaders2;
@@ -61,10 +62,10 @@ public class Menu : IPlayableGameElement
             new("Memory", () => new MemoryCardGame()),
             new("Mines", () => new MinesweeperGame(fontFactory)),
             new("Pong", () => new PongPlayableGame(fontFactory)),
+            new("PWings", () => new PacificWingsGame(fontFactory)),
             new("Snake", () => new SnakePlayableGame(), 100),
             new("Snake 2", () => new SnakeGame2P(), 100),
             new("Space I", () => new SpaceInvadersPlayableGame(), 75),
-            //new("Speed", () => new SpeedGame(fontFactory), 100),
             new("Tetris 1", () => new TetrisGame(fontFactory)),
             new("Tetris 2", () => new DuoTetrisGame(fontFactory)),
         };

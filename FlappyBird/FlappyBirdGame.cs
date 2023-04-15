@@ -92,12 +92,11 @@ public class FlappyBirdGame : IPlayableGameElement
         if (pipes.Any(pipe => pipe.Right == bird.X))
         {
             score++;
-        }
-
-        // Make gaps larger at the start and reduce them over time
-        if (score % 10 == 9 && pipeGap > BirdSize * 4)
-        {
-            pipeGap--;
+            // Make gaps larger at the start and reduce them over time
+            if (score % 10 == 9 && pipeGap > BirdSize * 4)
+            {
+                pipeGap--;
+            }
         }
     }
 
@@ -106,7 +105,7 @@ public class FlappyBirdGame : IPlayableGameElement
         birdSprite.Draw(display, bird.X-2, bird.Y-2);
         foreach (var pipe in pipes)
             pipe.Draw(display);
-        font.DrawText(display, Width-8, 10, Color.DarkOliveGreen, score.ToString());
+        font.DrawTextWithBorder(display, Width-8, 10, Color.DarkOliveGreen, Color.Black, score.ToString());
     }
 
     public GameOverState State => isDone ? GameOverState.EndOfGame : GameOverState.None;
