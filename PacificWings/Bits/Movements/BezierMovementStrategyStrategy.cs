@@ -24,6 +24,7 @@ public class BezierMovementStrategyStrategy : IMovementStrategy
 
     public bool Move(Enemy enemy)
     {
+        Console.Write("move");
         if (moveCount < delay)
         {
             moveCount++;
