@@ -7,7 +7,7 @@ namespace PacificWings.Bits;
 public class EnemyWave
 {
     private readonly SpriteAnimation enemySprite;
-    private List<Enemy> enemies;
+    private readonly List<Enemy> enemies;
     public bool IsComplete => enemies.Count == 0;
 
     public EnemyWave(EnemyWaveInfo info, SpriteAnimation enemySprite)
