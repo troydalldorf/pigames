@@ -22,7 +22,6 @@ public class TopDown : IMovementStrategyFactory
         var targets = new List<Point>
         {
             new(0, -sprite.Height),
-            new(0, 32),
             new(0, 64)
         };
         const int delay = 0;
