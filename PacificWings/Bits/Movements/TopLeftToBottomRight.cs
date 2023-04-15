@@ -26,7 +26,7 @@ public class TopLeftToBottomRight : IMovementStrategyFactory
             new(0, 0),
             new(64+sprite.Width, 64)
         };
-        var delay = (sprite.Width + spacing) / this.speed;
+        var delay = no * (sprite.Width + spacing) / this.speed;
         var offset = new Point(0, 0);
         return new BezierMovementStrategy(targets, delay, offset);
     }
