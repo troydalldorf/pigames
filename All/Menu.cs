@@ -36,12 +36,13 @@ public class Menu : IPlayableGameElement
 
     private const int Offset = 6;
     private const int ItemHeight = 6;
-    private int page = 0;
+    private const int ItemsPerPage = 8;
 
     private readonly GameItem[] items;
 
     public Menu(GameRunner runner, IFontFactory fontFactory)
     {
+        this.page = 0;
         this.fontFactory = fontFactory;
         this.runner = runner;
         this.font = fontFactory.GetFont(LedFontType.FontTomThumb);
@@ -49,21 +50,21 @@ public class Menu : IPlayableGameElement
         this.items = new GameItem[]
         {
             new("Asteroid", () => new AsteroidsGame()),
-            //new("Astro C", () => new AstroChicken.AstroChicken(fontFactory)),
-            new("B Man", () => new BombermanGame(fontFactory)),
+            new("Astro Chicken", () => new AstroChicken.AstroChicken(fontFactory)),
+            new("Bomber Man", () => new BombermanGame(fontFactory)),
             new("Breakout", () => new BreakoutGame()),
-            new("C-Four", () => new ConnectFourGame(), 100),
+            new("Connect Four", () => new ConnectFourGame(), 100),
             new("Checkers", () => new CheckersGame(fontFactory)),
             new("E-Pong", () => new PongPlayableGame(fontFactory)),
-            new("Flappy B", () => new FlappyBirdGame(fontFactory), 50),
+            new("Flappy Bird", () => new FlappyBirdGame(fontFactory), 50),
             new("Frogger", () => new FroggerPlayableGame(), 100),
             new("Othello", () => new OthelloGame(fontFactory)),
-            new("MasterM1", () => new Mastermind.MastermindGame(fontFactory)),
-            new("MasterM2", () => new Mastermind.DuoMastermindGame(fontFactory)),
+            new("Master Mind 1", () => new Mastermind.MastermindGame(fontFactory)),
+            new("Master Mind 2", () => new Mastermind.DuoMastermindGame(fontFactory)),
             new("Memory", () => new MemoryCardGame()),
             new("Mines", () => new MinesweeperGame(fontFactory)),
             new("Pong", () => new PongPlayableGame(fontFactory)),
-            new("P-Wings", () => new PacificWingsGame(fontFactory)),
+            new("Pacific Wings", () => new PacificWingsGame(fontFactory)),
             new("Snake", () => new SnakePlayableGame(), 100),
             new("Snake 2", () => new SnakeGame2P(), 100),
             new("Space I", () => new SpaceInvadersPlayableGame(), 75),
@@ -108,14 +109,17 @@ public class Menu : IPlayableGameElement
     public void Draw(IDisplay display)
     {
         display.DrawRectangle(0, 0, 64, 64, Color.Blue);
-        for (var i=0; i < items.Length; i++)
+        var page = cursor / ItemsPerPage;
+        for (var i=0; i < ItemsPerPage; i++)
         {
-            var item = items[i];
-            var x = 1 + i / 10 * 32;
-            var y = Offset + i % 10 * ItemHeight;
+            var itemNo = page * ItemsPerPage + i;
+            if (itemNo >= items.Length) break; 
+            var item = items[itemNo];
+            var x = 1;
+            var y = Offset + i * ItemHeight;
             if (cursor == i)
             {
-                display.DrawRectangle(x, y-5, 30, ItemHeight, Color.LightSkyBlue, Color.LightSkyBlue);
+                display.DrawRectangle(x, y-5, 64, ItemHeight, Color.LightSkyBlue, Color.LightSkyBlue);
                 font.DrawText(display, x, y, Color.Black, item.Name);
             }
             else

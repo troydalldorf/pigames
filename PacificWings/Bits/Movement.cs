@@ -56,6 +56,7 @@ public class CircularMovement : IEnemyMovement
     public (int, int) Start(int enemyNo, int enemyWidth, int enemyHeight, int enemySpacing)
     {
         stage = 0;
+        angle = 90;
         return (64 + enemyNo * (enemyWidth + enemySpacing), 8 - enemyNo * (enemyWidth + enemySpacing));
     }
 
@@ -73,9 +74,9 @@ public class CircularMovement : IEnemyMovement
         }
         else if (stage == 1) // Circle
         {
-            angle += 0.05;
+            angle += 3;
             enemy.X = 16 + (int)(16 * Math.Cos(angle));
-            enemy.Y = 48 + (int)(16 * Math.Sin(angle));
+            enemy.Y = 40 + (int)(16 * Math.Sin(angle));
 
             if (angle >= 2 * Math.PI)
             {
