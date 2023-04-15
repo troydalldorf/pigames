@@ -1,6 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.Numerics;
-
-namespace PacificWings.Bits.Movements;
+using PacificWings.Bits;
+using PacificWings.Bits.Movements;
 
 public class BezierMovementStrategy : IMovementStrategy
 {
@@ -26,6 +28,7 @@ public class BezierMovementStrategy : IMovementStrategy
 
     public bool Move(Enemy enemy)
     {
+        Console.Write("move");
         if (moveCount < delay)
         {
             moveCount++;
@@ -37,7 +40,10 @@ public class BezierMovementStrategy : IMovementStrategy
             return false;
         }
 
-        t += enemy.Speed;
+        float distance = Vector2.Distance(targets[currentTargetIndex], targets[currentTargetIndex + 1]);
+        float increment = enemy.Speed / distance;
+
+        t += increment;
 
         if (t > 1)
         {
@@ -51,7 +57,7 @@ public class BezierMovementStrategy : IMovementStrategy
         enemy.X = (int)newPosition.X;
         enemy.Y = (int)newPosition.Y;
 
-        if (Vector2.Distance(newPosition, targets[currentTargetIndex + 1] + offset) < 0.001f)
+        if (Vector2.Distance(newPosition, targets[currentTargetIndex + 1] + offset) < enemy.Speed)
         {
             currentTargetIndex++;
             t = 0;
