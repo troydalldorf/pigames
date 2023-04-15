@@ -23,7 +23,11 @@ public class Loop : IMovementStrategyFactory
     {
         var targets = new List<Point>
         {
-            new(48, 0),
+            new(64+sprite.Width, -sprite.Height),
+            new(24, 26),
+            new(4, 28),
+            new(32, 4),
+            new(52, 28),
             new(-sprite.Width, 64)
         };
         var delay = no * (sprite.Width + spacing) / this.speed;

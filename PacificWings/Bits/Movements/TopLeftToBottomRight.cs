@@ -23,12 +23,8 @@ public class TopLeftToBottomRight : IMovementStrategyFactory
     {
         var targets = new List<Point>
         {
-            new(0, 0),
-            new(24, 26),
-            new(4, 28),
-            new(32, 4),
-            new(52, 28),
-            new(64-sprite.Width, 64)
+            new(48, 0),
+            new(-sprite.Width, 64)
         };
         var delay = no * (sprite.Width + spacing) / this.speed;
         var offset = new Point(0, 0);
