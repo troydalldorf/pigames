@@ -7,16 +7,16 @@ public static class EnemyWaveFactory
 {
     public static EnemyWave? CreateWave(int waveNumber, SpriteAnimation enemySprite)
     {
-        var info = GetWaveInfo(waveNumber, enemySprite.Height);
+        var info = GetWaveInfo(waveNumber, enemySprite);
         return new EnemyWave(info, enemySprite);
     }
 
-    private static EnemyWaveInfo GetWaveInfo(int waveNo, int enemyHeight)
+    private static EnemyWaveInfo GetWaveInfo(int waveNo, ISprite sprite)
     {
         var speed = waveNo / 10;
-        var count = waveNo % 10;
-        var spacing = 8 - count;
-        var strategy = () => new TopDownStrategy(8, enemyHeight);
-        return new EnemyWaveInfo(speed, count, spacing, strategy);
+        var total = waveNo % 10;
+        var spacing = 8 - total;
+        var strategy = new TopDownStrategyStrategy(total, spacing, sprite);
+        return new EnemyWaveInfo(speed, total, spacing, strategy);
     }
 }

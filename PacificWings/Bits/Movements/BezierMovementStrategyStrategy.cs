@@ -2,7 +2,7 @@ using System.Numerics;
 
 namespace PacificWings.Bits.Movements;
 
-public class BezierMovementStrategy : IEnemyMovement
+public class BezierMovementStrategyStrategy : IMovementStrategy
 {
     private readonly List<Vector2> targets;
     private int currentTargetIndex;
@@ -10,7 +10,7 @@ public class BezierMovementStrategy : IEnemyMovement
     private readonly Vector2 offset;
     private int moveCount;
 
-    public BezierMovementStrategy(List<Vector2> targets, int delay, Vector2 offset)
+    public BezierMovementStrategyStrategy(List<Vector2> targets, int delay, Vector2 offset)
     {
         this.targets = targets;
         currentTargetIndex = 0;

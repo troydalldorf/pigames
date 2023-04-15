@@ -15,16 +15,16 @@ public class Enemy
     public EnemyState State { get; private set; }
 
     public int Speed { get; set; }
-    private readonly IEnemyMovement movementStrategy;
+    private readonly IMovementStrategy movementStrategyStrategy;
     private readonly SpriteAnimation sprite;
     private SpriteBomb explosion;
 
-    public Enemy(int x, int y, int speed, IEnemyMovement movementStrategy, SpriteAnimation sprite)
+    public Enemy(int x, int y, int speed, IMovementStrategy movementStrategyStrategy, SpriteAnimation sprite)
     {
         X = x;
         Y = y;
         this.Speed = speed;
-        this.movementStrategy = movementStrategy;
+        this.movementStrategyStrategy = movementStrategyStrategy;
         this.sprite = sprite;
         State = EnemyState.Alive;
     }
@@ -32,7 +32,7 @@ public class Enemy
     private void Move()
     {
         if (State != EnemyState.Alive) return;
-        if (!this.movementStrategy.Move(this))
+        if (!this.movementStrategyStrategy.Move(this))
             State = EnemyState.Destroyed;
     }
 
