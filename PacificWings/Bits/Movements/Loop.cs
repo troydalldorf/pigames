@@ -4,14 +4,14 @@ using SixLabors.ImageSharp.Processing.Processors.Filters;
 
 namespace PacificWings.Bits.Movements;
 
-public class TopLeftToBottomRight : IMovementStrategyFactory
+public class Loop : IMovementStrategyFactory
 {
     private readonly int total;
     private readonly int spacing;
     private readonly int speed;
     private readonly ISprite sprite;
 
-    public TopLeftToBottomRight(int total, int spacing, int speed, ISprite sprite)
+    public Loop(int total, int spacing, int speed, ISprite sprite)
     {
         this.total = total;
         this.spacing = spacing;
@@ -23,12 +23,8 @@ public class TopLeftToBottomRight : IMovementStrategyFactory
     {
         var targets = new List<Point>
         {
-            new(0, 0),
-            new(24, 26),
-            new(4, 28),
-            new(32, 4),
-            new(52, 28),
-            new(64-sprite.Width, 64)
+            new(48, 0),
+            new(-sprite.Width, 64)
         };
         var delay = no * (sprite.Width + spacing) / this.speed;
         var offset = new Point(0, 0);

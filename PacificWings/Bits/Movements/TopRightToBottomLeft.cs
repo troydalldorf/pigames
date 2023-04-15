@@ -23,7 +23,7 @@ public class TopRightToBottomLeft : IMovementStrategyFactory
     {
         var targets = new List<Point>
         {
-            new(48, 0),
+            new(48, -sprite.Height),
             new(-sprite.Width, 64)
         };
         var delay = no * (sprite.Width + spacing) / this.speed;
