@@ -54,7 +54,7 @@ public class Player
     {
         if (IsDestroyed) return;
 
-        if ((buttons & Buttons.Red) == Buttons.Red)
+        if (buttons.IsGreenPushed())
         {
             Bullets.Add(new Bullet(X + Width / 2, Y, BulletSpeed, this.bulletSprite));
         }
