@@ -1,5 +1,6 @@
 using Core;
 using Core.Display.Sprites;
+using Core.Effects;
 
 namespace PacificWings.Bits;
 
@@ -12,9 +13,9 @@ public class EnemyWave
     public EnemyWave(SpriteAnimation enemySprite)
     {
         this.enemySprite = enemySprite;
-        enemies = new List<Enemy>();
-        waveNumber = 1;
-        SpawnWave();
+        this.enemies = new List<Enemy>();
+        this.waveNumber = 1;
+        this.SpawnWave();
     }
 
     public void Update(List<Bullet> bullets)
@@ -23,11 +24,7 @@ public class EnemyWave
         {
             enemy.Update(bullets);
         }
-
-        // Remove destroyed enemies
-        enemies.RemoveAll(enemy => enemy.IsDestroyed);
-
-        // Check if wave is cleared
+        enemies.RemoveAll(enemy => enemy.State == Enemy.EnemyState.Destroyed);
         if (enemies.Count == 0)
         {
             waveNumber++;
@@ -38,16 +35,14 @@ public class EnemyWave
     public void Draw(IDisplay display)
     {
         foreach (var enemy in enemies)
-        {
             enemy.Draw(display);
-        }
     }
 
     private void SpawnWave()
     {
         var enemySpeed = 1 + waveNumber / 5; // Increase enemy speed every 5 waves
-        var enemySpacing = 16;
-        var startX = (64 - enemySpacing * 3) / 2;
+        const int enemySpacing = 16;
+        const int startX = (64 - enemySpacing * 3) / 2;
 
         for (var i = 0; i < 4; i++)
         {

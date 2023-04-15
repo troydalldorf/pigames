@@ -15,8 +15,8 @@ public class PacificWingsGame : IPlayableGameElement
     public PacificWingsGame(IFontFactory fontFactory)
     {
         var image = SpriteImage.FromResource("pwings.png");
-        var playerSprite = image.GetSpriteAnimation(1, 1, 8, 8, 2, 1);
-        var enemySprite = image.GetSpriteAnimation(1, 15, 8, 8, 2, 1);
+        var playerSprite = image.GetSpriteAnimation(1, 1, 9, 8, 2, 1);
+        var enemySprite = image.GetSpriteAnimation(1, 15, 9, 8, 2, 1);
         var bulletSprite = image.GetSpriteAnimation(1, 10, 9, 3, 2, 1);
         player = new Player(32, 56, playerSprite, bulletSprite);
         enemyWave = new EnemyWave(enemySprite);
@@ -42,7 +42,7 @@ public class PacificWingsGame : IPlayableGameElement
     {
         player.Draw(display);
         enemyWave.Draw(display);
-        font.DrawText(display, 0, 0, Color.Green, "Score: " + player.Score.ToString());
+        font.DrawText(display, 0, 7, Color.Green, "Score: " + player.Score.ToString());
     }
 
     public GameOverState State

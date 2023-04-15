@@ -1,6 +1,7 @@
 using System.Drawing;
 using Core;
 using Core.Display.Sprites;
+using Core.Effects;
 
 namespace PacificWings.Bits;
 
@@ -10,10 +11,11 @@ public class Enemy
     public int Y { get; private set; }
     public int Width { get; } = 8;
     public int Height { get; } = 8;
-    public bool IsDestroyed { get; private set; }
+    public EnemyState State { get; private set; }
 
     private int speed;
     private readonly SpriteAnimation sprite;
+    private SpriteBomb explosion;
 
     public Enemy(int x, int y, int speed, SpriteAnimation sprite)
     {
@@ -21,18 +23,16 @@ public class Enemy
         Y = y;
         this.speed = speed;
         this.sprite = sprite;
-        IsDestroyed = false;
+        State = EnemyState.Alive;
     }
 
     public void Move()
     {
-        if (IsDestroyed) return;
-
+        if (State != EnemyState.Alive) return;
         Y += speed;
-
         if (Y > 64)
         {
-            IsDestroyed = true;
+            State = EnemyState.Destroyed;
         }
     }
 
@@ -40,11 +40,16 @@ public class Enemy
     {
         Move();
 
-        // Check for bullet collisions
+        if (State == EnemyState.Exploding && explosion.IsExtinguished())
+        {
+            State = EnemyState.Destroyed;
+        }
+        
         foreach (var bullet in bullets.ToArray())
         {
             if (!IsCollidingWithBullet(bullet)) continue;
-            IsDestroyed = true;
+            explosion = new SpriteBomb(this.X, this.Y, this.sprite);
+            State = EnemyState.Exploding;
             bullets.Remove(bullet);
             break;
         }
@@ -52,14 +57,25 @@ public class Enemy
 
     public void Draw(IDisplay display)
     {
-        if (!IsDestroyed)
+        if (State == EnemyState.Alive)
         {
             this.sprite.Draw(display, X, Y);
+        }
+        else if (State == EnemyState.Exploding)
+        {
+            this.explosion.Draw(display);
         }
     }
 
     private bool IsCollidingWithBullet(Bullet bullet)
     {
         return bullet.X >= X && bullet.X <= X + Width && bullet.Y >= Y && bullet.Y <= Y + Height;
+    }
+
+    public enum EnemyState
+    {
+        Alive,
+        Exploding,
+        Destroyed,
     }
 }
