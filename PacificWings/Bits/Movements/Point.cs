@@ -1,3 +1,3 @@
 namespace PacificWings.Bits.Movements;
 
-public record Point(int X, int Y);
+public record Point(float X, float Y);

@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using PacificWings.Bits;
 using PacificWings.Bits.Movements;
 
@@ -27,7 +25,6 @@ public class BezierMovementStrategy : IMovementStrategy
 
     public bool Move(Enemy enemy)
     {
-        Console.Write("move");
         if (moveCount < delay)
         {
             moveCount++;
@@ -39,9 +36,9 @@ public class BezierMovementStrategy : IMovementStrategy
             return false;
         }
 
-        Point target = new Point(targets[currentTargetIndex + 1].X + offset.X, targets[currentTargetIndex + 1].Y + offset.Y);
-        double distanceToTarget = Distance(currentPosition, target);
-        double moveFraction = enemy.Speed / distanceToTarget;
+        var target = new Point(targets[currentTargetIndex + 1].X + offset.X, targets[currentTargetIndex + 1].Y + offset.Y);
+        var distanceToTarget = Distance(currentPosition, target);
+        var moveFraction = enemy.Speed / distanceToTarget;
 
         if (moveFraction >= 1)
         {
@@ -50,21 +47,21 @@ public class BezierMovementStrategy : IMovementStrategy
         }
         else
         {
-            int newX = currentPosition.X + (int)((target.X - currentPosition.X) * moveFraction);
-            int newY = currentPosition.Y + (int)((target.Y - currentPosition.Y) * moveFraction);
+            var newX = currentPosition.X + ((target.X - currentPosition.X) * moveFraction);
+            var newY = currentPosition.Y + ((target.Y - currentPosition.Y) * moveFraction);
             currentPosition = new Point(newX, newY);
         }
 
-        enemy.X = currentPosition.X;
-        enemy.Y = currentPosition.Y;
+        enemy.X = (int)currentPosition.X;
+        enemy.Y = (int)currentPosition.Y;
 
         return true;
     }
 
-    private double Distance(Point p1, Point p2)
+    private static float Distance(Point p1, Point p2)
     {
-        int dx = p2.X - p1.X;
-        int dy = p2.Y - p1.Y;
-        return Math.Sqrt(dx * dx + dy * dy);
+        var dx = p2.X - p1.X;
+        var dy = p2.Y - p1.Y;
+        return (float)Math.Sqrt(dx * dx + dy * dy);
     }
 }
