@@ -1,12 +1,20 @@
 using System.Drawing;
 using Core;
+using Core.Display.Sprites;
 
 namespace Chess;
 
 public class ChessGame : IDuoPlayableGameElement
 {
+    private SpriteAnimation whitePieces;
+    private SpriteAnimation blackPieces;
+    
     public ChessGame()
     {
+        var image = SpriteImage.FromResource("chess.png");
+        whitePieces = image.GetSpriteAnimation(9, 1, 8, 8, 6, 1)
+        State = GameOverState.None;
+        blackPieces = image.GetSpriteAnimation(9, 9, 8, 8, 6, 1)
         State = GameOverState.None;
     }
     
