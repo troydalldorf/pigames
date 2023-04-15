@@ -56,7 +56,7 @@ public class Player
 
         if (buttons.IsGreenPushed())
         {
-            Bullets.Add(new Bullet(X + Width / 2, Y, BulletSpeed, this.bulletSprite));
+            Bullets.Add(new Bullet(X, Y, BulletSpeed, this.bulletSprite));
         }
     }
 

@@ -37,8 +37,8 @@ public class EnemyWave
          var startX = (64 - info.EnemySpacing * 3) / 2;
         for (var i = 0; i < 4; i++)
         {
-            var (x, y) = info.MovementStrategy.Start(i, this.enemySprite.Width, this.enemySprite.Height, info.EnemySpacing);
-            enemies.Add(new Enemy(x, y, info.Speed, info.MovementStrategy, this.enemySprite));
+            var strategy = info.MovementStrategy();
+            enemies.Add(new Enemy((int)strategy.StartPosition.X, (int)strategy.StartPosition.Y, info.Speed, strategy, this.enemySprite));
         }
     }
 }

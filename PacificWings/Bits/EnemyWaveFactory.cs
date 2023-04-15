@@ -1,30 +1,22 @@
 using Core.Display.Sprites;
+using PacificWings.Bits.Movements;
 
 namespace PacificWings.Bits;
 
-public class EnemyWaveFactory
+public static class EnemyWaveFactory
 {
-    private static readonly Dictionary<int, EnemyWaveInfo> Waves = new()
-    {
-        { 1, new EnemyWaveInfo(1, 4, 7, new TopDownMovement()) },
-        { 2, new EnemyWaveInfo(1, 4, 7, new RightToLeftMovement()) },
-        { 3, new EnemyWaveInfo(1, 4, 7, new LeftToRightMovement()) },
-        { 4, new EnemyWaveInfo(1, 4, 7, new CircularMovement()) },
-        { 5, new EnemyWaveInfo(2, 5, 6, new TopDownMovement()) },
-        { 6, new EnemyWaveInfo(2, 5, 6, new RightToLeftMovement()) },
-        { 7, new EnemyWaveInfo(2, 5, 6, new LeftToRightMovement()) },
-        { 8, new EnemyWaveInfo(2, 5, 6, new CircularMovement()) },
-        { 9, new EnemyWaveInfo(3, 6, 5, new TopDownMovement()) },
-        { 10, new EnemyWaveInfo(3, 6, 5, new RightToLeftMovement()) },
-        { 11, new EnemyWaveInfo(3, 6, 5, new LeftToRightMovement()) },
-        { 12, new EnemyWaveInfo(3, 6, 5, new CircularMovement()) },
-    };
-    
     public static EnemyWave? CreateWave(int waveNumber, SpriteAnimation enemySprite)
     {
-        if (waveNumber > Waves.Count)
-            return null;
-        var info = Waves[waveNumber];
+        var info = GetWaveInfo(waveNumber, enemySprite.Height);
         return new EnemyWave(info, enemySprite);
+    }
+
+    private static EnemyWaveInfo GetWaveInfo(int waveNo, int enemyHeight)
+    {
+        var speed = waveNo / 10;
+        var count = waveNo % 10;
+        var spacing = 8 - count;
+        var strategy = () => new TopDownStrategy(8, enemyHeight);
+        return new EnemyWaveInfo(speed, count, spacing, strategy);
     }
 }
