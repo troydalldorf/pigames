@@ -13,7 +13,7 @@ public static class EnemyWaveFactory
 
     private static EnemyWaveInfo GetWaveInfo(int waveNo, ISprite sprite)
     {
-        var speed = waveNo / 10;
+        var speed = 1 + waveNo / 10;
         var total = waveNo % 10;
         var spacing = 8 - total;
         var strategy = new TopDownStrategyStrategy(total, spacing, sprite);
