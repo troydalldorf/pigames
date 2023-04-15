@@ -15,17 +15,29 @@ public class ChessGame : IDuoPlayableGameElement
         whitePieces = image.GetSpriteAnimation(9, 1, 8, 8, 6, 1);
         blackPieces = image.GetSpriteAnimation(9, 9, 8, 8, 6, 1);
         State = GameOverState.None;
-        board[0, 0] = Piece.Rook;
-        board[1, 0] = Piece.Knight;
-        board[2, 0] = Piece.Bishop;
-        board[3, 0] = Piece.Queen;
-        board[4, 0] = Piece.King;
-        board[5, 0] = Piece.Bishop;
-        board[6, 0] = Piece.Knight;
-        board[7, 0] = Piece.Rook;
+        board[0, 0] = new Piece(PieceType.Rook, PieceColor.Black);
+        board[1, 0] = new Piece(PieceType.Knight, PieceColor.Black);
+        board[2, 0] = new Piece(PieceType.Bishop, PieceColor.Black);
+        board[3, 0] = new Piece(PieceType.Queen, PieceColor.Black);
+        board[4, 0] = new Piece(PieceType.King, PieceColor.Black);
+        board[5, 0] = new Piece(PieceType.Bishop, PieceColor.Black);
+        board[6, 0] = new Piece(PieceType.Knight, PieceColor.Black);
+        board[7, 0] = new Piece(PieceType.Rook, PieceColor.Black);
         for (int i = 0; i < 8; i++)
         {
-            board[i, 1] = Piece.Pawn;
+            board[i, 1] = new Piece(PieceType.Pawn, PieceColor.Black);
+        }
+        board[0, 7] = new Piece(PieceType.Rook, PieceColor.White);
+        board[1, 7] = new Piece(PieceType.Knight, PieceColor.White);
+        board[2, 7] = new Piece(PieceType.Bishop, PieceColor.White);
+        board[3, 7] = new Piece(PieceType.Queen, PieceColor.White);
+        board[4, 7] = new Piece(PieceType.King, PieceColor.White);
+        board[5, 7] = new Piece(PieceType.Bishop, PieceColor.White);
+        board[6, 7] = new Piece(PieceType.Knight, PieceColor.White);
+        board[7, 7] = new Piece(PieceType.Rook, PieceColor.White);
+        for (int i = 0; i < 8; i++)
+        {
+            board[i, 6] = new Piece(PieceType.Pawn, PieceColor.White);
         }
     }
     
@@ -48,10 +60,16 @@ public class ChessGame : IDuoPlayableGameElement
                 {
                     color = Color.White;
                 }
-                display.DrawRectangle(i*8, j*8,8,8, color,color);
-                if (board[i, j] != Piece.None)
+
+                display.DrawRectangle(i * 8, j * 8, 8, 8, color, color);
+                if (board[i, j] != null && board[i, j].Color == PieceColor.Black)
                 {
-                   whitePieces.Draw(display, i*8, j*8, (int)board[i, j] - 1);
+                    blackPieces.Draw(display, i * 8, j * 8, (int)board[i, j].Type);
+                }
+                else if (board[i, j] != null && board[i, j].Color == PieceColor.White)
+
+                {
+                    whitePieces.Draw(display, i * 8, j * 8, (int)board[i, j].Type);
                 }
             }
         }
