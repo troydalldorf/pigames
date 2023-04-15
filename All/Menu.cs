@@ -4,6 +4,7 @@ using Asteroids;
 using BomberMan;
 using Breakout;
 using Checkers;
+using Chess;
 using ConnectFour;
 using Core;
 using Core.Fonts;
@@ -54,6 +55,7 @@ public class Menu : IPlayableGameElement
             new("Breakout", () => new BreakoutGame()),
             new("Connect Four", () => new ConnectFourGame(), 100),
             new("Checkers", () => new CheckersGame(fontFactory)),
+            new("Chess", () => new ChessGame()),
             new("E-Pong", () => new PongPlayableGame(fontFactory)),
             new("Flappy Bird", () => new FlappyBirdGame(fontFactory), 50),
             new("Frogger", () => new FroggerPlayableGame(), 100),
