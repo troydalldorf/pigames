@@ -56,11 +56,12 @@ public class Player
     {
         if (IsDestroyed) return;
 
-        if (DateTime.Now.Subtract(lastShot) > shotDelay)
+        if (DateTime.Now.Subtract(lastShot) < shotDelay)
             return;
-        
+
         if (buttons.IsGreenPushed())
         {
+            lastShot = DateTime.Now;
             Bullets.Add(new Bullet(X, Y, BulletSpeed, this.bulletSprite));
         }
     }
