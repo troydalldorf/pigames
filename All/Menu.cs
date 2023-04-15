@@ -42,7 +42,6 @@ public class Menu : IPlayableGameElement
 
     public Menu(GameRunner runner, IFontFactory fontFactory)
     {
-        this.page = 0;
         this.fontFactory = fontFactory;
         this.runner = runner;
         this.font = fontFactory.GetFont(LedFontType.FontTomThumb);
