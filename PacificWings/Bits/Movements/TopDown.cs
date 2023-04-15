@@ -28,6 +28,6 @@ public class TopDown : IMovementStrategyFactory
         const int delay = 0;
         var left = (64 - total * (sprite.Width + spacing)) / 2;
         var offset = new Point(left + no * (sprite.Width + spacing), 0);
-        return new BezierMovementStrategy(targets.ToArray(), delay, offset);
+        return new BezierMovementStrategy(targets, delay, offset);
     }
 }
