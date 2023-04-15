@@ -31,11 +31,8 @@ public class Enemy
     private void Move()
     {
         if (State != EnemyState.Alive) return;
-        this.movementStrategy.Move(this);
-        if (Y+this.sprite.Height < 0 || Y > 64 || X+this.sprite.Width < 0 || X > 64)
-        {
+        if (!this.movementStrategy.Move(this))
             State = EnemyState.Destroyed;
-        }
     }
 
     public void Update(List<Bullet> bullets)
