@@ -72,7 +72,7 @@ public class Enemy
 
     private bool IsCollidingWithBullet(Bullet bullet)
     {
-        return bullet.X >= X && bullet.X <= X + Width && bullet.Y >= Y && bullet.Y <= Y + Height;
+        return bullet.X + bullet.Width >= X && bullet.X <= X + Width && bullet.Y + bullet.Height >= Y && bullet.Y <= Y + Height;
     }
 
     public enum EnemyState

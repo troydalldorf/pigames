@@ -10,6 +10,8 @@ public class Bullet
     public int X { get; }
     public int Y { get; private set; }
     private int Speed { get; }
+    public int Width => sprite.Width;
+    public int Height => sprite.Height;
 
     public Bullet(int x, int y, int speed, SpriteAnimation sprite)
     {
