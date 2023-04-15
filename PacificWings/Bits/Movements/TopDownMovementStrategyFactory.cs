@@ -27,6 +27,6 @@ public class TopDownStrategyStrategy : IMovementStrategyFactory
         const int delay = 0;
         var left = total * (sprite.Width + spacing) / 2;
         var offset = new Vector2(left + no * (sprite.Width + spacing), 0);
-        return new BezierMovementStrategyStrategy(targets, delay, offset);
+        return new BezierMovementStrategy(targets, delay, offset);
     }
 }

@@ -2,15 +2,16 @@ using System.Numerics;
 
 namespace PacificWings.Bits.Movements;
 
-public class BezierMovementStrategyStrategy : IMovementStrategy
+public class BezierMovementStrategy : IMovementStrategy
 {
     private readonly List<Vector2> targets;
     private int currentTargetIndex;
     private readonly int delay;
     private readonly Vector2 offset;
     private int moveCount;
+    private float t;
 
-    public BezierMovementStrategyStrategy(List<Vector2> targets, int delay, Vector2 offset)
+    public BezierMovementStrategy(List<Vector2> targets, int delay, Vector2 offset)
     {
         this.targets = targets;
         currentTargetIndex = 0;
@@ -18,6 +19,7 @@ public class BezierMovementStrategyStrategy : IMovementStrategy
         this.offset = offset;
         moveCount = 0;
         StartPosition = targets[0] + offset;
+        t = 0;
     }
 
     public Vector2 StartPosition { get; }
@@ -36,7 +38,13 @@ public class BezierMovementStrategyStrategy : IMovementStrategy
             return false;
         }
 
-        float t = enemy.Speed;
+        t += enemy.Speed;
+
+        if (t > 1)
+        {
+            t = 1;
+        }
+
         var newPosition = CalculateBezierPoint(t, targets[currentTargetIndex], targets[currentTargetIndex + 1]);
 
         newPosition += offset;
@@ -47,6 +55,7 @@ public class BezierMovementStrategyStrategy : IMovementStrategy
         if (Vector2.Distance(newPosition, targets[currentTargetIndex + 1] + offset) < 0.001f)
         {
             currentTargetIndex++;
+            t = 0;
         }
 
         return true;
