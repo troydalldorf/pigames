@@ -28,6 +28,7 @@ public class BezierMovementStrategy : IMovementStrategy
 
     public bool Move(Enemy enemy)
     {
+        Console.Write("move");
         if (moveCount < delay)
         {
             moveCount++;
@@ -39,14 +40,19 @@ public class BezierMovementStrategy : IMovementStrategy
             return false;
         }
 
-        float distance = Vector2.Distance(targets[currentTargetIndex], targets[currentTargetIndex + 1]);
-        float increment = enemy.Speed / distance;
+        float currentDistance = Vector2.Distance(targets[currentTargetIndex], targets[currentTargetIndex + 1]);
+        float increment = enemy.Speed / currentDistance;
 
         t += increment;
 
-        if (t > 1)
+        if (t >= 1)
         {
-            t = 1;
+            t = 0;
+            currentTargetIndex++;
+            if (currentTargetIndex == targets.Count - 1)
+            {
+                return false;
+            }
         }
 
         var newPosition = CalculateBezierPoint(t, targets[currentTargetIndex], targets[currentTargetIndex + 1]);
@@ -55,12 +61,6 @@ public class BezierMovementStrategy : IMovementStrategy
 
         enemy.X = (int)newPosition.X;
         enemy.Y = (int)newPosition.Y;
-
-        if (Vector2.Distance(newPosition, targets[currentTargetIndex + 1] + offset) < enemy.Speed)
-        {
-            currentTargetIndex++;
-            t = 0;
-        }
 
         return true;
     }
