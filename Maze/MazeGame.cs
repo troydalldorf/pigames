@@ -77,7 +77,7 @@ public class MazeGame : IDuoPlayableGameElement
     {
         var xOffset = (display.Width - maze.Width) / 2;
         var yOffset = (display.Height - maze.Height) / 2;
-        display.DrawRectangle(xOffset, yOffset, maze.Width, maze.Height, Color.White);
+        display.DrawRectangle(xOffset, yOffset, maze.Width+1, maze.Height+1, Color.White);
         for (var x = 0; x < maze.Width; x++)
         {
             for (var y = 0; y < maze.Height; y++)
@@ -90,8 +90,8 @@ public class MazeGame : IDuoPlayableGameElement
         }
 
         // Draw players
-        display.SetPixel(player1Position.X, player1Position.Y, Color.Red);
-        display.SetPixel(player2Position.X, player2Position.Y, Color.Blue);
+        display.SetPixel(xOffset + player1Position.X, yOffset + player1Position.Y, Color.Red);
+        display.SetPixel(xOffset + player2Position.X, yOffset + player2Position.Y, Color.Blue);
 
         // Draw level information
         font.DrawText(display, 0, 60, Color.Green, $"Level: {level}");
