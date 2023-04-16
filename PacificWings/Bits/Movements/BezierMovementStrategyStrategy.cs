@@ -40,7 +40,7 @@ public class BezierMovementStrategy : IMovementStrategy
         enemy.X = (int)(currentPosition.X + offset.X);
         enemy.Y = (int)(currentPosition.Y + offset.Y);
 
-        t += enemy.Speed / 10f; // Adjust the divisor to control the speed of the movement along the curve
+        t += enemy.Speed / 100f; // Adjust the divisor to control the speed of the movement along the curve
         return true;
     }
 
@@ -51,12 +51,12 @@ public class BezierMovementStrategy : IMovementStrategy
             return controlPoints[0];
         }
 
-        List<Point> newControlPoints = new List<Point>();
+        var newControlPoints = new List<Point>();
 
         for (int i = 0; i < controlPoints.Count - 1; i++)
         {
-            float newX = controlPoints[i].X + (controlPoints[i + 1].X - controlPoints[i].X) * t;
-            float newY = controlPoints[i].Y + (controlPoints[i + 1].Y - controlPoints[i].Y) * t;
+            var newX = controlPoints[i].X + (controlPoints[i + 1].X - controlPoints[i].X) * t;
+            var newY = controlPoints[i].Y + (controlPoints[i + 1].Y - controlPoints[i].Y) * t;
             newControlPoints.Add(new Point(newX, newY));
         }
 
