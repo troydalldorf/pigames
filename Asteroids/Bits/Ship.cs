@@ -39,7 +39,7 @@ public class Ship : VectorElement
         if (Thrusting)
         {
             // Calculate the direction of the ship's nose
-            var radians = (Rotation + 90) * Math.PI / 180;
+            var radians = (Rotation + 270) * Math.PI / 180;
             var noseDirection = new PointF((float)Math.Sin(radians), (float)-Math.Cos(radians));
 
             // Define the thruster radius
