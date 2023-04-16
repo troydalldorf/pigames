@@ -33,6 +33,9 @@ public class Ship : VectorElement
 
     public override void Draw(IDisplay display)
     {
+        // ship
+        base.Draw(display);
+        
         if (Thrusting)
         {
             // Calculate the direction of the ship's nose
@@ -47,7 +50,7 @@ public class Ship : VectorElement
             var thrusterEnd = new PointF(Location.X + noseDirection.X * thrusterRadius, Location.Y + noseDirection.Y * thrusterRadius);
     
             // Calculate the start and end points of the two yellow lines
-            var offset = noseDirection.Rotate(-90);
+            var offset = noseDirection.Rotate(-270);
             offset = new PointF(offset.X * Size / 4, offset.Y * Size / 4);
             var leftOffset = new PointF(thrusterEnd.X - offset.X, thrusterEnd.Y - offset.Y);
             var rightOffset = new PointF(thrusterEnd.X + offset.X, thrusterEnd.Y + offset.Y);
@@ -59,8 +62,5 @@ public class Ship : VectorElement
         }
         // gun
         display.SetPixel((int)(Location.X+Velocity.X), (int)(Location.Y+Velocity.X),  Color.WhiteSmoke);
-    
-        // ship
-        base.Draw(display);
     }
 }

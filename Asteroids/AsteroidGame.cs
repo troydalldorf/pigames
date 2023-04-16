@@ -9,7 +9,8 @@ namespace Asteroids;
 
 public class AsteroidsGame : IDuoPlayableGameElement
 {
-    private readonly List<Ship> ships;
+    private readonly Ship p1Ship;
+    private readonly Ship p2Ship;
     private readonly List<Asteroid> asteroids;
     private readonly List<Bullet> bullets;
     private readonly IFont scoreFont;
@@ -23,11 +24,8 @@ public class AsteroidsGame : IDuoPlayableGameElement
 
     public AsteroidsGame(IFontFactory fontFactory)
     {
-        ships = new List<Ship>
-        {
-            new Ship(DisplayWidth, DisplayHeight, Color.Red) { Location = new PointF(32, 27), Size=2, Rotation = 0, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false },
-            new Ship(DisplayWidth, DisplayHeight, Color.Blue) { Location = new PointF(32, 37), Size=2, Rotation = 180, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false }
-        };
+        p1Ship = new Ship(DisplayWidth, DisplayHeight, Color.Red) { Location = new PointF(32, 27), Size = 2, Rotation = 0, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false };
+        p2Ship = new Ship(DisplayWidth, DisplayHeight, Color.Blue) { Location = new PointF(32, 37), Size = 2, Rotation = 180, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false };
         asteroids = new List<Asteroid>();
         bullets = new List<Bullet>();
         scoreFont = new FontFactory().GetFont(LedFontType.FontTomThumb);
@@ -53,12 +51,12 @@ public class AsteroidsGame : IDuoPlayableGameElement
 
     public void HandleInput(IPlayerConsole player1Console)
     {
-        HandlePlayerInput(player1Console, ships[0]);
+        HandlePlayerInput(player1Console, p1Ship);
     }
 
     public void Handle2PInput(IPlayerConsole player2Console)
     {
-        HandlePlayerInput(player2Console, ships[1]);
+        HandlePlayerInput(player2Console, p2Ship);
     }
 
     private void HandlePlayerInput(IPlayerConsole playerConsole, Ship ship)
@@ -86,10 +84,8 @@ public class AsteroidsGame : IDuoPlayableGameElement
 
     public void Update()
     {
-        foreach (var ship in ships)
-        {
-            ship.Update();
-        }
+        p1Ship.Update();
+        p2Ship.Update();
 
         // Update bullets
         for (var i = bullets.Count - 1; i >= 0; i--)
@@ -125,12 +121,21 @@ public class AsteroidsGame : IDuoPlayableGameElement
             asteroids[i].Update();
 
             // Check for ship-asteroid collisions
-            foreach (var ship in ships.Where(ship => ship.IsCollidingWith(asteroids[i])))
+            if (p1Ship.IsCollidingWith(asteroids[i]))
             {
                 // Handle ship destruction and respawn
                 // You can implement lives and game over logic here
                 //ship.Respawn();
-                pixelBombs.Add(new PixelBomb((int)ship.Location.X, (int)ship.Location.Y, 20, ship.Color, 3));
+                pixelBombs.Add(new PixelBomb((int)p1Ship.Location.X, (int)p1Ship.Location.Y, 20, p1Ship.Color, 3));
+                break;
+            }
+            // Check for ship-asteroid collisions
+            if (p2Ship.IsCollidingWith(asteroids[i]))
+            {
+                // Handle ship destruction and respawn
+                // You can implement lives and game over logic here
+                //ship.Respawn();
+                pixelBombs.Add(new PixelBomb((int)p2Ship.Location.X, (int)p2Ship.Location.Y, 20, p2Ship.Color, 3));
                 break;
             }
         }
@@ -153,8 +158,8 @@ public class AsteroidsGame : IDuoPlayableGameElement
     
     public void Draw(IDisplay display)
     {
-        foreach (var ship in ships)
-            ship.Draw(display);
+        p1Ship.Draw(display);
+        p2Ship.Draw(display);
         foreach (var bullet in bullets)
             bullet.Draw(display);
         foreach (var asteroid in asteroids)
@@ -163,8 +168,8 @@ public class AsteroidsGame : IDuoPlayableGameElement
             pixelBomb.Draw(display);
 
         // Draw scores
-        scoreFont.DrawText(display, 1, 5, ships[0].Color, $"{ships[0].Score}", 1);
-        scoreFont.DrawText(display, 55, 5, ships[1].Color, $"{ships[1].Score}", 1);
+        scoreFont.DrawText(display, 1, 5, p1Ship.Color, $"{p1Ship.Score}", 1);
+        scoreFont.DrawText(display, 55, 5, p2Ship.Color, $"{p2Ship.Score}", 1);
     }
 
     public GameOverState State { get; }
