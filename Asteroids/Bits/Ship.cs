@@ -27,7 +27,7 @@ public class Ship : VectorElement
             var thrustRotation = Rotation + 90;
             Velocity = new PointF(
                 Velocity.X + (float)(Math.Sin(thrustRotation * Math.PI / 180) * ThrustPower), 
-                Velocity.Y + (float)(Math.Cos(thrustRotation * Math.PI / 180) * ThrustPower));
+                Velocity.Y - (float)(Math.Cos(thrustRotation * Math.PI / 180) * ThrustPower));
         }
         base.Update();
     }
