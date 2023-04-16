@@ -75,15 +75,16 @@ public class MazeGame : IDuoPlayableGameElement
 
     public void Draw(IDisplay display)
     {
-        display.Clear();
-        // Draw the maze
-        for (int x = 0; x < maze.Width; x++)
+        var xOffset = (display.Width - maze.Width) / 2;
+        var yOffset = (display.Height - maze.Height) / 2;
+        display.DrawRectangle(xOffset, yOffset, maze.Width, maze.Height, Color.White);
+        for (var x = 0; x < maze.Width; x++)
         {
-            for (int y = 0; y < maze.Height; y++)
+            for (var y = 0; y < maze.Height; y++)
             {
                 if (maze.IsWall(x, y))
                 {
-                    display.SetPixel(x, y, Color.White);
+                    display.SetPixel(xOffset + x, yOffset + y, Color.White);
                 }
             }
         }
@@ -93,7 +94,7 @@ public class MazeGame : IDuoPlayableGameElement
         display.SetPixel(player2Position.X, player2Position.Y, Color.Blue);
 
         // Draw level information
-        font.DrawText(display, 0, 0, Color.Green, $"Level: {level}");
+        font.DrawText(display, 0, 60, Color.Green, $"Level: {level}");
     }
 
     public GameOverState State
