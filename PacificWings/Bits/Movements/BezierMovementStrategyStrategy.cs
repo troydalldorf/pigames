@@ -4,21 +4,21 @@ using PacificWings.Bits.Movements;
 public class BezierMovementStrategy : IMovementStrategy
 {
     private readonly List<Point> targets;
-    private int currentTargetIndex;
     private readonly int delay;
     private readonly Point offset;
     private int moveCount;
     private Point currentPosition;
+    private float t;
 
     public BezierMovementStrategy(List<Point> targets, int delay, Point offset)
     {
         this.targets = targets;
-        currentTargetIndex = 0;
         this.delay = delay;
         this.offset = offset;
         moveCount = 0;
         StartPosition = new Point(targets[0].X + offset.X, targets[0].Y + offset.Y);
         currentPosition = StartPosition;
+        t = 0;
     }
 
     public Point StartPosition { get; }
@@ -31,37 +31,35 @@ public class BezierMovementStrategy : IMovementStrategy
             return true;
         }
 
-        if (currentTargetIndex == targets.Count - 1)
+        if (t >= 1)
         {
             return false;
         }
 
-        var target = new Point(targets[currentTargetIndex + 1].X + offset.X, targets[currentTargetIndex + 1].Y + offset.Y);
-        var distanceToTarget = Distance(currentPosition, target);
-        var moveFraction = enemy.Speed / distanceToTarget;
+        currentPosition = BezierPoint(t, targets);
+        enemy.X = (int)(currentPosition.X + offset.X);
+        enemy.Y = (int)(currentPosition.Y + offset.Y);
 
-        if (moveFraction >= 1)
-        {
-            currentPosition = target;
-            currentTargetIndex++;
-        }
-        else
-        {
-            var newX = currentPosition.X + ((target.X - currentPosition.X) * moveFraction);
-            var newY = currentPosition.Y + ((target.Y - currentPosition.Y) * moveFraction);
-            currentPosition = new Point(newX, newY);
-        }
-
-        enemy.X = (int)currentPosition.X;
-        enemy.Y = (int)currentPosition.Y;
-
+        t += enemy.Speed / 1000f; // Adjust the divisor to control the speed of the movement along the curve
         return true;
     }
 
-    private static float Distance(Point p1, Point p2)
+    private static Point BezierPoint(float t, List<Point> controlPoints)
     {
-        var dx = p2.X - p1.X;
-        var dy = p2.Y - p1.Y;
-        return (float)Math.Sqrt(dx * dx + dy * dy);
+        if (controlPoints.Count == 1)
+        {
+            return controlPoints[0];
+        }
+
+        List<Point> newControlPoints = new List<Point>();
+
+        for (int i = 0; i < controlPoints.Count - 1; i++)
+        {
+            float newX = controlPoints[i].X + (controlPoints[i + 1].X - controlPoints[i].X) * t;
+            float newY = controlPoints[i].Y + (controlPoints[i + 1].Y - controlPoints[i].Y) * t;
+            newControlPoints.Add(new Point(newX, newY));
+        }
+
+        return BezierPoint(t, newControlPoints);
     }
 }
