@@ -24,7 +24,7 @@ public class Ship : VectorElement
     {
         if (Thrusting)
         {
-            var thrustRotation = Rotation + 270;
+            var thrustRotation = Rotation + 90;
             Velocity = new PointF(
                 Velocity.X + (float)(Math.Sin(Rotation * Math.PI / 180) * ThrustPower), 
                 Velocity.Y + (float)(Math.Cos(Rotation * Math.PI / 180) * ThrustPower));
