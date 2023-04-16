@@ -9,13 +9,15 @@ public class Bullet : IGameElement
     private PointF lastLocation;
     public PointF Velocity { get; }
     public int Life { get; }
-    
-    public Bullet(PointF location, PointF velocity, int life)
+    public Ship Owner { get; }
+
+    public Bullet(PointF location, PointF velocity, int life, Ship owner)
     {
         Location = location;
         lastLocation = location;
         Velocity = velocity;
         Life = life;
+        Owner = owner;
     }
     
     public void Update()

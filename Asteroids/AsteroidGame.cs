@@ -78,7 +78,7 @@ public class AsteroidsGame : IDuoPlayableGameElement
             bullets.Add(new Bullet(
                 new PointF(ship.Location.X, ship.Location.Y),
                 new PointF((float)Math.Cos(radians) * BulletSpeed, (float)Math.Sin(radians) * BulletSpeed),
-                BulletLife));
+                BulletLife, ship));
         }
     }
 
@@ -108,7 +108,7 @@ public class AsteroidsGame : IDuoPlayableGameElement
                 {
                     asteroids.AddRange(asteroids[j].SpawnSmallerAsteroids());
                 }
-
+                bullets[i].Owner.AddScore(1);
                 bullets.RemoveAt(i);
                 asteroids.RemoveAt(j);
                 break;

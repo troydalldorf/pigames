@@ -7,7 +7,7 @@ public class Ship : VectorElement
 {
     private const float ThrustPower = 0.1f;
     public bool Thrusting { get; set; }
-    public int Score { get; set; }
+    public int Score { get; private set; }
     
     private static readonly PointF[] Shape = new[]
     {
@@ -18,6 +18,11 @@ public class Ship : VectorElement
 
     public Ship(int displayWidth, int displayHeight, Color color) : base(Shape, 90, color, displayWidth, displayHeight)
     {
+    }
+    
+    public void AddScore(int score)
+    {
+        Score += score;
     }
 
     public override void Update()
