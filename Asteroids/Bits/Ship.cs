@@ -50,7 +50,7 @@ public class Ship : VectorElement
             var thrusterEnd = new PointF(Location.X + noseDirection.X * thrusterRadius, Location.Y + noseDirection.Y * thrusterRadius);
     
             // Calculate the start and end points of the two yellow lines
-            var offset = noseDirection;
+            var offset = noseDirection.Rotate(90f * (float)Math.PI / 180);
             offset = new PointF(offset.X * Size / 4, offset.Y * Size / 4);
             var leftOffset = new PointF(thrusterEnd.X - offset.X, thrusterEnd.Y - offset.Y);
             var rightOffset = new PointF(thrusterEnd.X + offset.X, thrusterEnd.Y + offset.Y);
