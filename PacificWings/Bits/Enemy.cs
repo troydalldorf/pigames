@@ -104,7 +104,7 @@ public class Enemy
         double avgDy = (dy1 + dy2) / 2;
 
         double angle = Math.Atan2(avgDy, avgDx);
-        return angle * 180 / Math.PI + 90;
+        return angle * 180 / Math.PI + 270;
     }
 
     private bool IsCollidingWithBullet(Bullet bullet)
