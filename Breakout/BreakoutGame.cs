@@ -20,10 +20,12 @@ public class BreakoutGame : IPlayableGameElement
     readonly Color[] brickColors = { Color.Magenta, Color.Blue, Color.Green, Color.Yellow, Color.Orange };
 
     private int paddleX;
-    private Rectangle ball;
-    private int ballDx = 1;
-    private int ballDy = -1;
-    private List<Brick> bricks = new();
+    private float ballX;
+    private float ballY;
+    private Rectangle Ball => new((int)ballX, (int)ballY, BallSize, BallSize);
+    private float ballDx = 1;
+    private float ballDy = -1;
+    private readonly List<Brick> bricks = new();
     private readonly List<PixelBomb> pixelBombs = new();
     private bool isDone;
 
@@ -35,10 +37,11 @@ public class BreakoutGame : IPlayableGameElement
     private void Initialize()
     {
         paddleX = Width / 2 - PaddleWidth / 2;
-        ball = new Rectangle(Width / 2 - BallSize / 2, Height / 2 - BallSize / 2, BallSize, BallSize);
+        ballX = Width / 2 - BallSize / 2;
+        ballY = Height / 2 - BallSize / 2;
 
         pixelBombs.Clear();
-        
+
         for (var y = 0; y < 5; y++)
         {
             for (var x = 0; x < 10; x++)
@@ -65,26 +68,26 @@ public class BreakoutGame : IPlayableGameElement
         }
 
         // Update ball
-        ball.X += ballDx;
-        ball.Y += ballDy;
+        ballX += ballDx;
+        ballY += ballDy;
 
         // Collision with walls
-        if (ball.Left < 0 || ball.Right > Width)
+        if (Ball.Left < 0 || Ball.Right > Width)
         {
             ballDx = -ballDx;
         }
 
-        if (ball.Top < 0)
+        if (Ball.Top < 0)
         {
             ballDy = -ballDy;
         }
 
         // Game over
-        if (ball.Bottom > Height)
+        if (Ball.Bottom > Height)
         {
             foreach (var brick in bricks)
             {
-                pixelBombs.Add(new PixelBomb(brick.X+2, brick.Y+2, BrickWidth*BrickHeight, brick.Color, 3));
+                pixelBombs.Add(new PixelBomb(brick.X + 2, brick.Y + 2, BrickWidth * BrickHeight, brick.Color, 3));
             }
 
             bricks.Clear();
@@ -95,9 +98,17 @@ public class BreakoutGame : IPlayableGameElement
 
         // Collision with paddle
         var paddle = new Rectangle(paddleX, Height - PaddleHeight, PaddleWidth, PaddleHeight);
-        if (ball.IntersectsWith(paddle))
+        if (Ball.IntersectsWith(paddle))
         {
-            ballDy = -ballDy;
+            float paddleCenter = paddleX + PaddleWidth / 2.0f;
+            float ballCenter = ballX + BallSize / 2.0f;
+            float relativeIntersectX = (paddleCenter - ballCenter) / (PaddleWidth / 2.0f);
+            const float maxBounceAngle = 75.0f;
+            float bounceAngle = relativeIntersectX * maxBounceAngle;
+            float radians = (float)(bounceAngle * (Math.PI / 180.0));
+
+            ballDx = (float)Math.Sin(radians);
+            ballDy = -(float)Math.Cos(radians);
         }
 
         // Collision with bricks
@@ -108,8 +119,9 @@ public class BreakoutGame : IPlayableGameElement
             {
                 row++;
             }
-            if (!bricks[i].IntersectsWith(ball)) continue;
-            pixelBombs.Add(new PixelBomb(bricks[i].X+2, bricks[i].Y+2, BrickWidth*BrickHeight, bricks[i].Color));
+
+            if (!bricks[i].IntersectsWith(Ball)) continue;
+            pixelBombs.Add(new PixelBomb(bricks[i].X + 2, bricks[i].Y + 2, BrickWidth * BrickHeight, bricks[i].Color));
             bricks.RemoveAt(i);
             ballDy = -ballDy;
             break;
@@ -125,7 +137,7 @@ public class BreakoutGame : IPlayableGameElement
     public void Draw(IDisplay display)
     {
         display.DrawRectangle(paddleX, Height - PaddleHeight, PaddleWidth, PaddleHeight, Color.White);
-        display.DrawRectangle(ball.X, ball.Y, BallSize, BallSize, Color.Red);
+        display.DrawRectangle(Ball.X, Ball.Y, BallSize, BallSize, Color.Red);
 
         // Draw bricks
         var row = 0;
@@ -135,9 +147,10 @@ public class BreakoutGame : IPlayableGameElement
             {
                 row++;
             }
+
             display.DrawRectangle(bricks[i].X, bricks[i].Y, BrickWidth, BrickHeight, bricks[i].Color);
         }
-        
+
         foreach (var bomb in pixelBombs)
         {
             bomb.Draw(display);
