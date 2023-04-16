@@ -65,7 +65,7 @@ public class MazeGame : IDuoPlayableGameElement
     public void Update()
     {
         // Check if players reached their destination
-        if (player1Position == new Point(maze.Width - 2, maze.Height - 2) ||
+        if (player1Position == new Point(maze.Width - 1, maze.Height - 1) ||
             player2Position == new Point(1, 1))
         {
             level++;
