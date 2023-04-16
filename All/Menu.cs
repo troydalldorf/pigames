@@ -62,6 +62,7 @@ public class Menu : IPlayableGameElement
             new("Othello", () => new OthelloGame(fontFactory)),
             new("Master Mind 1", () => new Mastermind.MastermindGame(fontFactory)),
             new("Master Mind 2", () => new Mastermind.DuoMastermindGame(fontFactory)),
+            new("Maze", () => new MazeGame(this.fontFactory)),
             new("Memory", () => new MemoryCardGame()),
             new("Mines", () => new MinesweeperGame(fontFactory)),
             new("Pong", () => new PongPlayableGame(fontFactory)),
