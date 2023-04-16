@@ -13,8 +13,8 @@ public static class EnemyWaveFactory
 
     private static EnemyWaveInfo GetWaveInfo(int waveNo, ISprite sprite)
     {
-        var speed = Math.Clamp(1 + waveNo / 10, 1, 4);
-        var total = 4 + waveNo % 10;
+        var speed = Math.Clamp(1 + waveNo / 7, 1, 4);
+        var total = 4 + waveNo % 7;
         var spacing = 8 - total;
         IMovementStrategyFactory strategy = (waveNo % 4) switch
         {

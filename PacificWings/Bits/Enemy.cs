@@ -1,8 +1,9 @@
-using System.Drawing;
 using Core;
 using Core.Display.Sprites;
 using Core.Effects;
+using Core.Sprites;
 using PacificWings.Bits.Movements;
+using Point = System.Drawing.Point;
 
 namespace PacificWings.Bits;
 
@@ -18,6 +19,7 @@ public class Enemy
     private readonly IMovementStrategy movementStrategyStrategy;
     private readonly SpriteAnimation sprite;
     private SpriteBomb explosion;
+    private readonly LinkedList<Point> lastPositions;
 
     public Enemy(int x, int y, int speed, IMovementStrategy movementStrategyStrategy, SpriteAnimation sprite)
     {
@@ -27,13 +29,27 @@ public class Enemy
         this.movementStrategyStrategy = movementStrategyStrategy;
         this.sprite = sprite;
         State = EnemyState.Alive;
+        lastPositions = new LinkedList<Point>();
+        lastPositions.AddLast(new Point(X, Y));
+        lastPositions.AddLast(new Point(X, Y));
+        lastPositions.AddLast(new Point(X, Y));
     }
 
     private void Move()
     {
         if (State != EnemyState.Alive) return;
         if (!this.movementStrategyStrategy.Move(this))
+        {
             State = EnemyState.Destroyed;
+        }
+        else
+        {
+            lastPositions.AddLast(new Point(X, Y));
+            if (lastPositions.Count > 3)
+            {
+                lastPositions.RemoveFirst();
+            }
+        }
     }
 
     public void Update(List<Bullet> bullets, Player player)
@@ -60,15 +76,35 @@ public class Enemy
 
     public void Draw(IDisplay display)
     {
+        double angle = CalculateAngle();
+
         switch (State)
         {
             case EnemyState.Alive:
-                this.sprite.Draw(display, X, Y);
+                this.sprite.DrawRotated(display, X, Y, angle);
                 break;
             case EnemyState.Exploding:
                 this.explosion.Draw(display);
                 break;
         }
+    }
+    
+    private double CalculateAngle()
+    {
+        var p1 = lastPositions.First.Value;
+        var p2 = lastPositions.First.Next.Value;
+        var p3 = lastPositions.Last.Value;
+
+        double dx1 = p2.X - p1.X;
+        double dy1 = p2.Y - p1.Y;
+        double dx2 = p3.X - p2.X;
+        double dy2 = p3.Y - p2.Y;
+
+        var angle1 = Math.Atan2(dy1, dx1);
+        var angle2 = Math.Atan2(dy2, dx2);
+
+        var angleDiff = angle2 - angle1;
+        return angleDiff * 180 / Math.PI;
     }
 
     private bool IsCollidingWithBullet(Bullet bullet)
