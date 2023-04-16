@@ -12,6 +12,7 @@ public class BreakoutGame : IPlayableGameElement
     private int paddleWidth = 8;
     private const int PaddleHeight = 2;
     private const int BallSize = 2;
+    private const float BallSpeed = 1.5f;
 
     readonly Color[] brickColors = { Color.Magenta, Color.Blue, Color.Green, Color.Yellow, Color.Orange };
 
@@ -19,8 +20,8 @@ public class BreakoutGame : IPlayableGameElement
     private float ballX;
     private float ballY;
     private Rectangle Ball => new((int)ballX, (int)ballY, BallSize, BallSize);
-    private float ballDx = 1.7f;
-    private float ballDy = -1.7f;
+    private float ballDx = BallSpeed;
+    private float ballDy = -BallSpeed;
     private readonly List<Brick> bricks = new();
     private readonly List<PixelBomb> pixelBombs = new();
     private bool isDone;
@@ -103,23 +104,17 @@ public class BreakoutGame : IPlayableGameElement
             float paddleCenter = paddleX + paddleWidth / 2.0f;
             float ballCenter = ballX + BallSize / 2.0f;
             float relativeIntersectX = (paddleCenter - ballCenter) / (paddleWidth / 2.0f);
-            const float maxBounceAngle = 75.0f;
+            const float maxBounceAngle = 50.0f;
             float bounceAngle = relativeIntersectX * maxBounceAngle;
             float radians = (float)(bounceAngle * (Math.PI / 180.0));
 
-            ballDx = (float)Math.Sin(radians);
-            ballDy = -(float)Math.Cos(radians);
+            ballDx = (float)Math.Sin(radians) * BallSpeed;
+            ballDy = -(float)Math.Cos(radians) * BallSpeed;
         }
 
         // Collision with bricks
-        var row = 0;
         for (var i = bricks.Count - 1; i >= 0; i--)
         {
-            if (i % 10 == 0 && i > 0)
-            {
-                row++;
-            }
-
             if (!bricks[i].IntersectsWith(Ball)) continue;
             // Power ups
             if (random.NextDouble() < PowerUpChance)
