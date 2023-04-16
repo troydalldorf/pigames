@@ -43,7 +43,7 @@ public class Ship : VectorElement
             var noseDirection = new PointF((float)Math.Sin(radians), (float)-Math.Cos(radians));
 
             // Define the thruster radius
-            var thrusterRadius = Size * 1.25f;
+            var thrusterRadius = Size * 2f;
 
             // Calculate the start and end points of the orange line
             var thrusterStart = new PointF(Location.X - noseDirection.X * Size / 2, Location.Y - noseDirection.Y * Size / 2);
