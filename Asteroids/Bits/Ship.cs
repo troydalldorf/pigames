@@ -16,7 +16,7 @@ public class Ship : VectorElement
         new PointF(1, 1),
     };
 
-    public Ship(int displayWidth, int displayHeight, Color color) : base(Shape, 180f, color, displayWidth, displayHeight)
+    public Ship(int displayWidth, int displayHeight, Color color) : base(Shape, 0, color, displayWidth, displayHeight)
     {
     }
 
