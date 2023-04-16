@@ -42,11 +42,10 @@ public class MazeGame : IDuoPlayableGameElement
 
     private void MovePlayer(ref Point position, JoystickDirection direction)
     {
-        var newPosition = position;
-        if (direction.IsUp() && !maze.IsWall(newPosition.X, newPosition.Y-1)) newPosition.Y -= 1;
-        if (direction.IsDown() && !maze.IsWall(newPosition.X, newPosition.Y+1)) newPosition.Y += 1;
-        if (direction.IsLeft() && !maze.IsWall(newPosition.X-1, newPosition.Y)) newPosition.X -= 1;
-        if (direction.IsRight() && !maze.IsWall(newPosition.X+1, newPosition.Y)) newPosition.X += 1;
+        if (direction.IsUp() && !maze.IsWall(position.X, position.Y-1)) position.Y -= 1;
+        if (direction.IsDown() && !maze.IsWall(position.X, position.Y+1)) position.Y += 1;
+        if (direction.IsLeft() && !maze.IsWall(position.X-1, position.Y)) position.X -= 1;
+        if (direction.IsRight() && !maze.IsWall(position.X+1, position.Y)) position.X += 1;
     }
 
     public void Update()
