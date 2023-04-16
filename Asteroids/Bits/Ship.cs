@@ -16,7 +16,7 @@ public class Ship : VectorElement
         new PointF(1, 1),
     };
 
-    public Ship(int displayWidth, int displayHeight, Color color) : base(Shape, 90f, color, displayWidth, displayHeight)
+    public Ship(int displayWidth, int displayHeight, Color color) : base(Shape, 180f, color, displayWidth, displayHeight)
     {
     }
 
@@ -39,7 +39,7 @@ public class Ship : VectorElement
         if (Thrusting)
         {
             // Calculate the direction of the ship's nose
-            var radians = (Rotation + 270) * Math.PI / 180;
+            var radians = (Rotation) * Math.PI / 180;
             var noseDirection = new PointF((float)Math.Sin(radians), (float)-Math.Cos(radians));
 
             // Define the thruster radius
