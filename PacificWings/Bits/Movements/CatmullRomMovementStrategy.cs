@@ -40,7 +40,7 @@ public class CatmullRomMovementStrategy : IMovementStrategy
         enemy.X = (int)(currentPosition.X + offset.X);
         enemy.Y = (int)(currentPosition.Y + offset.Y);
 
-        t += enemy.Speed / 1000f; // Adjust the divisor to control the speed of the movement along the curve
+        t += enemy.Speed / 100f; // Adjust the divisor to control the speed of the movement along the curve
         return true;
     }
 
