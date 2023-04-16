@@ -39,18 +39,16 @@ public class Ship : VectorElement
         if (Thrusting)
         {
             // Calculate the direction of the ship's nose
-            var radians = (Rotation + 180) * Math.PI / 180;
-            var noseDirection = new PointF((float)Math.Sin(radians), (float)-Math.Cos(radians));
-
-            // Define the thruster radius
+            var radians = (Rotation + 270) * Math.PI / 180;
+            var thrustDirection = new PointF((float)Math.Sin(radians), (float)-Math.Cos(radians));
             var thrusterRadius = Size * 2f;
 
             // Calculate the start and end points of the orange line
-            var thrusterStart = new PointF(Location.X - noseDirection.X * Size / 2, Location.Y - noseDirection.Y * Size / 2);
-            var thrusterEnd = new PointF(Location.X + noseDirection.X * thrusterRadius, Location.Y + noseDirection.Y * thrusterRadius);
+            var thrusterStart = new PointF(Location.X - thrustDirection.X * Size / 2, Location.Y - thrustDirection.Y * Size / 2);
+            var thrusterEnd = new PointF(Location.X + thrustDirection.X * thrusterRadius, Location.Y + thrustDirection.Y * thrusterRadius);
     
             // Calculate the start and end points of the two yellow lines
-            var offset = noseDirection.Rotate(90f * (float)Math.PI / 180);
+            var offset = thrustDirection.Rotate(90f * (float)Math.PI / 180);
             offset = new PointF(offset.X * Size / 4, offset.Y * Size / 4);
             var leftOffset = new PointF(thrusterEnd.X - offset.X, thrusterEnd.Y - offset.Y);
             var rightOffset = new PointF(thrusterEnd.X + offset.X, thrusterEnd.Y + offset.Y);
@@ -60,6 +58,7 @@ public class Ship : VectorElement
             display.DrawLine(thrusterEnd, leftOffset, Color.Yellow);
             display.DrawLine(thrusterEnd, rightOffset, Color.Yellow);
         }
+        
         // gun
         display.SetPixel((int)(Location.X+Velocity.X), (int)(Location.Y+Velocity.X),  Color.WhiteSmoke);
     }
