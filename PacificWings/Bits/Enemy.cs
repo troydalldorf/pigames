@@ -76,7 +76,7 @@ public class Enemy
 
     public void Draw(IDisplay display)
     {
-        double angle = CalculateAngle();
+        var angle = CalculateAngle();
 
         switch (State)
         {
@@ -100,11 +100,11 @@ public class Enemy
         double dx2 = p3.X - p2.X;
         double dy2 = p3.Y - p2.Y;
 
-        var angle1 = Math.Atan2(dy1, dx1);
-        var angle2 = Math.Atan2(dy2, dx2);
+        double avgDx = (dx1 + dx2) / 2;
+        double avgDy = (dy1 + dy2) / 2;
 
-        var angleDiff = angle2 - angle1;
-        return angleDiff * 180 / Math.PI;
+        double angle = Math.Atan2(avgDy, avgDx);
+        return angle * 180 / Math.PI + 90;
     }
 
     private bool IsCollidingWithBullet(Bullet bullet)

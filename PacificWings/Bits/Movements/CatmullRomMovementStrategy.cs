@@ -46,26 +46,26 @@ public class CatmullRomMovementStrategy : IMovementStrategy
 
     private static Point CatmullRomPoint(float t, List<Point> controlPoints)
     {
-        int segmentCount = controlPoints.Count - 3;
-        float tPerSegment = 1f / segmentCount;
-        int segmentIndex = (int)(t / tPerSegment);
-        float segmentT = (t - segmentIndex * tPerSegment) / tPerSegment;
+        var segmentCount = controlPoints.Count - 3;
+        var tPerSegment = 1f / segmentCount;
+        var segmentIndex = (int)(t / tPerSegment);
+        var segmentT = (t - segmentIndex * tPerSegment) / tPerSegment;
 
-        Point p0 = controlPoints[Math.Max(0, segmentIndex - 1)];
-        Point p1 = controlPoints[segmentIndex];
-        Point p2 = controlPoints[Math.Min(segmentIndex + 1, controlPoints.Count - 1)];
-        Point p3 = controlPoints[Math.Min(segmentIndex + 2, controlPoints.Count - 1)];
+        var p0 = controlPoints[Math.Max(0, segmentIndex - 1)];
+        var p1 = controlPoints[segmentIndex];
+        var p2 = controlPoints[Math.Min(segmentIndex + 1, controlPoints.Count - 1)];
+        var p3 = controlPoints[Math.Min(segmentIndex + 2, controlPoints.Count - 1)];
 
-        float tt = segmentT * segmentT;
-        float ttt = tt * segmentT;
+        var tt = segmentT * segmentT;
+        var ttt = tt * segmentT;
 
-        float q1 = -ttt + 2.0f * tt - segmentT;
-        float q2 = 3.0f * ttt - 5.0f * tt + 2.0f;
-        float q3 = -3.0f * ttt + 4.0f * tt + segmentT;
-        float q4 = ttt - tt;
+        var q1 = -ttt + 2.0f * tt - segmentT;
+        var q2 = 3.0f * ttt - 5.0f * tt + 2.0f;
+        var q3 = -3.0f * ttt + 4.0f * tt + segmentT;
+        var q4 = ttt - tt;
 
-        float tx = 0.5f * (p0.X * q1 + p1.X * q2 + p2.X * q3 + p3.X * q4);
-        float ty = 0.5f * (p0.Y * q1 + p1.Y * q2 + p2.Y * q3 + p3.Y * q4);
+        var tx = 0.5f * (p0.X * q1 + p1.X * q2 + p2.X * q3 + p3.X * q4);
+        var ty = 0.5f * (p0.Y * q1 + p1.Y * q2 + p2.Y * q3 + p3.Y * q4);
 
         return new Point(tx, ty);
     }
