@@ -12,9 +12,8 @@ public class AsteroidsGame : IDuoPlayableGameElement
     private readonly List<Ship> ships;
     private readonly List<Asteroid> asteroids;
     private readonly List<Bullet> bullets;
-    private readonly LedFont scoreFont;
+    private readonly IFont scoreFont;
     private readonly List<PixelBomb> pixelBombs = new();
-    private int[] scores;
     private const int DisplayWidth = 64;
     private const int DisplayHeight = 64;
     private const int MaxBullets = 250;
@@ -22,7 +21,7 @@ public class AsteroidsGame : IDuoPlayableGameElement
     private const float ShipRotationSpeed = 20f;
     private const float BulletSpeed = 4f;
 
-    public AsteroidsGame()
+    public AsteroidsGame(IFontFactory fontFactory)
     {
         ships = new List<Ship>
         {
@@ -31,8 +30,7 @@ public class AsteroidsGame : IDuoPlayableGameElement
         };
         asteroids = new List<Asteroid>();
         bullets = new List<Bullet>();
-        scoreFont = new LedFont(LedFontType.Font5x8);
-        scores = new int[] { 0, 0 };
+        scoreFont = new FontFactory().GetFont(LedFontType.FontTomThumb);
         State = GameOverState.None;
         InitializeAsteroids();
     }
@@ -156,27 +154,18 @@ public class AsteroidsGame : IDuoPlayableGameElement
     public void Draw(IDisplay display)
     {
         foreach (var ship in ships)
-        {
             ship.Draw(display);
-        }
         foreach (var bullet in bullets)
-        {
             bullet.Draw(display);
-        }
         foreach (var asteroid in asteroids)
-        {
             asteroid.Draw(display);
-        }
         foreach (var pixelBomb in pixelBombs)
-        {
             pixelBomb.Draw(display);
-        }
 
         // Draw scores
-        //var font = new LedFont(LedFontType.Font5x7);
-        //font.DrawText(display, 1, 1, Color.White, $"P1: {player1Score}", 1);
-        //font.DrawText(display, 1, 9, Color.White, $"P2: {player2Score}", 1);
+        scoreFont.DrawText(display, 1, 5, ships[0].Color, $"{ships[0].Score}", 1);
+        scoreFont.DrawText(display, 55, 5, ships[1].Color, $"{ships[1].Score}", 1);
     }
 
-    public GameOverState State { get; private set; }
+    public GameOverState State { get; }
 }

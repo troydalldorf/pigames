@@ -7,6 +7,7 @@ public class Ship : VectorElement
 {
     private const float ThrustPower = 0.1f;
     public bool Thrusting { get; set; }
+    public int Score { get; set; }
     
     private static readonly PointF[] Shape = new[]
     {
@@ -38,16 +39,19 @@ public class Ship : VectorElement
             var radians = (Rotation + 90) * Math.PI / 180;
             var noseDirection = new PointF((float)Math.Sin(radians), (float)-Math.Cos(radians));
 
+            // Define the thruster radius
+            var thrusterRadius = Size * 1.25f;
+
             // Calculate the start and end points of the orange line
             var thrusterStart = new PointF(Location.X - noseDirection.X * Size / 2, Location.Y - noseDirection.Y * Size / 2);
-            var thrusterEnd = new PointF(Location.X + noseDirection.X * Size / 2, Location.Y + noseDirection.Y * Size / 2);
-        
+            var thrusterEnd = new PointF(Location.X + noseDirection.X * thrusterRadius, Location.Y + noseDirection.Y * thrusterRadius);
+    
             // Calculate the start and end points of the two yellow lines
             var offset = noseDirection.Rotate(-90);
             offset = new PointF(offset.X * Size / 4, offset.Y * Size / 4);
             var leftOffset = new PointF(thrusterEnd.X - offset.X, thrusterEnd.Y - offset.Y);
             var rightOffset = new PointF(thrusterEnd.X + offset.X, thrusterEnd.Y + offset.Y);
-        
+    
             // Draw the thruster flames
             display.DrawLine(thrusterStart, thrusterEnd, Color.Orange);
             display.DrawLine(thrusterEnd, leftOffset, Color.Yellow);
@@ -55,7 +59,7 @@ public class Ship : VectorElement
         }
         // gun
         display.SetPixel((int)(Location.X+Velocity.X), (int)(Location.Y+Velocity.X),  Color.WhiteSmoke);
-        
+    
         // ship
         base.Draw(display);
     }

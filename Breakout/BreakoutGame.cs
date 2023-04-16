@@ -19,14 +19,14 @@ public class BreakoutGame : IPlayableGameElement
     private float ballX;
     private float ballY;
     private Rectangle Ball => new((int)ballX, (int)ballY, BallSize, BallSize);
-    private float ballDx = 1;
-    private float ballDy = -1;
+    private float ballDx = 1.7f;
+    private float ballDy = -1.7f;
     private readonly List<Brick> bricks = new();
     private readonly List<PixelBomb> pixelBombs = new();
     private bool isDone;
     private readonly List<PowerUp> powerUps = new();
     private bool isStickyPaddle = false;
-    private Random random = new();
+    private readonly Random random = new();
     const float PowerUpChance = 0.2f;
 
     public BreakoutGame()
@@ -121,19 +121,18 @@ public class BreakoutGame : IPlayableGameElement
             }
 
             if (!bricks[i].IntersectsWith(Ball)) continue;
-            pixelBombs.Add(new PixelBomb(bricks[i].X + 2, bricks[i].Y + 2, Brick.BrickWidth * Brick.BrickHeight, bricks[i].Color));
-            bricks.RemoveAt(i);
-            ballDy = -ballDy;
-            // ... inside Update() method, after removing the brick ...
+            // Power ups
             if (random.NextDouble() < PowerUpChance)
             {
                 var powerUpType = (PowerUpType)random.Next(Enum.GetValues(typeof(PowerUpType)).Length);
-                Rectangle powerUpBounds = new Rectangle(bricks[i].X + Brick.BrickWidth / 2, bricks[i].Y + Brick.BrickHeight / 2, 3, 3);
-                Color powerUpColor = Color.Cyan;
-                PowerUp powerUp = new PowerUp(powerUpType, powerUpBounds, powerUpColor);
+                var powerUpBounds = new Rectangle(bricks[i].X + Brick.BrickWidth / 2, bricks[i].Y + Brick.BrickHeight / 2, 3, 3);
+                var powerUpColor = Color.Cyan;
+                var powerUp = new PowerUp(powerUpType, powerUpBounds, powerUpColor);
                 powerUps.Add(powerUp);
             }
-
+            pixelBombs.Add(new PixelBomb(bricks[i].X + 2, bricks[i].Y + 2, Brick.BrickWidth * Brick.BrickHeight, bricks[i].Color));
+            bricks.RemoveAt(i);
+            ballDy = -ballDy;
             break;
         }
 
