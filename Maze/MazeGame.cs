@@ -1,6 +1,7 @@
 using System.Drawing;
 using Core;
 using Core.Fonts;
+using Core.Inputs;
 
 public class MazeGame : IDuoPlayableGameElement
 {
@@ -9,20 +10,21 @@ public class MazeGame : IDuoPlayableGameElement
     private Point player1Position;
     private Point player2Position;
     private readonly IFont font;
+    private int player1Score;
+    private int player2Score;
 
     public MazeGame(IFontFactory fontFactory)
     {
         level = 1;
         InitializeLevel();
-        font = fontFactory.GetFont(LedFontType.Font5x7);
+        font = fontFactory.GetFont(LedFontType.FontTomThumb);
     }
 
     private void InitializeLevel()
     {
         maze = new Maze.Bits.Maze(6 + level * 2, 6 + level * 2);
-        // Set the start and exit points for players
         player1Position = new Point(1, 1);
-        player2Position = new Point(maze.Width - 2, maze.Height - 2);
+        player2Position = new Point(maze.Width - 1, maze.Height - 1);
     }
 
     public void HandleInput(IPlayerConsole player1Console)
@@ -33,41 +35,31 @@ public class MazeGame : IDuoPlayableGameElement
 
     public void Handle2PInput(IPlayerConsole player2Console)
     {
+        player2Console = new PlayerConsoleInversionDecorator(player2Console);
         var direction = player2Console.ReadJoystick();
         MovePlayer(ref player2Position, direction);
     }
 
     private void MovePlayer(ref Point position, JoystickDirection direction)
     {
-        Point newPosition = position;
-        switch (direction)
-        {
-            case JoystickDirection.Up:
-                newPosition.Y -= 1;
-                break;
-            case JoystickDirection.Down:
-                newPosition.Y += 1;
-                break;
-            case JoystickDirection.Left:
-                newPosition.X -= 1;
-                break;
-            case JoystickDirection.Right:
-                newPosition.X += 1;
-                break;
-        }
-
-        if (!maze.IsWall(newPosition.X, newPosition.Y))
-        {
-            position = newPosition;
-        }
+        var newPosition = position;
+        if (direction.IsUp() && !maze.IsWall(newPosition.X, newPosition.Y-1)) newPosition.Y -= 1;
+        if (direction.IsDown() && !maze.IsWall(newPosition.X, newPosition.Y+1)) newPosition.Y += 1;
+        if (direction.IsLeft() && !maze.IsWall(newPosition.X-1, newPosition.Y)) newPosition.X -= 1;
+        if (direction.IsRight() && !maze.IsWall(newPosition.X+1, newPosition.Y)) newPosition.X += 1;
     }
 
     public void Update()
     {
-        // Check if players reached their destination
-        if (player1Position == new Point(maze.Width - 1, maze.Height - 1) ||
-            player2Position == new Point(1, 1))
+        if (player1Position == new Point(maze.Width - 1, maze.Height - 1))
         {
+            player1Score += 1;
+            level++;
+            InitializeLevel();
+        }
+        if (player2Position == new Point(1, 1))
+        {
+            player2Score += 1;
             level++;
             InitializeLevel();
         }
@@ -75,6 +67,10 @@ public class MazeGame : IDuoPlayableGameElement
 
     public void Draw(IDisplay display)
     {
+        // Draw level information
+        font.DrawText(display, 0, 60, Color.Green, $"L:{level} P1:{player1Score} P2:{player2Score}");
+        
+        // Draw maze
         var xOffset = (display.Width - maze.Width) / 2;
         var yOffset = (display.Height - maze.Height) / 2;
         display.DrawRectangle(xOffset, yOffset, maze.Width+1, maze.Height+1, Color.White);
@@ -92,9 +88,6 @@ public class MazeGame : IDuoPlayableGameElement
         // Draw players
         display.SetPixel(xOffset + player1Position.X, yOffset + player1Position.Y, Color.Red);
         display.SetPixel(xOffset + player2Position.X, yOffset + player2Position.Y, Color.Blue);
-
-        // Draw level information
-        font.DrawText(display, 0, 60, Color.Green, $"Level: {level}");
     }
 
     public GameOverState State

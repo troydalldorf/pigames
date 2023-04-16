@@ -100,10 +100,10 @@ public class Enemy
         double dx2 = p3.X - p2.X;
         double dy2 = p3.Y - p2.Y;
 
-        double avgDx = (dx1 + dx2) / 2;
-        double avgDy = (dy1 + dy2) / 2;
+        var avgDx = (dx1 + dx2) / 2;
+        var avgDy = (dy1 + dy2) / 2;
 
-        double angle = Math.Atan2(avgDy, avgDx);
+        var angle = Math.Atan2(avgDy, avgDx);
         return angle * 180 / Math.PI + 270;
     }
 
