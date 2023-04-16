@@ -18,7 +18,7 @@ public class PacificWingsGame : IPlayableGameElement
     {
         var image = SpriteImage.FromResource("pwings.png");
         var playerSprite = image.GetSpriteAnimation(1, 1, 9, 8, 2, 1);
-        this.enemySprite = image.GetSpriteAnimation(1, 15, 9, 8, 2, 1);
+        this.enemySprite = image.GetSpriteAnimation(1, 14, 9, 8, 2, 1);
         var bulletSprite = image.GetSpriteAnimation(1, 10, 9, 3, 2, 1);
         player = new Player(32, 56, playerSprite, bulletSprite);
         enemyWave = EnemyWaveFactory.CreateWave(wave, enemySprite)!;

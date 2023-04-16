@@ -32,6 +32,6 @@ public class Loop : IMovementStrategyFactory
         };
         var delay = no * (sprite.Width + spacing) / this.speed;
         var offset = new Point(0, 0);
-        return new BezierMovementStrategy(targets, delay, offset);
+        return new CatmullRomMovementStrategy(targets, delay, offset);
     }
 }
