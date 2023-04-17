@@ -9,8 +9,8 @@ namespace Asteroids;
 
 public class AsteroidsGame : IDuoPlayableGameElement
 {
-    private readonly Ship p1Ship;
-    private readonly Ship p2Ship;
+    private Ship p1Ship;
+    private Ship p2Ship;
     private readonly List<Asteroid> asteroids;
     private readonly List<Bullet> bullets;
     private readonly IFont scoreFont;
@@ -24,13 +24,29 @@ public class AsteroidsGame : IDuoPlayableGameElement
 
     public AsteroidsGame(IFontFactory fontFactory)
     {
-        p1Ship = new Ship(DisplayWidth, DisplayHeight, Color.Red) { Location = new PointF(32, 27), Size = 2, Rotation = 0, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false };
-        p2Ship = new Ship(DisplayWidth, DisplayHeight, Color.Blue) { Location = new PointF(32, 37), Size = 2, Rotation = 180, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false };
+        SpawnP1Ship();
+        SpawnP2Ship();
         asteroids = new List<Asteroid>();
         bullets = new List<Bullet>();
         scoreFont = new FontFactory().GetFont(LedFontType.FontTomThumb);
         State = GameOverState.None;
         InitializeAsteroids();
+    }
+
+    private void SpawnP1Ship(int lives = 3)
+    {
+        p1Ship = new Ship(DisplayWidth, DisplayHeight, Color.Red, lives, p1Ship?.Score ?? 0)
+        {
+            Location = new PointF(32, 27), Size = 2, Rotation = 0, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false
+        };
+    }
+    
+    private void SpawnP2Ship(int lives = 3)
+    {
+        p2Ship = new Ship(DisplayWidth, DisplayHeight, Color.Blue, lives, p2Ship?.Score ?? 0)
+        {
+            Location = new PointF(32, 37), Size = 2, Rotation = 180, Velocity = new PointF(0, 0), RotationSpeed = 0, Thrusting = false
+        };
     }
 
     private void InitializeAsteroids()
@@ -108,7 +124,7 @@ public class AsteroidsGame : IDuoPlayableGameElement
                 {
                     asteroids.AddRange(asteroids[j].SpawnSmallerAsteroids());
                 }
-                bullets[i].Owner.AddScore(1);
+                bullets[i].Owner.AddScore(asteroids[j].Size);
                 bullets.RemoveAt(i);
                 asteroids.RemoveAt(j);
                 break;
@@ -123,21 +139,30 @@ public class AsteroidsGame : IDuoPlayableGameElement
             // Check for ship-asteroid collisions
             if (p1Ship.IsCollidingWith(asteroids[i]))
             {
-                // Handle ship destruction and respawn
-                // You can implement lives and game over logic here
-                //ship.Respawn();
+                SpawnP1Ship(p1Ship.Lives-1);
                 pixelBombs.Add(new PixelBomb((int)p1Ship.Location.X, (int)p1Ship.Location.Y, 20, p1Ship.Color, 3));
                 break;
             }
             // Check for ship-asteroid collisions
             if (p2Ship.IsCollidingWith(asteroids[i]))
             {
-                // Handle ship destruction and respawn
-                // You can implement lives and game over logic here
-                //ship.Respawn();
+                SpawnP2Ship(p1Ship.Lives-1);
                 pixelBombs.Add(new PixelBomb((int)p2Ship.Location.X, (int)p2Ship.Location.Y, 20, p2Ship.Color, 3));
                 break;
             }
+        }
+        
+        if (p2Ship.Lives < 0 && p1Ship.Lives < 0)
+        {
+            State = GameOverState.Draw;
+        }
+        else if (p2Ship.Lives < 0)
+        {
+            State = GameOverState.Player1Wins;
+        }
+        else if (p1Ship.Lives < 0)
+        {
+            State = GameOverState.Player2Wins;
         }
         
         foreach (var pixelBomb in pixelBombs.ToArray())
@@ -168,9 +193,9 @@ public class AsteroidsGame : IDuoPlayableGameElement
             pixelBomb.Draw(display);
 
         // Draw scores
-        scoreFont.DrawText(display, 1, 5, p1Ship.Color, $"{p1Ship.Score}", 1);
-        scoreFont.DrawText(display, 55, 5, p2Ship.Color, $"{p2Ship.Score}", 1);
+        scoreFont.DrawText(display, 1, 5, p1Ship.Color, $"{p1Ship.Score}/{p1Ship.Lives}L");
+        scoreFont.DrawText(display, 45, 5, p2Ship.Color, $"{p2Ship.Score}/{p2Ship.Lives}L");
     }
 
-    public GameOverState State { get; }
+    public GameOverState State { get; private set; }
 }

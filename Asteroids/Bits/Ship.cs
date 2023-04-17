@@ -9,6 +9,8 @@ public class Ship : VectorElement
     public bool Thrusting { get; set; }
     public int Score { get; private set; }
     
+    public int Lives { get; set; } = 3;
+    
     private static readonly PointF[] Shape = new[]
     {
         new PointF(-1, 1),
@@ -16,8 +18,10 @@ public class Ship : VectorElement
         new PointF(1, 1),
     };
 
-    public Ship(int displayWidth, int displayHeight, Color color) : base(Shape, 90, color, displayWidth, displayHeight)
+    public Ship(int displayWidth, int displayHeight, Color color, int lives, int score) : base(Shape, 90, color, displayWidth, displayHeight)
     {
+        this.Lives = lives;
+        this.Score = score;
     }
     
     public void AddScore(int score)
@@ -27,6 +31,7 @@ public class Ship : VectorElement
 
     public override void Update()
     {
+        if (Lives < 0) return;
         if (Thrusting)
         {
             var thrustRotation = Rotation + 90;
@@ -39,6 +44,8 @@ public class Ship : VectorElement
 
     public override void Draw(IDisplay display)
     {
+        if (Lives < 0) return;
+        
         // ship
         base.Draw(display);
         
