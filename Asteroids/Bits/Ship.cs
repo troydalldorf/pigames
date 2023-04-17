@@ -10,7 +10,9 @@ public class Ship : VectorElement
     public int Score { get; private set; }
     
     public int Lives { get; set; } = 3;
-    
+    private readonly DateTime immuneUntil;
+    public bool IsImmune => immuneUntil > DateTime.Now;
+
     private static readonly PointF[] Shape = new[]
     {
         new PointF(-1, 1),
@@ -22,6 +24,7 @@ public class Ship : VectorElement
     {
         this.Lives = lives;
         this.Score = score;
+        this.immuneUntil = DateTime.Now.AddSeconds(1);
     }
     
     public void AddScore(int score)

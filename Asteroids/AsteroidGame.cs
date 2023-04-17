@@ -137,14 +137,14 @@ public class AsteroidsGame : IDuoPlayableGameElement
             asteroids[i].Update();
 
             // Check for ship-asteroid collisions
-            if (p1Ship.IsCollidingWith(asteroids[i]))
+            if (!p1Ship.IsImmune && p1Ship.IsCollidingWith(asteroids[i]))
             {
                 SpawnP1Ship(p1Ship.Lives-1);
                 pixelBombs.Add(new PixelBomb((int)p1Ship.Location.X, (int)p1Ship.Location.Y, 20, p1Ship.Color, 3));
                 break;
             }
             // Check for ship-asteroid collisions
-            if (p2Ship.IsCollidingWith(asteroids[i]))
+            if (!p2Ship.IsImmune && p2Ship.IsCollidingWith(asteroids[i]))
             {
                 SpawnP2Ship(p1Ship.Lives-1);
                 pixelBombs.Add(new PixelBomb((int)p2Ship.Location.X, (int)p2Ship.Location.Y, 20, p2Ship.Color, 3));
@@ -194,7 +194,7 @@ public class AsteroidsGame : IDuoPlayableGameElement
 
         // Draw scores
         scoreFont.DrawText(display, 1, 5, p1Ship.Color, $"{p1Ship.Score}/{p1Ship.Lives}L");
-        scoreFont.DrawText(display, 45, 5, p2Ship.Color, $"{p2Ship.Score}/{p2Ship.Lives}L");
+        scoreFont.DrawText(display, 40, 5, p2Ship.Color, $"{p2Ship.Score}/{p2Ship.Lives}L");
     }
 
     public GameOverState State { get; private set; }
