@@ -1,6 +1,7 @@
 using Core;
 using System.Collections.Generic;
 using System.Drawing;
+using Core.Display.Sprites;
 
 namespace Frogger
 {
@@ -17,6 +18,9 @@ namespace Frogger
         private const int VehicleSpacing = 16;
 
         private Rectangle frog;
+        private Sprite frogSprite;
+        private Sprite vehicleSprite1;
+        private Sprite vehicleSprite2;
         private List<Rectangle> vehicles;
         private int[] laneSpeeds;
         private readonly Random random;
@@ -26,6 +30,10 @@ namespace Frogger
         public FroggerPlayableGame()
         {
             random = new Random();
+            var image = SpriteImage.FromResource("frogger.png", new Point(1, 1));
+            frogSprite = image.GetSprite(1, 1, 4, 4);
+            vehicleSprite1 = image.GetSprite(1, 6, 8, 4);
+            vehicleSprite2 = image.GetSprite(1, 11, 8, 4);
             difficultyLevel = 1;
             Initialize();
         }
@@ -93,11 +101,9 @@ namespace Frogger
 
         public void Draw(IDisplay display)
         {
-            display.DrawRectangle(frog.X, frog.Y, FrogSize, FrogSize, Color.Green);
+            frogSprite.Draw(display, frog.X, frog.Y);
             foreach (var vehicle in vehicles)
-            {
-                display.DrawRectangle(vehicle.X, vehicle.Y, VehicleWidth, VehicleHeight, Color.Red);
-            }
+                vehicleSprite1.Draw(display, vehicle.X, vehicle.Y);
         }
 
         public GameOverState State => isDone ? GameOverState.EndOfGame : GameOverState.None;
