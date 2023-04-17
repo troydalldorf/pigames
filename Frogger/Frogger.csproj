@@ -12,7 +12,7 @@
 
     <ItemGroup>
       <None Remove="frogger.png" />
-      <Content Include="frogger.png" CopyToOutputDirectory="Always" />
+      <EmbeddedResource Include="frogger.png" CopyToOutputDirectory="Always" />
     </ItemGroup>
 
 </Project>

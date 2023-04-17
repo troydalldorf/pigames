@@ -17,11 +17,11 @@ public static class SpriteExtensions
         {
             for (var sx = -halfWidth; sx < halfWidth; sx++)
             {
-                int rotatedX = (int)Math.Round(cosAngle * sx - sinAngle * sy) + x;
-                int rotatedY = (int)Math.Round(sinAngle * sx + cosAngle * sy) + y;
+                var rotatedX = (int)Math.Round(cosAngle * sx - sinAngle * sy) + x;
+                var rotatedY = (int)Math.Round(sinAngle * sx + cosAngle * sy) + y;
 
-                int sourceX = sx + halfWidth;
-                int sourceY = sy + halfHeight;
+                var sourceX = sx + halfWidth;
+                var sourceY = sy + halfHeight;
 
                 if (sourceX >= 0 && sourceX < @this.Width && sourceY >= 0 && sourceY < @this.Height)
                 {
