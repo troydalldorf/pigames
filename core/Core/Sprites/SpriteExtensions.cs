@@ -1,3 +1,4 @@
+using System.Drawing;
 using Core.Display.Sprites;
 
 namespace Core.Sprites;
@@ -28,6 +29,20 @@ public static class SpriteExtensions
                     var color = @this.GetColor(frameNo, sourceX, sourceY);
                     if (color != null) display.SetPixel(rotatedX, rotatedY, color.Value);
                 }
+            }
+        }
+    }
+    
+    public static void DrawTiled(this ISprite @this, IDisplay display, Rectangle targetRectangle, int frameNo = 0)
+    {
+        for (var y = 0; y < targetRectangle.Height; y++)
+        {
+            for (var x = 0; x < targetRectangle.Width; x++)
+            {
+                var sx = x % @this.Width;
+                var sy = y % @this.Height;
+                var color = @this.GetColor(frameNo, sx, sy);
+                if (color != null) display.SetPixel(targetRectangle.X + x, targetRectangle.Y + y, color.Value);
             }
         }
     }

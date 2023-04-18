@@ -1,4 +1,5 @@
 using Core;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using Core.Display.Sprites;
@@ -22,10 +23,9 @@ namespace Frogger
         private Sprite vehicleSprite1;
         private Sprite vehicleSprite2;
         private List<Rectangle> vehicles;
-        private int[] laneSpeeds;
+        private int uniformSpeed;
         private readonly Random random;
         private bool isDone;
-        private int difficultyLevel;
 
         public FroggerPlayableGame()
         {
@@ -34,7 +34,6 @@ namespace Frogger
             frogSprite = image.GetSprite(1, 1, 4, 4);
             vehicleSprite1 = image.GetSprite(1, 6, 8, 4);
             vehicleSprite2 = image.GetSprite(1, 11, 8, 4);
-            difficultyLevel = 1;
             Initialize();
         }
 
@@ -43,12 +42,11 @@ namespace Frogger
             frog = new Rectangle(Width / 2 - FrogSize / 2, Height - LaneHeight, FrogSize, FrogSize);
 
             vehicles = new List<Rectangle>();
-            laneSpeeds = new int[NumLanes];
+            uniformSpeed = 1;
 
             for (var i = 0; i < NumLanes; i++)
             {
-                laneSpeeds[i] = random.Next(1, MaxSpeed + 1) * difficultyLevel;
-                var numVehicles = random.Next(2, 5 - difficultyLevel);
+                var numVehicles = random.Next(2, 5);
                 for (var j = 0; j < numVehicles; j++)
                 {
                     var x = (Width / (numVehicles + 1)) * (j + 1);
@@ -70,7 +68,6 @@ namespace Frogger
 
             if (frog.Y == 0)
             {
-                difficultyLevel++;
                 Initialize();
             }
         }
@@ -79,8 +76,7 @@ namespace Frogger
         {
             for (var i = 0; i < vehicles.Count; i++)
             {
-                var currentLane = i % laneSpeeds.Length;
-                vehicles[i] = new Rectangle(vehicles[i].X + laneSpeeds[currentLane], vehicles[i].Y, vehicles[i].Width, vehicles[i].Height);
+                vehicles[i] = new Rectangle(vehicles[i].X + uniformSpeed, vehicles[i].Y, vehicles[i].Width, vehicles[i].Height);
 
                 if (vehicles[i].Right < 0)
                 {
