@@ -25,8 +25,7 @@ public class Vehicle
 
     public void Draw(IDisplay display)
     {
-        var srcRectangle = new Rectangle(0, 0, rectangle.Width, rectangle.Height);
-        vehicleSprite.DrawTiled(display, srcRectangle);
+        vehicleSprite.DrawTiled(display, rectangle);
     }
 
     public Rectangle Rectangle => rectangle;

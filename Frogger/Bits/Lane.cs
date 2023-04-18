@@ -37,7 +37,7 @@ namespace Frogger.Bits;
         private void InitializeVehicles()
         {
             vehicles = new List<Vehicle>();
-            int currentX = 0;
+            var currentX = 0;
 
             while (currentX < screenWidth)
             {
@@ -51,15 +51,15 @@ namespace Frogger.Bits;
 
         public void Update()
         {
-            for (int i = 0; i < vehicles.Count; i++)
+            for (var i = 0; i < vehicles.Count; i++)
             {
                 vehicles[i].Update(laneSpeed);
 
                 if (vehicles[i].Rectangle.Right < 0)
                 {
-                    int currentX = vehicles[i].Rectangle.X + vehicles[i].Rectangle.Width;
-                    int vehicleWidth = random.Next(VehicleMinWidth, VehicleMaxWidth + 1);
-                    int y = LaneHeight * index;
+                    var currentX = vehicles[i].Rectangle.X + vehicles[i].Rectangle.Width;
+                    var vehicleWidth = random.Next(VehicleMinWidth, VehicleMaxWidth + 1);
+                    var y = LaneHeight * index;
 
                     vehicles.Add(new Vehicle(currentX, y, vehicleWidth, vehicleSprite));
                     vehicles.RemoveAt(i);
