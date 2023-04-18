@@ -2,8 +2,8 @@ using System.Drawing;
 using Core;
 using Core.Display.Sprites;
 
-namespace Frogger.Bits;
-
+namespace Frogger.Bits
+{
     public class Lane
     {
         private const int VehicleMinWidth = 6;
@@ -19,6 +19,7 @@ namespace Frogger.Bits;
         private readonly int screenWidth;
         private readonly int index;
         private readonly ISprite vehicleSprite;
+        private readonly bool moveRight;
 
         public Lane(int screenWidth, int screenHeight, int index, Random random)
         {
@@ -30,6 +31,7 @@ namespace Frogger.Bits;
             var image = SpriteImage.FromResource("frogger.png", new Point(1, 1));
             vehicleSprite = image.GetSprite(1, 6, VehicleMaxWidth, VehicleHeight);
             laneSpeed = random.Next(1, MaxSpeed + 1);
+            moveRight = random.Next(2) == 0;
 
             InitializeVehicles();
         }
@@ -37,15 +39,16 @@ namespace Frogger.Bits;
         private void InitializeVehicles()
         {
             vehicles = new List<Vehicle>();
-            var currentX = 0;
+            var currentX = moveRight ? 0 : screenWidth;
 
-            while (currentX < screenWidth)
+            while ((moveRight && currentX < screenWidth) || (!moveRight && currentX > 0))
             {
                 var vehicleWidth = random.Next(VehicleMinWidth, VehicleMaxWidth + 1);
                 var y = LaneHeight * index;
-
                 vehicles.Add(new Vehicle(currentX, y, vehicleWidth, vehicleSprite));
-                currentX += vehicleWidth + random.Next(vehicleWidth / 2, vehicleWidth);
+
+                var spacing = random.Next(vehicleWidth / 2, vehicleWidth);
+                currentX += moveRight ? spacing : -spacing;
             }
         }
 
@@ -53,17 +56,16 @@ namespace Frogger.Bits;
         {
             for (var i = 0; i < vehicles.Count; i++)
             {
-                vehicles[i].Update(laneSpeed);
+                vehicles[i].Update(moveRight ? laneSpeed : -laneSpeed);
 
-                if (vehicles[i].Rectangle.Right < 0)
+                if (moveRight && vehicles[i].Rectangle.Right > screenWidth ||
+                    !moveRight && vehicles[i].Rectangle.Left < 0)
                 {
-                    var currentX = vehicles[i].Rectangle.X + vehicles[i].Rectangle.Width;
                     var vehicleWidth = random.Next(VehicleMinWidth, VehicleMaxWidth + 1);
                     var y = LaneHeight * index;
+                    var newX = moveRight ? -vehicleWidth : screenWidth;
 
-                    vehicles.Add(new Vehicle(currentX, y, vehicleWidth, vehicleSprite));
-                    vehicles.RemoveAt(i);
-                    i--;
+                    vehicles[i] = new Vehicle(newX, y, vehicleWidth, vehicleSprite);
                 }
             }
         }
@@ -81,3 +83,4 @@ namespace Frogger.Bits;
             }
         }
     }
+}
