@@ -10,10 +10,10 @@ namespace Frogger.Bits
         private const int VehicleMinWidth = 6;
         private const int VehicleMaxWidth = 12;
         private const int MinSpacing = 6;
-        private const int MaxSpacing = 24;
+        private const int MaxSpacing = 48;
         private const int VehicleHeight = 4;
         private const int LaneHeight = VehicleHeight + 2;
-        private const int MaxSpeed = 3;
+        private const int MaxSpeed = 5;
 
         private List<Vehicle> vehicles;
         private readonly int laneSpeed;
@@ -21,7 +21,8 @@ namespace Frogger.Bits
         private readonly int screenHeight;
         private readonly int screenWidth;
         private readonly int index;
-        private readonly ISprite vehicleSprite;
+        private readonly ISprite vehicleSprite1;
+        private readonly ISprite vehicleSprite2;
         private readonly bool moveRight;
         private readonly int difficulty;
 
@@ -34,8 +35,9 @@ namespace Frogger.Bits
             this.difficulty = difficulty;
 
             var image = SpriteImage.FromResource("frogger.png", new Point(1, 1));
-            vehicleSprite = image.GetSprite(1, 6, VehicleMaxWidth, VehicleHeight);
-            laneSpeed = random.Next(1, MaxSpeed + 1) * difficulty;
+            vehicleSprite1 = image.GetSprite(1, 6, 8, 4);
+            vehicleSprite2 = image.GetSprite(1, 11, 8, 4);
+            laneSpeed = random.Next(1, MaxSpeed/difficulty + 1);
             moveRight = random.Next(2) == 0;
 
             InitializeVehicles();
@@ -50,9 +52,10 @@ namespace Frogger.Bits
             {
                 var vehicleWidth = random.Next(VehicleMinWidth, VehicleMaxWidth + 1);
                 var y = LaneHeight * index;
-                vehicles.Add(new Vehicle(currentX, y, vehicleWidth, vehicleSprite));
+                var sprite = random.Next(2) == 0 ? vehicleSprite1 : vehicleSprite2;
+                vehicles.Add(new Vehicle(currentX, y, vehicleWidth, vehicleSprite1));
 
-                var spacing = random.Next(MinSpacing * difficulty, MaxSpacing / difficulty + 1);
+                var spacing = random.Next(MinSpacing, MaxSpacing / difficulty + 1);
                 currentX += moveRight ? spacing : -spacing;
             }
         }
@@ -70,7 +73,7 @@ namespace Frogger.Bits
                     var y = LaneHeight * index;
                     var newX = moveRight ? -vehicleWidth : screenWidth;
 
-                    vehicles[i] = new Vehicle(newX, y, vehicleWidth, vehicleSprite);
+                    vehicles[i] = new Vehicle(newX, y, vehicleWidth, vehicleSprite1);
                 }
             }
         }
