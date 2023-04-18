@@ -11,19 +11,18 @@ namespace Frogger
         private const int Width = 64;
         private const int Height = 64;
         private const int FrogSize = 4;
-        private const int VehicleWidth = 8;
+        private const int VehicleMinWidth = 6;
+        private const int VehicleMaxWidth = 12;
         private const int VehicleHeight = 4;
         private const int NumLanes = 5;
         private const int LaneHeight = VehicleHeight + 2;
         private const int MaxSpeed = 3;
-        private const int VehicleSpacing = 16;
 
         private Rectangle frog;
         private Sprite frogSprite;
-        private Sprite vehicleSprite1;
-        private Sprite vehicleSprite2;
+        private Sprite vehicleSprite;
         private List<Rectangle> vehicles;
-        private int uniformSpeed;
+        private int[] laneSpeeds;
         private readonly Random random;
         private bool isDone;
 
@@ -32,8 +31,7 @@ namespace Frogger
             random = new Random();
             var image = SpriteImage.FromResource("frogger.png", new Point(1, 1));
             frogSprite = image.GetSprite(1, 1, 4, 4);
-            vehicleSprite1 = image.GetSprite(1, 6, 8, 4);
-            vehicleSprite2 = image.GetSprite(1, 11, 8, 4);
+            vehicleSprite = image.GetSprite(1, 6, VehicleMaxWidth, VehicleHeight);
             Initialize();
         }
 
@@ -42,16 +40,18 @@ namespace Frogger
             frog = new Rectangle(Width / 2 - FrogSize / 2, Height - LaneHeight, FrogSize, FrogSize);
 
             vehicles = new List<Rectangle>();
-            uniformSpeed = 1;
+            laneSpeeds = new int[NumLanes];
 
             for (var i = 0; i < NumLanes; i++)
             {
-                var numVehicles = random.Next(2, 5);
-                for (var j = 0; j < numVehicles; j++)
+                laneSpeeds[i] = random.Next(1, MaxSpeed + 1);
+                int currentX = 0;
+                while (currentX < Width)
                 {
-                    var x = (Width / (numVehicles + 1)) * (j + 1);
+                    var vehicleWidth = random.Next(VehicleMinWidth, VehicleMaxWidth + 1);
                     var y = LaneHeight * i;
-                    vehicles.Add(new Rectangle(x, y, VehicleWidth, VehicleHeight));
+                    vehicles.Add(new Rectangle(currentX, y, vehicleWidth, VehicleHeight));
+                    currentX += vehicleWidth + random.Next(vehicleWidth / 2, vehicleWidth);
                 }
             }
         }
@@ -76,15 +76,24 @@ namespace Frogger
         {
             for (var i = 0; i < vehicles.Count; i++)
             {
-                vehicles[i] = new Rectangle(vehicles[i].X + uniformSpeed, vehicles[i].Y, vehicles[i].Width, vehicles[i].Height);
+                var currentLane = i % laneSpeeds.Length;
+                vehicles[i] = new Rectangle(vehicles[i].X + laneSpeeds[currentLane], vehicles[i].Y, vehicles[i].Width, vehicles[i].Height);
 
                 if (vehicles[i].Right < 0)
                 {
-                    vehicles[i] = new Rectangle(Width + VehicleSpacing, vehicles[i].Y, vehicles[i].Width, vehicles[i].Height);
+                    int currentX = vehicles[i].X + vehicles[i].Width;
+                    while (currentX < Width)
+                    {
+                        var vehicleWidth = random.Next(VehicleMinWidth, VehicleMaxWidth + 1);
+                        var y = LaneHeight * currentLane;
+                        vehicles.Add(new Rectangle(currentX, y, vehicleWidth, VehicleHeight));
+                        currentX += vehicleWidth + random.Next(vehicleWidth / 2, vehicleWidth);
+                    }
                 }
                 else if (vehicles[i].Left > Width)
                 {
-                    vehicles[i] = new Rectangle(-VehicleWidth - VehicleSpacing, vehicles[i].Y, vehicles[i].Width, vehicles[i].Height);
+                    vehicles.RemoveAt(i);
+                    i--;
                 }
 
                 if (frog.IntersectsWith(vehicles[i]))
@@ -99,7 +108,10 @@ namespace Frogger
         {
             frogSprite.Draw(display, frog.X, frog.Y);
             foreach (var vehicle in vehicles)
-                vehicleSprite1.Draw(display, vehicle.X, vehicle.Y);
+            {
+                var srcRectangle = new Rectangle(0, 0, vehicle.Width, vehicle.Height);
+                vehicleSprite.Draw(display, vehicle.X, vehicle.Y, srcRectangle);
+            }
         }
 
         public GameOverState State => isDone ? GameOverState.EndOfGame : GameOverState.None;
