@@ -1,6 +1,7 @@
 using System.Drawing;
 using Core;
 using Core.Display.Sprites;
+using System.Linq;
 
 namespace Frogger.Bits
 {
@@ -8,6 +9,8 @@ namespace Frogger.Bits
     {
         private const int VehicleMinWidth = 6;
         private const int VehicleMaxWidth = 12;
+        private const int MinSpacing = 6;
+        private const int MaxSpacing = 24;
         private const int VehicleHeight = 4;
         private const int LaneHeight = VehicleHeight + 2;
         private const int MaxSpeed = 3;
@@ -20,17 +23,19 @@ namespace Frogger.Bits
         private readonly int index;
         private readonly ISprite vehicleSprite;
         private readonly bool moveRight;
+        private readonly int difficulty;
 
-        public Lane(int screenWidth, int screenHeight, int index, Random random)
+        public Lane(int screenWidth, int screenHeight, int index, Random random, int difficulty)
         {
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
             this.index = index;
             this.random = random;
+            this.difficulty = difficulty;
 
             var image = SpriteImage.FromResource("frogger.png", new Point(1, 1));
             vehicleSprite = image.GetSprite(1, 6, VehicleMaxWidth, VehicleHeight);
-            laneSpeed = random.Next(1, MaxSpeed + 1);
+            laneSpeed = random.Next(1, MaxSpeed + 1) * difficulty;
             moveRight = random.Next(2) == 0;
 
             InitializeVehicles();
@@ -47,7 +52,7 @@ namespace Frogger.Bits
                 var y = LaneHeight * index;
                 vehicles.Add(new Vehicle(currentX, y, vehicleWidth, vehicleSprite));
 
-                var spacing = random.Next(vehicleWidth / 2, vehicleWidth);
+                var spacing = random.Next(MinSpacing * difficulty, MaxSpacing / difficulty + 1);
                 currentX += moveRight ? spacing : -spacing;
             }
         }

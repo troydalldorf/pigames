@@ -13,11 +13,13 @@ namespace Frogger
         private List<Lane> lanes;
         private readonly Random random;
         private bool isDone;
+        private int difficulty;
 
         public FroggerPlayableGame()
         {
             random = new Random();
             frog = new Frog(Width, Height);
+            difficulty = 1;
             InitializeLanes();
         }
 
@@ -26,7 +28,7 @@ namespace Frogger
             lanes = new List<Lane>();
             for (var i = 0; i < NumLanes; i++)
             {
-                lanes.Add(new Lane(Width, Height, i, random));
+                lanes.Add(new Lane(Width, Height, i, random, difficulty));
             }
         }
 
@@ -37,6 +39,7 @@ namespace Frogger
 
             if (frog.IsAtTop)
             {
+                difficulty++;
                 InitializeLanes();
                 frog.ResetPosition();
             }
