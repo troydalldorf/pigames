@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using Core.Display.Sprites;
+using Core.Sprites;
 
 namespace Frogger
 {
@@ -110,7 +111,7 @@ namespace Frogger
             foreach (var vehicle in vehicles)
             {
                 var srcRectangle = new Rectangle(0, 0, vehicle.Width, vehicle.Height);
-                vehicleSprite.Draw(display, vehicle.X, vehicle.Y, srcRectangle);
+                vehicleSprite.DrawTiled(display, srcRectangle);
             }
         }
 
