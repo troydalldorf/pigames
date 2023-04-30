@@ -6,12 +6,14 @@ namespace Chess;
 
 public class ChessGame : IDuoPlayableGameElement
 {
+    private int cursorX = 4;
+    private int cursorY = 4;
     private SpriteAnimation whitePieces;
     private SpriteAnimation blackPieces;
     private Piece[,] board = new Piece[8, 8];
     public ChessGame()
     {
-        var image = SpriteImage.FromResource("chess.png");
+        var image = SpriteImage.FromResource("chess.png", new Point(1, 1));
         whitePieces = image.GetSpriteAnimation(9, 1, 8, 8, 6, 1);
         blackPieces = image.GetSpriteAnimation(9, 9, 8, 8, 6, 1);
         State = GameOverState.None;
@@ -73,10 +75,28 @@ public class ChessGame : IDuoPlayableGameElement
                 }
             }
         }
+        display.DrawRectangle(cursorX * 8, cursorY * 8, 8, 8, Color.Peru);
     }
 
     public void HandleInput(IPlayerConsole player1Console)
     {
+        var stick = player1Console.ReadJoystick();
+        if (stick.IsUp())
+        {
+            cursorY--;
+        } 
+        if (stick.IsDown())
+        {
+            cursorY++;
+        } 
+        if (stick.IsLeft())
+        {
+            cursorX--;
+        } 
+        if (stick.IsRight())
+        {
+            cursorX++;
+        }
     }
     
     public void Handle2PInput(IPlayerConsole player2Console)
