@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using Asteroids;
+using Blitz;
 using BomberMan;
 using Breakout;
 using Checkers;
@@ -51,6 +52,7 @@ public class Menu : IPlayableGameElement
         {
             new("Asteroid", () => new AsteroidsGame(this.fontFactory)),
             new("Astro Chicken", () => new AstroChicken.AstroChicken(fontFactory)),
+            new("Blitz", () => new BlitzGame()),
             new("Bomber Man", () => new BombermanGame(fontFactory)),
             new("Breakout", () => new BreakoutGame()),
             new("Connect Four", () => new ConnectFourGame(), 100),

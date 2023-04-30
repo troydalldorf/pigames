@@ -10,6 +10,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Asteroids\Asteroids.csproj" />
       <ProjectReference Include="..\AstroChicken\AstroChicken.csproj" />
+      <ProjectReference Include="..\Blitz\Blitz.csproj" />
       <ProjectReference Include="..\BomberMan\BomberMan.csproj" />
       <ProjectReference Include="..\Breakout\Breakout.csproj" />
       <ProjectReference Include="..\Checkers\Checkers.csproj" />
