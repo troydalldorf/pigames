@@ -114,10 +114,10 @@ namespace Blitz
             for (var i = 0; i < Buildings; i++)
             {
                 
-                for (int y = 0; y < buildingHeights[i].Item1; y++)
+                for (var y = 0; y < buildingHeights[i].Item1; y++)
                 {
-                    int buildingY = DisplayHeight - (y + 1) * building.Height - grass.Height;
-                    var frame = y == buildingHeights[i].Item2 ? 2 : y < buildingHeights[i].Item1 - 1 ? 0 : 1;
+                    var buildingY = DisplayHeight - (y + 1) * building.Height - grass.Height;
+                    var frame = y == buildingHeights[i].Item2-1 ? 2 : y == buildingHeights[i].Item1 - 1 ? 0 : 1;
                     building.Draw(display, i * building.Width, buildingY, frame);
                 }
             }
@@ -128,7 +128,7 @@ namespace Blitz
             // Draw bomb
             if (bombDropped)
             {
-                bomb.Draw(display, bombX * 8, bombY);
+                bomb.Draw(display, bombX * 8 + 3, bombY);
             }
         }
 
