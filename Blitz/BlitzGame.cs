@@ -19,9 +19,8 @@ namespace Blitz
         private int bombX;
         private int bombY;
         private bool bombDropped;
-        private int[] buildingHeights;
+        private (int,int)[] buildingHeights;
         private int score;
-        private GameOverState gameState;
         private readonly ISprite plane;
         private readonly ISprite bomb;
         private readonly ISprite building;
@@ -43,14 +42,15 @@ namespace Blitz
             planeY = 0;
             bombDropped = false;
             score = 0;
-            gameState = GameOverState.None;
+            State = GameOverState.None;
 
-            buildingHeights = new int[Buildings];
+            buildingHeights = new (int, int)[Buildings];
             var random = new Random();
 
             for (var i = 0; i < Buildings; i++)
             {
-                buildingHeights[i] = random.Next(MinBuildingHeight, MaxBuildingHeight + 1);
+                var height = random.Next(MinBuildingHeight, MaxBuildingHeight + 1);
+                buildingHeights[i] = (height, height);
             }
         }
 
@@ -68,14 +68,14 @@ namespace Blitz
 
         public void Update()
         {
-            if (gameState != GameOverState.None)
+            if (State != GameOverState.None)
             {
                 return;
             }
 
             planeX += PlaneXSpeed;
 
-            if (planeX >= DisplayWidth - plane.Width)
+            if (planeX >= DisplayWidth - plane.Width / 2)
             {
                 planeX = 0;
                 planeY += PlaneYSpeed;
@@ -85,21 +85,21 @@ namespace Blitz
             {
                 bombY++;
 
-                if (bombY >= DisplayHeight - buildingHeights[bombX] * 8)
+                if (bombY >= DisplayHeight - buildingHeights[bombX].Item1 * 8 - grass.Height)
                 {
-                    buildingHeights[bombX]--;
+                    buildingHeights[bombX].Item1--;
                     bombDropped = false;
                     score++;
                 }
             }
 
-            if (planeY >= DisplayHeight - buildingHeights[planeX / 8] * 8)
+            if (planeY >= DisplayHeight - buildingHeights[planeX / 8].Item1 * 8 - grass.Height)
             {
-                gameState = GameOverState.EndOfGame;
+                State = GameOverState.EndOfGame;
             }
             else if (planeY >= DisplayHeight - 8)
             {
-                gameState = GameOverState.Player1Wins;
+                State = GameOverState.Player1Wins;
             }
         }
 
@@ -114,10 +114,11 @@ namespace Blitz
             for (var i = 0; i < Buildings; i++)
             {
                 
-                for (int y = 0; y < buildingHeights[i]; y++)
+                for (int y = 0; y < buildingHeights[i].Item1; y++)
                 {
-                    int buildingY = DisplayHeight - (y + 1) * building.Height;
-                    building.Draw(display, i * building.Width, buildingY, y <  buildingHeights[i] - 1 ? 0 : 1);
+                    int buildingY = DisplayHeight - (y + 1) * building.Height - grass.Height;
+                    var frame = y == buildingHeights[i].Item2 ? 2 : y < buildingHeights[i].Item1 - 1 ? 0 : 1;
+                    building.Draw(display, i * building.Width, buildingY, frame);
                 }
             }
 
@@ -131,6 +132,6 @@ namespace Blitz
             }
         }
 
-        public GameOverState State => gameState;
+        public GameOverState State { get; private set; }
     }
 }
