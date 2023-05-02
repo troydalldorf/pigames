@@ -77,7 +77,7 @@ namespace Blitz
 
             if (planeX >= DisplayWidth - plane.Width / 2)
             {
-                planeX = 0;
+                planeX = plane.Width / 2;
                 planeY += PlaneYSpeed;
             }
 
