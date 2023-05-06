@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using Core;
 using Core.Display.Sprites;
+using Core.Effects;
 using Core.Fonts;
 
 namespace Blitz
@@ -25,8 +26,7 @@ namespace Blitz
         private readonly ISprite bomb;
         private readonly ISprite building;
         private readonly ISprite grass;
-        private readonly ISprite explodeSprite;
-        private readonly List<Explosion> explosions = new();
+        private readonly Explosions explosions = new();
         private readonly IFont font;
         private readonly Random random = new();
         private int level = 0;
@@ -39,8 +39,6 @@ namespace Blitz
             this.bomb = image.GetSpriteAnimation(1, 6, 4, 5, 1, 1);
             this.plane = image.GetSpriteAnimation(1, 12, 13, 5, 2, 1);
             this.building = image.GetSpriteAnimation(1, 18, 8, 8, 3, 1);
-            var explodeImage = SpriteImage.FromResource("explode.png", new Point(1, 0));
-            this.explodeSprite = explodeImage.GetSpriteAnimation(1, 0, 12, 12, 7, 1);
             score = 0;
             State = GameOverState.None;
             NextLevel();
@@ -111,7 +109,7 @@ namespace Blitz
                 {
                     if (buildingHeights[bombX].Item1 > 0)
                     {
-                        explosions.Add(new Explosion { X = bombX * 8 - 2, Y = bombY - 1, Frame = 0, BombX = bombX });
+                        explosions.Explode(bombX * 8 + 4, bombY + 11, () => buildingHeights[bombX].Item1--);
                         score++;
                     }
                     bombDropped = false;
@@ -152,20 +150,8 @@ namespace Blitz
                 }
             }
 
-            foreach (var explosion in explosions.ToArray())
-            {
-                explodeSprite.Draw(display, explosion.X, explosion.Y, explosion.Frame);
-                explosion.Frame += 1;
-                if (explosion.Frame == 3)
-                {
-                    buildingHeights[explosion.BombX].Item1--;
-                }
-                else if (explosion.Frame >= 6)
-                {
-                    explosions.Remove(explosion);
-                    break;
-                }
-            }
+            // Draw explosions
+            explosions.Draw(display);
             
             // Draw grass
             for (var i = 0; i < DisplayWidth / grass.Width; i++)
