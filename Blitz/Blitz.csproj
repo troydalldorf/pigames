@@ -13,6 +13,8 @@
     <ItemGroup>
       <None Remove="blitz.png" />
       <EmbeddedResource Include="blitz.png" />
+      <None Remove="explode.png" />
+      <EmbeddedResource Include="explode.png" />
     </ItemGroup>
 
 </Project>

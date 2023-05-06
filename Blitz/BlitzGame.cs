@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using Core;
 using Core.Display.Sprites;
 using Core.Fonts;
@@ -11,7 +10,7 @@ namespace Blitz
         private const int DisplayHeight = 64;
         private const int DisplayWidth = 64;
         private const int Buildings = 8;
-        private const int MinBuildingHeight = 1;
+        private const int MinBuildingHeight = 2;
         private const int MaxBuildingHeight = 7;
         private int planeXSpeed = 2;
         private int planeYSpeed = 2;
@@ -26,6 +25,8 @@ namespace Blitz
         private readonly ISprite bomb;
         private readonly ISprite building;
         private readonly ISprite grass;
+        private readonly ISprite explodeSprite;
+        private readonly List<Explosion> explosions = new();
         private readonly IFont font;
         private readonly Random random = new();
         private int level = 0;
@@ -38,6 +39,8 @@ namespace Blitz
             this.bomb = image.GetSpriteAnimation(1, 6, 4, 5, 1, 1);
             this.plane = image.GetSpriteAnimation(1, 12, 13, 5, 2, 1);
             this.building = image.GetSpriteAnimation(1, 18, 8, 8, 3, 1);
+            var explodeImage = SpriteImage.FromResource("explode.png", new Point(1, 0));
+            this.explodeSprite = explodeImage.GetSpriteAnimation(1, 0, 12, 12, 7, 1);
             score = 0;
             State = GameOverState.None;
             NextLevel();
@@ -49,18 +52,26 @@ namespace Blitz
             planeY = 0;
             bombDropped = false;
             buildingHeights = new (int, int)[Buildings];
-            
+
             // Level stuff
             level++;
             planeXSpeed = level / 5 + 2;
             planeYSpeed = 2;
             var minBuildingHeight = MinBuildingHeight + level % 5;
             var maxBuildingHeight = MaxBuildingHeight;
-            
+
+            // Calculate target total height for the level
+            var targetTotalHeight = Buildings * (minBuildingHeight + maxBuildingHeight) / 2;
+
             // Create buildings
+            var remainingHeight = targetTotalHeight;
             for (var i = 0; i < Buildings; i++)
             {
-                var height = random.Next(MinBuildingHeight, MaxBuildingHeight + 1);
+                var maxHeightThisBuilding = Math.Min(remainingHeight - (Buildings - i - 1) * minBuildingHeight, maxBuildingHeight);
+                var minHeightThisBuilding = Math.Min(minBuildingHeight, remainingHeight - (Buildings - i - 1) * maxBuildingHeight);
+
+                var height = random.Next(minHeightThisBuilding, maxHeightThisBuilding + 1);
+                remainingHeight -= height;
                 buildingHeights[i] = (height, height);
             }
         }
@@ -98,9 +109,13 @@ namespace Blitz
 
                 if (bombY >= DisplayHeight - buildingHeights[bombX].Item1 * 8 - grass.Height)
                 {
-                    buildingHeights[bombX].Item1--;
+                    if (buildingHeights[bombX].Item1 > 0)
+                    {
+                        explosions.Add(new Explosion { X = bombX * 8 - 3, Y = bombY - 3, Frame = 0 });
+                        buildingHeights[bombX].Item1--;
+                        score++;
+                    }
                     bombDropped = false;
-                    score++;
                 }
             }
 
@@ -137,6 +152,17 @@ namespace Blitz
                     building.Draw(display, i * building.Width, buildingY, frame);
                 }
             }
+
+            foreach (var explosion in explosions.ToArray())
+            {
+                explodeSprite.Draw(display, explosion.X, explosion.Y, explosion.Frame);
+                explosion.Frame += 1;
+                if (explosion.Frame >= 6)
+                {
+                    explosions.Remove(explosion);
+                    break;
+                }
+            }
             
             // Draw grass
             for (var i = 0; i < DisplayWidth / grass.Width; i++)
@@ -149,5 +175,12 @@ namespace Blitz
         }
 
         public GameOverState State { get; private set; }
+    }
+
+    class Explosion
+    {
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Frame { get; set; }
     }
 }
