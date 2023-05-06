@@ -18,8 +18,9 @@ namespace TicTacToe
         private bool isPlayer1Turn;
         private int cursorX;
         private int cursorY;
-        private WinningLine winningLine = WinningLine.None;
         private int winner = 0;
+
+        public GameOverState State { get; private set; } = GameOverState.None;
 
         public TicTacToeGame(IFontFactory fontFactory)
         {
@@ -81,7 +82,7 @@ namespace TicTacToe
                 board[cursorX, cursorY] = player;
                 if (IsGameOver())
                 {
-                    Console.WriteLine($"Player {player} wins!");
+                    this.State = isPlayer1Turn ? GameOverState.Player1Wins : GameOverState.Player2Wins;
                 }
                 else
                 {
@@ -109,14 +110,6 @@ namespace TicTacToe
                 return true;
             }
             
-            if (winningLine != WinningLine.None)
-            {
-                winner = isPlayer1Turn ? 1 : 2;
-                return true;
-            }
-
-            return false;
-
             return false;
         }
 
@@ -127,15 +120,15 @@ namespace TicTacToe
 
         public void Draw(IDisplay display)
         {
-            Color cursorColor = isPlayer1Turn ? Color.Red : Color.Blue;
+            var cursorColor = isPlayer1Turn ? Color.Red : Color.Blue;
             for (int y = 0; y < BoardSize; y++)
             {
                 for (int x = 0; x < BoardSize; x++)
                 {
-                    int xPos = x * CellSize + Padding;
-                    int yPos = y * CellSize + Padding;
+                    var xPos = x * CellSize + Padding;
+                    var yPos = y * CellSize + Padding;
 
-                    display.DrawRectangle(xPos, yPos, CellSize, CellSize, Color.Black, Color.Black);
+                    display.DrawRectangle(xPos, yPos, CellSize, CellSize, Color.Gray);
 
                     // Draw cursor
                     if (x == cursorX && y == cursorY)
@@ -151,59 +144,11 @@ namespace TicTacToe
                             display.DrawLine(xPos + CellSize - Offset, yPos + Offset, xPos + Offset, yPos + CellSize - Offset, Color.Red);
                             break;
                         case 2: // Player 2
-                            display.DrawCircle(xPos + CellSize / 2, yPos + CellSize / 2, PieceRadius, Color.Blue, Color.Blue);
+                            display.DrawCircle(xPos + CellSize / 2, yPos + CellSize / 2, PieceRadius, Color.Blue);
                             break;
                     }
                 }
             }
-
-            // Draw the winning line if there's a winner
-            if (winner != 0)
-            {
-                DrawWinningLine(display);
-            }
         }
-
-        private void DrawWinningLine(IDisplay display)
-        {
-            Color lineColor = winner == 1 ? Color.Red : Color.Blue;
-
-            switch (winningLine)
-            {
-                case WinningLine.Row1:
-                case WinningLine.Row2:
-                case WinningLine.Row3:
-                    int rowY = (int)winningLine * CellSize + Padding + CellSize / 2;
-                    display.DrawLine(Padding, rowY, BoardSize * CellSize + Padding, rowY, lineColor);
-                    break;
-                case WinningLine.Column1:
-                case WinningLine.Column2:
-                case WinningLine.Column3:
-                    int colX = ((int)winningLine - 3) * CellSize + Padding + CellSize / 2;
-                    display.DrawLine(colX, Padding, colX, BoardSize * CellSize + Padding, lineColor);
-                    break;
-                case WinningLine.Diagonal1:
-                    display.DrawLine(Padding, Padding, BoardSize * CellSize + Padding, BoardSize * CellSize + Padding, lineColor);
-                    break;
-                case WinningLine.Diagonal2:
-                    display.DrawLine(BoardSize * CellSize + Padding, Padding, Padding, BoardSize * CellSize + Padding, lineColor);
-                    break;
-            }
-        }
-
-        private enum WinningLine
-        {
-            None,
-            Row1,
-            Row2,
-            Row3,
-            Column1,
-            Column2,
-            Column3,
-            Diagonal1,
-            Diagonal2
-        }
-
-        public GameOverState State => GameOverState.None;
     }
 }
