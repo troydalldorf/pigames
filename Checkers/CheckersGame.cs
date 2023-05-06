@@ -127,55 +127,62 @@ public class CheckersGame : IDuoPlayableGameElement
     private void TryToMovePiece(bool isPlayer1)
     {
         int dxMove = Math.Abs(cursorX - selectedPiece.X);
-        int dyMove = cursorY - selectedPiece.Y;
-        bool validMove = (dxMove == 1 && Math.Abs(dyMove) == 1) || (dxMove == 2 && Math.Abs(dyMove) == 2);
-    
-        if (selectedPiece.IsKing == false)
+        int dyMove = isPlayer1 ? cursorY - selectedPiece.Y : selectedPiece.Y - cursorY;
+        bool isCaptureMove = dxMove == 2 && dyMove == 2;
+
+        // Check for normal moves
+        if (dxMove == 1 && dyMove == 1)
         {
-            validMove = validMove && ((isPlayer1 && dyMove > 0) || (!isPlayer1 && dyMove < 0));
+            // Check if the target cell is empty
+            if (board[cursorX, cursorY] == null)
+            {
+                MovePiece(isPlayer1);
+                return;
+            }
         }
 
-        if (validMove)
+        // Check for capture moves
+        if (isCaptureMove)
         {
-            bool isCaptureMove = dxMove == 2;
             int captureX = (cursorX + selectedPiece.X) / 2;
             int captureY = (cursorY + selectedPiece.Y) / 2;
 
-            if (isCaptureMove && board[captureX, captureY]?.IsPlayer1 != isPlayer1)
+            if (board[captureX, captureY]?.IsPlayer1 != isPlayer1)
             {
                 board[captureX, captureY] = null; // Remove the captured piece
-            }
-            else if (isCaptureMove)
-            {
-                // Invalid capture move
+                MovePiece(isPlayer1);
                 return;
-            }
-
-            board[selectedPiece.X, selectedPiece.Y] = null;
-            selectedPiece.X = cursorX;
-            selectedPiece.Y = cursorY;
-            board[cursorX, cursorY] = selectedPiece;
-
-            if (cursorY == 0 || cursorY == BoardSize - 1)
-            {
-                selectedPiece.IsKing = true;
-            }
-
-            if (isCaptureMove && CanCaptureAgain(selectedPiece, isPlayer1))
-            {
-                // Allow multiple captures
-                return;
-            }
-
-            selectedPiece = null;
-            isPlayer1Turn = !isPlayer1Turn;
-
-            if (IsGameOver())
-            {
-                Console.WriteLine("Game over!");
             }
         }
     }
+
+    private void MovePiece(bool isPlayer1)
+    {
+        board[selectedPiece.X, selectedPiece.Y] = null;
+        selectedPiece.X = cursorX;
+        selectedPiece.Y = cursorY;
+        board[cursorX, cursorY] = selectedPiece;
+
+        if (cursorY == 0 || cursorY == BoardSize - 1)
+        {
+            selectedPiece.IsKing = true;
+        }
+
+        if (CanCaptureAgain(selectedPiece, isPlayer1))
+        {
+            // Allow multiple captures
+            return;
+        }
+
+        selectedPiece = null;
+        isPlayer1Turn = !isPlayer1Turn;
+
+        if (IsGameOver())
+        {
+            Console.WriteLine("Game over!");
+        }
+    }
+
 
     private bool CanCaptureAgain(CheckerPiece piece, bool isPlayer1)
     {
