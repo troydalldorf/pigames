@@ -59,7 +59,7 @@ public class Enemy
         {
             if (!IsCollidingWithBullet(bullet) || State != EnemyState.Alive) continue;
             player.AddScore(1);
-            explosions.Explode(this.X + this.sprite.Width/2, this.Y + this.sprite.Height/2, () => State = EnemyState.Destroyed);
+            explosions.Explode(this.X, this.Y, () => State = EnemyState.Destroyed);
             State = EnemyState.Exploding;
             bullets.Remove(bullet);
             break;

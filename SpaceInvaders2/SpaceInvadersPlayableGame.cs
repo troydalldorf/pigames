@@ -24,7 +24,7 @@ public class SpaceInvadersPlayableGame : IPlayableGameElement
     private int alienFrame = 0;
     private int playerX;
     private List<Rectangle> bullets;
-    private List<PixelBomb> pixelBombs = new();
+    private readonly Explosions explosions = new();
     private bool moveInvadersRight = true;
 
     public SpaceInvadersPlayableGame()
@@ -34,7 +34,6 @@ public class SpaceInvadersPlayableGame : IPlayableGameElement
         playerSprite = image.GetSpriteAnimation(0, 4, 6, 3, 1, 1);
         playerX = Width / 2 - PlayerWidth / 2;
         bullets = new List<Rectangle>();
-        pixelBombs = new List<PixelBomb>();
         NextWave();
     }
 
@@ -62,6 +61,8 @@ public class SpaceInvadersPlayableGame : IPlayableGameElement
 
     public void Update()
     {
+        explosions.Update();
+        
         // Update projectiles
         for (var i = bullets.Count - 1; i >= 0; i--)
         {
@@ -75,7 +76,7 @@ public class SpaceInvadersPlayableGame : IPlayableGameElement
             for (var j = currentLevel.Enemies.Count - 1; j >= 0; j--)
             {
                 if (!bullets[i].IntersectsWith(currentLevel.Enemies[j].Rectangle)) continue;
-                pixelBombs.Add(new SpriteBomb(currentLevel.Enemies[j].Rectangle.X + 2, currentLevel.Enemies[j].Rectangle.Y + 2, currentLevel.Enemies[j].Sprite, tail:2));
+                explosions.Explode(currentLevel.Enemies[j].Rectangle.X + currentLevel.Enemies[j].Sprite.Width/2, currentLevel.Enemies[j].Rectangle.Y + currentLevel.Enemies[j].Sprite.Height/2);
                 bullets.RemoveAt(i);
                 currentLevel.Enemies[j].Health -= 1;
                 if (currentLevel.Enemies[j].Health <= 0)
@@ -86,12 +87,6 @@ public class SpaceInvadersPlayableGame : IPlayableGameElement
             }
         }
         
-        foreach (var bomb in pixelBombs.ToArray())
-        {
-            bomb.Update();
-            if (bomb.IsExtinguished()) pixelBombs.Remove(bomb);
-        }
-
         if (!currentLevel.Enemies.Any())
         {
             NextWave();
@@ -140,13 +135,6 @@ public class SpaceInvadersPlayableGame : IPlayableGameElement
         {
             display.DrawRectangle(bullet.X, bullet.Y, bullet.Width, bullet.Height, Color.Red);
         }
-        foreach (var bomb in pixelBombs)
-        {
-            bomb.Draw(display);
-        }
-        foreach (var obstacle in currentLevel.Obstacles)
-        {
-            display.DrawRectangle(obstacle.Rectangle.X, obstacle.Rectangle.Y, obstacle.Rectangle.Width, obstacle.Rectangle.Height, obstacle.Color);
-        }
+        explosions.Draw(display);
     }
 }

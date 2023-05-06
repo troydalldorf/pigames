@@ -111,7 +111,7 @@ namespace Blitz
                 {
                     if (buildingHeights[bombX].Item1 > 0)
                     {
-                        explosions.Explode(bombX * 8 + 4, bombY + 11, () => buildingHeights[bombX].Item1--);
+                        explosions.Explode(bombX * 8 + 4, bombY + 8, () => buildingHeights[bombX].Item1--);
                         score++;
                     }
                     bombDropped = false;
