@@ -9,8 +9,8 @@ namespace Frogger.Bits
     {
         private const int VehicleMinWidth = 6;
         private const int VehicleMaxWidth = 12;
-        private const int MinSpacing = 6;
-        private const int MaxSpacing = 48;
+        private const int MinSpacing = 12;
+        private const int MaxSpacing = 56;
         private const int VehicleHeight = 4;
         private const int LaneHeight = VehicleHeight + 2;
         private const int MaxSpeed = 5;
@@ -47,15 +47,16 @@ namespace Frogger.Bits
         {
             vehicles = new List<Vehicle>();
             var currentX = moveRight ? 0 : screenWidth;
+            var minSpacing = MinSpacing + (MaxSpacing - MinSpacing) / difficulty;
 
             while ((moveRight && currentX < screenWidth) || (!moveRight && currentX > 0))
             {
                 var vehicleWidth = random.Next(VehicleMinWidth, VehicleMaxWidth + 1);
                 var y = LaneHeight * index;
                 var sprite = random.Next(2) == 0 ? vehicleSprite1 : vehicleSprite2;
-                vehicles.Add(new Vehicle(currentX, y, vehicleWidth, vehicleSprite1));
+                vehicles.Add(new Vehicle(currentX, y, vehicleWidth, sprite));
 
-                var spacing = random.Next(MinSpacing, MaxSpacing / difficulty + 1);
+                var spacing = random.Next(minSpacing, MaxSpacing + 1);
                 currentX += moveRight ? spacing : -spacing;
             }
         }
