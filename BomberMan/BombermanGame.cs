@@ -17,6 +17,7 @@ public class BombermanGame : IDuoPlayableGameElement
     private Player player1;
     private Player player2;
     private List<Bomb> bombs;
+    private List<Bomb> explodedBombs;
     private readonly Explosions explosions = new();
     private readonly Sprite p1Sprite;
     private readonly Sprite p2Sprite;
@@ -37,6 +38,7 @@ public class BombermanGame : IDuoPlayableGameElement
         player1 = new Player(0, 0, grid, p1Sprite);
         player2 = new Player(GridSize - 1, GridSize - 1, grid, p2Sprite);
         bombs = new List<Bomb>();
+        explodedBombs = new List<Bomb>();
         State = GameOverState.None;
     }
 
@@ -80,7 +82,7 @@ public class BombermanGame : IDuoPlayableGameElement
     public void Update()
     {
         UpdateBombs();
-        UpdateExplosions();
+        explosions.Update();
         CheckPlayerCollision();
     }
 
@@ -93,25 +95,33 @@ public class BombermanGame : IDuoPlayableGameElement
 
             if (bomb.IsExploded)
             {
-                this.explosions.Explode(bomb.X, bomb.Y, null, () => bombs.Remove(bomb));
+                bombs.RemoveAt(i);
+                explodedBombs.Add(bomb);
+                this.explosions.Explode(bomb.X*8+4, bomb.Y*8+4, null, () => explodedBombs.Remove(bomb));
             }
         }
     }
 
-    private void UpdateExplosions()
-    {
-        explosions.Update();
-    }
-
     private void CheckPlayerCollision()
     {
-        foreach (var bomb in bombs.Where(x =>x.IsExploded))
+        foreach (var bomb in explodedBombs)
         {
             var p1died = bomb.CollidesWith(player1.X, player1.Y);
             var p2died = bomb.CollidesWith(player2.X, player2.Y);
-            if (p1died && p2died) State = GameOverState.Draw;
-            else if (p1died) State = GameOverState.Player2Wins;
-            else if (p2died) State = GameOverState.Player1Wins;
+            switch (p1died)
+            {
+                case true when p2died:
+                    State = GameOverState.Draw;
+                    break;
+                case true:
+                    State = GameOverState.Player2Wins;
+                    break;
+                default:
+                {
+                    if (p2died) State = GameOverState.Player1Wins;
+                    break;
+                }
+            }
             if (p1died || p2died) break;
         }
     }
