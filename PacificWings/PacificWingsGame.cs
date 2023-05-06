@@ -1,6 +1,7 @@
 using System.Drawing;
 using Core;
 using Core.Display.Sprites;
+using Core.Effects;
 using Core.Fonts;
 using PacificWings.Bits;
 
@@ -10,7 +11,8 @@ public class PacificWingsGame : IPlayableGameElement
 {
     private readonly Player player;
     private EnemyWave enemyWave;
-    private SpriteAnimation enemySprite;
+    private readonly SpriteAnimation enemySprite;
+    private readonly Explosions explosions = new();
     private readonly IFont font;
     private int wave = 1;
 
@@ -37,6 +39,7 @@ public class PacificWingsGame : IPlayableGameElement
     public void Update()
     {
         player.Update();
+        explosions.Update();
         enemyWave.Update(player.Bullets, player);
         if (enemyWave.IsComplete)
         {
@@ -49,6 +52,7 @@ public class PacificWingsGame : IPlayableGameElement
     {
         player.Draw(display);
         enemyWave.Draw(display);
+        explosions.Draw(display);
         font.DrawText(display, 0, 7, Color.Green, player.Score.ToString());
     }
 

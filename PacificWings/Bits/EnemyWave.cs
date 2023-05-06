@@ -1,5 +1,6 @@
 using Core;
 using Core.Display.Sprites;
+using Core.Effects;
 
 namespace PacificWings.Bits;
 
@@ -7,6 +8,7 @@ public class EnemyWave
 {
     private readonly SpriteAnimation enemySprite;
     private readonly List<Enemy> enemies;
+    private Explosions explosions = new();
     public bool IsComplete => enemies.Count == 0;
 
     public EnemyWave(EnemyWaveInfo info, SpriteAnimation enemySprite)
@@ -20,7 +22,7 @@ public class EnemyWave
     {
         foreach (var enemy in enemies)
         {
-            enemy.Update(bullets, player);
+            enemy.Update(bullets, player, explosions);
         }
         enemies.RemoveAll(enemy => enemy.State == Enemy.EnemyState.Destroyed);
     }
@@ -29,6 +31,7 @@ public class EnemyWave
     {
         foreach (var enemy in enemies)
             enemy.Draw(display);
+        explosions.Draw(display);
     }
 
     private void SpawnWave(EnemyWaveInfo info)

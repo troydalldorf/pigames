@@ -100,6 +100,8 @@ namespace Blitz
                 planeX = -plane.Width / 2;
                 planeY += planeYSpeed;
             }
+            
+            explosions.Update();
 
             if (bombDropped)
             {

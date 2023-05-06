@@ -18,7 +18,6 @@ public class Enemy
     public int Speed { get; set; }
     private readonly IMovementStrategy movementStrategyStrategy;
     private readonly SpriteAnimation sprite;
-    private SpriteBomb explosion;
     private readonly LinkedList<Point> lastPositions;
 
     public Enemy(int x, int y, int speed, IMovementStrategy movementStrategyStrategy, SpriteAnimation sprite)
@@ -52,22 +51,15 @@ public class Enemy
         }
     }
 
-    public void Update(List<Bullet> bullets, Player player)
+    public void Update(List<Bullet> bullets, Player player, Explosions explosions)
     {
         Move();
-
-        if (State == EnemyState.Exploding)
-        {
-            explosion.Update();
-            if (explosion.IsExtinguished())
-                State = EnemyState.Destroyed;
-        }
         
         foreach (var bullet in bullets.ToArray())
         {
             if (!IsCollidingWithBullet(bullet) || State != EnemyState.Alive) continue;
             player.AddScore(1);
-            explosion = new SpriteBomb(this.X, this.Y, this.sprite);
+            explosions.Explode(this.X + this.sprite.Width/2, this.Y + this.sprite.Height/2, () => State = EnemyState.Destroyed);
             State = EnemyState.Exploding;
             bullets.Remove(bullet);
             break;
@@ -82,9 +74,6 @@ public class Enemy
         {
             case EnemyState.Alive:
                 this.sprite.DrawRotated(display, X, Y, angle);
-                break;
-            case EnemyState.Exploding:
-                this.explosion.Draw(display);
                 break;
         }
     }
