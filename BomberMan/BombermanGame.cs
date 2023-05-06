@@ -1,7 +1,7 @@
 using BomberMan.Bits;
 using Core;
-using Core.Display.Fonts;
 using Core.Display.Sprites;
+using Core.Effects;
 using Core.Fonts;
 
 namespace BomberMan;
@@ -12,21 +12,18 @@ public class BombermanGame : IDuoPlayableGameElement
 {
     private const int GridSize = 8;
     private const int BombTimer = 3000;
-    private const int ExplosionDuration = 500;
-    private readonly IFont font;
 
     private Grid grid;
     private Player player1;
     private Player player2;
     private List<Bomb> bombs;
-    private List<Explosion> explosions;
-    private Sprite p1Sprite;
-    private Sprite p2Sprite;
-    private Sprite bombSprite;
+    private readonly Explosions explosions = new();
+    private readonly Sprite p1Sprite;
+    private readonly Sprite p2Sprite;
+    private readonly Sprite bombSprite;
 
     public BombermanGame(IFontFactory fontFactory)
     {
-        font = fontFactory.GetFont(LedFontType.Font4x6);
         var image = SpriteImage.FromResource("bm.png");
         p1Sprite = image.GetSprite(1, 1, 8, 8);
         p2Sprite = image.GetSprite(10, 1, 8, 8);
@@ -40,7 +37,6 @@ public class BombermanGame : IDuoPlayableGameElement
         player1 = new Player(0, 0, grid, p1Sprite);
         player2 = new Player(GridSize - 1, GridSize - 1, grid, p2Sprite);
         bombs = new List<Bomb>();
-        explosions = new List<Explosion>();
         State = GameOverState.None;
     }
 
@@ -97,32 +93,22 @@ public class BombermanGame : IDuoPlayableGameElement
 
             if (bomb.IsExploded)
             {
-                bombs.RemoveAt(i);
-                CreateExplosion(bomb.X, bomb.Y);
+                this.explosions.Explode(bomb.X, bomb.Y, null, () => bombs.Remove(bomb));
             }
         }
     }
 
     private void UpdateExplosions()
     {
-        for (var i = explosions.Count - 1; i >= 0; i--)
-        {
-            var explosion = explosions[i];
-            explosion.Update();
-
-            if (explosion.IsDone)
-            {
-                explosions.RemoveAt(i);
-            }
-        }
+        explosions.Update();
     }
 
     private void CheckPlayerCollision()
     {
-        foreach (var explosion in explosions)
+        foreach (var bomb in bombs.Where(x =>x.IsExploded))
         {
-            var p1died = explosion.CollidesWith(player1.X, player1.Y);
-            var p2died = explosion.CollidesWith(player2.X, player2.Y);
+            var p1died = bomb.CollidesWith(player1.X, player1.Y);
+            var p2died = bomb.CollidesWith(player2.X, player2.Y);
             if (p1died && p2died) State = GameOverState.Draw;
             else if (p1died) State = GameOverState.Player2Wins;
             else if (p2died) State = GameOverState.Player1Wins;
@@ -137,8 +123,7 @@ public class BombermanGame : IDuoPlayableGameElement
             bomb.Draw(display);
         player1.Draw(display);
         player2.Draw(display);
-        foreach (var explosion in explosions)
-            explosion.Draw(display);
+        explosions.Draw(display);
     }
 
     public GameOverState State { get; private set; }
@@ -146,10 +131,5 @@ public class BombermanGame : IDuoPlayableGameElement
     private void PlaceBomb(int x, int y)
     {
         bombs.Add(new Bomb(x, y, BombTimer, bombSprite));
-    }
-
-    private void CreateExplosion(int x, int y)
-    {
-        explosions.Add(new Explosion(x, y, ExplosionDuration));
     }
 }
