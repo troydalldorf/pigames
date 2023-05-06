@@ -26,7 +26,7 @@ public class CheckersGame : IDuoPlayableGameElement
     {
         font = fontFactory.GetFont(LedFontType.Font4x6);
         
-        var image = SpriteImage.FromResource("c4.png");
+        var image = SpriteImage.FromResource("c4.png", new Point(1, 1));
         pieces = image.GetSpriteAnimation(1, 1, 8, 8, 3, 1);
         
         InitializeBoard();
@@ -132,7 +132,7 @@ public class CheckersGame : IDuoPlayableGameElement
     private void TryToMovePiece(bool isPlayer1)
     {
         int dxMove = Math.Abs(cursorX - selectedPiece.X);
-        int dyMove = isPlayer1 ? cursorY - selectedPiece.Y : selectedPiece.Y - cursorY;
+        int dyMove = Math.Abs(isPlayer1 ? cursorY - selectedPiece.Y : selectedPiece.Y - cursorY);
         bool validMove = (dxMove == 1 && dyMove == 1) || (dxMove == 2 && dyMove == 2);
 
         if (validMove)
@@ -296,7 +296,7 @@ public class CheckersGame : IDuoPlayableGameElement
                         display.DrawRectangle(xPos, yPos, CellSize, CellSize, cursorColor, cursorColor);
                     }
                     var pieceColor = piece.IsPlayer1 ? 2 : 1;
-                    this.pieces.Draw(display, xPos + CellSize / 2, yPos + CellSize / 2, pieceColor);
+                    this.pieces.Draw(display, xPos, yPos, pieceColor);
                 }
             }
         }
