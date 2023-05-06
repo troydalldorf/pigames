@@ -9,6 +9,8 @@ namespace TicTacToe
         private const int BoardSize = 3;
         private const int CellSize = 10;
         private const int Padding = 0;
+        private const int Offset = 2;
+        private const int PieceRadius = 3;
 
         private readonly IFont font;
 
@@ -16,6 +18,8 @@ namespace TicTacToe
         private bool isPlayer1Turn;
         private int cursorX;
         private int cursorY;
+        private WinningLine winningLine = WinningLine.None;
+        private int winner = 0;
 
         public TicTacToeGame(IFontFactory fontFactory)
         {
@@ -104,6 +108,14 @@ namespace TicTacToe
             {
                 return true;
             }
+            
+            if (winningLine != WinningLine.None)
+            {
+                winner = isPlayer1Turn ? 1 : 2;
+                return true;
+            }
+
+            return false;
 
             return false;
         }
@@ -111,35 +123,85 @@ namespace TicTacToe
         public void Update()
         {
             // Add game logic/movement here
-
         }
-        
+
         public void Draw(IDisplay display)
         {
-            for (var y = 0; y < BoardSize; y++)
+            Color cursorColor = isPlayer1Turn ? Color.Red : Color.Blue;
+            for (int y = 0; y < BoardSize; y++)
             {
-                for (var x = 0; x < BoardSize; x++)
+                for (int x = 0; x < BoardSize; x++)
                 {
-                    var xPos = x * CellSize + Padding;
-                    var yPos = y * CellSize + Padding;
+                    int xPos = x * CellSize + Padding;
+                    int yPos = y * CellSize + Padding;
 
-                    display.DrawRectangle(xPos, yPos, CellSize, CellSize, Color.SlateGray, Color.White);
+                    display.DrawRectangle(xPos, yPos, CellSize, CellSize, Color.Black, Color.Black);
 
-                    // cursor
+                    // Draw cursor
                     if (x == cursorX && y == cursorY)
                     {
-                        display.DrawRectangle(cursorX * CellSize, cursorY * CellSize, CellSize, CellSize, Color.Lime);
+                        display.DrawRectangle(cursorX * CellSize, cursorY * CellSize, CellSize, CellSize, cursorColor);
                     }
 
-                    var cellValue = board[x, y];
-                    if (cellValue != 0)
+                    // Draw pieces
+                    switch (board[x, y])
                     {
-                        var symbolColor = cellValue == 1 ? Color.Red : Color.Blue;
-                        var symbol = cellValue == 1 ? "X" : "O";
-                        font.DrawText(display, xPos + (CellSize / 2) - 2, yPos + (CellSize / 2) - 3, symbolColor, symbol);
+                        case 1: // Player 1
+                            display.DrawLine(xPos + Offset, yPos + Offset, xPos + CellSize - Offset, yPos + CellSize - Offset, Color.Red);
+                            display.DrawLine(xPos + CellSize - Offset, yPos + Offset, xPos + Offset, yPos + CellSize - Offset, Color.Red);
+                            break;
+                        case 2: // Player 2
+                            display.DrawCircle(xPos + CellSize / 2, yPos + CellSize / 2, PieceRadius, Color.Blue, Color.Blue);
+                            break;
                     }
                 }
             }
+
+            // Draw the winning line if there's a winner
+            if (winner != 0)
+            {
+                DrawWinningLine(display);
+            }
+        }
+
+        private void DrawWinningLine(IDisplay display)
+        {
+            Color lineColor = winner == 1 ? Color.Red : Color.Blue;
+
+            switch (winningLine)
+            {
+                case WinningLine.Row1:
+                case WinningLine.Row2:
+                case WinningLine.Row3:
+                    int rowY = (int)winningLine * CellSize + Padding + CellSize / 2;
+                    display.DrawLine(Padding, rowY, BoardSize * CellSize + Padding, rowY, lineColor);
+                    break;
+                case WinningLine.Column1:
+                case WinningLine.Column2:
+                case WinningLine.Column3:
+                    int colX = ((int)winningLine - 3) * CellSize + Padding + CellSize / 2;
+                    display.DrawLine(colX, Padding, colX, BoardSize * CellSize + Padding, lineColor);
+                    break;
+                case WinningLine.Diagonal1:
+                    display.DrawLine(Padding, Padding, BoardSize * CellSize + Padding, BoardSize * CellSize + Padding, lineColor);
+                    break;
+                case WinningLine.Diagonal2:
+                    display.DrawLine(BoardSize * CellSize + Padding, Padding, Padding, BoardSize * CellSize + Padding, lineColor);
+                    break;
+            }
+        }
+
+        private enum WinningLine
+        {
+            None,
+            Row1,
+            Row2,
+            Row3,
+            Column1,
+            Column2,
+            Column3,
+            Diagonal1,
+            Diagonal2
         }
 
         public GameOverState State => GameOverState.None;
