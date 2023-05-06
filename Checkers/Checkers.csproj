@@ -11,4 +11,8 @@
       <ProjectReference Include="..\core\Core\Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <EmbeddedResource Include="c4.png" />
+    </ItemGroup>
+
 </Project>

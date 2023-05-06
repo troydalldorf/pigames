@@ -1,6 +1,7 @@
 using System.Drawing;
 using Checkers.Bits;
 using Core;
+using Core.Display.Sprites;
 using Core.Fonts;
 
 namespace Checkers;
@@ -19,11 +20,15 @@ public class CheckersGame : IDuoPlayableGameElement
     private bool isPlayer1Turn;
     private int cursorX;
     private int cursorY;
+    private readonly ISprite pieces;
 
     public CheckersGame(IFontFactory fontFactory)
     {
         font = fontFactory.GetFont(LedFontType.Font4x6);
-
+        
+        var image = SpriteImage.FromResource("c4.png");
+        pieces = image.GetSpriteAnimation(1, 1, 8, 8, 3, 1);
+        
         InitializeBoard();
     }
 
@@ -128,30 +133,46 @@ public class CheckersGame : IDuoPlayableGameElement
     {
         int dxMove = Math.Abs(cursorX - selectedPiece.X);
         int dyMove = isPlayer1 ? cursorY - selectedPiece.Y : selectedPiece.Y - cursorY;
-        bool isCaptureMove = dxMove == 2 && dyMove == 2;
+        bool validMove = (dxMove == 1 && dyMove == 1) || (dxMove == 2 && dyMove == 2);
 
-        // Check for normal moves
-        if (dxMove == 1 && dyMove == 1)
+        if (validMove)
         {
-            // Check if the target cell is empty
-            if (board[cursorX, cursorY] == null)
-            {
-                MovePiece(isPlayer1);
-                return;
-            }
-        }
-
-        // Check for capture moves
-        if (isCaptureMove)
-        {
+            bool isCaptureMove = dxMove == 2;
             int captureX = (cursorX + selectedPiece.X) / 2;
             int captureY = (cursorY + selectedPiece.Y) / 2;
 
-            if (board[captureX, captureY]?.IsPlayer1 != isPlayer1)
+            if (isCaptureMove && board[captureX, captureY]?.IsPlayer1 != isPlayer1)
             {
                 board[captureX, captureY] = null; // Remove the captured piece
-                MovePiece(isPlayer1);
+            }
+            else if (isCaptureMove)
+            {
+                // Invalid capture move
                 return;
+            }
+
+            board[selectedPiece.X, selectedPiece.Y] = null;
+            selectedPiece.X = cursorX;
+            selectedPiece.Y = cursorY;
+            board[cursorX, cursorY] = selectedPiece;
+
+            if (cursorY == 0 || cursorY == BoardSize - 1)
+            {
+                selectedPiece.IsKing = true;
+            }
+
+            if (isCaptureMove && CanCaptureAgain(selectedPiece, isPlayer1))
+            {
+                // Allow multiple captures
+                return;
+            }
+
+            selectedPiece = null;
+            isPlayer1Turn = !isPlayer1Turn;
+
+            if (IsGameOver())
+            {
+                Console.WriteLine("Game over!");
             }
         }
     }
@@ -269,13 +290,13 @@ public class CheckersGame : IDuoPlayableGameElement
                 var piece = board[x, y];
                 if (piece != null)
                 {
-                    var pieceColor = piece.IsPlayer1 ? Color.DarkRed : Color.DarkBlue;
-                    display.DrawCircle(xPos + CellSize / 2, yPos + CellSize / 2, PieceRadius, pieceColor, pieceColor);
                     if (piece == selectedPiece)
                     {
-                        pieceColor = piece.IsPlayer1 ? Color.Red : Color.Blue;
-                        display.DrawCircle(xPos + CellSize / 2, yPos + CellSize / 2, PieceRadius, pieceColor, pieceColor);
+                        var cursorColor = piece.IsPlayer1 ? Color.Red : Color.Blue;
+                        display.DrawRectangle(xPos, yPos, CellSize, CellSize, cursorColor, cursorColor);
                     }
+                    var pieceColor = piece.IsPlayer1 ? 2 : 1;
+                    this.pieces.Draw(display, xPos + CellSize / 2, yPos + CellSize / 2, pieceColor);
                 }
             }
         }
