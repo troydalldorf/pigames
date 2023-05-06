@@ -111,8 +111,7 @@ namespace Blitz
                 {
                     if (buildingHeights[bombX].Item1 > 0)
                     {
-                        explosions.Add(new Explosion { X = bombX * 8 - 3, Y = bombY - 3, Frame = 0 });
-                        buildingHeights[bombX].Item1--;
+                        explosions.Add(new Explosion { X = bombX * 8 - 2, Y = bombY - 1, Frame = 0, BombX = bombX });
                         score++;
                     }
                     bombDropped = false;
@@ -157,7 +156,11 @@ namespace Blitz
             {
                 explodeSprite.Draw(display, explosion.X, explosion.Y, explosion.Frame);
                 explosion.Frame += 1;
-                if (explosion.Frame >= 6)
+                if (explosion.Frame == 3)
+                {
+                    buildingHeights[explosion.BombX].Item1--;
+                }
+                else if (explosion.Frame >= 6)
                 {
                     explosions.Remove(explosion);
                     break;
@@ -182,5 +185,6 @@ namespace Blitz
         public int X { get; set; }
         public int Y { get; set; }
         public int Frame { get; set; }
+        public int BombX { get; set; }
     }
 }
