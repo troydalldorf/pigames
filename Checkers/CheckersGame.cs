@@ -40,16 +40,17 @@ public class CheckersGame : IDuoPlayableGameElement
                 {
                     if (y < 3)
                     {
-                        board[x, y] = new CheckerPiece(true, false, x, y);
+                        board[x, y] = new CheckerPiece(false, false, x, y);
                     }
                     else if (y > 4)
                     {
-                        board[x, y] = new CheckerPiece(false, false, x, y);
+                        board[x, y] = new CheckerPiece(true, false, x, y);
                     }
                 }
             }
         }
     }
+
 
     public void HandleInput(IPlayerConsole player1Console)
     {
@@ -126,8 +127,13 @@ public class CheckersGame : IDuoPlayableGameElement
     private void TryToMovePiece(bool isPlayer1)
     {
         int dxMove = Math.Abs(cursorX - selectedPiece.X);
-        int dyMove = isPlayer1 ? cursorY - selectedPiece.Y : selectedPiece.Y - cursorY;
-        bool validMove = (dxMove == 1 && dyMove == 1) || (dxMove == 2 && dyMove == 2);
+        int dyMove = cursorY - selectedPiece.Y;
+        bool validMove = (dxMove == 1 && Math.Abs(dyMove) == 1) || (dxMove == 2 && Math.Abs(dyMove) == 2);
+    
+        if (selectedPiece.IsKing == false)
+        {
+            validMove = validMove && ((isPlayer1 && dyMove > 0) || (!isPlayer1 && dyMove < 0));
+        }
 
         if (validMove)
         {
@@ -179,9 +185,9 @@ public class CheckersGame : IDuoPlayableGameElement
             foreach (int dy in directions)
             {
                 int x = piece.X + dx * 2;
-                int y = piece.Y + (isPlayer1 ? -dy * 2 : dy * 2);
+                int y = piece.Y + dy * 2;
                 int captureX = piece.X + dx;
-                int captureY = piece.Y + (isPlayer1 ? -dy : dy);
+                int captureY = piece.Y + dy;
 
                 if (x >= 0 && x < BoardSize && y >= 0 && y < BoardSize)
                 {
@@ -190,7 +196,10 @@ public class CheckersGame : IDuoPlayableGameElement
 
                     if (targetPiece == null && capturePiece?.IsPlayer1 != isPlayer1)
                     {
-                        return true;
+                        if (piece.IsKing == true || (isPlayer1 && dy > 0) || (!isPlayer1 && dy < 0))
+                        {
+                            return true;
+                        }
                     }
                 }
             }
@@ -245,7 +254,10 @@ public class CheckersGame : IDuoPlayableGameElement
                 
                 // cursor
                 if (x == cursorX && y == cursorY)
-                    display.DrawRectangle(cursorX * CellSize, cursorY * CellSize, CellSize, CellSize, Color.Lime);
+                {
+                    var cursorColor = isPlayer1Turn ? Color.Red : Color.Blue;
+                    display.DrawRectangle(cursorX * CellSize, cursorY * CellSize, CellSize, CellSize, cursorColor);
+                }
 
                 var piece = board[x, y];
                 if (piece != null)
@@ -260,11 +272,6 @@ public class CheckersGame : IDuoPlayableGameElement
                 }
             }
         }
-        
-        // Draw the player's turn
-        var playerTurnText = isPlayer1Turn ? "Player 1" : "Player 2";
-        var turnTextColor = isPlayer1Turn ? Color.Red : Color.Blue;
-        font.DrawText(display, 1, 35, turnTextColor, playerTurnText);
     }
 
     public GameOverState State => GameOverState.None;
