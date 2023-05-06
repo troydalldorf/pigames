@@ -20,6 +20,7 @@ public class EnemyWave
 
     public void Update(List<Bullet> bullets, Player player)
     {
+        explosions.Update();
         foreach (var enemy in enemies)
         {
             enemy.Update(bullets, player, explosions);
