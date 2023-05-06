@@ -35,7 +35,7 @@ public class Bomb : IGameElement
     public bool CollidesWith(int player1X, int player1Y)
     {
         var bombRect = new Rectangle(X * 8, Y * 8, 8, 8);
-        var playerRect = new Rectangle(player1X, player1Y, 8, 8);
+        var playerRect = new Rectangle(player1X * 8, player1Y * 8, 8, 8);
         return bombRect.IntersectsWith(playerRect);
     }
 }
