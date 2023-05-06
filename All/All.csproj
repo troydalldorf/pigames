@@ -29,6 +29,7 @@
       <ProjectReference Include="..\SpaceInvaders2\SpaceInvaders2.csproj" />
       <ProjectReference Include="..\Speed\Speed.csproj" />
       <ProjectReference Include="..\Tetris\Tetris.csproj" />
+      <ProjectReference Include="..\TicTacToe\TicTacToe.csproj" />
     </ItemGroup>
 
     <ItemGroup>

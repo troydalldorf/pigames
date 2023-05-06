@@ -21,6 +21,7 @@ using Pong;
 using Snake;
 using SpaceInvaders2;
 using Tetris;
+using TicTacToe;
 
 namespace All;
 
@@ -72,6 +73,7 @@ public class Menu : IPlayableGameElement
             new("Snake 1P", () => new SnakePlayableGame(), 100),
             new("Snake 2P", () => new SnakeGame2P(), 100),
             new("Space Invaders", () => new SpaceInvadersPlayableGame(), 75),
+            new("Tic Tac Toe 2P", () => new TicTacToeGame(fontFactory)),
             new("Tetris 1P", () => new TetrisGame(fontFactory)),
             new("Tetris 2P", () => new DuoTetrisGame(fontFactory)),
         };
