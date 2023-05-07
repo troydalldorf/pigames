@@ -11,9 +11,6 @@ public class CheckersGame : IDuoPlayableGameElement
     private const int BoardSize = 8;
     private const int CellSize = 8;
     private const int Padding = 0;
-    private const int PieceRadius = 3;
-
-    private readonly IFont font;
 
     private CheckerPiece[,] board;
     private CheckerPiece selectedPiece;
@@ -24,8 +21,6 @@ public class CheckersGame : IDuoPlayableGameElement
 
     public CheckersGame(IFontFactory fontFactory)
     {
-        font = fontFactory.GetFont(LedFontType.Font4x6);
-        
         var image = SpriteImage.FromResource("c4.png", new Point(1, 1));
         pieces = image.GetSpriteAnimation(1, 1, 8, 8, 3, 1);
         
@@ -132,7 +127,7 @@ public class CheckersGame : IDuoPlayableGameElement
     private void TryToMovePiece(bool isPlayer1)
     {
         int dxMove = Math.Abs(cursorX - selectedPiece.X);
-        int dyMove = Math.Abs(isPlayer1 ? cursorY - selectedPiece.Y : selectedPiece.Y - cursorY);
+        int dyMove = isPlayer1 ? cursorY - selectedPiece.Y : selectedPiece.Y - cursorY;
         bool validMove = (dxMove == 1 && dyMove == 1) || (dxMove == 2 && dyMove == 2);
 
         if (validMove)
@@ -277,7 +272,7 @@ public class CheckersGame : IDuoPlayableGameElement
                 var xPos = x * CellSize + Padding;
                 var yPos = y * CellSize + Padding;
 
-                var cellColor = (x + y) % 2 == 0 ? Color.Black : Color.SlateGray;
+                var cellColor = (x + y) % 2 == 0 ? Color.Black : Color.FromArgb(20, 20, 20);
                 display.DrawRectangle(xPos, yPos, CellSize, CellSize, cellColor, cellColor);
                 
                 // cursor
