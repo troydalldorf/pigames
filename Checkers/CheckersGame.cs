@@ -127,9 +127,10 @@ public class CheckersGame : IDuoPlayableGameElement
     private void TryToMovePiece(bool isPlayer1)
     {
         int dxMove = Math.Abs(cursorX - selectedPiece.X);
-        int dyMove = isPlayer1 ? cursorY - selectedPiece.Y : selectedPiece.Y - cursorY;
-        bool simpleMove = (dxMove == 1 && dyMove == 1 && board[cursorX, cursorY] == null);
-        bool validMove = simpleMove || (dxMove == 2 && dyMove == 2);
+        int dyMove = cursorY - selectedPiece.Y;
+        bool simpleMove = (dxMove == 1 && Math.Abs(dyMove) == 1 && board[cursorX, cursorY] == null) && 
+                          ((isPlayer1 && dyMove > 0) || (!isPlayer1 && dyMove < 0));
+        bool validMove = simpleMove || (dxMove == 2 && Math.Abs(dyMove) == 2);
 
         if (validMove)
         {
@@ -172,34 +173,6 @@ public class CheckersGame : IDuoPlayableGameElement
             }
         }
     }
-
-    private void MovePiece(bool isPlayer1)
-    {
-        board[selectedPiece.X, selectedPiece.Y] = null;
-        selectedPiece.X = cursorX;
-        selectedPiece.Y = cursorY;
-        board[cursorX, cursorY] = selectedPiece;
-
-        if (cursorY == 0 || cursorY == BoardSize - 1)
-        {
-            selectedPiece.IsKing = true;
-        }
-
-        if (CanCaptureAgain(selectedPiece, isPlayer1))
-        {
-            // Allow multiple captures
-            return;
-        }
-
-        selectedPiece = null;
-        isPlayer1Turn = !isPlayer1Turn;
-
-        if (IsGameOver())
-        {
-            Console.WriteLine("Game over!");
-        }
-    }
-
 
     private bool CanCaptureAgain(CheckerPiece piece, bool isPlayer1)
     {
