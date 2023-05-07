@@ -129,7 +129,7 @@ public class CheckersGame : IDuoPlayableGameElement
         int dxMove = Math.Abs(cursorX - selectedPiece.X);
         int dyMove = cursorY - selectedPiece.Y;
         bool simpleMove = (dxMove == 1 && Math.Abs(dyMove) == 1 && board[cursorX, cursorY] == null) &&
-                          (selectedPiece.IsKing || (isPlayer1 && dyMove > 0) || (!isPlayer1 && dyMove < 0));
+                          (selectedPiece.IsKing || (isPlayer1 && dyMove < 0) || (!isPlayer1 && dyMove > 0));
 
         bool validMove = simpleMove || (dxMove == 2 && Math.Abs(dyMove) == 2 && board[cursorX, cursorY] == null);
 
