@@ -22,7 +22,7 @@ public class CheckersGame : IDuoPlayableGameElement
     public CheckersGame(IFontFactory fontFactory)
     {
         var image = SpriteImage.FromResource("c4.png", new Point(1, 1));
-        pieces = image.GetSpriteAnimation(1, 1, 8, 8, 3, 1);
+        pieces = image.GetSpriteAnimation(1, 1, 8, 8, 5, 1);
         
         InitializeBoard();
     }
@@ -285,12 +285,7 @@ public class CheckersGame : IDuoPlayableGameElement
                 var piece = board[x, y];
                 if (piece != null)
                 {
-                    if (piece == selectedPiece)
-                    {
-                        var cursorColor = piece.IsPlayer1 ? Color.Red : Color.Blue;
-                        display.DrawRectangle(xPos, yPos, CellSize, CellSize, cursorColor, cursorColor);
-                    }
-                    var pieceColor = piece.IsPlayer1 ? 2 : 1;
+                    var pieceColor = (piece.IsPlayer1 ? 2 : 1) + (selectedPiece == piece ? 2 : 0);
                     this.pieces.Draw(display, xPos, yPos, pieceColor);
                 }
             }
