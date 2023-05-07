@@ -128,10 +128,9 @@ public class CheckersGame : IDuoPlayableGameElement
     {
         int dxMove = Math.Abs(cursorX - selectedPiece.X);
         int dyMove = cursorY - selectedPiece.Y;
-        bool simpleMove = (dxMove == 1 && Math.Abs(dyMove) == 1 && board[cursorX, cursorY] == null) &&
-                          (selectedPiece.IsKing || (isPlayer1 && dyMove < 0) || (!isPlayer1 && dyMove > 0));
-
-        bool validMove = simpleMove || (dxMove == 2 && Math.Abs(dyMove) == 2 && board[cursorX, cursorY] == null);
+        bool simpleMove = (dxMove == 1 && Math.Abs(dyMove) == 1 && board[cursorX, cursorY] == null) && 
+                          ((isPlayer1 && dyMove < 0) || (!isPlayer1 && dyMove > 0));
+        bool validMove = simpleMove || (dxMove == 2 && Math.Abs(dyMove) == 2);
 
         if (validMove)
         {
@@ -142,6 +141,7 @@ public class CheckersGame : IDuoPlayableGameElement
             if (isCaptureMove && board[captureX, captureY]?.IsPlayer1 != isPlayer1)
             {
                 board[captureX, captureY] = null; // Remove the captured piece
+                selectedPiece.HasCaptured = true; // Set flag for multi-jump move
             }
             else if (isCaptureMove)
             {
@@ -165,6 +165,12 @@ public class CheckersGame : IDuoPlayableGameElement
                 return;
             }
 
+            // Reset the HasCaptured flag if the piece did not make a capture
+            if (!isCaptureMove)
+            {
+                selectedPiece.HasCaptured = false;
+            }
+
             selectedPiece = null;
             isPlayer1Turn = !isPlayer1Turn;
 
@@ -174,6 +180,7 @@ public class CheckersGame : IDuoPlayableGameElement
             }
         }
     }
+
 
     private bool CanCaptureAgain(CheckerPiece piece, bool isPlayer1)
     {
