@@ -25,14 +25,15 @@ namespace PacificWings.Bits
                 int x = random.Next(0, 64);
                 int y = random.Next(0, 64);
                 int length = random.Next(3, 10);
-                int r = random.Next(0, 128);
-                int g = random.Next(128, 256);
-                int b = 10;
+                int intensity = random.Next(15, 40);
+                int saturation = random.Next(15, intensity);
+                int r = saturation;
+                int g = saturation;
+                int b = intensity;
                 Color color = Color.FromArgb(r, g, b);
                 squiggles.Add(new Squiggle(x, y, length, color));
             }
         }
-
 
         public void Update()
         {
@@ -52,7 +53,11 @@ namespace PacificWings.Bits
             display.DrawRectangle(0, 0, 64, 64, darkBlue, darkBlue);
             foreach (var squiggle in squiggles)
             {
-                display.DrawLine(squiggle.X, squiggle.Y, squiggle.X, squiggle.Y + squiggle.Length, squiggle.Color);
+                display.SetPixel(squiggle.X, squiggle.Y, squiggle.Color);
+                display.SetPixel(squiggle.X+1, squiggle.Y-1, squiggle.Color);
+                display.SetPixel(squiggle.X+2, squiggle.Y, squiggle.Color);
+                display.SetPixel(squiggle.X+3, squiggle.Y+1, squiggle.Color);
+                display.SetPixel(squiggle.X, squiggle.Y, squiggle.Color);
             }
         }
 
