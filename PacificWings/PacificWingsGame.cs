@@ -10,6 +10,7 @@ namespace PacificWings;
 public class PacificWingsGame : IPlayableGameElement
 {
     private readonly Player player;
+    private Ocean ocean;
     private EnemyWave enemyWave;
     private readonly SpriteAnimation enemySprite;
     private readonly Explosions explosions = new();
@@ -18,6 +19,7 @@ public class PacificWingsGame : IPlayableGameElement
 
     public PacificWingsGame(IFontFactory fontFactory)
     {
+        this.ocean = new Ocean();
         var image = SpriteImage.FromResource("pwings.png");
         var playerSprite = image.GetSpriteAnimation(1, 1, 9, 8, 2, 1);
         this.enemySprite = image.GetSpriteAnimation(1, 14, 9, 8, 2, 1);
@@ -38,9 +40,10 @@ public class PacificWingsGame : IPlayableGameElement
 
     public void Update()
     {
-        player.Update();
-        explosions.Update();
-        enemyWave.Update(player.Bullets, player);
+        this.ocean.Update();
+        this.player.Update();
+        this.explosions.Update();
+        this.enemyWave.Update(player.Bullets, player);
         if (enemyWave.IsComplete)
         {
             wave++;
@@ -50,10 +53,11 @@ public class PacificWingsGame : IPlayableGameElement
 
     public void Draw(IDisplay display)
     {
-        player.Draw(display);
-        enemyWave.Draw(display);
-        explosions.Draw(display);
-        font.DrawText(display, 0, 7, Color.Green, player.Score.ToString());
+        this.ocean.Draw(display);
+        this.player.Draw(display);
+        this.enemyWave.Draw(display);
+        this.explosions.Draw(display);
+        this.font.DrawText(display, 0, 7, Color.Green, player.Score.ToString());
     }
 
     public GameOverState State

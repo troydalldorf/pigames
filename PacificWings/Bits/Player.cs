@@ -3,7 +3,7 @@ using Core.Display.Sprites;
 
 namespace PacificWings.Bits;
 
-public class Player
+public class Player : IGameElement
 {
     private readonly SpriteAnimation playerSprite;
     private readonly SpriteAnimation bulletSprite;
