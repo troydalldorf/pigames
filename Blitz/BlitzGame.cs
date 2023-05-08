@@ -111,7 +111,9 @@ namespace Blitz
                 {
                     if (buildingHeights[bombX].Item1 > 0)
                     {
-                        explosions.Explode(bombX * 8 + 4, bombY + 8, () => buildingHeights[bombX].Item1--);
+                        var building = bombX;
+                        var newHeight = buildingHeights[building].Item1 - 1;
+                        explosions.Explode(bombX * 8 + 4, bombY + 8, () => buildingHeights[building].Item1 = newHeight);
                         score++;
                     }
                     bombDropped = false;
@@ -166,13 +168,5 @@ namespace Blitz
         }
 
         public GameOverState State { get; private set; }
-    }
-
-    class Explosion
-    {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int Frame { get; set; }
-        public int BombX { get; set; }
     }
 }
