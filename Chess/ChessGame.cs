@@ -1,6 +1,7 @@
 using System.Drawing;
 using Core;
 using Core.Display.Sprites;
+using Core.Inputs;
 
 namespace Chess;
 
@@ -110,6 +111,7 @@ public class ChessGame : IDuoPlayableGameElement
     {
         if (currentPlayer == PieceColor.Black)
         {
+            player2Console = new PlayerConsoleInversionDecorator(player2Console);
             HandlePlayerInput(player2Console);
         }
     }
