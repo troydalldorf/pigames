@@ -164,7 +164,7 @@ public class ChessGame : IDuoPlayableGameElement
             {
                 if (IsValidMove(selectedX, selectedY, cursorX, cursorY))
                 {
-                    board[cursorX, cursorY] = board[selectedX, selectedY];
+                    board[cursorX, cursorY] = board[selectedX, selectedY] with { HasMoved = true };
                     board[selectedX, selectedY] = null;
                     currentPlayer = currentPlayer == PieceColor.White ? PieceColor.Black : PieceColor.White;
                 }
@@ -174,10 +174,93 @@ public class ChessGame : IDuoPlayableGameElement
         }
     }
 
-    private bool IsValidMove(int i, int selectedY1, int cursorX1, int cursorY1)
+private bool IsValidMove(int startX, int startY, int endX, int endY)
+{
+    var currentPiece = board[startX, startY];
+    var targetPiece = board[endX, endY];
+
+    if (currentPiece == null)
     {
-        return true;
+        return false;
     }
 
-    public GameOverState State { get; }
+    if (targetPiece != null && targetPiece.Color == currentPiece.Color)
+    {
+        return false;
+    }
+
+    int deltaX = Math.Abs(endX - startX);
+    int deltaY = Math.Abs(endY - startY);
+
+    switch (currentPiece.Type)
+    {
+        case PieceType.Pawn:
+            // Pawns can only move forward one space (two on their first move), 
+            // and can only capture diagonally
+            if (targetPiece == null)
+            {
+                if (currentPiece.Color == PieceColor.White)
+                {
+                    if (deltaX == 0 && (deltaY == 1 || (!currentPiece.HasMoved && deltaY == 2)) && endY > startY)
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (deltaX == 0 && (deltaY == 1 || (!currentPiece.HasMoved && deltaY == 2)) && endY < startY)
+                    {
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                if (deltaX == 1 && deltaY == 1)
+                {
+                    return true;
+                }
+            }
+            break;
+        case PieceType.Rook:
+            // Rooks can move any number of spaces along any row or column
+            if (deltaX * deltaY == 0)
+            {
+                return true;
+            }
+            break;
+        case PieceType.Knight:
+            // Knights move in an L shape: two spaces along a row or column, and then one space perpendicular
+            if (deltaX * deltaY == 2)
+            {
+                return true;
+            }
+            break;
+        case PieceType.Bishop:
+            // Bishops move any number of spaces diagonally
+            if (deltaX == deltaY)
+            {
+                return true;
+            }
+            break;
+        case PieceType.Queen:
+            // Queens can move any number of spaces along any row, column, or diagonal
+            if (deltaX * deltaY == 0 || deltaX == deltaY)
+            {
+                return true;
+            }
+            break;
+        case PieceType.King:
+            // Kings can move one space in any direction
+            if (deltaX <= 1 && deltaY <= 1)
+            {
+                return true;
+            }
+            break;
+    }
+
+    return false;
+}
+
+public GameOverState State { get; }
 }
