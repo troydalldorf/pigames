@@ -25,6 +25,8 @@ public class ChessGame : IDuoPlayableGameElement
     private SpriteAnimation whitePieces;
     private SpriteAnimation blackPieces;
     private Piece[,] board = new Piece[8, 8];
+    private int selectedX = -1;
+    private int selectedY = -1;
     public ChessGame()
     {
         var image = SpriteImage.FromResource("chess.png", new Point(1, 1));
@@ -95,6 +97,7 @@ public class ChessGame : IDuoPlayableGameElement
     public void HandleInput(IPlayerConsole player1Console)
     {
         var stick = player1Console.ReadJoystick();
+        var buttons = player1Console.ReadButtons();
         if (stick.IsUp())
         {
             cursorY--;
@@ -127,6 +130,24 @@ public class ChessGame : IDuoPlayableGameElement
         if (cursorY > 7)
         {
             cursorY = 7;
+        }
+        if (buttons.IsGreenPushed())
+        {
+            if (selectedX == -1)
+            {
+                selectedX = cursorX;
+                selectedY = cursorY;
+            }
+            else
+            {
+                if (board[selectedX, selectedY] != null)
+                {
+                    board[cursorX, cursorY] = board[selectedX, selectedY];
+                    board[selectedX, selectedY] = null;
+                }
+                selectedX = -1;
+                selectedY = -1;
+            }
         }
     }
     
