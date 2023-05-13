@@ -27,11 +27,12 @@ public class ChessGame : IDuoPlayableGameElement
     private Piece[,] board = new Piece[8, 8];
     private int selectedX = -1;
     private int selectedY = -1;
+    private PieceColor currentPlayer = PieceColor.White;
     public ChessGame()
     {
         var image = SpriteImage.FromResource("chess.png", new Point(1, 1));
-        whitePieces = image.GetSpriteAnimation(10, 1, 8, 8, 6, 1);
-        blackPieces = image.GetSpriteAnimation(10, 10, 8, 8, 6, 1);
+        blackPieces = image.GetSpriteAnimation(10, 1, 8, 8, 6, 1);
+        whitePieces = image.GetSpriteAnimation(10, 10, 8, 8, 6, 1);
         State = GameOverState.None;
         board[0, 0] = new Piece(PieceType.Rook, PieceColor.Black);
         board[1, 0] = new Piece(PieceType.Knight, PieceColor.Black);
@@ -65,6 +66,7 @@ public class ChessGame : IDuoPlayableGameElement
 
     public void Draw(IDisplay display)
     {
+        var cursorColor = currentPlayer == PieceColor.White ? Color.SpringGreen : Color.Magenta;
         for (int i = 0; i < 8; i++)
         {
             for (int j = 0; j < 8; j++)
@@ -77,6 +79,10 @@ public class ChessGame : IDuoPlayableGameElement
                 else
                 {
                     color = Color.White;
+                }
+                if (selectedX == i && selectedY == j)
+                {
+                    color = cursorColor;
                 }
 
                 display.DrawRectangle(i * 8, j * 8, 8, 8, color, color);
@@ -91,13 +97,29 @@ public class ChessGame : IDuoPlayableGameElement
                 }
             }
         }
-        display.DrawRectangle(cursorX * 8, cursorY * 8, 8, 8, Color.Peru);
+        display.DrawRectangle(cursorX * 8, cursorY * 8, 8, 8, cursorColor);
     }
 
     public void HandleInput(IPlayerConsole player1Console)
     {
-        var stick = player1Console.ReadJoystick();
-        var buttons = player1Console.ReadButtons();
+        if (currentPlayer == PieceColor.White)
+        {
+            HandlePlayerInput(player1Console);
+        }
+    }
+
+    public void Handle2PInput(IPlayerConsole player2Console)
+    {
+        if (currentPlayer == PieceColor.Black)
+        {
+            HandlePlayerInput(player2Console);
+        }
+    }
+    
+    public void HandlePlayerInput(IPlayerConsole console)
+    {
+        var stick = console.ReadJoystick();
+        var buttons = console.ReadButtons();
         if (stick.IsUp())
         {
             cursorY--;
@@ -133,27 +155,29 @@ public class ChessGame : IDuoPlayableGameElement
         }
         if (buttons.IsGreenPushed())
         {
-            if (selectedX == -1)
+            if (selectedX == -1 && board[cursorX, cursorY] != null && board[cursorX, cursorY].Color == currentPlayer)
             {
                 selectedX = cursorX;
                 selectedY = cursorY;
             }
-            else
+            else if (selectedX != -1)
             {
-                if (board[selectedX, selectedY] != null)
+                if (IsValidMove(selectedX, selectedY, cursorX, cursorY))
                 {
                     board[cursorX, cursorY] = board[selectedX, selectedY];
                     board[selectedX, selectedY] = null;
+                    currentPlayer = currentPlayer == PieceColor.White ? PieceColor.Black : PieceColor.White;
                 }
                 selectedX = -1;
                 selectedY = -1;
             }
         }
     }
-    
-    public void Handle2PInput(IPlayerConsole player2Console)
+
+    private bool IsValidMove(int i, int selectedY1, int cursorX1, int cursorY1)
     {
+        return true;
     }
-    
+
     public GameOverState State { get; }
 }
