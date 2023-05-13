@@ -5,9 +5,6 @@ using Core.Display.Sprites;
 namespace Chess;
 
 // TO DO:
-// 1. Prevent cursor from moving outside the board
-// 2. cursor should be the color of the current player
-// 3. Implement piece movement - check for valid moves
 // 4. Implement checkmate
 // 5. Implement castling
 // 6. Implement en passant
@@ -28,6 +25,7 @@ public class ChessGame : IDuoPlayableGameElement
     private int selectedX = -1;
     private int selectedY = -1;
     private PieceColor currentPlayer = PieceColor.White;
+    private DateTimeOffset lastMoveTime = DateTimeOffset.Now;
     public ChessGame()
     {
         var image = SpriteImage.FromResource("chess.png", new Point(1, 1));
@@ -118,6 +116,12 @@ public class ChessGame : IDuoPlayableGameElement
     
     public void HandlePlayerInput(IPlayerConsole console)
     {
+        // Prevent trigger happy players from moving the cursor too fast
+        if (lastMoveTime.AddMilliseconds(200) > DateTimeOffset.Now)
+        {
+            return;
+        }
+        
         var stick = console.ReadJoystick();
         var buttons = console.ReadButtons();
         if (stick.IsUp())
@@ -201,14 +205,14 @@ private bool IsValidMove(int startX, int startY, int endX, int endY)
             {
                 if (currentPiece.Color == PieceColor.White)
                 {
-                    if (deltaX == 0 && (deltaY == 1 || (!currentPiece.HasMoved && deltaY == 2)) && endY > startY)
+                    if (deltaX == 0 && (deltaY == 1 || (!currentPiece.HasMoved && deltaY == 2)) && endY < startY)
                     {
                         return true;
                     }
                 }
                 else
                 {
-                    if (deltaX == 0 && (deltaY == 1 || (!currentPiece.HasMoved && deltaY == 2)) && endY < startY)
+                    if (deltaX == 0 && (deltaY == 1 || (!currentPiece.HasMoved && deltaY == 2)) && endY > startY)
                     {
                         return true;
                     }
