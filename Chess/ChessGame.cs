@@ -4,6 +4,20 @@ using Core.Display.Sprites;
 
 namespace Chess;
 
+// TO DO:
+// 1. Prevent cursor from moving outside the board
+// 2. cursor should be the color of the current player
+// 3. Implement piece movement - check for valid moves
+// 4. Implement checkmate
+// 5. Implement castling
+// 6. Implement en passant
+// 7. Implement pawn promotion
+// 8. Implement stalemate
+// 9. Implement draw by repetition
+// 10. Implement draw by 50 move rule
+// 11. Implement draw by insufficient material
+// 13. Implement draw by 5-fold repetition
+
 public class ChessGame : IDuoPlayableGameElement
 {
     private int cursorX = 4;
@@ -96,6 +110,23 @@ public class ChessGame : IDuoPlayableGameElement
         if (stick.IsRight())
         {
             cursorX++;
+        }
+        // prevent cursor from moving outside the board
+        if (cursorX < 0)
+        {
+            cursorX = 0;
+        }
+        if (cursorX > 7)
+        {
+            cursorX = 7;
+        }
+        if (cursorY < 0)
+        {
+            cursorY = 0;
+        }
+        if (cursorY > 7)
+        {
+            cursorY = 7;
         }
     }
     
