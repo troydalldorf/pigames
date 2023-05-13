@@ -14,8 +14,8 @@ public class ChessGame : IDuoPlayableGameElement
     public ChessGame()
     {
         var image = SpriteImage.FromResource("chess.png", new Point(1, 1));
-        whitePieces = image.GetSpriteAnimation(9, 1, 8, 8, 6, 1);
-        blackPieces = image.GetSpriteAnimation(9, 9, 8, 8, 6, 1);
+        whitePieces = image.GetSpriteAnimation(10, 1, 8, 8, 6, 1);
+        blackPieces = image.GetSpriteAnimation(10, 10, 8, 8, 6, 1);
         State = GameOverState.None;
         board[0, 0] = new Piece(PieceType.Rook, PieceColor.Black);
         board[1, 0] = new Piece(PieceType.Knight, PieceColor.Black);
