@@ -195,6 +195,11 @@ private bool IsValidMove(int startX, int startY, int endX, int endY)
 
     int deltaX = Math.Abs(endX - startX);
     int deltaY = Math.Abs(endY - startY);
+    
+    if (currentPiece.Type != PieceType.Knight && !IsPathClear(startX, startY, endX, endY))
+    {
+        return false;
+    }
 
     switch (currentPiece.Type)
     {
@@ -264,6 +269,31 @@ private bool IsValidMove(int startX, int startY, int endX, int endY)
     }
 
     return false;
+}
+
+private bool IsPathClear(int startX, int startY, int endX, int endY)
+{
+    // determine direction of movement
+    int xDir = startX < endX ? 1 : startX > endX ? -1 : 0;
+    int yDir = startY < endY ? 1 : startY > endY ? -1 : 0;
+    
+    // start from the next cell
+    int x = startX + xDir;
+    int y = startY + yDir;
+
+    while (x != endX || y != endY)
+    {
+        if (board[x, y] != null)
+        {
+            // path is blocked
+            return false;
+        }
+        x += xDir;
+        y += yDir;
+    }
+    
+    // path is clear
+    return true;
 }
 
 public GameOverState State { get; }
