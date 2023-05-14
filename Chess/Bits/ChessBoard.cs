@@ -199,6 +199,7 @@ public class ChessBoard
 
         while (!(x == to.X && y == to.Y))
         {
+            Console.WriteLine($"{from}->{to} ({x}, {y}), {xDir}, {yDir}");
             if (GetPieceAt(x, y) != null)
             {
                 return false;
