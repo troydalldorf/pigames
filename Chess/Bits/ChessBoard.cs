@@ -194,7 +194,8 @@ public class ChessBoard
         var y = from.Y;
         
         if (dontCheckEnd) to = new Location(to.X - xDir, to.Y - yDir);
-
+        if (to == from) return true;
+        
         do
         {
             x += xDir;
