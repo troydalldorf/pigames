@@ -13,6 +13,7 @@ using Core.Runner;
 using Core.Sounds;
 using FlappyBird;
 using Frogger;
+using LunarLander;
 using MemoryCard;
 using Minesweeper;
 using Othello;
@@ -62,6 +63,7 @@ public class Menu : IPlayableGameElement
             new("Ethan Pong 2P", () => new PongPlayableGame(fontFactory)),
             new("Flappy Bird", () => new FlappyBirdGame(fontFactory), 50),
             new("Frogger 1P", () => new FroggerPlayableGame(), 100),
+            new("Lunar Lander", () => new LunarLanderGame(fontFactory)),
             new("Othello 2P", () => new OthelloGame(fontFactory)),
             new("Master Mind 1P", () => new Mastermind.MastermindGame(fontFactory)),
             new("Master Mind 2P", () => new Mastermind.DuoMastermindGame(fontFactory)),

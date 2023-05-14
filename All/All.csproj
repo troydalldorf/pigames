@@ -18,6 +18,7 @@
       <ProjectReference Include="..\ConnectFour\ConnectFour.csproj" />
       <ProjectReference Include="..\FlappyBird\FlappyBird.csproj" />
       <ProjectReference Include="..\Frogger\Frogger.csproj" />
+      <ProjectReference Include="..\LunarLander\LunarLander.csproj" />
       <ProjectReference Include="..\Mastermind\Mastermind.csproj" />
       <ProjectReference Include="..\Maze\Maze.csproj" />
       <ProjectReference Include="..\MemoryCard\MemoryCard.csproj" />
