@@ -104,12 +104,22 @@ public class ChessBoard
             return false;
         }
 
-        int deltaX = Math.Abs(to.X - from.X);
-        int deltaY = Math.Abs(to.Y - from.Y);
+        var deltaX = Math.Abs(to.X - from.X);
+        var deltaY = Math.Abs(to.Y - from.Y);
+        
         Console.WriteLine($"from {from} to {to}");
-        if (currentPiece.Type != PieceType.Knight && !IsPathClear(from.X, from.Y, to.X, to.Y))
+        switch (currentPiece.Type)
         {
-            return false;
+            case PieceType.Knight:
+                break;
+            case PieceType.Pawn:
+                if (!IsPathClear(from, to, false))
+                    return false;
+                break;
+            default:
+                if (!IsPathClear(from, to, true))
+                    return false;
+                break;
         }
 
         switch (currentPiece.Type)
@@ -188,17 +198,19 @@ public class ChessBoard
         return false;
     }
 
-    private bool IsPathClear(int startX, int startY, int endX, int endY)
+    private bool IsPathClear(Location from, Location to, bool dontCheckEnd)
     {
         // determine direction of movement
-        int xDir = startX < endX ? 1 : startX > endX ? -1 : 0;
-        int yDir = startY < endY ? 1 : startY > endY ? -1 : 0;
+        int xDir = from.X < to.X ? 1 : from.X > from.Y ? -1 : 0;
+        int yDir = from.Y < to.Y ? 1 : from.Y > to.Y ? -1 : 0;
 
         // start from the next cell
-        int x = startX + xDir;
-        int y = startY + yDir;
+        int x = from.X + xDir;
+        int y = from.Y + yDir;
+        
+        if (dontCheckEnd) to = new Location(to.X - xDir, to.Y - yDir);
 
-        while (x != endX || y != endY)
+        while (x != to.X && y != to.Y)
         {
             if (GetPieceAt(x, y) != null)
             {
