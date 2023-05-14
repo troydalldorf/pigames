@@ -201,7 +201,7 @@ public class ChessBoard
     private bool IsPathClear(Location from, Location to, bool dontCheckEnd)
     {
         // determine direction of movement
-        int xDir = from.X < to.X ? 1 : from.X > from.Y ? -1 : 0;
+        int xDir = from.X < to.X ? 1 : from.X > to.X ? -1 : 0;
         int yDir = from.Y < to.Y ? 1 : from.Y > to.Y ? -1 : 0;
 
         // start from the next cell
