@@ -190,24 +190,21 @@ public class ChessBoard
         // determine direction of movement
         var xDir = from.X < to.X ? 1 : from.X > to.X ? -1 : 0;
         var yDir = from.Y < to.Y ? 1 : from.Y > to.Y ? -1 : 0;
-
-        // start from the next cell
-        var x = from.X + xDir;
-        var y = from.Y + yDir;
+        var x = from.X;
+        var y = from.Y;
         
         if (dontCheckEnd) to = new Location(to.X - xDir, to.Y - yDir);
 
-        while (!(x == to.X && y == to.Y))
+        do
         {
+            x += xDir;
+            y += yDir;
             Console.WriteLine($"{from}->{to} ({x}, {y}), {xDir}, {yDir}");
             if (GetPieceAt(x, y) != null)
             {
                 return false;
             }
-
-            x += xDir;
-            y += yDir;
-        }
+        } while (!(x == to.X && y == to.Y));
 
         // path is clear
         return true;
