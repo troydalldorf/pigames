@@ -188,16 +188,16 @@ public class ChessBoard
     private bool IsPathClear(Location from, Location to, bool dontCheckEnd)
     {
         // determine direction of movement
-        int xDir = from.X < to.X ? 1 : from.X > to.X ? -1 : 0;
-        int yDir = from.Y < to.Y ? 1 : from.Y > to.Y ? -1 : 0;
+        var xDir = from.X < to.X ? 1 : from.X > to.X ? -1 : 0;
+        var yDir = from.Y < to.Y ? 1 : from.Y > to.Y ? -1 : 0;
 
         // start from the next cell
-        int x = from.X + xDir;
-        int y = from.Y + yDir;
+        var x = from.X + xDir;
+        var y = from.Y + yDir;
         
         if (dontCheckEnd) to = new Location(to.X - xDir, to.Y - yDir);
 
-        while (x != to.X && y != to.Y)
+        while (!(x == to.X && y == to.Y))
         {
             if (GetPieceAt(x, y) != null)
             {
@@ -212,26 +212,25 @@ public class ChessBoard
         return true;
     }
 
-    private List<Move> GetAllPossibleMoves(PieceColor color)
+    private IEnumerable<Move> GetAllPossibleMoves(PieceColor color)
     {
         var moves = new List<Move>();
 
-        for (int x = 0; x < 8; x++)
+        for (var x = 0; x < 8; x++)
         {
-            for (int y = 0; y < 8; y++)
+            for (var y = 0; y < 8; y++)
             {
-                var piece = board[x, y];
-
-                if (piece?.Color == color)
+                var piece = GetPieceAt(x, y);
+                if (piece?.Color != color) continue;
+                var from = new Location(x, y);
+                for (var x2 = 0; x2 < 8; x2++)
                 {
-                    for (int x2 = 0; x2 < 8; x2++)
+                    for (var y2 = 0; y2 < 8; y2++)
                     {
-                        for (int y2 = 0; y2 < 8; y2++)
+                        var to = new Location(x2, y2);
+                        if (IsValidBasicMove(from, to))
                         {
-                            if (IsValidBasicMove(new Location(x, y), new Location(x2, y2)))
-                            {
-                                moves.Add(new Move(new Location(x, y), new Location(x2, y2)));
-                            }
+                            moves.Add(new Move(from, to));
                         }
                     }
                 }
