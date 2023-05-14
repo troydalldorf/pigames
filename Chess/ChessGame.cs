@@ -1,6 +1,7 @@
 using System.Drawing;
 using Core;
 using Core.Display.Sprites;
+using Core.Effects;
 using Core.Inputs;
 
 namespace Chess;
@@ -20,9 +21,10 @@ public class ChessGame : IDuoPlayableGameElement
 {
     private int cursorX = 4;
     private int cursorY = 4;
-    private SpriteAnimation whitePieces;
-    private SpriteAnimation blackPieces;
-    private Piece[,] board = new Piece[8, 8];
+    private readonly SpriteAnimation whitePieces;
+    private readonly SpriteAnimation blackPieces;
+    private Explosions explosions;
+    private readonly Piece[,] board = new Piece[8, 8];
     private int selectedX = -1;
     private int selectedY = -1;
     private PieceColor currentPlayer = PieceColor.White;
@@ -32,6 +34,7 @@ public class ChessGame : IDuoPlayableGameElement
         var image = SpriteImage.FromResource("chess.png", new Point(1, 1));
         blackPieces = image.GetSpriteAnimation(10, 1, 8, 8, 6, 1);
         whitePieces = image.GetSpriteAnimation(10, 10, 8, 8, 6, 1);
+        this.explosions = new Explosions();
         State = GameOverState.None;
         board[0, 0] = new Piece(PieceType.Rook, PieceColor.Black);
         board[1, 0] = new Piece(PieceType.Knight, PieceColor.Black);
@@ -66,9 +69,9 @@ public class ChessGame : IDuoPlayableGameElement
     public void Draw(IDisplay display)
     {
         var cursorColor = currentPlayer == PieceColor.White ? Color.SpringGreen : Color.Magenta;
-        for (int i = 0; i < 8; i++)
+        for (var i = 0; i < 8; i++)
         {
-            for (int j = 0; j < 8; j++)
+            for (var j = 0; j < 8; j++)
             {
                 Color color;
                 if ((i + j) % 2 == 0)
@@ -96,6 +99,7 @@ public class ChessGame : IDuoPlayableGameElement
                 }
             }
         }
+        explosions.Draw(display);
         display.DrawRectangle(cursorX * 8, cursorY * 8, 8, 8, cursorColor);
     }
 
@@ -126,6 +130,11 @@ public class ChessGame : IDuoPlayableGameElement
         
         var stick = console.ReadJoystick();
         var buttons = console.ReadButtons();
+        if (stick != 0 || buttons != 0)
+        {
+            lastMoveTime = DateTimeOffset.Now;
+        }
+        
         if (stick.IsUp())
         {
             cursorY--;
@@ -170,9 +179,12 @@ public class ChessGame : IDuoPlayableGameElement
             {
                 if (IsValidMove(selectedX, selectedY, cursorX, cursorY))
                 {
+                    var capturedPiece = board[cursorX, cursorY];
                     board[cursorX, cursorY] = board[selectedX, selectedY] with { HasMoved = true };
                     board[selectedX, selectedY] = null;
                     currentPlayer = currentPlayer == PieceColor.White ? PieceColor.Black : PieceColor.White;
+                    if (capturedPiece != null)
+                        explosions.Explode(cursorX*8, cursorY*8);
                 }
                 selectedX = -1;
                 selectedY = -1;
