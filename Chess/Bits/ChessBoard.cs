@@ -106,7 +106,7 @@ public class ChessBoard
 
         int deltaX = Math.Abs(to.X - from.X);
         int deltaY = Math.Abs(to.Y - from.Y);
-        
+        Console.WriteLine($"from {from} to {to}");
         if (currentPiece.Type != PieceType.Knight && !IsPathClear(from.X, from.Y, to.X, to.Y))
         {
             return false;
