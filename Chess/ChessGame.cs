@@ -64,6 +64,7 @@ public class ChessGame : IDuoPlayableGameElement
     
     public void Update()
     {
+        explosions.Update();
     }
 
     public void Draw(IDisplay display)
@@ -93,14 +94,13 @@ public class ChessGame : IDuoPlayableGameElement
                     blackPieces.Draw(display, i * 8, j * 8, (int)board[i, j].Type);
                 }
                 else if (board[i, j] != null && board[i, j].Color == PieceColor.White)
-
                 {
                     whitePieces.Draw(display, i * 8, j * 8, (int)board[i, j].Type);
                 }
             }
         }
+        display.DrawRectangle(cursorX * 8 + 4, cursorY * 8 + 4, 8, 8, cursorColor);
         explosions.Draw(display);
-        display.DrawRectangle(cursorX * 8, cursorY * 8, 8, 8, cursorColor);
     }
 
     public void HandleInput(IPlayerConsole player1Console)
