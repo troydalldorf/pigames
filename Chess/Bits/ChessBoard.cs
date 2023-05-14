@@ -1,3 +1,5 @@
+using Core.Display.Sprites;
+
 namespace Chess;
 
 public class ChessBoard
@@ -106,21 +108,6 @@ public class ChessBoard
 
         var deltaX = Math.Abs(to.X - from.X);
         var deltaY = Math.Abs(to.Y - from.Y);
-        
-        Console.WriteLine($"from {from} to {to}");
-        switch (currentPiece.Type)
-        {
-            case PieceType.Knight:
-                break;
-            case PieceType.Pawn:
-                if (!IsPathClear(from, to, false))
-                    return false;
-                break;
-            default:
-                if (!IsPathClear(from, to, true))
-                    return false;
-                break;
-        }
 
         switch (currentPiece.Type)
         {
@@ -133,14 +120,14 @@ public class ChessBoard
                     {
                         if (deltaX == 0 && (deltaY == 1 || (!currentPiece.HasMoved && deltaY == 2)) && to.Y < from.Y)
                         {
-                            return true;
+                            return IsPathClear(from, to, false);
                         }
                     }
                     else
                     {
                         if (deltaX == 0 && (deltaY == 1 || (!currentPiece.HasMoved && deltaY == 2)) && to.Y > from.Y)
                         {
-                            return true;
+                            return IsPathClear(from, to, false);
                         }
                     }
                 }
@@ -148,7 +135,7 @@ public class ChessBoard
                 {
                     if (deltaX == 1 && deltaY == 1)
                     {
-                        return true;
+                        return IsPathClear(from, to, false);
                     }
                 }
 
@@ -157,7 +144,7 @@ public class ChessBoard
                 // Rooks can move any number of spaces along any row or column
                 if (deltaX * deltaY == 0)
                 {
-                    return true;
+                    return IsPathClear(from, to, true);
                 }
 
                 break;
@@ -173,7 +160,7 @@ public class ChessBoard
                 // Bishops move any number of spaces diagonally
                 if (deltaX == deltaY)
                 {
-                    return true;
+                    return IsPathClear(from, to, true);
                 }
 
                 break;
@@ -181,7 +168,7 @@ public class ChessBoard
                 // Queens can move any number of spaces along any row, column, or diagonal
                 if (deltaX * deltaY == 0 || deltaX == deltaY)
                 {
-                    return true;
+                    return IsPathClear(from, to, true);
                 }
 
                 break;
@@ -189,7 +176,7 @@ public class ChessBoard
                 // Kings can move one space in any direction
                 if (deltaX <= 1 && deltaY <= 1)
                 {
-                    return true;
+                    return IsPathClear(from, to, true);
                 }
 
                 break;
