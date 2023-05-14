@@ -41,6 +41,10 @@ public class ChessBoard
 
     public Piece? GetPieceAt(int x, int y)
     {
+        if (x is < 0 or > 7 || y is < 0 or > 7)
+        {
+            throw new ArgumentOutOfRangeException($"Location ({x}, {y}) is out of bounds.");
+        }
         return board[x, y];
     }
 
@@ -196,7 +200,7 @@ public class ChessBoard
 
         while (x != endX || y != endY)
         {
-            if (board[x, y] != null)
+            if (GetPieceAt(x, y) != null)
             {
                 return false;
             }
