@@ -225,7 +225,7 @@ public class ChessBoard
                     {
                         for (int y2 = 0; y2 < 8; y2++)
                         {
-                            if (IsValidMove(new Location(x, y), new Location(x2, y2)))
+                            if (IsValidBasicMove(new Location(x, y), new Location(x2, y2)))
                             {
                                 moves.Add(new Move(new Location(x, y), new Location(x2, y2)));
                             }
