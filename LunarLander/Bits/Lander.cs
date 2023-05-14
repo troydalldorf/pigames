@@ -73,6 +73,6 @@ public class Lander : IGameElement
 
     public bool HasLandedOn(LandingPad landingPad)
     {
-        return landingPad.IsOnTopOf(_x, _y);
+        return _y == landingPad.Y - 1 && _x >= landingPad.X && _x <= landingPad.X + landingPad.Width;
     }
 }

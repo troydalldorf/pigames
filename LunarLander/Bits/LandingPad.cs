@@ -5,27 +5,27 @@ namespace LunarLander.Bits;
 
 public class LandingPad : IGameElement
 {
-    private readonly int _x;
-    private readonly int _y;
-    private readonly int _width;
+    public int X { get; }
+    public int Y { get; }
+    public int Width { get; }
 
     public LandingPad()
     {
-        _x = 28; // change this to move the landing pad
-        _y = 50; // change this to adjust the height of the landing pad
-        _width = 8; // change this to adjust the width of the landing pad
+        X = 28; // change this to move the landing pad
+        Y = 50; // change this to adjust the height of the landing pad
+        Width = 8; // change this to adjust the width of the landing pad
     }
 
     public bool IsCollidingWith(int x, int y)
     {
         // Check for collision with landing pad
-        return y == _y && x >= _x && x <= _x + _width;
+        return y == Y && x >= X && x <= X + Width;
     }
 
     public bool IsOnTopOf(int x, int y)
     {
         // Check if the landing pad is below the given position
-        return y < _y && x >= _x && x <= _x + _width;
+        return y < Y && x >= X && x <= X + Width;
     }
 
     public void Update()
@@ -36,6 +36,6 @@ public class LandingPad : IGameElement
     public void Draw(IDisplay display)
     {
         // Draw the landing pad
-        display.DrawLine(_x, _y, _x + _width, _y, Color.Green);
+        display.DrawLine(X, Y, X + Width, Y, Color.Green);
     }
 }
