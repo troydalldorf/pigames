@@ -112,10 +112,10 @@ public class ChessGame : IDuoPlayableGameElement
             lastMoveTime = DateTimeOffset.Now;
         }
 
-        if (stick.IsUp()) cursor.MoveUp();
-        if (stick.IsDown()) cursor.MoveDown();
-        if (stick.IsLeft()) cursor.MoveLeft();
-        if (stick.IsRight()) cursor.MoveRight();
+        if (stick.IsUp()) cursor = cursor.MoveUp();
+        if (stick.IsDown()) cursor = cursor.MoveDown();
+        if (stick.IsLeft()) cursor = cursor.MoveLeft();
+        if (stick.IsRight()) cursor = cursor.MoveRight();
 
         if (buttons.IsGreenPushed())
         {
