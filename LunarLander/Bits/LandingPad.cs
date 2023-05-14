@@ -9,10 +9,10 @@ public class LandingPad : IGameElement
     public int Y { get; }
     public int Width { get; }
 
-    public LandingPad()
+    public LandingPad(int x, int y)
     {
-        X = 28; // change this to move the landing pad
-        Y = 50; // change this to adjust the height of the landing pad
+        X = x; // change this to move the landing pad
+        Y = y; // change this to adjust the height of the landing pad
         Width = 8; // change this to adjust the width of the landing pad
     }
 

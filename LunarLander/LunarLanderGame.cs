@@ -18,7 +18,7 @@ public class LunarLanderGame : IDuoPlayableGameElement
         font = fontFactory.GetFont(LedFontType.Font4x6);
         lander = new Lander();
         terrain = new Terrain();
-        landingPad = new LandingPad();
+        landingPad = terrain.GetLandingPad();
         state = GameOverState.None;
     }
 

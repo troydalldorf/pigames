@@ -99,7 +99,7 @@ public class ChessGame : IDuoPlayableGameElement
                 }
             }
         }
-        display.DrawRectangle(cursorX * 8 + 4, cursorY * 8 + 4, 8, 8, cursorColor);
+        display.DrawRectangle(cursorX * 8, cursorY * 8, 8, 8, cursorColor);
         explosions.Draw(display);
     }
 
@@ -184,7 +184,7 @@ public class ChessGame : IDuoPlayableGameElement
                     board[selectedX, selectedY] = null;
                     currentPlayer = currentPlayer == PieceColor.White ? PieceColor.Black : PieceColor.White;
                     if (capturedPiece != null)
-                        explosions.Explode(cursorX*8, cursorY*8);
+                        explosions.Explode(cursorX*8+4, cursorY*8+4);
                 }
                 selectedX = -1;
                 selectedY = -1;
