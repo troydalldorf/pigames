@@ -29,19 +29,13 @@ public class LunarLanderGame : IDuoPlayableGameElement
         switch (direction)
         {
             case JoystickDirection.Up:
-                lander.MoveUp();
-                break;
-            case JoystickDirection.Down:
-                lander.MoveDown();
+                lander.ThrustUp();
                 break;
             case JoystickDirection.Left:
-                lander.MoveLeft();
+                lander.ThrustLeft();
                 break;
             case JoystickDirection.Right:
-                lander.MoveRight();
-                break;
-            default:
-                lander.Stabilize();
+                lander.ThrustRight();
                 break;
         }
     }

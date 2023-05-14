@@ -62,7 +62,7 @@ public class Lander : IGameElement
 
     public bool IsCollidingWith(Terrain terrain)
     {
-        return terrain.IsCollidingWith(_x, _y);
+        return terrain.IsCollidingWith((int)_x, (int)_y);
     }
 
     public bool IsCollidingWith(LandingPad landingPad)
