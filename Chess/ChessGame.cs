@@ -29,6 +29,7 @@ public class ChessGame : IDuoPlayableGameElement
     private int selectedY = -1;
     private PieceColor currentPlayer = PieceColor.White;
     private DateTimeOffset lastMoveTime = DateTimeOffset.Now;
+
     public ChessGame()
     {
         var image = SpriteImage.FromResource("chess.png", new Point(1, 1));
@@ -48,6 +49,7 @@ public class ChessGame : IDuoPlayableGameElement
         {
             board[i, 1] = new Piece(PieceType.Pawn, PieceColor.Black);
         }
+
         board[0, 7] = new Piece(PieceType.Rook, PieceColor.White);
         board[1, 7] = new Piece(PieceType.Knight, PieceColor.White);
         board[2, 7] = new Piece(PieceType.Bishop, PieceColor.White);
@@ -61,7 +63,7 @@ public class ChessGame : IDuoPlayableGameElement
             board[i, 6] = new Piece(PieceType.Pawn, PieceColor.White);
         }
     }
-    
+
     public void Update()
     {
         explosions.Update();
@@ -83,6 +85,7 @@ public class ChessGame : IDuoPlayableGameElement
                 {
                     color = Color.White;
                 }
+
                 if (selectedX == i && selectedY == j)
                 {
                     color = cursorColor;
@@ -99,6 +102,7 @@ public class ChessGame : IDuoPlayableGameElement
                 }
             }
         }
+
         display.DrawRectangle(cursorX * 8, cursorY * 8, 8, 8, cursorColor);
         explosions.Draw(display);
     }
@@ -119,7 +123,7 @@ public class ChessGame : IDuoPlayableGameElement
             HandlePlayerInput(player2Console);
         }
     }
-    
+
     public void HandlePlayerInput(IPlayerConsole console)
     {
         // Prevent trigger happy players from moving the cursor too fast
@@ -127,47 +131,55 @@ public class ChessGame : IDuoPlayableGameElement
         {
             return;
         }
-        
+
         var stick = console.ReadJoystick();
         var buttons = console.ReadButtons();
         if (stick != 0 || buttons != 0)
         {
             lastMoveTime = DateTimeOffset.Now;
         }
-        
+
         if (stick.IsUp())
         {
             cursorY--;
-        } 
+        }
+
         if (stick.IsDown())
         {
             cursorY++;
-        } 
+        }
+
         if (stick.IsLeft())
         {
             cursorX--;
-        } 
+        }
+
         if (stick.IsRight())
         {
             cursorX++;
         }
+
         // prevent cursor from moving outside the board
         if (cursorX < 0)
         {
             cursorX = 0;
         }
+
         if (cursorX > 7)
         {
             cursorX = 7;
         }
+
         if (cursorY < 0)
         {
             cursorY = 0;
         }
+
         if (cursorY > 7)
         {
             cursorY = 7;
         }
+
         if (buttons.IsGreenPushed())
         {
             if (selectedX == -1 && board[cursorX, cursorY] != null && board[cursorX, cursorY].Color == currentPlayer)
@@ -184,131 +196,139 @@ public class ChessGame : IDuoPlayableGameElement
                     board[selectedX, selectedY] = null;
                     currentPlayer = currentPlayer == PieceColor.White ? PieceColor.Black : PieceColor.White;
                     if (capturedPiece != null)
-                        explosions.Explode(cursorX*8+4, cursorY*8+4);
+                        explosions.Explode(cursorX * 8 + 4, cursorY * 8 + 4);
                 }
+
                 selectedX = -1;
                 selectedY = -1;
             }
         }
     }
 
-private bool IsValidMove(int startX, int startY, int endX, int endY)
-{
-    var currentPiece = board[startX, startY];
-    var targetPiece = board[endX, endY];
-
-    if (currentPiece == null)
+    private bool IsValidMove(int startX, int startY, int endX, int endY)
     {
-        return false;
-    }
+        var currentPiece = board[startX, startY];
+        var targetPiece = board[endX, endY];
 
-    if (targetPiece != null && targetPiece.Color == currentPiece.Color)
-    {
-        return false;
-    }
+        if (currentPiece == null)
+        {
+            return false;
+        }
 
-    int deltaX = Math.Abs(endX - startX);
-    int deltaY = Math.Abs(endY - startY);
-    
-    if (currentPiece.Type != PieceType.Knight && !IsPathClear(startX, startY, endX, endY))
-    {
-        return false;
-    }
+        if (targetPiece != null && targetPiece.Color == currentPiece.Color)
+        {
+            return false;
+        }
 
-    switch (currentPiece.Type)
-    {
-        case PieceType.Pawn:
-            // Pawns can only move forward one space (two on their first move), 
-            // and can only capture diagonally
-            if (targetPiece == null)
-            {
-                if (currentPiece.Color == PieceColor.White)
+        int deltaX = Math.Abs(endX - startX);
+        int deltaY = Math.Abs(endY - startY);
+
+        if (currentPiece.Type != PieceType.Knight && !IsPathClear(startX, startY, endX, endY))
+        {
+            return false;
+        }
+
+        switch (currentPiece.Type)
+        {
+            case PieceType.Pawn:
+                // Pawns can only move forward one space (two on their first move), 
+                // and can only capture diagonally
+                if (targetPiece == null)
                 {
-                    if (deltaX == 0 && (deltaY == 1 || (!currentPiece.HasMoved && deltaY == 2)) && endY < startY)
+                    if (currentPiece.Color == PieceColor.White)
                     {
-                        return true;
+                        if (deltaX == 0 && (deltaY == 1 || (!currentPiece.HasMoved && deltaY == 2)) && endY < startY)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (deltaX == 0 && (deltaY == 1 || (!currentPiece.HasMoved && deltaY == 2)) && endY > startY)
+                        {
+                            return true;
+                        }
                     }
                 }
                 else
                 {
-                    if (deltaX == 0 && (deltaY == 1 || (!currentPiece.HasMoved && deltaY == 2)) && endY > startY)
+                    if (deltaX == 1 && deltaY == 1)
                     {
                         return true;
                     }
                 }
-            }
-            else
-            {
-                if (deltaX == 1 && deltaY == 1)
+
+                break;
+            case PieceType.Rook:
+                // Rooks can move any number of spaces along any row or column
+                if (deltaX * deltaY == 0)
                 {
                     return true;
                 }
-            }
-            break;
-        case PieceType.Rook:
-            // Rooks can move any number of spaces along any row or column
-            if (deltaX * deltaY == 0)
-            {
-                return true;
-            }
-            break;
-        case PieceType.Knight:
-            // Knights move in an L shape: two spaces along a row or column, and then one space perpendicular
-            if (deltaX * deltaY == 2)
-            {
-                return true;
-            }
-            break;
-        case PieceType.Bishop:
-            // Bishops move any number of spaces diagonally
-            if (deltaX == deltaY)
-            {
-                return true;
-            }
-            break;
-        case PieceType.Queen:
-            // Queens can move any number of spaces along any row, column, or diagonal
-            if (deltaX * deltaY == 0 || deltaX == deltaY)
-            {
-                return true;
-            }
-            break;
-        case PieceType.King:
-            // Kings can move one space in any direction
-            if (deltaX <= 1 && deltaY <= 1)
-            {
-                return true;
-            }
-            break;
-    }
 
-    return false;
-}
+                break;
+            case PieceType.Knight:
+                // Knights move in an L shape: two spaces along a row or column, and then one space perpendicular
+                if (deltaX * deltaY == 2)
+                {
+                    return true;
+                }
 
-private bool IsPathClear(int startX, int startY, int endX, int endY)
-{
-    // determine direction of movement
-    int xDir = startX < endX ? 1 : startX > endX ? -1 : 0;
-    int yDir = startY < endY ? 1 : startY > endY ? -1 : 0;
-    
-    // start from the next cell
-    int x = startX + xDir;
-    int y = startY + yDir;
+                break;
+            case PieceType.Bishop:
+                // Bishops move any number of spaces diagonally
+                if (deltaX == deltaY)
+                {
+                    return true;
+                }
 
-    while (x != endX || y != endY)
-    {
-        if (board[x, y] != null)
-        {
-            // path is blocked
-            return false;
+                break;
+            case PieceType.Queen:
+                // Queens can move any number of spaces along any row, column, or diagonal
+                if (deltaX * deltaY == 0 || deltaX == deltaY)
+                {
+                    return true;
+                }
+
+                break;
+            case PieceType.King:
+                // Kings can move one space in any direction
+                if (deltaX <= 1 && deltaY <= 1)
+                {
+                    return true;
+                }
+
+                break;
         }
-        x += xDir;
-        y += yDir;
-    }
-    
-    // path is clear
-    return true;
-}
 
-public GameOverState State { get; }
+        return false;
+    }
+
+    private bool IsPathClear(int startX, int startY, int endX, int endY)
+    {
+        // determine direction of movement
+        int xDir = startX < endX ? 1 : startX > endX ? -1 : 0;
+        int yDir = startY < endY ? 1 : startY > endY ? -1 : 0;
+
+        // start from the next cell
+        int x = startX + xDir;
+        int y = startY + yDir;
+
+        while (x != endX || y != endY)
+        {
+            if (board[x, y] != null)
+            {
+                // path is blocked
+                return false;
+            }
+
+            x += xDir;
+            y += yDir;
+        }
+
+        // path is clear
+        return true;
+    }
+
+    public GameOverState State { get; }
 }

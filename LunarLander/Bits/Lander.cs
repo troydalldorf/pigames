@@ -10,9 +10,9 @@ public class Lander : IGameElement
     private double _dx;
     private double _dy;
 
-    private const double Gravity = 0.05; // Gravity constant
+    private const double Gravity = 0.02; // Gravity constant
     private const double ThrustPower = 0.15; // Power of the thruster
-    private const double Inertia = 0.98; // Inertia factor
+    private const double Inertia = 0.25; // Inertia factor
 
     public Lander()
     {
