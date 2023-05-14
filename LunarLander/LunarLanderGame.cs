@@ -9,16 +9,16 @@ public class LunarLanderGame : IDuoPlayableGameElement
 {
     private readonly IFont font;
     private readonly Lander lander;
-    private readonly Terrain _terrain;
-    private readonly LandingPad _landingPad;
+    private readonly Terrain terrain;
+    private readonly LandingPad landingPad;
     private GameOverState state;
 
     public LunarLanderGame(IFontFactory fontFactory)
     {
         font = fontFactory.GetFont(LedFontType.Font4x6);
         lander = new Lander();
-        _terrain = new Terrain();
-        _landingPad = new LandingPad();
+        terrain = new Terrain();
+        landingPad = new LandingPad();
         state = GameOverState.None;
     }
 
@@ -54,11 +54,11 @@ public class LunarLanderGame : IDuoPlayableGameElement
     public void Update()
     {
         // Check for collisions and update the game state
-        if (lander.IsCollidingWith(_terrain) || lander.IsCollidingWith(_landingPad))
+        if (lander.IsCollidingWith(terrain) || lander.IsCollidingWith(landingPad))
         {
             state = GameOverState.EndOfGame;
         }
-        else if (lander.HasLandedOn(_landingPad))
+        else if (lander.HasLandedOn(landingPad))
         {
             state = GameOverState.Player1Wins;
         }
@@ -72,8 +72,8 @@ public class LunarLanderGame : IDuoPlayableGameElement
         lander.Draw(display);
 
         // Draw terrain and landing pad
-        _terrain.Draw(display);
-        _landingPad.Draw(display);
+        terrain.Draw(display);
+        landingPad.Draw(display);
 
         // Draw game over or win message if game is over
         if (state == GameOverState.EndOfGame)
