@@ -2,7 +2,7 @@ using System.Drawing;
 
 namespace Core.Display;
 
-public class TxDisplay: IDisplay, IDirectCanvasAccess
+public class TxDisplay : IDisplay, IDirectCanvasAccess
 {
     private readonly IDisplay concrete;
     private readonly Func<int, int, int> xTransform;
@@ -16,7 +16,7 @@ public class TxDisplay: IDisplay, IDirectCanvasAccess
         this.xTransform = xTransform;
         this.yTransform = yTransform;
     }
-    
+
     public void Clear()
     {
         concrete.Clear();
@@ -44,12 +44,12 @@ public class TxDisplay: IDisplay, IDirectCanvasAccess
 
     public void DrawRectangle(int x, int y, int width, int height, Color color, Color? fillColor = null)
     {
-        var tx1 = xTransform(x, y);
-        var ty1 = yTransform(x, y);
-        var tx2 = xTransform(x+width, y+height)-1;
-        var ty2 = yTransform(x+width, y+height)-1;
-        var twidth = tx2 - tx1+1;
-        var theight = ty2 - ty1+1;
+        var tx2 = xTransform(x, y);
+        var ty2 = yTransform(x, y);
+        var tx1 = xTransform(x + width, y + height);
+        var ty1 = yTransform(x + width, y + height);
+        var twidth = tx2 - tx1;
+        var theight = ty2 - ty1;
         concrete.DrawRectangle(tx1, ty1, twidth, theight, color, fillColor);
     }
 
