@@ -7,14 +7,9 @@ namespace Stacker;
 
 public class StackerGame2P : IDuoPlayableGameElement
 {
-    private int MaxStack = 7;
-    private readonly Player player1 = new(new Size(4, 4), Color.Fuchsia, 64);
-    private readonly Player player2 = new(new Size(4, 4), Color.Aqua, 64);
-    
-    public StackerGame2P()
-    {
-        State = GameOverState.None;
-    }
+    private const int MaxStack = 7;
+    private readonly Player player1 = new(new Size(4, 4), Color.Fuchsia, 64, 64);
+    private readonly Player player2 = new(new Size(4, 4), Color.Aqua, 64, 64);
 
     public void HandleInput(IPlayerConsole player1Console)
     {
