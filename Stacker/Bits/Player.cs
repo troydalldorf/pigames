@@ -6,7 +6,7 @@ namespace Stacker.Bits;
 
 public class Player : IGameElement
 {
-    private Stack<StackedBlock> _stack = new();
+    private List<StackedBlock> _stack = new();
     private readonly Size _blockSize;
     private readonly Color _color;
     private readonly int _displayWidth;
@@ -45,7 +45,8 @@ public class Player : IGameElement
 
         if (!IsDone)
         {
-            _stack.Push(new StackedBlock(x, width));
+            _stack.Add(new StackedBlock(x, width));
+            _y -= _blockSize.Height;
         }
     }
 
@@ -57,13 +58,13 @@ public class Player : IGameElement
 
     public void Draw(IDisplay display)
     {
+        display.DrawRectangle(_x, _y, _blockSize.Width, _blockSize.Height, _color, _color);
         var y = _displayHeight - _blockSize.Height - 1;
         foreach (var block in _stack)
         {
             display.DrawRectangle(block.X, y - _blockSize.Height, block.Width, _blockSize.Height, _color, _color);
             y -= _blockSize.Height;
         }
-        display.DrawRectangle(_x, _y - _blockSize.Height, _blockSize.Width, _blockSize.Height, _color, _color);
     }
 
     private record StackedBlock(int X, int Width);
