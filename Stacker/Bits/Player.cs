@@ -16,6 +16,7 @@ public class Player : IGameElement
     private int _x;
     private int _y;
     private int _speed = 1;
+    private DateTime nextInput = DateTime.Now;
 
     public Player(string name, Size blockSize, Color color, int displayWidth, int displayHeight)
     {
@@ -34,6 +35,8 @@ public class Player : IGameElement
 
     public void Next()
     {
+        if (DateTime.Now < nextInput) return;
+        nextInput = DateTime.Now.AddMilliseconds(200);
         var x = _x;
         var width = _blockSize.Width;
         if (_stack.Any())

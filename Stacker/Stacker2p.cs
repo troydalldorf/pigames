@@ -7,23 +7,17 @@ namespace Stacker;
 
 public class StackerGame2P : IDuoPlayableGameElement
 {
-    private DateTime lastP1 = DateTime.Now;
-    private DateTime lastP2 = DateTime.Now;
     private const int MaxStack = 7;
     private readonly Player player1 = new("p1", new Size(4, 4), Color.Fuchsia, 64, 64);
     private readonly Player player2 = new("p2", new Size(4, 4), Color.Aqua, 64, 64);
 
     public void HandleInput(IPlayerConsole player1Console)
     {
-        if (DateTime.Now < lastP1.AddMilliseconds(200)) return;
-        lastP1 = DateTime.Now;
         HandleInput(player1, player1Console);
     }
 
     public void Handle2PInput(IPlayerConsole player2Console)
     {
-        if (DateTime.Now < lastP2.AddMilliseconds(200)) return;
-        lastP2 = DateTime.Now;
         HandleInput(player2, player2Console);
     }
 
