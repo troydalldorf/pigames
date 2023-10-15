@@ -1,121 +1,63 @@
 ﻿using System.Drawing;
 using Core;
 using Core.Display;
+using Stacker.Bits;
 
 namespace Stacker;
 
 public class StackerGame2P : IDuoPlayableGameElement
 {
-    private const int DisplayWidth = 64;
-    private const int DisplayHeight = 64;
-    private const int BlockWidth = 4;
-    private const int MaxBlockCount = DisplayHeight / BlockWidth;
-
-    private int currentY1;
-    private int currentX1;
-    private int lastX1;
-    private int direction1;
-    private int blockCount1;
-
-    private int currentY2;
-    private int currentX2;
-    private int lastX2;
-    private int direction2;
-    private int blockCount2;
-
-    private int speed;
-
+    private int MaxStack = 7;
+    private readonly Player player1 = new(new Size(4, 4), Color.Fuchsia, 64);
+    private readonly Player player2 = new(new Size(4, 4), Color.Aqua, 64);
+    
     public StackerGame2P()
     {
-        Reset();
         State = GameOverState.None;
-    }
-
-    private void Reset()
-    {
-        currentY1 = DisplayHeight - BlockWidth;
-        currentY2 = 0;
-        currentX1 = DisplayWidth / 4 - BlockWidth;
-        currentX2 = 3 * DisplayWidth / 4 - BlockWidth;
-        direction1 = direction2 = 1;
-        blockCount1 = blockCount2 = MaxBlockCount;
-        speed = 1;
     }
 
     public void HandleInput(IPlayerConsole player1Console)
     {
-        var buttons = player1Console.ReadButtons();
-        if (buttons != Buttons.None)
-        {
-            if (blockCount1 > 1 && currentX1 != lastX1)  // Check if it's not the first block for Player 1
-            {
-                State = GameOverState.Player2Wins;
-                return;
-            }
-
-            if (blockCount2 > 1 && currentX2 != lastX2)  // Check if it's not the first block for Player 2
-            {
-                State = GameOverState.Player1Wins;
-                return;
-            }
-
-            lastX1 = currentX1;
-            currentY1 -= BlockWidth;
-            blockCount1--;
-
-            if (blockCount1 == 0)
-            {
-                State = GameOverState.Player1Wins;
-            }
-        }
+        HandleInput(player1, player1Console);
     }
 
     public void Handle2PInput(IPlayerConsole player2Console)
     {
-        var buttons = player2Console.ReadButtons();
-        if (buttons != Buttons.None)
+        HandleInput(player2, player2Console);
+    }
+
+    private void HandleInput(Player player, IPlayerConsole console)
+    {
+        var buttons = console.ReadButtons();
+        if (buttons.IsGreenPushed())
         {
-            if (currentX2 != lastX2)
-            {
-                State = GameOverState.Player1Wins;
-                return;
-            }
-
-            lastX2 = currentX2;
-            currentY2 += BlockWidth;
-            blockCount2--;
-
-            if (blockCount2 == 0)
-            {
-                State = GameOverState.Player2Wins;
-            }
+            player.Next();
         }
     }
 
     public void Update()
     {
-        currentX1 += direction1 * speed;
-        currentX2 += direction2 * speed;
-
-        // Check for boundaries and bounce back for both players
-        if (currentX1 <= 0 || currentX1 >= DisplayWidth / 2 - BlockWidth)
-        {
-            direction1 *= -1;
-        }
-
-        if (currentX2 <= DisplayWidth / 2 || currentX2 >= DisplayWidth - BlockWidth)
-        {
-            direction2 *= -1;
-        }
+        player1.Update();
+        player2.Update();
+        if (player1.IsDone && player2.IsDone)
+            this.State = GameOverState.Draw;
+        else if (player1.IsDone)
+            this.State = GameOverState.Player2Wins;
+        else if (player2.IsDone)
+            this.State = GameOverState.Player1Wins;
+        if (player1.StackSize >= MaxStack && player2.StackSize >= MaxStack)
+            this.State = GameOverState.Draw;
+        else if (player1.StackSize > MaxStack)
+            this.State = GameOverState.Player1Wins;
+        else if (player2.StackSize > MaxStack)
+            this.State = GameOverState.Player2Wins;
     }
 
     public void Draw(IDisplay display)
     {
-        display.Clear();
-
-        // Draw blocks for player 1 and player 2
-        display.DrawRectangle(currentX1, currentY1, BlockWidth, BlockWidth, Color.Green);
-        display.DrawRectangle(currentX2, currentY2, BlockWidth, BlockWidth, Color.Blue);
+        player1.Draw(display);
+        var p2Display = new TxDisplay(display, (x, _) => 63 - x, (_, y) => 63 - y);
+        player2.Draw(p2Display);
     }
 
     public GameOverState State { get; private set; }
