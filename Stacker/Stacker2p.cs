@@ -34,17 +34,13 @@ public class StackerGame2P : IDuoPlayableGameElement
     {
         player1.Update();
         player2.Update();
-        if (player1.IsDone && player2.IsDone)
+        if (!player1.IsDone && !player2.IsDone) return;
+        if (player1.StackSize < MaxStack && player2.StackSize < MaxStack) return;
+        if (player1.StackSize == player2.StackSize)
             this.State = GameOverState.Draw;
-        else if (player1.IsDone)
-            this.State = GameOverState.Player2Wins;
-        else if (player2.IsDone)
+        else if (player1.StackSize > player2.StackSize)
             this.State = GameOverState.Player1Wins;
-        if (player1.StackSize >= MaxStack && player2.StackSize >= MaxStack)
-            this.State = GameOverState.Draw;
-        else if (player1.StackSize > MaxStack)
-            this.State = GameOverState.Player1Wins;
-        else if (player2.StackSize > MaxStack)
+        else if (player2.StackSize > player1.StackSize)
             this.State = GameOverState.Player2Wins;
     }
 
