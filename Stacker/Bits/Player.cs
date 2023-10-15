@@ -7,6 +7,7 @@ namespace Stacker.Bits;
 public class Player : IGameElement
 {
     private List<StackedBlock> _stack = new();
+    private readonly string name;
     private readonly Size _blockSize;
     private readonly Color _color;
     private readonly int _displayWidth;
@@ -16,10 +17,11 @@ public class Player : IGameElement
     private int _y;
     private int _speed = 1;
 
-    public Player(Size blockSize, Color color, int displayWidth, int displayHeight)
+    public Player(string name, Size blockSize, Color color, int displayWidth, int displayHeight)
     {
         this._y = _displayHeight - 1 - _blockSize.Height;
         this._x = 0;
+        this.name = name;
         this._blockSize = blockSize;
         this._color = color;
         this._displayWidth = displayWidth;
@@ -60,6 +62,7 @@ public class Player : IGameElement
 
     public void Draw(IDisplay display)
     {
+        Console.WriteLine($"{name}: {_x}, {_y}");
         display.DrawRectangle(_x, _y, _blockSize.Width, _blockSize.Height, _color, _color);
         var y = _displayHeight - 1 - _blockSize.Height;
         foreach (var block in _stack)
