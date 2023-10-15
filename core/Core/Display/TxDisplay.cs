@@ -46,10 +46,10 @@ public class TxDisplay: IDisplay, IDirectCanvasAccess
     {
         var tx1 = xTransform(x, y);
         var ty1 = yTransform(x, y);
-        var tx2 = xTransform(x+width, y+height);
-        var ty2 = yTransform(x+width, y+height);
-        var twidth = tx2 - tx1;
-        var theight = ty2 - ty1;
+        var tx2 = xTransform(x+width, y+height)-1;
+        var ty2 = yTransform(x+width, y+height)-1;
+        var twidth = tx2 - tx1+1;
+        var theight = ty2 - ty1+1;
         concrete.DrawRectangle(tx1, ty1, twidth, theight, color, fillColor);
     }
 

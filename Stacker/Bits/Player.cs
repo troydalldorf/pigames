@@ -62,13 +62,13 @@ public class Player : IGameElement
 
     public void Draw(IDisplay display)
     {
-        var y = _displayHeight - 1 - _blockSize.Height;
+        var y = _displayHeight - 1;
         foreach (var block in _stack)
         {
-            display.DrawRectangle(block.X, y, block.Width, _blockSize.Height, _color, _color);
+            display.DrawRectangle(block.X, y-_blockSize.Height, block.Width, _blockSize.Height, _color, _color);
             y -= _blockSize.Height;
         }
-        display.DrawRectangle(_x, _y, _blockSize.Width, _blockSize.Height, _color, _color);
+        display.DrawRectangle(_x, _y-_blockSize.Height, _blockSize.Width, _blockSize.Height, _color, _color);
     }
 
     private record StackedBlock(int X, int Width);
