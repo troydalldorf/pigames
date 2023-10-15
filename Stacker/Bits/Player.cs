@@ -12,12 +12,14 @@ public class Player : IGameElement
     private readonly int _displayWidth;
     private readonly int _displayHeight;
     private int _direction = 1;
-    private int _x = 0;
-    private int _y = 0;
+    private int _x;
+    private int _y;
     private int _speed = 1;
 
     public Player(Size blockSize, Color color, int displayWidth, int displayHeight)
     {
+        this._y = _displayHeight - _blockSize.Height - 1;
+        this._x = 0;
         this._blockSize = blockSize;
         this._color = color;
         this._displayWidth = displayWidth;
@@ -55,7 +57,7 @@ public class Player : IGameElement
 
     public void Draw(IDisplay display)
     {
-        var y = _displayHeight - _blockSize.Height;
+        var y = _displayHeight - _blockSize.Height - 1;
         foreach (var block in _stack)
         {
             display.DrawRectangle(block.X, y - _blockSize.Height, block.Width, _blockSize.Height, _color, _color);
