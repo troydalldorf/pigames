@@ -1,6 +1,7 @@
 using System.Drawing;
 using Checkers.Bits;
 using Core;
+using Core.Display;
 using Core.Display.Sprites;
 using Core.Fonts;
 

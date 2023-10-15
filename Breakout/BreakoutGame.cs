@@ -2,6 +2,7 @@ using Breakout.Bits;
 using Core;
 using Core.Effects;
 using System.Drawing;
+using Core.Display;
 
 namespace Breakout;
 

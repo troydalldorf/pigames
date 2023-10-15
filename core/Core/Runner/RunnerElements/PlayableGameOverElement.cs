@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Drawing;
+using Core.Display;
 using Core.Fonts;
 
 namespace Core.Runner.RunnerElements;

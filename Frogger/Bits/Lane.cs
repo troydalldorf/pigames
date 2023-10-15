@@ -2,6 +2,7 @@ using System.Drawing;
 using Core;
 using Core.Display.Sprites;
 using System.Linq;
+using Core.Display;
 
 namespace Frogger.Bits
 {

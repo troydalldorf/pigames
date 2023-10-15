@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using Core;
+using Core.Display;
 using Core.Display.Fonts;
 using Core.Effects;
 using Core.Fonts;

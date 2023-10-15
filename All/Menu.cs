@@ -8,6 +8,7 @@ using Checkers;
 using Chess;
 using ConnectFour;
 using Core;
+using Core.Display;
 using Core.Fonts;
 using Core.Runner;
 using Core.Sounds;
@@ -21,6 +22,7 @@ using PacificWings;
 using Pong;
 using Snake;
 using SpaceInvaders2;
+using Stacker;
 using Tetris;
 using TicTacToe;
 
@@ -75,6 +77,7 @@ public class Menu : IPlayableGameElement
             new("Snake 1P", () => new SnakePlayableGame(), 100),
             new("Snake 2P", () => new SnakeGame2P(), 100),
             new("Space Invaders", () => new SpaceInvadersPlayableGame(), 75),
+            new("Stacker 2P", () => new StackerGame2P(), 75),
             new("Tic Tac Toe 2P", () => new TicTacToeGame(fontFactory)),
             new("Tetris 1P", () => new TetrisGame(fontFactory)),
             new("Tetris 2P", () => new DuoTetrisGame(fontFactory)),

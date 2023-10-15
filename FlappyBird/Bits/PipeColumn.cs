@@ -1,5 +1,6 @@
 using System.Drawing;
 using Core;
+using Core.Display;
 using Core.Display.Sprites;
 
 namespace FlappyBird.Bits;

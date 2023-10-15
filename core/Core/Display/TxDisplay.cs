@@ -1,6 +1,6 @@
 using System.Drawing;
 
-namespace Core.Effects;
+namespace Core.Display;
 
 public class TxDisplay: IDisplay, IDirectCanvasAccess
 {

@@ -2,6 +2,7 @@ using Core;
 using Core.Fonts;
 using Speed.Bits;
 using System.Drawing;
+using Core.Display;
 
 namespace Speed;
 

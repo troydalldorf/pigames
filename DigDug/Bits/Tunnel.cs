@@ -1,5 +1,6 @@
 using System.Drawing;
 using Core;
+using Core.Display;
 using DigDug.Bits;
 
 public class Tunnel : IGameElement

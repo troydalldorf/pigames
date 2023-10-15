@@ -1,3 +1,5 @@
+using Core.Display;
+
 namespace Core;
 
 public interface IGameElement

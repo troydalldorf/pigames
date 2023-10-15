@@ -1,4 +1,5 @@
 using Core;
+using Core.Display;
 using Core.Display.Sprites;
 using Core.Effects;
 using SpaceInvaders2.Bits;

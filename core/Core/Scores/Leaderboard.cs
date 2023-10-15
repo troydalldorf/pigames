@@ -1,6 +1,7 @@
 using System.Drawing;
 using System.Text.Json;
 using Core;
+using Core.Display;
 using Core.Fonts;
 
 public class Leaderboard : IPlayableGameElement

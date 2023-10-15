@@ -1,4 +1,5 @@
 using Core;
+using Core.Display;
 using Core.Inputs;
 
 namespace Snake;

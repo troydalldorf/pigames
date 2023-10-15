@@ -135,7 +135,7 @@ public class ChessBoard
                 {
                     if (deltaX == 1 && deltaY == 1)
                     {
-                        return IsPathClear(from, to, false);
+                        return true;
                     }
                 }
 
@@ -200,7 +200,6 @@ public class ChessBoard
         {
             x += xDir;
             y += yDir;
-            Console.WriteLine($"{from}->{to} ({x}, {y}), {xDir}, {yDir}");
             if (GetPieceAt(x, y) != null)
             {
                 return false;

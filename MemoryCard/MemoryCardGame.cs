@@ -2,6 +2,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.Drawing;
 using Core;
+using Core.Display;
 using MemoryCard.Bits;
 
 namespace MemoryCard;

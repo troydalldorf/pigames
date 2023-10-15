@@ -1,3 +1,4 @@
+using Core.Display;
 using Core.Display.Sprites;
 
 namespace Core.Effects;
