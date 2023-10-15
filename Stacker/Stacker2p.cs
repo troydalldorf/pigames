@@ -9,20 +9,21 @@ public class StackerGame2P : IDuoPlayableGameElement
     private const int DisplayWidth = 64;
     private const int DisplayHeight = 64;
     private const int BlockWidth = 4;
-    private const int MaxBlockCount = 16;
+    private const int MaxBlockCount = DisplayHeight / BlockWidth;
 
     private int currentY1;
     private int currentX1;
+    private int lastX1;
     private int direction1;
     private int blockCount1;
 
     private int currentY2;
     private int currentX2;
+    private int lastX2;
     private int direction2;
     private int blockCount2;
 
-    private int speed1;
-    private int speed2;
+    private int speed;
 
     public StackerGame2P()
     {
@@ -33,23 +34,29 @@ public class StackerGame2P : IDuoPlayableGameElement
     private void Reset()
     {
         currentY1 = DisplayHeight - BlockWidth;
-        currentY2 = BlockWidth;
+        currentY2 = 0;
         currentX1 = DisplayWidth / 4 - BlockWidth;
         currentX2 = 3 * DisplayWidth / 4 - BlockWidth;
-        direction1 = 1;
-        direction2 = -1;
+        direction1 = direction2 = 1;
         blockCount1 = blockCount2 = MaxBlockCount;
-        speed1 = speed2 = 1;
+        speed = 1;
     }
 
     public void HandleInput(IPlayerConsole player1Console)
     {
         var buttons = player1Console.ReadButtons();
-        if ((buttons & Buttons.Green) != 0)
+        if (buttons != Buttons.None)
         {
-            direction1 *= -1;
+            if (currentX1 != lastX1)
+            {
+                State = GameOverState.Player2Wins;
+                return;
+            }
+
+            lastX1 = currentX1;
+            currentY1 -= BlockWidth;
             blockCount1--;
-            speed1++;
+
             if (blockCount1 == 0)
             {
                 State = GameOverState.Player1Wins;
@@ -60,28 +67,37 @@ public class StackerGame2P : IDuoPlayableGameElement
     public void Handle2PInput(IPlayerConsole player2Console)
     {
         var buttons = player2Console.ReadButtons();
-        if ((buttons & Buttons.Blue) == 0) return;
-        direction2 *= -1;
-        blockCount2--;
-        speed2++;
-        if (blockCount2 == 0)
+        if (buttons != Buttons.None)
         {
-            State = GameOverState.Player2Wins;
+            if (currentX2 != lastX2)
+            {
+                State = GameOverState.Player1Wins;
+                return;
+            }
+
+            lastX2 = currentX2;
+            currentY2 += BlockWidth;
+            blockCount2--;
+
+            if (blockCount2 == 0)
+            {
+                State = GameOverState.Player2Wins;
+            }
         }
     }
 
     public void Update()
     {
-        currentX1 += direction1 * speed1;
-        currentX2 += direction2 * speed2;
+        currentX1 += direction1 * speed;
+        currentX2 += direction2 * speed;
 
-        // Check for boundaries and bounce back
-        if (currentX1 is <= 0 or >= DisplayWidth / 2 - BlockWidth)
+        // Check for boundaries and bounce back for both players
+        if (currentX1 <= 0 || currentX1 >= DisplayWidth / 2 - BlockWidth)
         {
             direction1 *= -1;
         }
 
-        if (currentX2 is <= DisplayWidth / 2 or >= DisplayWidth - BlockWidth)
+        if (currentX2 <= DisplayWidth / 2 || currentX2 >= DisplayWidth - BlockWidth)
         {
             direction2 *= -1;
         }
