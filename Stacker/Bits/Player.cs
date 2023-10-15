@@ -18,7 +18,7 @@ public class Player : IGameElement
 
     public Player(Size blockSize, Color color, int displayWidth, int displayHeight)
     {
-        this._y = _displayHeight - _blockSize.Height - 1;
+        this._y = _displayHeight - 1 - _blockSize.Height;
         this._x = 0;
         this._blockSize = blockSize;
         this._color = color;
@@ -46,6 +46,8 @@ public class Player : IGameElement
         if (!IsDone)
         {
             _stack.Add(new StackedBlock(x, width));
+            _direction *= -1;
+            _x = _direction < 0 ? _displayWidth - 1 - _blockSize.Width : 0; 
             _y -= _blockSize.Height;
         }
     }
@@ -59,7 +61,7 @@ public class Player : IGameElement
     public void Draw(IDisplay display)
     {
         display.DrawRectangle(_x, _y, _blockSize.Width, _blockSize.Height, _color, _color);
-        var y = _displayHeight - _blockSize.Height - 1;
+        var y = _displayHeight - 1 - _blockSize.Height;
         foreach (var block in _stack)
         {
             display.DrawRectangle(block.X, y - _blockSize.Height, block.Width, _blockSize.Height, _color, _color);
