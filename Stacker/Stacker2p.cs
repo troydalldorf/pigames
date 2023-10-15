@@ -47,9 +47,15 @@ public class StackerGame2P : IDuoPlayableGameElement
         var buttons = player1Console.ReadButtons();
         if (buttons != Buttons.None)
         {
-            if (currentX1 != lastX1)
+            if (blockCount1 > 1 && currentX1 != lastX1)  // Check if it's not the first block for Player 1
             {
                 State = GameOverState.Player2Wins;
+                return;
+            }
+
+            if (blockCount2 > 1 && currentX2 != lastX2)  // Check if it's not the first block for Player 2
+            {
+                State = GameOverState.Player1Wins;
                 return;
             }
 
