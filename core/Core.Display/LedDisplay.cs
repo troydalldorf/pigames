@@ -69,7 +69,7 @@ public class LedDisplay : IDisplay, IDirectCanvasAccess
     {
         var x2 = x + width - 1;
         var y2 = y + height - 1;
-        if (fillColor != null)
+        if (fillColor != null && width > 1 && height > 1)
         {
             for (var row = y + 1; row< y2; row++)
                 canvas.DrawLine(x+1, row, x2-1, row, fillColor.Value);
