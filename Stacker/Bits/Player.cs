@@ -44,6 +44,7 @@ public class Player : IGameElement
             var last = _stack.Last();
             var x1 = Math.Max(last.X, _x);
             var x2 = Math.Min(last.X + last.Width, _x + _blockSize.Width);
+            x = x1;
             width = x2 - x1;
             IsDone = width <= 0;
         }
