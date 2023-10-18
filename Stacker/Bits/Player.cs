@@ -35,18 +35,26 @@ public class Player : IGameElement
 
         var x = _x;
         var blocks = _blocks;
+        var blockWidth = _config.BlockSize.Width + 1;
     
         if (_stack.Any())
         {
             var last = _stack.Last();
-            var blockWidth = _config.BlockSize.Width + 1;
-
+        
             // Calculate overlapping region between the last block and the current block
-            var x1 = Math.Max(last.X, _x);
-            var x2 = Math.Min(last.X + last.Blocks * blockWidth, _x + blockWidth * _blocks);
+            int x1, x2;
+            if (_direction < 0) // moving left
+            {
+                x1 = _x;
+                x2 = last.X + last.Blocks * blockWidth;
+            }
+            else // moving right
+            {
+                x1 = last.X;
+                x2 = _x + blockWidth * _blocks;
+            }
 
-            // If there's no overlap, the game is done
-            if (x2 <= x1)
+            if (x2 <= x1) // No overlap
             {
                 IsDone = true;
                 return;
@@ -56,13 +64,21 @@ public class Player : IGameElement
             blocks = (x2 - x1) / blockWidth;
         }
 
+        // If no blocks captured, the game is done
+        if (blocks == 0)
+        {
+            IsDone = true;
+            return;
+        }
+
         // Update stack and change direction
         _stack.Add(new StackedBlock(x, blocks));
         _direction *= -1;
+        _blocks = blocks; // The number of blocks for the next moving set is updated here
         _x = _direction < 0 ? _config.DisplayWidth - 1 - _config.BlockSize.Width * blocks : 0;
         _y -= _config.BlockSize.Height + 1;
     }
-
+    
     public void Update()
     {
         _x += _direction;
