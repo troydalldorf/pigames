@@ -18,7 +18,7 @@ public class Player : IGameElement
     public Player(Config config)
     {
         this._config = config;
-        this._y = config.DisplayHeight - 1 - config.BlockSize.Height;
+        this._y = config.DisplayHeight - 1;
         this._x = 0;
         this._blocks = config.InitialBlocks;
     }
@@ -32,26 +32,35 @@ public class Player : IGameElement
         // Debounce
         if (DateTime.Now < nextInput) return;
         nextInput = DateTime.Now.AddMilliseconds(200);
+
         var x = _x;
         var blocks = _blocks;
+    
         if (_stack.Any())
         {
             var last = _stack.Last();
             var blockWidth = _config.BlockSize.Width + 1;
-            var x1 = Math.Max(last.X, _x) / blockWidth;
-            var x2 = Math.Min(last.X + last.Blocks, _x + _config.BlockSize.Width) / blockWidth;
-            x = x1 * blockWidth;
-            blocks = (x2 - x1);
-            IsDone = blocks <= 0;
+
+            // Calculate overlapping region between the last block and the current block
+            var x1 = Math.Max(last.X, _x);
+            var x2 = Math.Min(last.X + last.Blocks * blockWidth, _x + blockWidth * _blocks);
+
+            // If there's no overlap, the game is done
+            if (x2 <= x1)
+            {
+                IsDone = true;
+                return;
+            }
+
+            x = x1;
+            blocks = (x2 - x1) / blockWidth;
         }
 
-        if (!IsDone)
-        {
-            _stack.Add(new StackedBlock(x, blocks));
-            _direction *= -1;
-            _x = _direction < 0 ? _config.DisplayWidth - 1 - _config.BlockSize.Width * _blocks : 0;
-            _y -= _config.BlockSize.Height + 1;
-        }
+        // Update stack and change direction
+        _stack.Add(new StackedBlock(x, blocks));
+        _direction *= -1;
+        _x = _direction < 0 ? _config.DisplayWidth - 1 - _config.BlockSize.Width * blocks : 0;
+        _y -= _config.BlockSize.Height + 1;
     }
 
     public void Update()
