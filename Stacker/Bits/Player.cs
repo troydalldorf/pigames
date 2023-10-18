@@ -58,7 +58,8 @@ public class Player : IGameElement
     {
         _x += _direction;
         var pixelWidth = (_config.BlockSize.Width + 1) * _blocks;
-        if (_x + pixelWidth >= _config.DisplayWidth || _x <= 0) _direction *= -1;
+        if (_direction < 0 && _x <= 0) _direction *= -1;
+        if (_direction > 0 && _x + pixelWidth >= _config.DisplayWidth) _direction *= -1;
     }
 
     public void Draw(IDisplay display)
