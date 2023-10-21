@@ -33,51 +33,35 @@ public class Player : IGameElement
         if (DateTime.Now < nextInput) return;
         nextInput = DateTime.Now.AddMilliseconds(200);
 
-        var x = _x;
-        var blocks = _blocks;
-        var blockWidth = _config.BlockSize.Width + 1;
+        var currentColumn = SnapToCol(_x, _direction);
+        var currentBlocks = _blocks;
     
         if (_stack.Any())
         {
             var last = _stack.Last();
-        
-            // Calculate overlapping region between the last block and the current block
-            int x1, x2;
-            if (_direction < 0) // moving left
-            {
-                x1 = _x;
-                x2 = last.X + last.Blocks * blockWidth;
-            }
-            else // moving right
-            {
-                x1 = last.X;
-                x2 = _x + blockWidth * _blocks;
-            }
-
-            if (x2 <= x1) // No overlap
-            {
-                IsDone = true;
-                return;
-            }
-
-            x = x1;
-            blocks = (x2 - x1) / blockWidth;
+            var left = Math.Max(currentColumn, last.Column);
+            var right = Math.Min(currentColumn + currentBlocks, last.Blocks);
+            currentColumn = left;
+            currentBlocks = right - left;
         }
 
         // If no blocks captured, the game is done
-        if (blocks == 0)
+        if (currentBlocks == 0)
         {
             IsDone = true;
             return;
         }
 
         // Update stack and change direction
-        _stack.Add(new StackedBlock(x, blocks));
+        _stack.Add(new StackedBlock(currentColumn, currentBlocks));
         _direction *= -1;
-        _blocks = blocks; // The number of blocks for the next moving set is updated here
-        _x = _direction < 0 ? _config.DisplayWidth - 1 - _config.BlockSize.Width * blocks : 0;
+        _blocks = currentBlocks; // The number of blocks for the next moving set is updated here
+        _x = _direction < 0 ? _config.DisplayWidth - 1 - _config.BlockSize.Width * currentBlocks : 0;
         _y -= _config.BlockSize.Height + 1;
     }
+
+    private int SnapToCol(int x, int direction = -1) =>
+        x / (_config.BlockSize.Width + 1) + direction == 1 ? _config.BlockSize.Width + 1 : 0; 
     
     public void Update()
     {
@@ -96,15 +80,21 @@ public class Player : IGameElement
             y -= _config.BlockSize.Height + 1;
         }
 
-        DrawRow(display, _y, new StackedBlock(_x, _blocks));
+        DrawRow(display, _y, _x, _blocks);
     }
 
     private void DrawRow(IDisplay display, int y, StackedBlock block)
     {
-        for (var i = 0; i < block.Blocks; i++)
+        var x = block.Column * _config.BlockSize.Width + 1;
+        DrawRow(display, y, x, block.Blocks);
+    }
+
+    private void DrawRow(IDisplay display, int y, int x, int blocks)
+    {
+        for (var i = 0; i < blocks; i++)
         {
             display.DrawRectangle(
-                block.X + (_config.BlockSize.Width + 1) * i,
+                x + (_config.BlockSize.Width + 1) * i,
                 y - _config.BlockSize.Height,
                 _config.BlockSize.Width,
                 _config.BlockSize.Height,
@@ -113,5 +103,5 @@ public class Player : IGameElement
         }
     }
 
-    private record StackedBlock(int X, int Blocks);
+    private record StackedBlock(int Column, int Blocks);
 }
