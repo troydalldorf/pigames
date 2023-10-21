@@ -1,34 +1,32 @@
 using System.Drawing;
 using System.Text.Json;
-using Core;
 using Core.Display;
 using Core.Fonts;
+
+namespace Core.Scores;
 
 public class Leaderboard : IPlayableGameElement
 {
     private const int MaxEntries = 10;
     private readonly string gameName;
     private readonly string scoresFilePath;
-    private List<(string, int)>? highScores;
+    private List<(string, int)> highScores = new();
     private bool isNewHighScore;
     private bool showPlayAgainPrompt;
 
-    private string initials;
-    private int score;
-    private int initialsIndex;
+    private int _initialsIndex;
+    private string _initials;
+    private int _score;
 
     private readonly IFont font;
     private readonly Color textColor = Color.Green;
     private readonly Color highlightedTextColor = Color.Red;
-    private readonly Color backgroundColor = Color.Black;
 
     public Leaderboard(string gameName, IFontFactory fontFactory)
     {
         this.gameName = gameName;
         scoresFilePath = $"{gameName}.json";
-
         font = fontFactory.GetFont(LedFontType.Font5x7);
-
         LoadScoresFromFile();
     }
 
@@ -37,7 +35,7 @@ public class Leaderboard : IPlayableGameElement
         try
         {
             var scoresJson = File.ReadAllText(scoresFilePath);
-            highScores = JsonSerializer.Deserialize<List<(string, int)>>(scoresJson);
+            highScores = JsonSerializer.Deserialize<List<(string, int)>>(scoresJson)!;
         }
         catch (Exception)
         {
@@ -53,7 +51,7 @@ public class Leaderboard : IPlayableGameElement
 
     private void AddScoreToLeaderboard()
     {
-        highScores.Add((initials, score));
+        highScores.Add((_initials, _score));
         highScores = highScores.OrderByDescending(s => s.Item2).Take(MaxEntries).ToList();
         SaveScoresToFile();
     }
@@ -98,23 +96,23 @@ public class Leaderboard : IPlayableGameElement
         var joystick = player1Console.ReadJoystick();
         var buttons = player1Console.ReadButtons();
 
-        if (joystick == JoystickDirection.Right && initialsIndex < 2)
+        if (joystick == JoystickDirection.Right && _initialsIndex < 2)
         {
-            initialsIndex++;
+            _initialsIndex++;
         }
-        else if (joystick == JoystickDirection.Left && initialsIndex > 0)
+        else if (joystick == JoystickDirection.Left && _initialsIndex > 0)
         {
-            initialsIndex--;
+            _initialsIndex--;
         }
         else if (joystick == JoystickDirection.Up)
         {
-            var newChar = (char)(((int)initials[initialsIndex] + 1 - 65) % 26 + 65);
-            initials = initials[..initialsIndex] + newChar + initials[(initialsIndex + 1)..];
+            var newChar = (char)(((int)_initials[_initialsIndex] + 1 - 65) % 26 + 65);
+            _initials = _initials[.._initialsIndex] + newChar + _initials[(_initialsIndex + 1)..];
         }
         else if (joystick == JoystickDirection.Down)
         {
-            var newChar = (char)(((int)initials[initialsIndex] - 1 - 65 + 26) % 26 + 65);
-            initials = initials[..initialsIndex] + newChar + initials[(initialsIndex + 1)..];
+            var newChar = (char)(((int)_initials[_initialsIndex] - 1 - 65 + 26) % 26 + 65);
+            _initials = _initials[.._initialsIndex] + newChar + _initials[(_initialsIndex + 1)..];
         }
 
         if (buttons == Buttons.Green)
@@ -136,20 +134,20 @@ public class Leaderboard : IPlayableGameElement
         font.DrawText(display, 4, 4, textColor, $"{gameName} High Scores");
 
         // draw scores
-        for (int i = 0; i < highScores.Count; i++)
+        for (var i = 0; i < highScores.Count; i++)
         {
             var (initials, score) = highScores[i];
-            var textColor = i == 0 && isNewHighScore ? highlightedTextColor : this.textColor;
+            var color = i == 0 && isNewHighScore ? highlightedTextColor : this.textColor;
             var y = 16 + i * 8;
-            font.DrawText(display, 4, y, textColor, $"{initials} {score}");
+            font.DrawText(display, 4, y, color, $"{initials} {score}");
         }
 
         // prompt for entering initials
         if (isNewHighScore)
         {
             font.DrawText(display, 4, 54, textColor, "Enter your initials:");
-            font.DrawText(display, 44, 54, textColor, initials, vertical: false, spacing: 6);
-            font.DrawText(display, 44 + initialsIndex * 6, 60, highlightedTextColor, "^");
+            font.DrawText(display, 44, 54, textColor, _initials, vertical: false, spacing: 6);
+            font.DrawText(display, 44 + _initialsIndex * 6, 60, highlightedTextColor, "^");
         }
 
         // prompt to play again
@@ -164,12 +162,12 @@ public class Leaderboard : IPlayableGameElement
 
     public void SetScore(int score)
     {
-        this.score = score;
-        isNewHighScore = highScores.Count < MaxEntries || this.score > highScores.Last().Item2;
+        this._score = score;
+        isNewHighScore = highScores.Count < MaxEntries || this._score > highScores.Last().Item2;
         if (isNewHighScore)
         {
-            initials = "AAA";
-            initialsIndex = 0;
+            _initials = "AAA";
+            _initialsIndex = 0;
         }
     }
 }

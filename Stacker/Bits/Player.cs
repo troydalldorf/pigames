@@ -25,6 +25,8 @@ public class Player : IGameElement
 
     public bool IsDone { get; private set; }
 
+    public int Score => _stack.Sum(x => x.Blocks);
+    
     public int StackSize => _stack.Count;
 
     public void Next()
@@ -52,6 +54,7 @@ public class Player : IGameElement
             return;
         }
 
+        Console.WriteLine($"Snap col: {currentColumn}");
         // Update stack and change direction
         _stack.Add(new StackedBlock(currentColumn, currentBlocks));
         _direction *= -1;
@@ -85,7 +88,7 @@ public class Player : IGameElement
 
     private void DrawRow(IDisplay display, int y, StackedBlock block)
     {
-        var x = block.Column * _config.BlockSize.Width + 1;
+        var x = block.Column * (_config.BlockSize.Width + 1);
         DrawRow(display, y, x, block.Blocks);
     }
 

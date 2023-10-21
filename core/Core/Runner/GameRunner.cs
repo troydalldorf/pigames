@@ -2,6 +2,7 @@ using Core.Display;
 using Core.Fonts;
 using Core.Inputs;
 using Core.Runner.RunnerElements;
+using Core.Scores;
 using Core.Sounds;
 
 namespace Core.Runner;
