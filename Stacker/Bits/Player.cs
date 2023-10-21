@@ -64,7 +64,7 @@ public class Player : IGameElement
     }
 
     private int SnapToCol(int x, int direction = -1) =>
-        x / (_config.BlockSize.Width + 1) + direction == 1 ? _config.BlockSize.Width + 1 : 0; 
+        x / (_config.BlockSize.Width + 1) + (direction == 1 ? _config.BlockSize.Width + 1 : 0); 
     
     public void Update()
     {
