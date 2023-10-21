@@ -42,7 +42,7 @@ public class Player : IGameElement
         {
             var last = _stack.Last();
             var left = Math.Max(currentColumn, last.Column);
-            var right = Math.Min(currentColumn + currentBlocks, last.Blocks);
+            var right = Math.Min(currentColumn + currentBlocks, last.Column + last.Blocks);
             currentColumn = left;
             currentBlocks = right - left;
         }
