@@ -54,7 +54,6 @@ public class Player : IGameElement
             return;
         }
 
-        Console.WriteLine($"Snap col: {currentColumn}");
         // Update stack and change direction
         _stack.Add(new StackedBlock(currentColumn, currentBlocks));
         _direction *= -1;
