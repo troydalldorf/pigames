@@ -60,6 +60,7 @@ public class Player : IGameElement
         _blocks = currentBlocks; // The number of blocks for the next moving set is updated here
         _x = _direction < 0 ? _config.DisplayWidth - 1 - _config.BlockSize.Width * currentBlocks : 0;
         _y -= _config.BlockSize.Height + 1;
+        _speed = 1 + _stack.Count / 2;
     }
 
     private int SnapToCol(int x, int direction = -1) =>

@@ -7,7 +7,7 @@ namespace Stacker;
 
 public class StackerGame2P : IDuoPlayableGameElement
 {
-    private const int MaxStack = 7;
+    private const int MaxStack = 6;
     private readonly Player player1;
     private readonly Player player2;
 
