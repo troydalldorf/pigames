@@ -15,7 +15,7 @@ public class StackerGame2P : IDuoPlayableGameElement
     {
         var config = new Config(new Size(4, 4), 4, Color.Fuchsia, 64, 64);
         player1 = new Player(config);
-        player2 = new Player(config with { Color = Color.Aqua});
+        player2 = new Player(config with { Color = Color.Aqua });
     }
 
     public void HandleInput(IPlayerConsole player1Console)
@@ -41,7 +41,7 @@ public class StackerGame2P : IDuoPlayableGameElement
     {
         player1.Update();
         player2.Update();
-        if (player1.IsDone || player2.IsDone || player1.StackSize > MaxStack || player2.StackSize > MaxStack)
+        if (player1.IsDone || player2.IsDone || player1.StackSize + player2.StackSize > MaxStack * 2)
         {
             if (player1.Score == player2.Score)
                 this.State = GameOverState.Draw;
