@@ -68,7 +68,7 @@ public class Player : IGameElement
     
     public void Update()
     {
-        _x += _direction;
+        _x += _direction * _speed;
         var pixelWidth = (_config.BlockSize.Width + 1) * _blocks;
         if (_direction < 0 && _x <= 0) _direction *= -1;
         if (_direction > 0 && _x + pixelWidth >= _config.DisplayWidth) _direction *= -1;
