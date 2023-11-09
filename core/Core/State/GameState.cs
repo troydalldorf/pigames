@@ -2,10 +2,7 @@ namespace Core;
 
 public enum GameState
 {
-    Starting,
     Playing,
-    GameOver,
-    Leaderboard,
     Exit,
 }
 
