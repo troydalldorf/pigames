@@ -38,17 +38,21 @@ public class GameRunner : IDisposable
         var paused = new RunnerState("paused", pauseElement, GameState.Playing, pauseElement.Reset);
         var gameOver = new RunnerState("game-over", gameOverElement, GameState.Playing, () => gameOverElement.Apply(playing.Element.State));
         var exit = new RunnerState("exit", gameOverElement, GameState.Exit);
-        var leaderboard = new RunnerState("exit", new Leaderboard(name, this.fontFactory), GameState.Playing);
+        var leaderboard = new RunnerState("leaderboard", new Leaderboard(name, this.fontFactory), GameState.Playing);
         
-        playing.AddTransition(gameOver, ge => ge.State != GameOverState.None);
-        playing.AddTransition(paused, _ => canPause && p1Console.ReadButtons().IsYellowPushed());
-        gameOver.AddTransition(playing, ge => gameOverElement.GameOverAction == GameOverAction.PlayAgain);
-        gameOver.AddTransition(exit, _ => gameOverElement.GameOverAction == GameOverAction.Exit);
-        paused.AddTransition(playing, _ => pauseElement.PauseAction == GamePauseAction.Resume);
-        paused.AddTransition(exit, _ => pauseElement.PauseAction == GamePauseAction.Exit);
+        playing = playing
+            .AddTransition(gameOver, ge => ge.State != GameOverState.None)
+            .AddTransition(paused, _ => canPause && p1Console.ReadButtons().IsYellowPushed());
+        gameOver = gameOver
+            .AddTransition(playing, ge => gameOverElement.GameOverAction == GameOverAction.PlayAgain)
+            .AddTransition(exit, _ => gameOverElement.GameOverAction == GameOverAction.Exit);
+        paused = paused
+            .AddTransition(playing, _ => pauseElement.PauseAction == GamePauseAction.Resume)
+            .AddTransition(exit, _ => pauseElement.PauseAction == GamePauseAction.Exit);
         
         Console.WriteLine($"Running {name}...");
         var current = playing;
+        Console.WriteLine($"Running {name} with initial state, {current.Name}...");
         while (current.State != GameState.Exit)
         {
             current.Element.HandleInput(p1Console);
