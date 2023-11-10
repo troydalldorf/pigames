@@ -12,15 +12,13 @@ public record RunnerState(string Name, IPlayableGameElement Element, GameState S
 
     public RunnerState TryTransition()
     {
-        foreach (var transition in this.transitions)
-        {
-            if (!transition.When(this.Element)) continue;
-            var target = transition.Target;
-            Console.WriteLine($"State => {target.Name}");
-            target.Activate?.Invoke();
-            return target;
-        }
-
-        return this;
+        var target = this.transitions
+            .Where(x => x.When(this.Element))
+            .Select(x => x.Target)
+            .FirstOrDefault();
+        if (target == null) return this;
+        Console.WriteLine($"{Name} => {target.Name}");
+        target.Activate?.Invoke();
+        return target;
     }
 }
