@@ -40,13 +40,13 @@ public class GameRunner : IDisposable
         var exit = new RunnerState("exit", gameOverElement, GameState.Exit);
         var leaderboard = new RunnerState("leaderboard", new Leaderboard(name, this.fontFactory), GameState.Playing);
         
-        playing = playing
+        playing
             .AddTransition(gameOver, ge => ge.State != GameOverState.None)
             .AddTransition(paused, _ => canPause && p1Console.ReadButtons().IsYellowPushed());
-        gameOver = gameOver
+        gameOver
             .AddTransition(playing, ge => gameOverElement.GameOverAction == GameOverAction.PlayAgain)
             .AddTransition(exit, _ => gameOverElement.GameOverAction == GameOverAction.Exit);
-        paused = paused
+        paused
             .AddTransition(playing, _ => pauseElement.PauseAction == GamePauseAction.Resume)
             .AddTransition(exit, _ => pauseElement.PauseAction == GamePauseAction.Exit);
         

@@ -7,16 +7,14 @@ namespace Core.Runner.RunnerElements;
 
 public class PauseElement : IPlayableGameElement
 {
-    private readonly IFontFactory fontFactory;
     private const int Top = 2;
     private int frameCount;
     private readonly IFont smallFont;
     private readonly IFont largeFont;
-    private Stopwatch stopwatch = new Stopwatch();
+    private readonly Stopwatch stopwatch = new();
     
     public PauseElement(IFontFactory fontFactory)
     {
-        this.fontFactory = fontFactory;
         PauseAction = GamePauseAction.Paused;
         frameCount = 0;
         smallFont = fontFactory.GetFont(LedFontType.Font5x8);
