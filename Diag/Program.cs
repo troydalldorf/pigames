@@ -6,6 +6,8 @@ var player1 = new Player1Console();
 var player2 = new Player2Console();
 
 Console.WriteLine("Input Diagnostics");
+Console.WriteLine("P1 and P2 console activity will be reported here.");
+Console.WriteLine("Press a button on the keyboard to exit.");
 while (Console.Read() == -1)
 {
     var buttons = player1.ReadButtons();

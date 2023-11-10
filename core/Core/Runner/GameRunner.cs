@@ -68,7 +68,8 @@ public class GameRunner : IDisposable
 
     private void DisposeGame(IPlayableGameElement? game)
     {
-        if (game is IDisposable disposable) disposable.Dispose();
+        if (game is IDisposable disposable)
+            disposable.Dispose();
     }
 
     public void Dispose()

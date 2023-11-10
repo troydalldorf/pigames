@@ -12,6 +12,7 @@ public record RunnerState(string Name, IPlayableGameElement Element, GameState S
 
     public RunnerState TryTransition()
     {
+        Console.WriteLine($"TryTransition from {this.Name}: {this.Transitions.Length}");
         foreach (var transition in this.Transitions)
         {
             if (!transition.When(this.Element)) continue;
