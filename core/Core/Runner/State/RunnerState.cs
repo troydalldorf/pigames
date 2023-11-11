@@ -1,3 +1,5 @@
+using Core.State;
+
 namespace Core.Runner.State;
 
 public record RunnerState(string Name, IPlayableGameElement Element, GameState State, Action? Activate = null)

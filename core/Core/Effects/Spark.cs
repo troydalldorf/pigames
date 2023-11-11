@@ -1,5 +1,6 @@
 using System.Drawing;
 using Core.Display;
+using Core.Primitives;
 
 namespace Core.Effects;
 

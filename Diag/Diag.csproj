@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\core\Core.PiConsole\Core.PiConsole.csproj" />
       <ProjectReference Include="..\core\Core\Core.csproj" />
     </ItemGroup>
 

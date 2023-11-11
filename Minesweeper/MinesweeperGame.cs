@@ -2,6 +2,8 @@ using System.Diagnostics;
 using Core;
 using Core.Display;
 using Core.Fonts;
+using Core.Inputs;
+using Core.State;
 
 namespace Minesweeper;
 

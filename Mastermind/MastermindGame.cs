@@ -2,6 +2,8 @@
 using Core;
 using Core.Display;
 using Core.Fonts;
+using Core.Inputs;
+using Core.State;
 using MastermindGame.Bits;
 
 namespace Mastermind;

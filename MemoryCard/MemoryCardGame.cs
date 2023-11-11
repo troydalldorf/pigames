@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Drawing;
 using Core;
 using Core.Display;
+using Core.Inputs;
+using Core.State;
 using MemoryCard.Bits;
 
 namespace MemoryCard;

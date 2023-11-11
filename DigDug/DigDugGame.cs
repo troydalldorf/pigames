@@ -2,6 +2,8 @@ using System.Drawing;
 using Core;
 using Core.Display;
 using Core.Fonts;
+using Core.Inputs;
+using Core.State;
 using DigDug.Bits;
 
 public class DigDugGame : IDuoPlayableGameElement

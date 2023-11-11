@@ -2,9 +2,11 @@ using System.Drawing;
 using Asteroids.Bits;
 using Core;
 using Core.Display;
-using Core.Display.Fonts;
 using Core.Effects;
 using Core.Fonts;
+using Core.Inputs;
+using Core.PiConsole.Fonts;
+using Core.State;
 
 namespace Asteroids;
 

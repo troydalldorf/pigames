@@ -3,6 +3,8 @@ using Core.Fonts;
 using Speed.Bits;
 using System.Drawing;
 using Core.Display;
+using Core.Inputs;
+using Core.State;
 
 namespace Speed;
 

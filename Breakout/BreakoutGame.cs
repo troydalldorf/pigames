@@ -3,6 +3,8 @@ using Core;
 using Core.Effects;
 using System.Drawing;
 using Core.Display;
+using Core.Inputs;
+using Core.State;
 
 namespace Breakout;
 

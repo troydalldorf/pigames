@@ -2,6 +2,8 @@ using System.Diagnostics;
 using System.Drawing;
 using Core.Display;
 using Core.Fonts;
+using Core.Inputs;
+using Core.State;
 
 namespace Core.Runner.RunnerElements;
 

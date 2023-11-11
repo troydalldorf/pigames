@@ -2,6 +2,8 @@ using Core;
 using Core.Display;
 using Core.Display.Sprites;
 using Core.Effects;
+using Core.Inputs;
+using Core.State;
 using SpaceInvaders2.Bits;
 
 namespace SpaceInvaders2;

@@ -77,7 +77,7 @@ public class Player : IGameElement
     {
         if (!IsDestroyed)
         {
-            this.playerSprite.Draw(display, this.X, this.Y, 0);
+            this.playerSprite.Draw(display, this.X, this.Y);
         }
 
         foreach (var bullet in Bullets)

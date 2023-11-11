@@ -10,8 +10,10 @@ using ConnectFour;
 using Core;
 using Core.Display;
 using Core.Fonts;
+using Core.Inputs;
 using Core.Runner;
 using Core.Sounds;
+using Core.State;
 using FlappyBird;
 using Frogger;
 using LunarLander;
@@ -106,7 +108,7 @@ public class Menu : IPlayableGameElement
         {
             var (name, game, displayInterval) = items[cursor];
             //soundPlayer.Play(selectSound);
-            runner.Run(game, displayInterval, name:name);
+            runner.Run(game, new GameRunnerOptions(displayInterval, true, name));
         }
 
         var r = random.Next(0, 4);
@@ -119,7 +121,7 @@ public class Menu : IPlayableGameElement
 
     public void Draw(IDisplay display)
     {
-        display.DrawRectangle(0, 0, 64, 64, Color.Blue);
+        display.DrawRectangle(0, 0, 64, 64, Color.Yellow);
         var page = cursor / ItemsPerPage;
         for (var i=0; i < ItemsPerPage; i++)
         {

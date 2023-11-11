@@ -2,6 +2,8 @@ using System.Diagnostics;
 using System.Drawing;
 using Core.Display;
 using Core.Fonts;
+using Core.Inputs;
+using Core.State;
 
 namespace Core.Runner.RunnerElements;
 
@@ -49,7 +51,7 @@ public class PauseElement : IPlayableGameElement
         largeFont.DrawText(display, 2, Top + 29, Color.Black, "PAUSED", 3);
         largeFont.DrawText(display, 1, Top + 28, Color.Crimson, "PAUSED", 3);
         display.DrawRectangle(0, Top + 36 - 8, 64, 8, Color.Black, Color.Black);
-        smallFont.DrawText(display, 4, Top + 36, Color.Blue, "CONTINUE?", 0);
+        smallFont.DrawText(display, 4, Top + 36, Color.GreenYellow, "CONTINUE?", 0);
     }
 
     public GameOverState State => PauseAction == GamePauseAction.Paused ? GameOverState.None : GameOverState.EndOfGame;

@@ -2,6 +2,8 @@
 using Core;
 using Core.Display;
 using Core.Inputs;
+using Core.PiConsole.Inputs;
+using Core.PiConsole.LedMatrix;
 
 var display = new LedDisplay();
 var bx = 16;

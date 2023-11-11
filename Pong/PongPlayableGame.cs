@@ -1,7 +1,8 @@
 using Core;
 using Core.Display;
-using Core.Display.Fonts;
 using Core.Fonts;
+using Core.Inputs;
+using Core.State;
 
 namespace Pong;
 

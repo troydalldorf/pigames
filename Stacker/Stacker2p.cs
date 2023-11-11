@@ -1,6 +1,8 @@
 ﻿using System.Drawing;
 using Core;
 using Core.Display;
+using Core.Inputs;
+using Core.State;
 using Stacker.Bits;
 
 namespace Stacker;

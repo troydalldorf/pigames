@@ -66,14 +66,12 @@ namespace PacificWings.Bits
         {
             public int X { get; set; }
             public int Y { get; set; }
-            public int Length { get; set; }
-            public Color Color { get; set; }
+            public Color Color { get; }
 
             public Squiggle(int x, int y, int length, Color color)
             {
                 X = x;
                 Y = y;
-                Length = length;
                 Color = color;
             }
         }

@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <PackageReference Include="Iot.Device.Bindings" Version="2.2.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
       <PackageReference Include="SharpAudio" Version="1.0.65-beta" />
       <PackageReference Include="SharpAudio.Codec" Version="1.0.65-beta" />
       <PackageReference Include="System.Device.Gpio" Version="2.2.0" />
@@ -16,6 +17,8 @@
     <ItemGroup>
       <EmbeddedResource Include="Effects\explode.png" />
     </ItemGroup>
+
+
 
 
 </Project>

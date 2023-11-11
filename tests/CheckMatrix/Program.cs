@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using Core.Display;
-using Core.Display.LedMatrix;
+using Core.PiConsole.LedMatrix;
 using Point = CheckMatrix.Point;
 
 Console.WriteLine("Hello, World!");

@@ -1,10 +1,11 @@
-﻿using Core.Display;
-using Core.Display.Fonts;
+﻿using Core;
+using Core.PiConsole;
 using Core.Runner;
+using Microsoft.Extensions.DependencyInjection;
 
-Console.WriteLine("DigDug starting...");
-var display = new LedDisplay();
-var fontFactory = new FontFactory();
-var runner = new GameRunner(display, fontFactory);
-runner.Run(() => new DigDugGame(fontFactory));
-Console.WriteLine("Exiting DigDug ...");
+var provider = new ServiceCollection()
+    .AddRunner()
+    .AddPiConsole()
+    .BuildServiceProvider();
+var runner = provider.GetRequiredService<IGameRunner>();
+runner.Run<DigDugGame>(new GameRunnerOptions(30, true, "Dig Dug"));

@@ -1,6 +1,8 @@
 using System.Drawing;
 using Core;
 using Core.Display;
+using Core.Extensions;
+using Core.Primitives;
 
 namespace Asteroids.Bits;
 
